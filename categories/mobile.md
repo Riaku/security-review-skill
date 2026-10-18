@@ -1,0 +1,9 @@
+# mobile
+
+Mobile client security.
+
+Issues:
+- `certificate-pinning`
+- `mobile-secure-storage`
+- `deep-link-validation`
+- `secrets-in-mobile-binaries`

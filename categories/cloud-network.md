@@ -1,0 +1,53 @@
+# cloud-network
+
+Cloud networking, DNS, edge, cloud resource exposure.
+
+Issues:
+- `tls-certificate-expiry`
+- `hsts`
+- `dns`
+- `dns-propagation`
+- `egress-fees`
+- `vpcs`
+- `subnets`
+- `nat-gateways`
+- `firewalls`
+- `security-groups`
+- `service-mesh`
+- `ingress-controllers`
+- `public-s3-buckets`
+- `presigned-urls`
+- `cloud-billing-alerts`
+- `spf-dkim-dmarc`
+- `email-bounce-handling`
+- `subdomain-takeover`
+- `mtls-service-auth`
+- `dnssec`
+- `ipv6`
+- `cis-benchmarks`
+- `tls-cipher-hardening`
+- `cloud-provider-benchmarks`
+- `cost-optimization-alerting`
+- `http-request-smuggling`
+- `client-tls-verification-disabled`
+- `cloud-metadata-endpoint`
+- `cloud-iam-privilege-escalation`
+- `dns-rebinding`
+- `metadata-endpoint-credential-theft`
+- `workload-identity-audience-validation`
+- `cloud-iam-wildcard-policies`
+- `cross-account-role-confused-deputy`
+- `api-gateway-missing-authorizers`
+- `api-gateway-mapping-template-injection`
+- `serverless-env-reuse-leak`
+- `nodeport-lb-internal-exposure`
+- `ingress-host-routing-collision`
+- `mesh-permissive-mode-bypass`
+- `fd-conntrack-limit-sizing`
+- `ephemeral-port-exhaustion`
+- `path-mtu-blackhole`
+- `lb-health-check-flapping`
+- `pqc-tls-readiness`
+- `imds-metadata-abuse`
+- `unauthenticated-data-store-exposure`
+- `cloud-iam-escalation-paths`

@@ -1,0 +1,48 @@
+# web-api-security
+
+Server-side API and web application attack surface.
+
+Issues:
+- `sql-injection`
+- `xss`
+- `csrf`
+- `cors`
+- `ssrf`
+- `idor`
+- `path-traversal`
+- `mass-assignment`
+- `clickjacking`
+- `content-security-policy`
+- `security-headers`
+- `input-validation`
+- `server-side-authorization`
+- `file-upload-validation`
+- `webhook-signature-verification`
+- `hsts`
+- `bot-protection`
+- `rate-limiting`
+- `insecure-deserialization`
+- `open-redirect`
+- `debug-mode-in-production`
+- `graphql-depth-limits`
+- `os-command-injection`
+- `nosql-injection`
+- `ldap-injection`
+- `xxe-injection`
+- `server-side-template-injection`
+- `crlf-header-injection`
+- `http-request-smuggling`
+- `redos`
+- `decompression-bombs`
+- `dynamic-code-evaluation`
+- `missing-auth-middleware`
+- `cloud-metadata-endpoint`
+- `web-cache-poisoning`
+- `cross-site-websocket-hijacking`
+- `business-logic-bypass`
+- `api-gateway-mapping-template-injection`
+- `ingress-host-routing-collision`
+- `account-recovery-security`
+- `imds-metadata-abuse`
+- `sensitive-endpoint-exposure`
+- `webhook-replay-protection`
