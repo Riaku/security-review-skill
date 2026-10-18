@@ -35,3 +35,4 @@ Issues:
 - `integration-credential-sprawl`
 - `pipeline-orchestrator-credentials`
 - `git-history-secret-remediation`
+- `agent-context-exclusion-file`

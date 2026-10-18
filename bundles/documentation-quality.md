@@ -1,4 +1,4 @@
-# documentation-quality — full checklist (8 items)
+# documentation-quality — full checklist (10 items)
 
 Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.
 
@@ -22,7 +22,7 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Detect:** spot-check docs for voice/tense/person consistency and terminology drift (same concept under different names); check for a linked style guide and linting (Vale, proselint) enforcing it.
 
-**References:** Google developer documentation style guide, Write the Docs style-guide guidance, Vale linter
+**References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter
 
 # Comments Explain Why, Not What
 
@@ -58,11 +58,11 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **SHOULD** use inclusive, jargon-free language in docs (Google style: avoid master/slave, blacklist/whitelist, gendered defaults) and meet doc accessibility basics (heading hierarchy, alt text, readable tables).
 
-**Why:** Terminology carries exclusion history and confuses global audiences; inaccessible docs lock out users with disabilities — both are quality and compliance failures, not style nits.
+**Why:** Terminology carries exclusion history and confuses global audiences; inaccessible docs lock out users with disabilities — both are quality and compliance failures, not style nits. Controlled-language standards (ASD-STE100) exist precisely because plain, one-word-one-meaning prose is comprehensible to non-native readers worldwide.
 
-**Detect:** grep docs for flagged terms (master/slave, blacklist/whitelist, guys, he/she defaults); check heading hierarchy and alt-text presence on images; lint with inclusive-language checkers (e.g. Vale rules).
+**Detect:** grep docs for flagged terms (master/slave, blacklist/whitelist, guys, he/she defaults); check heading hierarchy and alt-text presence on images; lint with inclusive-language checkers (e.g. Vale rules); for procedural docs, check STE-controlled vocabulary adherence.
 
-**References:** Google style guide (inclusive language), IETF inclusive-naming RFC 5424 historic guidance, Write the Docs accessibility guidance
+**References:** Google style guide (inclusive language), ASD-STE100 Simplified Technical English, Write the Docs accessibility guidance
 
 # Runnable README
 
@@ -83,4 +83,24 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
 **References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+
+# Simplified Technical English for Procedures
+
+**SHOULD** write operational/procedural documentation in controlled language per ASD-STE100: short sentences (max ~25 words), one meaning per word, active voice, one instruction per step, no idioms.
+
+**Why:** Procedures followed under stress by non-native speakers must be unambiguous — STE exists because aerospace maintenance deaths traced to prose ambiguity; the same failure mode applies to runbooks and security procedures.
+
+**Detect:** for runbooks/install steps: check sentence length, one-action-per-step structure, controlled vocabulary consistency (no synonym rotation: "log in/sign in/login" for the same action); flag idiomatic or marketing prose in procedural sections.
+
+**References:** ASD-STE100 Simplified Technical English (asd-ste100.org), aerospace/defense doc standards, runbook readability practice
+
+# Agent Instruction-File Review Surface
+
+**MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.
+
+**Why:** These files steer all generated code in the repo; a one-line frontmatter change (e.g. `alwaysApply: true`) is a prompt-injection-from-inside-the-repo vector, and rot makes claims diverge from CI reality.
+
+**Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
+
+**References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
 

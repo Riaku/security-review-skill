@@ -28,3 +28,7 @@ Issues:
 - `policy-as-code-enforcement`
 - `lighthouse-ci-performance-budgets`
 - `breaking-change-linting-ci`
+- `review-bot-neutral-status-trap`
+- `review-config-immutable-to-reviewee`
+- `advisory-vs-enforced-agent-checks`
+- `unattended-agent-automation-governance`

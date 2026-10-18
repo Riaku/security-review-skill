@@ -6,4 +6,4 @@
 
 **Detect:** spot-check docs for voice/tense/person consistency and terminology drift (same concept under different names); check for a linked style guide and linting (Vale, proselint) enforcing it.
 
-**References:** Google developer documentation style guide, Write the Docs style-guide guidance, Vale linter
+**References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter

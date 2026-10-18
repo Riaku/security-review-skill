@@ -1782,7 +1782,7 @@
   },
   {
     "num": 222,
-    "title": "Event Loop Blocking",
+    "title": "Blocking the Shared Concurrency Primitive",
     "slug": "event-loop-blocking",
     "categories": [
       "correctness-pitfalls"
@@ -1790,7 +1790,7 @@
   },
   {
     "num": 223,
-    "title": "Unhandled Promise Rejections",
+    "title": "Unhandled Async Errors",
     "slug": "unhandled-promise-rejections",
     "categories": [
       "correctness-pitfalls"
@@ -2086,7 +2086,7 @@
   },
   {
     "num": 260,
-    "title": "Prototype Pollution",
+    "title": "Unsafe Merge Into Shared Runtime State",
     "slug": "prototype-pollution",
     "categories": [
       "web-client-security"
@@ -5145,6 +5145,119 @@
     "categories": [
       "documentation-quality",
       "security-practices"
+    ]
+  },
+  {
+    "num": 614,
+    "title": "Simplified Technical English for Procedures",
+    "slug": "simplified-technical-english",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 615,
+    "title": "Agent Verification Loop (Executable Done-When)",
+    "slug": "agent-verification-loop",
+    "categories": [
+      "ai-llm",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 616,
+    "title": "Coding-Agent Sandbox & Permission-Mode Review",
+    "slug": "coding-agent-sandbox-config",
+    "categories": [
+      "ai-llm",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 617,
+    "title": "Agent Instruction-File Review Surface",
+    "slug": "agent-instruction-file-review",
+    "categories": [
+      "ai-llm",
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 618,
+    "title": "Agent Session-Log Traceability",
+    "slug": "agent-session-traceability",
+    "categories": [
+      "ai-llm",
+      "observability"
+    ]
+  },
+  {
+    "num": 619,
+    "title": "Review-Bot Neutral-Status Trap",
+    "slug": "review-bot-neutral-status-trap",
+    "categories": [
+      "cicd-pipeline-security",
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 620,
+    "title": "Review-Config Immutable to the Reviewee",
+    "slug": "review-config-immutable-to-reviewee",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 621,
+    "title": "Advisory-vs-Enforced Agent Checks",
+    "slug": "advisory-vs-enforced-agent-checks",
+    "categories": [
+      "ai-llm",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 622,
+    "title": "Agent Egress Allowlist & Proxy Control",
+    "slug": "agent-egress-allowlist",
+    "categories": [
+      "ai-llm",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 623,
+    "title": "Agent Session Hygiene",
+    "slug": "agent-session-hygiene",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 624,
+    "title": "Cross-Model Review Diversity",
+    "slug": "cross-model-review-diversity",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 625,
+    "title": "Unattended-Agent Automation Governance",
+    "slug": "unattended-agent-automation-governance",
+    "categories": [
+      "ai-llm",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 626,
+    "title": "Agent Context-Exclusion Files",
+    "slug": "agent-context-exclusion-file",
+    "categories": [
+      "ai-llm",
+      "secrets-crypto"
     ]
   }
 ]

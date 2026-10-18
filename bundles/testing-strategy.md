@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (18 items)
+# testing-strategy — full checklist (19 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -183,4 +183,14 @@ Test pyramid, practices, and quality gates.
 **Detect:** review golden/expected files for how they were produced (independent source vs generated-from-implementation); flag "update goldens" workflows without review of what changed and why.
 
 **References:** testing anti-pattern literature (tautological tests), characterization-testing caveats
+
+# Agent Verification Loop (Executable Done-When)
+
+**MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
+
+**Why:** All major vendors converge on this: an agent without an executable check ships plausible-looking code indefinitely ("if you can't verify it, don't ship it" — Anthropic; "Done when" — GLM; easy-to-verify RL — Qwen).
+
+**Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
+
+**References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
 

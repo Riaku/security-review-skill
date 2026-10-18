@@ -94,13 +94,13 @@ Browser-side attack surface and defenses.
 
 **References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
 
-# Prototype Pollution
+# Unsafe Merge Into Shared Runtime State
 
-**MUST** validate and reject `__proto__`, `constructor`, and `prototype` keys before recursive merge or deep-set operations on untrusted input.
+**MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.
 
-**Why:** Polluted `Object.prototype` leaks attacker-controlled properties app-wide, enabling XSS, auth bypass, and RCE in Node.
+**Why:** Poisoning shared state (JS `Object.prototype` via `__proto__` is the classic case; unsafe map/dict merge into shared config or caches is the same class) leaks attacker-controlled values to every later consumer — enabling XSS, auth bypass, and RCE.
 
-**Detect:** grep `__proto__`, `merge(`, `deepSet`, `set(obj, key` in utils; check lodash versions <4.17.21 and JSON.parse-then-merge flows.
+**Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
 
 **References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
 

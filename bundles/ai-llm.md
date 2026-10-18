@@ -1,4 +1,4 @@
-# ai-llm — full checklist (20 items)
+# ai-llm — full checklist (31 items)
 
 LLM feature security and quality.
 
@@ -203,4 +203,114 @@ LLM feature security and quality.
 **Detect:** judgment on documented policy artifacts: AI-use guidelines naming accountable owners, review requirements that don't weaken for AI-authored PRs, evidence reviewers can explain the code they approve.
 
 **References:** AI-generated-code review companion, deskilling research (METR/Anthropic findings), engineering-ownership practice
+
+# Agent Verification Loop (Executable Done-When)
+
+**MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
+
+**Why:** All major vendors converge on this: an agent without an executable check ships plausible-looking code indefinitely ("if you can't verify it, don't ship it" — Anthropic; "Done when" — GLM; easy-to-verify RL — Qwen).
+
+**Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
+
+**References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
+
+# Coding-Agent Sandbox & Permission-Mode Review
+
+**MUST** review how coding agents are configured: OS-level sandbox on, writes workspace-scoped, network off by default, approval policy enforced — and flag bypass flags (`--yolo`, `dangerously-*`, `bypassPermissions`, `approval=never`).
+
+**Why:** The agent's technical reach, not its instructions, is the real boundary; full-access modes inside a dev container let a malicious repo exfiltrate everything reachable, including the agent's own credentials.
+
+**Detect:** grep agent configs for `--yolo`, `dangerously-bypass`, `sandbox_mode = "danger-full-access"`, `approval_policy = "never"`, `bypassPermissions`; check for OS-enforced sandbox vs advisory-only policy.
+
+**References:** OpenAI Codex approvals/security model, Anthropic /sandbox + permissions, Cursor Run Modes ("best-effort, not a hard boundary")
+
+# Agent Instruction-File Review Surface
+
+**MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.
+
+**Why:** These files steer all generated code in the repo; a one-line frontmatter change (e.g. `alwaysApply: true`) is a prompt-injection-from-inside-the-repo vector, and rot makes claims diverge from CI reality.
+
+**Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
+
+**References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
+
+# Agent Session-Log Traceability
+
+**MUST** link every agent-authored commit to its session transcript and the human who initiated it (co-author trailer, session-log URL in commit message, verified signature).
+
+**Why:** Without the commit→session→human chain, agent work is unauditable — you cannot answer who asked for this, what context the agent saw, or who owns the outcome.
+
+**Detect:** bot commits lacking co-author/session links; agent tooling with transcripts disabled or rotated to zero retention; no mapping from merged PR to agent run.
+
+**References:** GitHub Copilot agent auditability (signed commits, session-log link), OpenAI Codex transcripts, DeepSeek harness session-log model
+
+# Review-Bot Neutral-Status Trap
+
+**MUST** verify that AI review gates actually fail on unresolved findings — a required status that reports neutral/success while findings remain open does not block merges.
+
+**Why:** Cursor documents this explicitly (findings default to neutral; you must enable fail-on-unresolved); GitHub Copilot defaults to "Comment" not "Approve" — teams often believe they have an AI gate they don't have.
+
+**Detect:** branch protection requiring a bot check whose conclusion set lacks failure-on-findings; severity thresholds set above real risk; review config where unresolved ≠ failed.
+
+**References:** Cursor Bugbot status semantics, GitHub Copilot review default-Comment behavior, Gemini severity-threshold filtering
+
+# Advisory-vs-Enforced Agent Checks
+
+**MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
+
+**Why:** The whole ecosystem converged on this distinction: "hooks are deterministic; CLAUDE.md is advisory" (Anthropic). Policy claimed in instruction files with no hook behind it is unenforced policy wearing a costume.
+
+**Detect:** security rules present only in instruction-file text with no corresponding hook/CI enforcement; hook config (e.g. .claude/settings.json) empty while policy claims enforcement.
+
+**References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
+
+# Agent Egress Allowlist & Proxy Control
+
+**MUST** route coding-agent egress (model calls, MCP-over-HTTP, web fetch) through an explicit proxy/allowlist — and repo-supplied env must never control where agent traffic goes.
+
+**Why:** DeepSeek's harness refuses to start rather than let a cloned repo set proxy vars; OpenAI uses allowlist-first domain rules where deny always wins — repo-controlled egress is an exfiltration path.
+
+**Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
+
+**References:** DeepSeek harness proxy-refusal pattern, OpenAI Codex domain rules, GitHub agent internet firewall, Cursor fixed-destination egress
+
+# Agent Session Hygiene
+
+**SHOULD** run one session per task, clear context after two failed corrections, and push broad exploration to subagents — mixed-task or polluted sessions degrade output and retain stale secrets/instructions.
+
+**Why:** Anthropic names the failure patterns (kitchen-sink session, correct-over-and-over, infinite unscoped exploration); GLM codifies session-per-task — stale context silently biases every later generation and can leak prior-task secrets into new code.
+
+**Detect:** judgment on session transcripts: unrelated tasks per session, >2 correction loops in one session, unscoped "investigate everything" runs in the main context.
+
+**References:** Anthropic named failure patterns, GLM session-management guidance, Cursor cloud-agent session practice
+
+# Cross-Model Review Diversity
+
+**SHOULD** run the AI reviewer/critic on a different model family than the producer for security-sensitive changes — same-model review shares blind spots.
+
+**Why:** GitHub's rubber-duck critic explicitly runs on a different model "less likely to share the same blind spots, biases, or failure modes"; a same-model reviewer tends to approve its own kind's mistakes.
+
+**Detect:** review pipeline config shows same model for author and critic; no independent-model step for security-sensitive diffs; judgment on independence of the review chain.
+
+**References:** GitHub Copilot rubber-duck cross-model critic, Anthropic fresh-context adversarial subagent review
+
+# Unattended-Agent Automation Governance
+
+**MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
+
+**Why:** Unattended agents run with no human per task — GitHub documents a dedicated automations-risk section; DeepSeek's review harness gives inbound webhook auth ZERO outbound authority by design.
+
+**Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
+
+**References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
+
+# Agent Context-Exclusion Files
+
+**SHOULD** maintain agent exclusion files (.cursorignore, .aiexclude, equivalent) covering secrets, credentials, and sensitive modules so they never enter agent context or indexes.
+
+**Why:** Anything the agent can read, it can echo into code, logs, or a PR; exclusion files are the gitignore of the AI-context layer and their absence means sensitive paths are agent-reachable by default.
+
+**Detect:** repo root lacks .cursorignore/.aiexclude while secrets/sensitive dirs are agent-reachable; index covers branches/patterns beyond the stable set; exclusion list missing recently-added sensitive paths.
+
+**References:** Cursor .cursorignore, Gemini .aiexclude, GitHub content-exclusion controls
 

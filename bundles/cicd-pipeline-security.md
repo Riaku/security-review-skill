@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (25 items)
+# cicd-pipeline-security — full checklist (29 items)
 
 CI/CD system as an attack surface.
 
@@ -253,4 +253,44 @@ CI/CD system as an attack surface.
 **Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
 
 **References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
+
+# Review-Bot Neutral-Status Trap
+
+**MUST** verify that AI review gates actually fail on unresolved findings — a required status that reports neutral/success while findings remain open does not block merges.
+
+**Why:** Cursor documents this explicitly (findings default to neutral; you must enable fail-on-unresolved); GitHub Copilot defaults to "Comment" not "Approve" — teams often believe they have an AI gate they don't have.
+
+**Detect:** branch protection requiring a bot check whose conclusion set lacks failure-on-findings; severity thresholds set above real risk; review config where unresolved ≠ failed.
+
+**References:** Cursor Bugbot status semantics, GitHub Copilot review default-Comment behavior, Gemini severity-threshold filtering
+
+# Review-Config Immutable to the Reviewee
+
+**MUST** read review-automation config from the base branch (or otherwise protect it) so a PR cannot change how it is reviewed, and place CODEOWNERS on all review config.
+
+**Why:** Cursor reads bugbot.yaml from the base branch specifically "so a PR cannot change how Bugbot reviews itself" — the general principle: review controls must not be attacker-controlled by the code under review.
+
+**Detect:** review-config files (bot configs, thresholds, CODEOWNERS for review paths) read from PR head instead of base; missing CODEOWNERS on review automation config.
+
+**References:** Cursor Bugbot base-branch config pattern, GitHub "requester cannot approve own agent's PR" rule
+
+# Advisory-vs-Enforced Agent Checks
+
+**MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
+
+**Why:** The whole ecosystem converged on this distinction: "hooks are deterministic; CLAUDE.md is advisory" (Anthropic). Policy claimed in instruction files with no hook behind it is unenforced policy wearing a costume.
+
+**Detect:** security rules present only in instruction-file text with no corresponding hook/CI enforcement; hook config (e.g. .claude/settings.json) empty while policy claims enforcement.
+
+**References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
+
+# Unattended-Agent Automation Governance
+
+**MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
+
+**Why:** Unattended agents run with no human per task — GitHub documents a dedicated automations-risk section; DeepSeek's review harness gives inbound webhook auth ZERO outbound authority by design.
+
+**Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
+
+**References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
 

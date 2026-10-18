@@ -67,3 +67,4 @@ Issues:
 - `zero-trust-architecture`
 - `caa-record-policy`
 - `cert-issuance-monitoring`
+- `agent-egress-allowlist`

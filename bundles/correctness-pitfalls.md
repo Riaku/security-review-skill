@@ -104,25 +104,25 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-362, CWE-366, OWASP ASVS 12.3
 
-# Event Loop Blocking
+# Blocking the Shared Concurrency Primitive
 
-**MUST NOT** run CPU-heavy or synchronous blocking calls inside an async event loop handler.
+**MUST NOT** run CPU-heavy or synchronous blocking calls inside a shared event loop / cooperative-scheduling context.
 
-**Why:** One blocking call stalls every concurrent request on the loop, turning a slow endpoint into a full service outage.
+**Why:** One blocking call stalls every concurrent request on that loop or worker pool, turning a slow endpoint into a full service outage.
 
-**Detect:** `time.sleep(` in async code, sync file/DB/HTTP calls in `async def`, `requests.` inside handlers, missing `run_in_executor`/`spawn_blocking`.
+**Detect:** sleep/sync file/DB/HTTP calls inside async handlers (e.g. `time.sleep` in `async def`, sync HTTP client calls in handlers), missing offload mechanisms (`run_in_executor`, `spawn_blocking`, dedicated worker pool) for blocking work.
 
 **References:** CWE-400, CWE-662, OWASP ASVS 5.3
 
-# Unhandled Promise Rejections
+# Unhandled Async Errors
 
-**MUST** attach a rejection handler to every promise/async call, or register a global unhandled-rejection hook that fails loudly.
+**MUST** attach an error handler to every async operation (promise/task/future/callback), or register a global unhandled-error hook that fails loudly.
 
-**Why:** An unhandled rejection can silently kill a worker or, in older Node versions, crash the process mid-request with no trace.
+**Why:** An unhandled async error can silently kill a worker, drop a transaction mid-flight, or vanish with no trace — the async analogue of a swallowed exception, and far easier to introduce.
 
-**Detect:** `.then(` without `.catch(`, `await` outside try/catch in entry points, missing `process.on('unhandledRejection')`, floating promises with no `void`.
+**Detect:** `.then(` without `.catch(`, `await` outside try/catch at entry points, tasks spawned without error propagation, missing global hooks (e.g. `process.on('unhandledRejection')`), floating async calls with no awaited/voided result.
 
-**References:** CWE-584, CWE-248, Node.js unhandledRejection docs
+**References:** CWE-584, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
 
 # Integer Overflow
 

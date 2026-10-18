@@ -21,3 +21,4 @@ Issues:
 - `automated-a11y-gate-in-ci`
 - `test-determinism-and-isolation`
 - `self-generated-expected-output`
+- `agent-verification-loop`

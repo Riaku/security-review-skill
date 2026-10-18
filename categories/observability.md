@@ -43,3 +43,4 @@ Issues:
 - `admin-activity-review`
 - `audit-log-chain-of-custody`
 - `cert-issuance-monitoring`
+- `agent-session-traceability`

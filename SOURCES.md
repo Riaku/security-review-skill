@@ -48,6 +48,25 @@ contributed. Kept current as new sources are mined.
 |---|---|
 | Matt Pocock's `grilling` skill — https://github.com/mattpocock/skills (skills/productivity/grilling) | `references/tree-traversal.md` frontier/rounds model |
 | Agent Skills specification — https://agentskills.io/specification | repo structure, progressive disclosure |
+| QA of Code guidance (Best Practice and Impact) — https://best-practice-and-impact.github.io/qa-of-code-guidance/ | v14: notebook/session leakage, git-history secret remediation, data versioning, raw-data immutability, config-example drift, test determinism, self-generated goldens, proportionate QA, dual-run equivalence, decision provenance, AI-code ownership |
+| Google developer documentation style guide — https://developers.google.com/style | documentation-quality category: style consistency, README content |
+| ASD-STE100 Simplified Technical English — https://asd-ste100.org | simplified-technical-english item; controlled-language references in style/inclusive doc items |
+| Write the Docs style-guide guide — https://www.writethedocs.org/guide/writing/style-guides/ | DRY docs, style-guide adoption practice |
+| Mailchimp Content Style Guide — https://styleguide.mailchimp.com/ | tone/clarity practice informing doc-style items |
+| Stack Overflow: code comment best practices — https://stackoverflow.blog/2021/12/23/best-practices-for-writing-code-comments/ | comments-explain-why item |
+| MIT CommKit: coding and comment style — https://mitcommlab.mit.edu/broad/commkit/coding-and-comment-style/ | comments-explain-why item |
+| daily.dev: 10 code-commenting best practices — https://daily.dev/blog/10-code-commenting-best-practices-for-developers/ | comments-explain-why item |
+| dev.to: essential guide to code commenting — https://dev.to/codebyturkan/the-essential-guide-to-code-commenting-best-practices-types-and-documentation-4e6c | comments-explain-why item |
+| RFC 2119 / RFC 8174 (BCP 14) — https://www.rfc-editor.org/rfc/rfc2119.txt, https://www.rfc-editor.org/rfc/rfc8174.txt | bcp14-keyword-usage item; the skill's own normative wording standard |
+| Anthropic Claude Code best practices — https://www.anthropic.com/engineering/claude-code-best-practices | v15: verification loop, hooks-vs-advisory, session-hygiene failure patterns, instruction-file bloat |
+| Cursor docs (rules / agent security / Bugbot / cloud agents) — https://cursor.com/docs | v15: sandbox/run-modes, neutral-status trap, base-branch review config, .cursorignore |
+| GitHub Copilot docs (code review / custom instructions / agent risks / rubber-duck) — https://docs.github.com/en/copilot | v15: agent auditability chain, cross-model critic, automations governance, instruction-file guidance |
+| DeepSeek harness docs — https://deepseek-harness.github.io/deepseek-harness/en/guide/github-review | v15: webhook trust separation, repo-cannot-set-proxy fail-closed pattern |
+| Qwen3-Coder — https://qwenlm.github.io/blog/qwen3-coder/ | easy-to-verify philosophy backing the agent verification loop |
+| Z.ai (GLM) dev-pack best practice — https://docs.z.ai/devpack/resources/best-practice.md | v15: Goal/Context/Constraints/Done-when, session-per-task, environment-context = permission surface |
+| Gemini Code Assist style guide & docs — https://cloud.google.com/gemini/docs/code-review/style-guide | review-category framing; .aiexclude exclusion pattern |
+| OpenAI Codex security docs — https://developers.openai.com/codex/agent-approvals-security.md | v15: sandbox×approval matrix, two-phase secret lifecycle, cached-search injection defense |
+| Amazon Q Developer docs (code reviews / severity / MCP security) — https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/code-reviews.md | six review classes; CVSS×access×effort severity matrix; MCP trust principles |
 
 ## User-provided content (not external)
 

@@ -11,3 +11,5 @@ Issues:
 - `inclusive-documentation`
 - `runnable-readme`
 - `architecture-doc-adr-coverage`
+- `simplified-technical-english`
+- `agent-instruction-file-review`

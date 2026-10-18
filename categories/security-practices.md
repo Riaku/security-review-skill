@@ -33,3 +33,4 @@ Issues:
 - `proportionate-qa-tiering`
 - `decision-record-provenance`
 - `architecture-doc-adr-coverage`
+- `coding-agent-sandbox-config`
