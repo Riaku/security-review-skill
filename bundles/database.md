@@ -1,4 +1,4 @@
-# database — full checklist (57 items)
+# database — full checklist (56 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -693,29 +693,6 @@ pg_dump -Fc mydb | age -r "$BACKUP_PUBKEY" \
 
 **References:** NIST SP 800-34 Contingency Planning, CIS Controls v8 (data protection), OWASP ASVS V7
 
-# Testing Your Restores
-
-**MUST** restore backups onto a scratch environment on a recurring schedule and verify the data — an untested backup is not a backup.
-
-**Why:** Backups fail silently: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop. Discovering a corrupt set during a real incident converts an outage into permanent loss.
-
-**Detect:** Backup jobs with no matching restore-test job or CI pipeline. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
-
-**Bad:**
-```bash
-# runs nightly; nobody has ever restored it
-0 2 * * * pg_dump mydb > /backups/mydb.sql
-```
-
-**Good:**
-```bash
-# weekly drill into a throwaway database
-pg_restore -d scratch_test --no-owner /backups/latest.dump \
-  && scripts/verify_checksums.sh
-```
-
-**References:** NIST SP 800-34 (restore testing), CIS Control 11 (tested data recovery), AWS Backup restore testing docs
-
 # Point-in-Time Recovery
 
 **SHOULD** configure continuous archiving (WAL archiving, binlog retention) so the database recovers to an arbitrary instant, not just the last nightly dump.
@@ -830,28 +807,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 ```
 
 **References:** Arjay McCandless System Design Cheat Sheet (batching), psycopg execute_values docs, Kafka batch.size/linger.ms docs
-
-# Async Writes (ack now, persist later)
-
-**MAY** acknowledge a request before durable persistence, but only when the durability gap is explicit and backed by a durable queue or WAL — never a bare in-memory buffer.
-
-**Why:** Acking before persisting trades durability for latency: a crash with buffered writes and no durable log leaves the client told "saved" for data that never existed.
-
-**Detect:** Trace the ack point relative to persistence: does the handler return 2xx before the enqueue is fsynced (Kafka `acks=all`, Redis AOF `everysec` vs `no`)? Grep for flusher threads with no crash-recovery path or backlog alerting.
-
-**Bad:**
-```python
-buffer.append(event)
-return {"status": "ok"}   # crash = events gone, client told saved
-```
-
-**Good:**
-```python
-producer.send(topic, event).get(timeout=5)  # acks=all first
-return {"status": "ok"}
-```
-
-**References:** Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs, Arjay McCandless cheat sheet
 
 # NoSQL Query Injection
 
@@ -1201,9 +1156,9 @@ export = anonymize(df, k=20,
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
 
-**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too.
+**Why:** Backups never restored are unverified guesses: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop — and ransomware crews routinely destroy backup targets too. Discovering a corrupt set during a real incident converts an outage into permanent loss.
 
-**Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
+**Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
 **References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
 
@@ -1231,11 +1186,11 @@ export = anonymize(df, k=20,
 
 **MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
 
-**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries.
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries. Acking before durable persistence is tolerable only when the gap is explicitly backed by a durable queue or WAL (Kafka `acks=all`, Redis AOF `everysec`), never a bare in-memory buffer.
 
-**Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
+**Detect:** Review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance; trace the ack point relative to persistence — handler returning 2xx before the enqueue is fsynced, flusher threads with no crash-recovery path or backlog alerting.
 
-**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
+**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off, Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs
 
 # Erasure Propagation to Secondary Stores
 
@@ -1246,4 +1201,14 @@ export = anonymize(df, k=20,
 **Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
 
 **References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
+
+# Database per Service
+
+**SHOULD** give each service its own datastore and schema, accessed only through that service's API; **SHOULD NOT** let multiple services share a database instance or read each other's tables directly.
+
+**Why:** Shared connection strings and cross-service table queries create hidden coupling — a schema change breaks unknown consumers — and widen the blast radius: one service's compromise or buggy migration can read or write another service's data, bypassing its authorization layer entirely.
+
+**Detect:** identical DB connection strings across service repos; direct SQL against another service's tables; shared schema grants; cross-service joins in query code or reporting jobs.
+
+**References:** martinfowler.com/articles/microservices.html (Decentralized Data Management), Martin Fowler Patterns of Enterprise Application Architecture (Shared Database anti-pattern)
 

@@ -159,11 +159,11 @@ Logs, metrics, traces, profiling, alerting.
 
 **MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
 
-**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data.
+**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data; unredacted request bodies, headers, and stack traces spread PII into traces and error-reporters as secondary sinks.
 
-**Detect:** grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; test by logging a known secret and checking it never appears in output.
+**Detect:** Grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; grep for `log.*request`, `log.*body`, `console.log(err)` without redaction and missing `redact_fields`/`mask_pii` filter config. Test by logging a known secret and checking it never appears in logs, traces, or error-reporter payloads.
 
-**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3
+**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
 # Kubernetes API Audit Logging Not Enabled
 
@@ -286,16 +286,6 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep CI/CD for annotations pushed to metrics (`deploy_event`, Grafana annotations API, `release` label on series); check dashboards show deploy lines.
 
 **References:** Google SRE Workbook, DORA deploy frequency practices, Grafana annotations docs
-
-# PII leakage into application logs, traces, and error reporters
-
-**SHOULD NOT** log raw request bodies, headers, or stack traces containing PII without redaction or masking.
-
-**Why:** Unredacted PII in logs spreads personal data into observability systems, creating unauthorized secondary processing and breach surface.
-
-**Detect:** grep for `log.*request`, `log.*body`, `console.log(err)` without redaction; check `redact_fields`, `mask_pii`, log filter config absent.
-
-**References:** CWE-532, OWASP A05:2021, GDPR Art. 5(1)(c), NIST SP 800-92
 
 # SARIF-Standardized Scan Results (unified alert pipeline)
 
@@ -436,4 +426,14 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** bot commits lacking co-author/session links; agent tooling with transcripts disabled or rotated to zero retention; no mapping from merged PR to agent run.
 
 **References:** GitHub Copilot agent auditability (signed commits, session-log link), OpenAI Codex transcripts, DeepSeek harness session-log model
+
+# Logs as Event Streams
+
+**SHOULD** write the log stream unbuffered to stdout/stderr and leave routing, aggregation, and retention to the execution environment; **SHOULD NOT** write or manage logfiles from inside a container.
+
+**Why:** App-managed logfiles inside containers silently fill ephemeral storage (triggering node eviction), lose evidence on restart (breaking incident forensics), and bypass the centralized pipeline where PII-scrubbing and retention policy live.
+
+**Detect:** log file paths or rotating file handlers in app config inside containerized deploys; missing stdout logger configuration; container logs empty despite active logging code.
+
+**References:** 12factor.net/logs, OWASP Logging Cheat Sheet, Kubernetes logging best practices
 

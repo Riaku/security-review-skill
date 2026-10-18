@@ -1,4 +1,4 @@
-# security-practices — full checklist (31 items)
+# security-practices — full checklist (30 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -76,7 +76,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
-**MUST** define mean-time-to-remediate targets per severity (critical 7d, high 30d, medium 90d) and log every exception with owner and expiry date.
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
 
 **Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
 
@@ -144,16 +144,6 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** MITRE ATT&CK, Gartner BAS category, Atomic Red Team (T1059 etc.)
 
-# Shift-Left Security (security earliest in the lifecycle)
-
-**MUST** run SAST, dependency, and secret scanning in CI on every pull request, failing the build on high-severity findings rather than deferring them to pre-release.
-
-**Why:** Defects caught in production cost orders of magnitude more than at commit time; late gates train teams to bypass them.
-
-**Detect:** `.github/workflows` with `sast`/`semgrep`/`gitleaks` steps, `fail-on: high` in scanner config, pre-commit hooks
-
-**References:** OWASP SAMM Security Testing, MS SDL, OWASP DevSecOps Maturity Model
-
 # Secure by Design (architectural input, not a patch)
 
 **MUST** treat security requirements as architectural inputs at design time — least privilege, defense in depth, secure defaults — not bolt-ons retrofitted after review.
@@ -193,16 +183,6 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
 
 **References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
-
-# Non-Functional Requirements Traceability
-
-**SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.
-
-**Why:** Untestable "should be fast" requirements hide their violation until production; hard constraints (10M DAU, <200ms p95, 99.99% uptime) make every design choice auditable and every gap visible before launch.
-
-**Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
-
-**References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
 
 # Fail-Secure Configuration
 
@@ -313,4 +293,14 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** grep agent configs for `--yolo`, `dangerously-bypass`, `sandbox_mode = "danger-full-access"`, `approval_policy = "never"`, `bypassPermissions`; check for OS-enforced sandbox vs advisory-only policy.
 
 **References:** OpenAI Codex approvals/security model, Anthropic /sandbox + permissions, Cursor Run Modes ("best-effort, not a hard boundary")
+
+# Admin Tasks as One-Off Processes from the Release
+
+**SHOULD** run admin and maintenance tasks (migrations, REPLs, one-time scripts) as one-off processes from the same released code, config, and dependency isolation — committed to the repo — rather than ad-hoc scripts executed against production out-of-band.
+
+**Why:** Out-of-band admin access (manual `psql` into prod, hand-copied scripts, SSH one-offs) is unauditable, drifts from the released code's assumptions, and is the classic vector for irreversible mistakes. Running the same image as a scoped one-off Job keeps credentials, code version, and audit trail aligned.
+
+**Detect:** runbooks showing manual DB/console access instead of `kubectl job` or release-hook migrations; admin scripts not present in the repo; production mutations with no corresponding committed task definition.
+
+**References:** 12factor.net/admin-processes, OWASP Logging Cheat Sheet (audit of admin actions), Kubernetes Jobs pattern
 

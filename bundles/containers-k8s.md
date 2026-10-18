@@ -1,4 +1,4 @@
-# containers-k8s — full checklist (46 items)
+# containers-k8s — full checklist (43 items)
 
 Container and Kubernetes runtime configuration.
 
@@ -100,31 +100,21 @@ Container and Kubernetes runtime configuration.
 
 **MUST** apply `RuntimeDefault` seccomp, `readOnlyRootFilesystem: true`, and `allowPrivilegeEscalation: false` on all pod security contexts.
 
-**Why:** Permissive security contexts let exploits persist writes to the container root and escalate via setuid binaries.
+**Why:** Permissive security contexts let exploits persist writes to the container root and escalate via setuid binaries; unconfined or unmasked syscall surfaces turn one broken container into full node compromise — the classic escape path Falco and Tracee alert on.
 
-**Detect:** Pod YAML missing `securityContext.seccompProfile`, `readOnlyRootFilesystem`, or showing `allowPrivilegeEscalation: true`.
+**Detect:** Pod YAML missing `securityContext.seccompProfile`, `readOnlyRootFilesystem`, or showing `allowPrivilegeEscalation: true`; grep manifests for `unconfined`, `unmasked`, `CAP_SYS_*`; run container escape test suites (e.g. cdve).
 
-**References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611
+**References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611, CIS Docker 5.3
 
 # Dangerous Host Mounts: docker.sock, hostPath, Privileged Pods
 
 **MUST NOT** mount host paths such as `/`, `/etc`, or the container runtime socket into untrusted workloads, and MUST NOT mark pods privileged without documented justification.
 
-**Why:** A hostPath or privileged pod is effectively node root access; one compromised app owns the machine and every co-located secret.
+**Why:** A hostPath or privileged pod is effectively node root access; one compromised app owns the machine and every co-located secret — and runtime-socket access grants the full container-control API, trivially equivalent to root on the node.
 
-**Detect:** `hostPath` volumes pointing at `/etc`, `/proc`, `/var/run/docker.sock`; `privileged: true` in pod manifests.
+**Detect:** `hostPath` volumes pointing at `/etc`, `/proc`, `/var/run/docker.sock`; volume mounts of `containerd.sock` or `crio.sock`; env `DOCKER_HOST` pointing at a mounted socket path; `privileged: true` in pod manifests. Remedy: scoped socket proxy or a dedicated agent instead of raw socket exposure.
 
-**References:** CIS K8s 5.2.4, 5.2.5, CWE-668, OWASP K8s PS4, MITRE ATT&CK T1611
-
-# Docker Socket Mounted into Containers
-
-**MUST NOT** expose `/var/run/docker.sock` (or containerd/CRI-O sockets) to application containers; use a scoped proxy or dedicated agent instead.
-
-**Why:** Socket access grants full container-control API, which is trivially equivalent to root on the node and defeats every other control.
-
-**Detect:** Volume mounts of `docker.sock`, `containerd.sock`, or `crio.sock`; env `DOCKER_HOST` pointing at a mounted socket path.
-
-**References:** CIS Docker 2.4, CWE-732, OWASP Top10 A05, NIST SP 800-190 4.4
+**References:** CIS K8s 5.2.4, 5.2.5, CWE-668, OWASP K8s PS4, MITRE ATT&CK T1611, CIS Docker 2.4, NIST SP 800-190 4.4
 
 # Privileged Containers and Excess Linux Capabilities
 
@@ -170,9 +160,9 @@ Container and Kubernetes runtime configuration.
 
 **MUST** treat the link-metadata range (`169.254.169.254/32`, GCE `metadata.google.internal`, Azure `169.254.169.254/metadata`) as hostile territory: block it at the network layer from any workload that processes user-supplied URLs.
 
-**Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET.
+**Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET — and any single missing layer in the chain (v1-tolerant instance, open egress, string-only URL filter) completes the attack.
 
-**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, and proxy configurations that allow CONNECT to it. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
+**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. On instances, verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
 
 **Bad:**
 ```python
@@ -188,7 +178,7 @@ ipset -A blacklist 169.254.169.254
 iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 ```
 
-**References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet
+**References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet, CIS AWS 5.6/5.7
 
 # No Admission Policy Engine (Pod Security Standards / Gatekeeper / Kyverno)
 
@@ -487,16 +477,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
 
-# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
-
-**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
-
-**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
-
-**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
-
-**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319
-
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
 **SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
@@ -506,14 +486,4 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
 
 **References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
-
-# Container Escape Hardening
-
-**MUST** minimize syscall surface (seccomp profiles, no unmasked dangerous syscalls, read-only rootfs) so a compromised container cannot break out to the host.
-
-**Why:** Kernel exploits and permissive seccomp/unconfined profiles turn one broken container into full node compromise — the classic escape path Falco and Tracee alert on.
-
-**Detect:** grep manifests for `seccompProfile`, `unconfined`, `unmasked`, `privileged: true`, `CAP_SYS_*`; run `docker run` escape test suites (e.g. cdve).
-
-**References:** CIS Docker 5.3, MITRE ATT&CK T1611, Pod Security Standards restricted
 

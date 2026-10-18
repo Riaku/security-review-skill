@@ -1,4 +1,4 @@
-# third-party-integrations — full checklist (4 items)
+# third-party-integrations — full checklist (5 items)
 
 SaaS integration surface: scopes, tags, webhooks, credentials.
 
@@ -43,4 +43,14 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 **Detect:** inventory integration creds: count vs documented owners; grep wikis/runbooks/env files for SaaS API keys; check rotation history per integration; flag creds tied to individual employees.
 
 **References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
+
+# Backing Services as Attached Resources
+
+**SHOULD** access every backing service (database, queue, cache, SMTP) through an environment-supplied location and credential so the specific provider or instance can be swapped without code changes.
+
+**Why:** Hardcoded provider hostnames and instance identifiers block credential rotation, block moving to a managed or failover instance, and leak internal topology into the repo. A compromise of one provider instance becomes a code-change emergency instead of a config swap.
+
+**Detect:** grep code for hardcoded connection strings, provider URLs, and instance IDs instead of injected bindings; verify a staging deploy can point at a different provider instance with config only.
+
+**References:** 12factor.net/backing-services, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
 

@@ -1,4 +1,4 @@
-# messaging-async — full checklist (24 items)
+# messaging-async — full checklist (22 items)
 
 Queues, delivery semantics, workers, jobs.
 
@@ -94,25 +94,15 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** OWASP ASVS 7.4, CWE-400, Celery task timeout guidance
 
-# Webhook Retries
-
-**SHOULD** retry failed webhook deliveries with exponential backoff and jitter, capped attempts, and a terminal failure path rather than infinite hammering.
-
-**Why:** Naive fixed-interval retries amplify load on a struggling receiver, converting one outage into a self-inflicted DDoS loop.
-
-**Detect:** grep for retry loops without `backoff`, `jitter`, `max_attempts`; receivers lacking idempotent handling of repeated deliveries.
-
-**References:** OWASP Webhook Security Best Practices, CWE-400, Stripe retry docs
-
 # Idempotency (idempotency keys)
 
 **MUST** accept a client-supplied idempotency key on non-idempotent operations and deduplicate replays before executing side effects.
 
-**Why:** A retried charge or webhook without deduplication bills the customer twice and corrupts state no rollback cleanly undoes.
+**Why:** A retried charge or webhook without deduplication bills the customer twice and corrupts state no rollback cleanly undoes; retried requests, network timeouts, and scripted replays trigger refund cascades that erode customer trust.
 
-**Detect:** check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache.
+**Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
 
 # Payment Webhook Reconciliation
 
@@ -153,28 +143,6 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep workflow definitions for external calls outside activity/task wrappers, missing `idempotencyKey`, non-deterministic code (random, clock reads) inside workflow code.
 
 **References:** Temporal determinism docs, AWS Step Functions error handling, CWE-662
-
-# Async Writes (ack now, persist later)
-
-**MAY** acknowledge a request before durable persistence, but only when the durability gap is explicit and backed by a durable queue or WAL — never a bare in-memory buffer.
-
-**Why:** Acking before persisting trades durability for latency: a crash with buffered writes and no durable log leaves the client told "saved" for data that never existed.
-
-**Detect:** Trace the ack point relative to persistence: does the handler return 2xx before the enqueue is fsynced (Kafka `acks=all`, Redis AOF `everysec` vs `no`)? Grep for flusher threads with no crash-recovery path or backlog alerting.
-
-**Bad:**
-```python
-buffer.append(event)
-return {"status": "ok"}   # crash = events gone, client told saved
-```
-
-**Good:**
-```python
-producer.send(topic, event).get(timeout=5)  # acks=all first
-return {"status": "ok"}
-```
-
-**References:** Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs, Arjay McCandless cheat sheet
 
 # Queue Depth and Consumer Lag Alerting
 
@@ -253,7 +221,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 # Webhook Replay Protection
 
-**MAY** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
+**MUST NOT** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
 
 **Why:** A captured signed webhook stays replayable forever without expiry — an attacker resends a legitimate payment event days later undetected.
 

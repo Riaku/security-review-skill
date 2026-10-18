@@ -1,6 +1,6 @@
 # Webhook Replay Protection
 
-**MAY** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
+**MUST NOT** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
 
 **Why:** A captured signed webhook stays replayable forever without expiry — an attacker resends a legitimate payment event days later undetected.
 

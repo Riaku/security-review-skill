@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (33 items)
+# secrets-crypto — full checklist (31 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -34,25 +34,15 @@ Secrets handling and cryptographic primitives.
 
 **References:** OWASP Top 10 A05:2021, CWE-538, CWE-312
 
-# API Key Rotation
-
-**SHOULD** rotate API keys on a defined schedule (90 days typical) and immediately on suspected exposure, with automated rotation rather than manual procedures.
-
-**Why:** Static keys that leak remain usable indefinitely; rotation bounds the window an attacker can exploit stolen credentials.
-
-**Detect:** IAM policies lacking `MaxAge`/rotation alarms, hardcoded keys with no expiry, providers without rotation hooks in CI.
-
-**References:** OWASP ASVS V2.10.4, NIST SP 800-57 part 1 §5.2, CWE-321
-
 # Secret Scanning
 
 **MUST** run automated secret scanning (gitleaks, trufflehog, GitHub push protection) on every commit and full-history scans before publishing any repository.
 
-**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes.
+**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes — and a secret once committed stays in git history forever, so rotation is the only true fix and is often missed.
 
-**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks, absent GitHub `secret_scanning` settings in org config.
+**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319
+**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 PS.1, GitHub push protection docs
 
 # Hashing vs Encryption
 
@@ -278,16 +268,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** OWASP MASVS-STORAGE-2, CWE-798, CWE-321, MAS Testing Guide Reverse Engineering
 
-# Push Protection (block secrets at commit/push time)
-
-**MUST** scan every commit and push for credentials and reject those containing live secrets before they enter history.
-
-**Why:** A secret once committed stays in git history forever; rotation is the only true fix and is often missed.
-
-**Detect:** Missing pre-commit/gitleaks/trufflehog hooks; no GitHub push protection or secret-scanning alerts enabled; `.git/hooks/pre-commit` absent from repo tooling.
-
-**References:** CWE-798, NIST SP 800-218 PS.1, GitHub push protection docs, gitleaks / trufflehog / detect-secrets
-
 # Secret Validity Checking (verify leaked keys are live)
 
 **SHOULD** validate whether a reported leaked credential is still active before closing the finding, and confirm revocation actually took effect at the provider.
@@ -304,9 +284,9 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **Why:** A leaked static secret stays valid forever; automation shrinks the attacker's usable window to the rotation interval.
 
-**Detect:** grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`.
+**Detect:** Grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`; IAM policies lacking `MaxAge`/rotation alarms (90 days typical); providers without rotation hooks in CI.
 
-**References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6
+**References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6, OWASP ASVS V2.10.4
 
 # Device Provisioning Identity
 

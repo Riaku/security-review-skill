@@ -7,7 +7,6 @@ Issues:
 - `pii-handling`
 - `audit-logs`
 - `data-residency`
-- `soc-2`
 - `pci-dss`
 - `cookie-consent`
 - `software-licenses`
@@ -36,7 +35,6 @@ Issues:
 - `privileged-access-management`
 - `vendor-risk-subprocessors`
 - `penetration-testing-cadence`
-- `pii-in-logs`
 - `reidentification-risk`
 - `data-classification-labeling`
 - `tenant-offboarding-data-purge`

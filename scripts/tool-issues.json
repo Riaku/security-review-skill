@@ -66,7 +66,6 @@
     "env-in-gitignore"
   ],
   "github-push-protection": [
-    "push-protection",
     "secret-scanning"
   ],
   "trivy": [
@@ -160,7 +159,7 @@
   ],
   "scoutsuite": [
     "cspm-continuous-scanning",
-    "cloud-iam-wildcard-policies"
+    "dangerous-iam-policies"
   ],
   "cloudsploit": [
     "cspm-continuous-scanning"
@@ -173,7 +172,7 @@
   "policy-sentry": [
     "least-privilege",
     "dangerous-iam-policies",
-    "cloud-iam-escalation-paths"
+    "cloud-iam-privilege-escalation"
   ],
   "driftctl": [
     "infrastructure-drift-detection",
@@ -223,11 +222,11 @@
   "falco": [
     "runtime-threat-detection",
     "living-off-the-land",
-    "container-escape-hardening"
+    "pod-security-standards"
   ],
   "tetragon": [
     "runtime-threat-detection",
-    "service-mesh-mtls",
+    "mtls-service-auth",
     "egress-control"
   ],
   "sysdig": [
@@ -236,11 +235,11 @@
   ],
   "tracee": [
     "runtime-threat-detection",
-    "container-escape-hardening"
+    "pod-security-standards"
   ],
   "docker-bench-security": [
     "cis-docker-benchmark",
-    "docker-socket-mount",
+    "dangerous-host-mounts",
     "privileged-containers-capabilities"
   ],
   "kube-bench": [

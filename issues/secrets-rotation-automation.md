@@ -4,6 +4,6 @@
 
 **Why:** A leaked static secret stays valid forever; automation shrinks the attacker's usable window to the rotation interval.
 
-**Detect:** grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`.
+**Detect:** Grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`; IAM policies lacking `MaxAge`/rotation alarms (90 days typical); providers without rotation hooks in CI.
 
-**References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6
+**References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6, OWASP ASVS V2.10.4

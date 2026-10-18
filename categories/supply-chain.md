@@ -5,7 +5,6 @@ Dependencies, artifacts, build provenance.
 Issues:
 - `secret-scanning`
 - `dependency-vulnerabilities`
-- `supply-chain-attacks`
 - `image-scanning`
 - `lockfiles`
 - `reproducible-builds`
@@ -15,7 +14,6 @@ Issues:
 - `model-artifact-integrity`
 - `ci-action-pinning`
 - `ci-artifact-integrity`
-- `docker-socket-mount`
 - `mutable-image-tag-pinning`
 - `signed-image-admission-enforcement`
 - `iac-untrusted-pr-plan-injection`
@@ -28,7 +26,6 @@ Issues:
 - `sbom-generation`
 - `build-provenance-attestation`
 - `hermetic-builds`
-- `pinned-ci-actions`
 - `artifact-signing-verification`
 - `broken-link-hijacking`
 - `firmware-signing-secure-boot`

@@ -2,8 +2,8 @@
 
 **MUST** run automated secret scanning (gitleaks, trufflehog, GitHub push protection) on every commit and full-history scans before publishing any repository.
 
-**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes.
+**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes — and a secret once committed stays in git history forever, so rotation is the only true fix and is often missed.
 
-**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks, absent GitHub `secret_scanning` settings in org config.
+**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319
+**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 PS.1, GitHub push protection docs
