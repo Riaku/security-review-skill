@@ -37,3 +37,5 @@ Issues:
 - `sec-cyber-disclosure`
 - `threat-intelligence`
 - `soar-orchestration`
+- `backup-verification-drills`
+- `post-incident-review-practice`

@@ -1,4 +1,4 @@
-# containers-k8s — full checklist (41 items)
+# containers-k8s — full checklist (45 items)
 
 Container and Kubernetes runtime configuration.
 
@@ -466,4 +466,44 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
 **References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
+
+# Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
+
+**SHOULD NOT** patch running servers over SSH; rebuild and redeploy images instead, so every host matches a known, auditable template.
+
+**Why:** Snowflake hosts mutated by hand hide rootkits, drift from hardening baselines, and cannot be trusted or reliably reproduced during an incident.
+
+**Detect:** grep for SSH-to-prod runbooks, `apt upgrade` on live hosts vs image pipelines: Packer, AMI bake jobs, `deployment strategy: Recreate`, Auto Scaling group launch templates.
+
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2, Chromebook/immutable-infra pattern, AWS Well-Architected operational excellence
+
+# Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
+
+**MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious process spawns.
+
+**Why:** Scanners only see what you built; attackers operate in what's running, and without runtime visibility they work unnoticed inside "secure" images.
+
+**Detect:** grep for `falco`, `sysdig`, `tracee`, `tetragon`, `ebpf` in deployment YAML/DaemonSets, runtime-security rules files, `falco_rules.yaml` customizations.
+
+**References:** MITRE ATT&CK container matrix (T1610), CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
+
+# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
+
+**SHOULD** enforce mutual TLS between internal services so east-west traffic is authenticated and encrypted, not trusted by network location alone.
+
+**Why:** Flat internal networks let an attacker who breaches one service impersonate any other and sniff credentials in cleartext.
+
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `apiVersion: security.istio.io`, `tls: mode: ENABLE` in Linkerd/Consul configs, mesh policy manifests.
+
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319 (cleartext transmission)
+
+# Egress Control (outbound traffic allow-listed; exfil paths narrowed)
+
+**SHOULD** restrict outbound network traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate data.
+
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary external endpoints.
+
+**Detect:** grep egress configs: `NetworkPolicy egress`, `egress gateway`, `egress_filter`, proxy allow-lists, `default-deny` outbound firewall rules, `egress-destination-range`.
+
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011 (Exfiltration), CIS Kubernetes Benchmark 5.3
 

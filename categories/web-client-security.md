@@ -21,3 +21,4 @@ Issues:
 - `cross-site-websocket-hijacking`
 - `postmessage-origin-validation`
 - `browser-storage-sensitive-data`
+- `unvalidated-redirects-forwards`

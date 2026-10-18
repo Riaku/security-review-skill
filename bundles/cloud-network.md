@@ -1,4 +1,4 @@
-# cloud-network — full checklist (51 items)
+# cloud-network — full checklist (59 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -1171,4 +1171,84 @@ resource "aws_iam_policy" "ci" {
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
 **References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
+
+# Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
+
+**MUST NOT** grant wildcard actions or resources (`*:*`, `admin/*`) or unscoped PassRole chains; policy linters must fail CI on them.
+
+**Why:** Over-broad grants are the shortest path from a single leaked credential to full account takeover, and PassRole chains hide escalation inside "read-only" roles.
+
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, `iam:PassRole` without condition, `AdministratorAccess`; run policy-sentry, pmapper, tfsec checks.
+
+**References:** AWS IAM security best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+
+# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
+
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph and prune every path from low-privilege identities to admin.
+
+**Why:** Individually reasonable permissions compose into escalation ladders (create-role, assume-role, modify-trust) that no single policy review catches.
+
+**Detect:** run pmapper `analyze --enum`, cloudsplaining cross-account reports, IAM Access Analyzer `unreachable`/external findings; grep trust policies for `AWS: "*"`.
+
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation graph
+
+# CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)
+
+**MUST** scan cloud configuration continuously for misconfigurations rather than relying on point-in-time audits.
+
+**Why:** Public buckets, open security groups, and disabled logging appear between audits; attackers scan for them constantly.
+
+**Detect:** grep for CSPM tooling: `prowler`, `scoutsuite`, `cloudsploit`, `Palo Alto Prisma`, `Wiz`, `checkov --framework cloud`, scheduled posture-scan CI jobs and alert routing.
+
+**References:** NIST CS2 (SP 800-223 CSPM), CIS Benchmarks for AWS/Azure/GCP, NIST SP 800-53 CM-6, CWE-16
+
+# Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
+
+**SHOULD** alert on post-compromise horizontal motion: unusual SSH/WinRM hops, mass SMB enumeration, anomalous role assumption across accounts.
+
+**Why:** Once inside, attackers pivot toward crown jewels; without motion alerts, breach dwell time stretches to months while one foothold becomes total compromise.
+
+**Detect:** grep detection rules for `lateral_movement`, `T1021`, `remote_services`, `admin_shares`, `PassTheHash`, unusual-login detections in SIEM/YARA-L/Sigma rules.
+
+**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma lateral-movement rules, AWS GuardDuty UnauthorizedAccess
+
+# Infrastructure Drift Detection (live state vs IaC diffed and alerted)
+
+**MUST** continuously diff live infrastructure state against IaC definitions and alert on unauthorized manual changes.
+
+**Why:** Console-clicked changes bypass review and become invisible security holes — an open security group nobody wrote down never gets fixed.
+
+**Detect:** grep for `terraform plan -detailed-exitcode` scheduled jobs, `drift`, `terraformer`, Driftctl, AWS Config `detect-config-drift`, `kubectl diff -f` cron checks.
+
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift detection docs, AWS Config conformance packs
+
+# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
+
+**SHOULD** enforce mutual TLS between internal services so east-west traffic is authenticated and encrypted, not trusted by network location alone.
+
+**Why:** Flat internal networks let an attacker who breaches one service impersonate any other and sniff credentials in cleartext.
+
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `apiVersion: security.istio.io`, `tls: mode: ENABLE` in Linkerd/Consul configs, mesh policy manifests.
+
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319 (cleartext transmission)
+
+# Attack-Path Analysis (reachable chains from exposure to crown jewels)
+
+**SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, and cut the shortest chains first.
+
+**Why:** Individual findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
+
+**Detect:** grep for attack-path tooling: `cartography`, `bloodhound`, `peanut`, Wiz/Knossos attack paths, `reachability` graph exports, `attack_path` reports in vuln management.
+
+**References:** MITRE ATT&CK, NIST SP 800-30 (risk assessment), BloodHound docs, CSEM attack-path analysis
+
+# Egress Control (outbound traffic allow-listed; exfil paths narrowed)
+
+**SHOULD** restrict outbound network traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate data.
+
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary external endpoints.
+
+**Detect:** grep egress configs: `NetworkPolicy egress`, `egress gateway`, `egress_filter`, proxy allow-lists, `default-deny` outbound firewall rules, `egress-destination-range`.
+
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011 (Exfiltration), CIS Kubernetes Benchmark 5.3
 

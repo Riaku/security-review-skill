@@ -20,3 +20,5 @@ Issues:
 - `shift-left-security`
 - `secure-by-design`
 - `security-champions`
+- `verification-level-tiers`
+- `attack-path-analysis`

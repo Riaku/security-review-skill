@@ -22,3 +22,7 @@ Issues:
 - `push-protection`
 - `sarif-standardization`
 - `shift-left-security`
+- `hermetic-builds`
+- `branch-protection-required-reviews`
+- `pinned-ci-actions`
+- `policy-as-code-enforcement`

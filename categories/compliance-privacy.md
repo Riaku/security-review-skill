@@ -38,3 +38,4 @@ Issues:
 - `penetration-testing-cadence`
 - `pii-in-logs`
 - `reidentification-risk`
+- `data-classification-labeling`

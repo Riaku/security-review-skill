@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (13 items)
+# testing-strategy — full checklist (14 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -133,4 +133,14 @@ Test pyramid, practices, and quality gates.
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely.
 
 **References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs
+
+# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
+
+**SHOULD** continuously fuzz parsers, decoders, and other untrusted-input handlers with AFL/libFuzzer or OSS-Fuzz-style harnesses.
+
+**Why:** Hand-written tests miss edge cases; fuzzing finds the memory corruption and crash bugs attackers actively weaponize in parsers.
+
+**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `FUZZ_TARGET`, `cargo-fuzz`, `atheris`, corpus/seed directories in repos and CI.
+
+**References:** OWASP Fuzzing chapter, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
 

@@ -31,3 +31,5 @@ Issues:
 - `session-invalidation-on-credential-change`
 - `saml-signature-wrapping`
 - `anomalous-auth-detection`
+- `credential-access-detection`
+- `non-human-identity-governance`

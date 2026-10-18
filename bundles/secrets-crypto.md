@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (27 items)
+# secrets-crypto — full checklist (28 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -297,4 +297,14 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** No post-rotation validation step, `git leak` findings closed without provider-side revoke check, missing `aws sts get-caller-identity` / GitHub `/rate_limit` verification.
 
 **References:** OWASP ASVS V2.10.4, GitHub secret scanning docs, AWS IAM key revocation runbooks
+
+# Secrets Rotation Automation (scheduled/triggered rotation without downtime)
+
+**MUST** rotate secrets automatically on a schedule and immediately upon suspected exposure, without manual intervention or service downtime.
+
+**Why:** A leaked static secret stays valid forever; automation shrinks the attacker's window from "indefinitely" to the rotation interval.
+
+**Detect:** grep for `rotation_period_days`, AWS Secrets Manager rotation lambdas, Vault `lease`/`ttl` settings, `rotate_credentials` jobs, ExternalSecret `refreshInterval`.
+
+**References:** NIST SP 800-57 (key management), NIST SP 800-53 IA-5, CIS Control 6, AWS Secrets Manager rotation best practices
 

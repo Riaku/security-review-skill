@@ -55,3 +55,4 @@ Issues:
 - `code-data-rollback-mismatch`
 - `unauthenticated-data-store-exposure`
 - `reidentification-risk`
+- `backup-verification-drills`

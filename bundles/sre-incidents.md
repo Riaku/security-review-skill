@@ -1,4 +1,4 @@
-# sre-incidents — full checklist (34 items)
+# sre-incidents — full checklist (36 items)
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
@@ -381,4 +381,24 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** SOAR platform config (`Shuffle`, `TheHive`, `Cortex`), playbook definitions with `auto_contain`, absence of response automation, no approval gate on isolation actions.
 
 **References:** NIST SP 800-61, Gartner SOAR definition, MITRE ATT&CK response mitigations
+
+# Backup Verification Drills (scheduled restore tests, not just backup jobs)
+
+**MUST** run scheduled restore drills that prove backups actually recover systems, with results tracked and failures escalated.
+
+**Why:** Backups that were never restored are unverified guesses; ransomware crews routinely encrypt backup targets too, so only tested restores count.
+
+**Detect:** grep for `restore_test`, `drill`, `pg_restore` in scheduled jobs, `velero restore create --from-backup`, AWS Backup restore testing plans, runbook docs with drill dates.
+
+**References:** NIST SP 800-34 (Contingency Planning), CIS Control 11, NIST CSF PR.IP-4, CWE-190 (recovery failure context)
+
+# Post-Incident Review Practice (blameless postmortems with tracked actions)
+
+**MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.
+
+**Why:** Without structured learning, the same failure repeats; blame-driven cultures hide information precisely when it's most needed.
+
+**Detect:** grep for `postmortem`, `post_incident`, `RCA`, `blameless`, incident review templates, action-item trackers linked to incident IDs in ticketing exports.
+
+**References:** NIST SP 800-61 (IR lifecycle, post-incident activity), Google SRE Book postmortem culture, CIS Control 17, ISO/IEC 27035
 

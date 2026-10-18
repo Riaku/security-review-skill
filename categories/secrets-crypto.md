@@ -30,3 +30,4 @@ Issues:
 - `secrets-in-mobile-binaries`
 - `push-protection`
 - `secret-validity-checks`
+- `secrets-rotation-automation`

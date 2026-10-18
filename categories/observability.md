@@ -37,3 +37,6 @@ Issues:
 - `data-exfiltration-monitoring`
 - `living-off-the-land`
 - `anomalous-auth-detection`
+- `lateral-movement-detection`
+- `credential-access-detection`
+- `runtime-threat-detection`

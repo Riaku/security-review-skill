@@ -1,4 +1,4 @@
-# security-practices — full checklist (17 items)
+# security-practices — full checklist (19 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -173,4 +173,24 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `champions` roster doc, training completion records, `office hours` schedule, per-team champion named in CODEOWNERS
 
 **References:** OWASP SAMM Security Champions, BSIMM 11.1, Microsoft Security Champions Program
+
+# Verification-Level Tiers (ASVS L1/L2/L3: basic / standard / privileged-app requirements)
+
+**MUST** assign every application an ASVS baseline (L1 threat-modeled, L2 sensitive data, L3 privileged) and verify controls at that tier.
+
+**Why:** Untiered apps get either theater-grade checks for high-risk systems or gaps that privileged attackers exploit.
+
+**Detect:** grep for `ASVS`, `verification_level`, `baseline: L1|L2|L3` in security docs, scanner configs, requirements trackers.
+
+**References:** OWASP ASVS 4.0.3, OWASP SAMM, NIST SP 800-53 tailoring
+
+# Attack-Path Analysis (reachable chains from exposure to crown jewels)
+
+**SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, and cut the shortest chains first.
+
+**Why:** Individual findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
+
+**Detect:** grep for attack-path tooling: `cartography`, `bloodhound`, `peanut`, Wiz/Knossos attack paths, `reachability` graph exports, `attack_path` reports in vuln management.
+
+**References:** MITRE ATT&CK, NIST SP 800-30 (risk assessment), BloodHound docs, CSEM attack-path analysis
 

@@ -1,4 +1,4 @@
-# supply-chain — full checklist (21 items)
+# supply-chain — full checklist (27 items)
 
 Dependencies, artifacts, build provenance.
 
@@ -213,4 +213,64 @@ Dependencies, artifacts, build provenance.
 **Detect:** Dependabot/Renovate security alerts enabled in repo settings; `npm audit --audit-level=moderate`; subscribed to GitHub security advisories for owned packages.
 
 **References:** OWASP A06:2021, npm malware policy, GitHub Advisory Database, CWE-506
+
+# Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
+
+**MUST** vet each critical supplier and dependency for security posture and re-review it on a fixed cadence, not just at onboarding.
+
+**Why:** A compromised or negligent vendor becomes your breach; SolarWinds showed one upstream can poison thousands of downstream users.
+
+**Detect:** grep `vendor_risk`, `supplier_assessment`, `C-SCRM`, third-party inventory files, `SBOM` ingestion configs.
+
+**References:** NIST SP 800-161, NIST SSDF (SP 800-218), ISO/IEC 27036
+
+# SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)
+
+**MUST** generate a machine-readable SBOM (CycloneDX or SPDX) for every build artifact and retain it long enough to answer "were we affected?" during an incident.
+
+**Why:** Without per-build inventories, Log4Shell-style emergencies become weeks of guesswork instead of minutes of lookup.
+
+**Detect:** grep `bom-*.json`, `cyclonedx`, `spdx`, `syft`, `cdxgen`, `SBOM` in CI pipelines and artifact repos.
+
+**References:** NTIA minimum elements, NIST SP 800-161, OWASP CycloneDX, CWE-1357
+
+# Build Provenance Attestation (SLSA-style signed provenance for artifacts)
+
+**MUST** attach cryptographically signed provenance (build source, builder, inputs) to every published artifact so consumers can verify origin.
+
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream.
+
+**Detect:** grep `slsa`, `provenance`, `attest`, `sigstore`, `cosign attest`, `build_provenance` in CI configs and release steps.
+
+**References:** SLSA v1.0, in-toto, NIST SP 800-218 SSDF PW.4, CWE-494
+
+# Hermetic Builds (no undeclared network/env deps during build)
+
+**SHOULD NOT** let builds reach the open network or read undeclared environment variables; all inputs must be declared and cached.
+
+**Why:** Non-hermetic builds silently pull mutated or malicious dependencies mid-build, making artifacts unreproducible and quietly tamperable.
+
+**Detect:** grep CI for `network:` modes, `--network=none`, `bazel --noenable_bzlmod`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
+
+**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+
+# Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
+
+**MUST** reference third-party CI actions and build dependencies by immutable commit SHA rather than mutable tags like `@v1`.
+
+**Why:** Floating tags can be retagged overnight to attacker code that runs with your CI's tokens and secrets — the Codecov and tj-actions incidents proved it.
+
+**Detect:** grep workflow YAML for `uses: owner/repo@v` (tag refs) vs `uses: owner/repo@<40-hex-sha>`; `renovate.json` pin configs, `dependabot` pin settings.
+
+**References:** OWASP CI/CD Security Top 10 CICD-SEC-4, GitHub Actions security hardening, SLSA dependency provenance, CWE-829
+
+# Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
+
+**MUST** verify signatures (cosign/sigstore) on container images and release artifacts at deploy time, rejecting anything unsigned or mismatched.
+
+**Why:** An unsigned image pulled into production may be a tampered one; verification at the deploy boundary is the last honest checkpoint.
+
+**Detect:** grep for `cosign verify`, `sigstore`, `signature_verification: true`, Kyverno `verifyImages`, admission signature policies, `--verification-policy` in deploy pipelines.
+
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CIS Docker Benchmark 4.x, CWE-347
 

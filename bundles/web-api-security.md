@@ -1,4 +1,4 @@
-# web-api-security — full checklist (43 items)
+# web-api-security — full checklist (45 items)
 
 Server-side API and web application attack surface.
 
@@ -539,4 +539,24 @@ iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
+
+# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
+
+**SHOULD** continuously fuzz parsers, decoders, and other untrusted-input handlers with AFL/libFuzzer or OSS-Fuzz-style harnesses.
+
+**Why:** Hand-written tests miss edge cases; fuzzing finds the memory corruption and crash bugs attackers actively weaponize in parsers.
+
+**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `FUZZ_TARGET`, `cargo-fuzz`, `atheris`, corpus/seed directories in repos and CI.
+
+**References:** OWASP Fuzzing chapter, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+
+# Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
+
+**MUST NOT** send users to attacker-controlled destinations via unvalidated `redirect`, `next`, or `returnUrl` parameters; validate against an allow-list.
+
+**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or authorization codes to external hosts.
+
+**Detect:** grep for `?redirect=`, `next=`, `returnUrl`, `rd=`, `url=` passed to `redirect()`/`Location:` without allow-list checks; Semgrep `open-redirect` rules.
+
+**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Unvalidated Redirects and Forwards Cheat Sheet, OAuth 2.0 redirect_uri validation (RFC 6819)
 

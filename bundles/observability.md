@@ -1,4 +1,4 @@
-# observability — full checklist (34 items)
+# observability — full checklist (37 items)
 
 Logs, metrics, traces, profiling, alerting.
 
@@ -366,4 +366,34 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep auth pipeline for absent `impossible_travel`, `geoip`, `ua_fingerprint` checks; no step-up MFA on new-device login; no alerting on geo-velocity anomalies.
 
 **References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
+
+# Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
+
+**SHOULD** alert on post-compromise horizontal motion: unusual SSH/WinRM hops, mass SMB enumeration, anomalous role assumption across accounts.
+
+**Why:** Once inside, attackers pivot toward crown jewels; without motion alerts, breach dwell time stretches to months while one foothold becomes total compromise.
+
+**Detect:** grep detection rules for `lateral_movement`, `T1021`, `remote_services`, `admin_shares`, `PassTheHash`, unusual-login detections in SIEM/YARA-L/Sigma rules.
+
+**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma lateral-movement rules, AWS GuardDuty UnauthorizedAccess
+
+# Credential Access Detection (keylogging, token theft, credential dumping patterns)
+
+**SHOULD** detect credential-harvesting behavior: LSASS/mimikatz dumps, keylogging hooks, OAuth token replay, cloud credential scraping from instance metadata.
+
+**Why:** Stolen credentials are the leading initial-access vector; catching the theft step stops breaches that identity-based controls alone miss.
+
+**Detect:** grep detection content for `T1003`, `lsass`, `mimikatz`, `secretsdump`, `169.254.169.254` access alerts, `GetTokenAlot`/token-replay rules in SIEM configs.
+
+**References:** MITRE ATT&CK TA0006/T1003, NIST SP 800-63B, CWE-522, AWS GuardDuty credential-access detections
+
+# Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
+
+**MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious process spawns.
+
+**Why:** Scanners only see what you built; attackers operate in what's running, and without runtime visibility they work unnoticed inside "secure" images.
+
+**Detect:** grep for `falco`, `sysdig`, `tracee`, `tetragon`, `ebpf` in deployment YAML/DaemonSets, runtime-security rules files, `falco_rules.yaml` customizations.
+
+**References:** MITRE ATT&CK container matrix (T1610), CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
 

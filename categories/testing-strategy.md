@@ -16,3 +16,4 @@ Issues:
 - `tdd-discipline`
 - `code-review-practice`
 - `linting-static-analysis`
+- `code-fuzzing`

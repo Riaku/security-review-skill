@@ -46,3 +46,5 @@ Issues:
 - `imds-metadata-abuse`
 - `sensitive-endpoint-exposure`
 - `webhook-replay-protection`
+- `code-fuzzing`
+- `unvalidated-redirects-forwards`
