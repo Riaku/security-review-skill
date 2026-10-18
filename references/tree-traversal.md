@@ -13,7 +13,7 @@ Phases 1–3.
   applies / not-applies (with the signal that decided it).
 - **Category nodes** (29) — settled by the domain's stack quick-map.
   A category is *unblocked* when at least one applying domain lists it.
-- **Leaf nodes** (548 issues) — each `issues/<slug>.md` is a leaf hanging
+- **Leaf nodes** (557 issues) — each `issues/<slug>.md` is a leaf hanging
   off its category. A leaf is *evaluable* when its category is unblocked.
 
 ## Work in rounds, not one giant pass
