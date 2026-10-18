@@ -22,3 +22,4 @@ Issues:
 - `ai-generated-code-review`
 - `embedding-inversion-vector-stores`
 - `shadow-ai-governance`
+- `ai-code-ownership-policy`

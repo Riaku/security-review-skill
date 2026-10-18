@@ -18,6 +18,7 @@ Categories:
 - `security-practices`
 - `multi-tenancy`
 - `third-party-integrations`
+- `documentation-quality`
 
 ## Stack quick-map
 

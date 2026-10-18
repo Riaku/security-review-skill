@@ -1,4 +1,4 @@
-# security-practices — full checklist (27 items)
+# security-practices — full checklist (30 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -273,4 +273,34 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
 
 **References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
+
+# Proportionate QA Tiering
+
+**SHOULD** match review/QA rigor to the risk tier of what's being changed: critical-path and high-impact components get deep review, dual verification, and testing; throwaway work gets proportionate scrutiny.
+
+**Why:** Uniform maximum rigor exhausts reviewers into rubber-stamping; uniform minimum rigor misses disasters. Both failure modes come from never assigning a risk tier in the first place.
+
+**Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
+
+**References:** Aqua books proportionate assurance, risk-based testing practice, security-tier classification guidance
+
+# Decision-Record Provenance
+
+**SHOULD** keep decision artifacts (assumption logs, decision records/ADRs) alongside the outputs and code they govern: who decided what, when, on what evidence.
+
+**Why:** Months later, nobody can distinguish a deliberate assumption from an oversight — and future reviewers re-litigate settled choices or trust stale ones without provenance.
+
+**Detect:** judgment on presence of decision/assumption records near consequential logic and outputs (ADRs in docs/adr, assumption logs in analysis projects), with dates and authors.
+
+**References:** ADR practice, decision-record keeping in analysis-code guidance, nfr-traceability companion
+
+# Architecture Doc & ADR Coverage
+
+**SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
+
+**Why:** Without a current overview, every reviewer and new engineer rebuilds the mental model from code — and without ADRs, settled decisions get re-litigated endlessly or silently violated by people who never knew they were settled.
+
+**Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
+
+**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
 

@@ -95,6 +95,7 @@ nothing is silently lost.
 | seo-web-quality | frontend |
 | multi-tenancy | backend |
 | third-party-integrations | backend |
+| documentation-quality | backend |
 | database | data |
 | distributed-systems | data |
 | messaging-async | data |

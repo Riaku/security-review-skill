@@ -37,3 +37,4 @@ Issues:
 - `backfill-idempotency`
 - `ledger-invariant-checks`
 - `dst-transition-behavior-test`
+- `config-example-template-drift`

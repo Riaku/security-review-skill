@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (31 items)
+# secrets-crypto — full checklist (32 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -337,4 +337,14 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** grep DAGs/profiles for inline passwords, check Airflow Connections backend (secrets env/backend vs metadata DB plaintext), review dbt `profiles.yml` handling, inspect Spark `--conf` for hardcoded AWS keys.
 
 **References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
+
+# Git-History Secret Remediation
+
+**MUST** remediate a committed secret by rewriting history (filter-repo/BFG), rotating the credential, and notifying collaborators to re-clone — deleting the file in a new commit is NOT remediation.
+
+**Why:** The secret remains fully recoverable from history after deletion; the rotation must cover the entire exposure window since the key was public from first push, not last commit.
+
+**Detect:** on any discovered secret: verify history was rewritten (not just deleted-at-HEAD), credential rotated with expiry-before-exposure-window logic, forks/clones notified; judgment on incident record completeness.
+
+**References:** GitHub secret removal guidance, git-filter-repo/BFG docs, credential-exposure incident practice
 

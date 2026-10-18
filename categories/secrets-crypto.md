@@ -34,3 +34,4 @@ Issues:
 - `device-provisioning-identity`
 - `integration-credential-sprawl`
 - `pipeline-orchestrator-credentials`
+- `git-history-secret-remediation`

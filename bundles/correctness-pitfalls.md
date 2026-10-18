@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (34 items)
+# correctness-pitfalls — full checklist (35 items)
 
 Language-agnostic code-level failure modes.
 
@@ -343,4 +343,14 @@ Language-agnostic code-level failure modes.
 **Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
 
 **References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
+
+# Config-Example Template Drift
+
+**SHOULD** keep a committed example config (`config.example.*`) listing every key the code reads, with the real config untracked — and verify in review that the example hasn't drifted from actual required keys.
+
+**Why:** A stale example config is a trap: new deployers hit mysterious failures or silently miss security-relevant settings (TLS flags, auth toggles) that were added to code but never to the template.
+
+**Detect:** diff example-config keys vs keys the code actually reads (grep config-access calls); flag example files missing entirely or missing recently-added settings; CI template-vs-code key comparison where tooling exists.
+
+**References:** twelve-factor config separation, analysis-code config-template practice
 

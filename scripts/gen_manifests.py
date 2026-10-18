@@ -164,6 +164,7 @@ def cat_scope(cat: str) -> str:
         "iot-embedded": "Firmware, OTA, and device-identity security.",
         "third-party-integrations": "SaaS integration surface: scopes, tags, webhooks, credentials.",
         "data-pipelines": "ETL/orchestration security: pipeline creds, lineage, backfill safety.",
+        "documentation-quality": "Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.",
     }[cat]
 
 
@@ -174,7 +175,7 @@ def main() -> int:
         "backend": ["web-api-security", "authentication", "authorization-access-control",
                     "secrets-crypto", "api-design", "correctness-pitfalls",
                     "testing-strategy", "security-practices", "multi-tenancy",
-                    "third-party-integrations"],
+                    "third-party-integrations", "documentation-quality"],
         "frontend": ["web-client-security", "seo-web-quality"],
         "data": ["database", "distributed-systems", "messaging-async", "data-pipelines"],
         "infrastructure": ["supply-chain", "cloud-network", "deployment-release",

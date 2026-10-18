@@ -30,3 +30,6 @@ Issues:
 - `privileged-action-attribution`
 - `break-glass-access-procedure`
 - `admin-activity-review`
+- `proportionate-qa-tiering`
+- `decision-record-provenance`
+- `architecture-doc-adr-coverage`

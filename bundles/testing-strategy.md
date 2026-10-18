@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (16 items)
+# testing-strategy — full checklist (18 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -163,4 +163,24 @@ Test pyramid, practices, and quality gates.
 **Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
 
 **References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
+
+# Test Determinism & Isolation
+
+**MUST** make tests deterministic: fixed seeds for randomized tests, no shared mutable state between tests, order-independent execution.
+
+**Why:** Nondeterministic tests silently under-verify — a security assertion that passes only in certain orders or seeds gives false confidence, and intermittent failures train teams to re-run rather than investigate.
+
+**Detect:** check for seeded randomness in test fixtures (seed recorded/pinned), test-order randomization enabled with passing results, shared globals/singletons mutated across test files.
+
+**References:** test-isolation practice, flaky-test prevention guidance, property-based testing seed discipline
+
+# Self-Generated Expected Output
+
+**MUST NOT** derive a test's expected output from the code under test (golden files generated from current implementation, assertions copied from actual run).
+
+**Why:** A test whose expectation came from the implementation can never catch the implementation being wrong — it enshrines today's bug as tomorrow's contract, especially dangerous for security golden-hashes.
+
+**Detect:** review golden/expected files for how they were produced (independent source vs generated-from-implementation); flag "update goldens" workflows without review of what changed and why.
+
+**References:** testing anti-pattern literature (tautological tests), characterization-testing caveats
 

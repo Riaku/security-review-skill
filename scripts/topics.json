@@ -4992,5 +4992,159 @@
       "correctness-pitfalls",
       "sre-incidents"
     ]
+  },
+  {
+    "num": 595,
+    "title": "Interactive-Session Artifact Leakage",
+    "slug": "notebook-output-data-leakage",
+    "categories": [
+      "compliance-privacy",
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 596,
+    "title": "Git-History Secret Remediation",
+    "slug": "git-history-secret-remediation",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 597,
+    "title": "Data Version Pinning",
+    "slug": "data-version-pinning",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 598,
+    "title": "Raw-Data Immutability",
+    "slug": "raw-data-immutability",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 599,
+    "title": "Config-Example Template Drift",
+    "slug": "config-example-template-drift",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 600,
+    "title": "Test Determinism & Isolation",
+    "slug": "test-determinism-and-isolation",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 601,
+    "title": "Self-Generated Expected Output",
+    "slug": "self-generated-expected-output",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 602,
+    "title": "Proportionate QA Tiering",
+    "slug": "proportionate-qa-tiering",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 603,
+    "title": "Dual-Run Output Equivalence",
+    "slug": "dual-run-output-equivalence",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 604,
+    "title": "Decision-Record Provenance",
+    "slug": "decision-record-provenance",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 605,
+    "title": "AI-Code Ownership Policy",
+    "slug": "ai-code-ownership-policy",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 606,
+    "title": "BCP 14 Keyword Usage (RFC 2119 + RFC 8174)",
+    "slug": "bcp14-keyword-usage",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 607,
+    "title": "Developer-Doc Style Consistency",
+    "slug": "dev-doc-style-consistency",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 608,
+    "title": "Comments Explain Why, Not What",
+    "slug": "comments-explain-why",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 609,
+    "title": "Docs-Code Synchronization",
+    "slug": "docs-code-synchronization",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 610,
+    "title": "Single-Source Documentation",
+    "slug": "single-source-documentation",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 611,
+    "title": "Inclusive & Accessible Documentation",
+    "slug": "inclusive-documentation",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 612,
+    "title": "Runnable README",
+    "slug": "runnable-readme",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 613,
+    "title": "Architecture Doc & ADR Coverage",
+    "slug": "architecture-doc-adr-coverage",
+    "categories": [
+      "documentation-quality",
+      "security-practices"
+    ]
   }
 ]

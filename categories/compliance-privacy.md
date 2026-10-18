@@ -46,3 +46,4 @@ Issues:
 - `pii-propagation-warehouse-lineage`
 - `erasure-propagation-secondary-stores`
 - `data-portability-export`
+- `notebook-output-data-leakage`

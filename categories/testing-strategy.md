@@ -19,3 +19,5 @@ Issues:
 - `code-fuzzing`
 - `openapi-implementation-drift-check`
 - `automated-a11y-gate-in-ci`
+- `test-determinism-and-isolation`
+- `self-generated-expected-output`

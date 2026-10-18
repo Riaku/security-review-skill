@@ -1,4 +1,4 @@
-# ai-llm — full checklist (19 items)
+# ai-llm — full checklist (20 items)
 
 LLM feature security and quality.
 
@@ -193,4 +193,14 @@ LLM feature security and quality.
 **Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
 
 **References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+
+# AI-Code Ownership Policy
+
+**MUST** hold a named human accountable for every merged AI-generated change — no unreviewed AI output — and maintain team skill on owned code rather than letting understanding decay.
+
+**Why:** Merge gates alone don't prevent deskilling: teams that stop understanding their own code lose the ability to review, debug, and secure it — the accountability must be a policy, not just a pipeline step.
+
+**Detect:** judgment on documented policy artifacts: AI-use guidelines naming accountable owners, review requirements that don't weaken for AI-authored PRs, evidence reviewers can explain the code they approve.
+
+**References:** AI-generated-code review companion, deskilling research (METR/Anthropic findings), engineering-ownership practice
 
