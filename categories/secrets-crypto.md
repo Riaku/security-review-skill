@@ -34,3 +34,4 @@ Issues:
 - `pipeline-orchestrator-credentials`
 - `git-history-secret-remediation`
 - `agent-context-exclusion-file`
+- `secrets-in-launch-payloads`

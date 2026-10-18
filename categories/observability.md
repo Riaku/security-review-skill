@@ -44,3 +44,5 @@ Issues:
 - `cert-issuance-monitoring`
 - `agent-session-traceability`
 - `logs-as-event-streams`
+- `management-plane-activity-alerting`
+- `object-level-data-access-logging`

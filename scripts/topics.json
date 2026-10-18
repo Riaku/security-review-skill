@@ -5134,5 +5134,40 @@
       "deployment-release",
       "security-practices"
     ]
+  },
+  {
+    "num": 613,
+    "title": "Management-Plane Activity Alerting",
+    "slug": "management-plane-activity-alerting",
+    "categories": [
+      "observability",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 614,
+    "title": "Object-Level Data Access Logging",
+    "slug": "object-level-data-access-logging",
+    "categories": [
+      "observability",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 615,
+    "title": "Dedicated Service Accounts per Workload",
+    "slug": "dedicated-service-accounts",
+    "categories": [
+      "containers-k8s",
+      "authentication"
+    ]
+  },
+  {
+    "num": 616,
+    "title": "Secrets in Instance Launch Payloads",
+    "slug": "secrets-in-launch-payloads",
+    "categories": [
+      "secrets-crypto"
+    ]
   }
 ]
