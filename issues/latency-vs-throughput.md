@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `p99`, `histogram_quantile`, `latency_slo`, `throughput_slo` in dashboards and alert rules; absence of percentile thresholds in prometheus rules or load-test reports.
 
 **References:** Google SRE Book SLO chapter, CWE-400, NIST SP 800-184
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

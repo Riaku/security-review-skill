@@ -2,7 +2,7 @@
 
 Protocol and API contract design concerns.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [api-design](../categories/api-design.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/api-design.md](../categories/api-design.md) · Index: [SKILL.md](../SKILL.md)
 
 # API Versioning
 
@@ -14,10 +14,6 @@ Protocol and API contract design concerns.
 
 **References:** OWASP API 2023, Microsoft REST API Guidelines §10, Google AIP-180
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Backward Compatibility
 
 **MUST NOT** remove or rename fields, endpoints, or enum values in a live API without a deprecation window and consumer migration path.
@@ -27,10 +23,6 @@ Protocol and API contract design concerns.
 **Detect:** git diffs deleting response fields/routes without `@deprecated` markers; breaking-change linter (optic, oasdiff) absent from CI.
 
 **References:** OWASP API 2023, Google AIP-180, oasdiff breaking-change rules
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Batching (many writes/calls, one trip)
 
@@ -53,10 +45,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** Arjay McCandless System Design Cheat Sheet (batching), psycopg execute_values docs, Kafka batch.size/linger.ms docs
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [database](../categories/database.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Breaking-Change Linting in CI
 
 **SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
@@ -66,10 +54,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
 
 **References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Compression
 
@@ -81,10 +65,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** CWE-310, CRIME (CVE-2012-4929), BREACH (CVE-2013-3587)
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # CRDs Without OpenAPI Validation Schemas
 
 **MUST** define an OpenAPI v3 validation schema for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.
@@ -94,10 +74,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `kubectl get crd -o yaml` showing empty `validation.openAPIV3Schema`; CRDs missing `x-kubernetes-*` structural markers.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Excessive Data Exposure in API Serialization
 
@@ -109,10 +85,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # gRPC
 
 **SHOULD** terminate gRPC behind a proxy that enforces TLS, message-size limits, and method-level authz rather than trusting plaintext backends.
@@ -122,10 +94,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `grpc.InsecureServerCreds`, absent `max_receive_message_size`, Envoy routes without `ext_authz`/`jwt_authn` filters.
 
 **References:** CWE-319, OWASP API 2023, gRPC security best practices
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # HTTP Method Semantics
 
@@ -137,10 +105,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** OWASP API3:2023, CWE-650, RFC 9110 §9.2
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # HTTP Status Codes
 
 **MUST** return accurate status codes: 401 for unauthenticated, 403 for unauthorized, 404 for missing resources, never 200 with an error body.
@@ -150,10 +114,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** grep handlers for `return 200` alongside error payloads; missing `401`/`403`/`404` in route error paths.
 
 **References:** OWASP API2:2023, CWE-390, RFC 9110 §15
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # HTTP/2
 
@@ -165,10 +125,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** RFC 9113 §6.9, CWE-400, nginx http2 directives
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # HTTP/3 / QUIC
 
 **SHOULD** validate that UDP 443 QUIC traffic passes the same authn/authz and rate limits as TCP TLS, since connection semantics differ.
@@ -178,10 +134,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `alt-svc: h3` advertised with no UDP firewall rules or QUIC-aware WAF; rate limiters bound to TCP sockets only.
 
 **References:** RFC 9000, CWE-492, Cloudflare HTTP/3 deployment guidance
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Keep-Alive
 
@@ -193,10 +145,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** CWE-400, OWASP ASVS V5.1, nginx keepalive directive docs
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Long Polling
 
 **MAY** use long polling where SSE or WebSockets are unavailable, but each held request MUST have a server-side timeout and per-client connection cap.
@@ -206,10 +154,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** polling handlers with no `setTimeout`/deadline, absent per-IP connection limits on `/poll` endpoints.
 
 **References:** CWE-400, OWASP ASVS V5.2, MDN long polling guidance
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # OpenAPI–Implementation Drift Check
 
@@ -221,10 +165,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # OpenAPI Specs
 
 **MUST** validate incoming requests against the OpenAPI schema at the edge; the spec is enforcement, not just documentation.
@@ -234,10 +174,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** spec files present but no `openapi-validator`/`schemathesis` middleware; handlers ignoring `request.body` schema checks.
 
 **References:** OWASP API3:2023, CWE-915, Schemathesis docs
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Protocol Buffers
 
@@ -249,10 +185,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** CWE-707, protobuf docs field reserved, Buf breaking-change rules
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Real-time Streaming
 
 **MUST** authorize each stream subscription per-user; never broadcast a channel that any authenticated client can name and join.
@@ -262,10 +194,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `channel.subscribe(channelName)` without per-user ACL check; predictable IDs like `order-{id}` with no ownership verification.
 
 **References:** OWASP API1:2023, CWE-285, Ably/Pusher channel authorization docs
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Request Size Limits
 
@@ -277,10 +205,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** CWE-400, OWASP ASVS V5.2, nginx client_max_body_size directive
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Server-Sent Events
 
 **SHOULD** set `Cache-Control: no-store` and enforce authentication on SSE endpoints, since EventSource cannot send custom headers.
@@ -290,10 +214,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** SSE routes without `Cache-Control`, `text/event-stream` handlers taking `?token=` query params.
 
 **References:** CWE-525, OWASP ASVS V9.1, MDN EventSource security notes
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Timeout Budgets / Deadline Propagation
 
@@ -305,10 +225,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [resilience](../categories/resilience.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Token Revocation & Logout Invalidation
 
 **MAY** rely on short expiry alone for stateless tokens, but MUST provide a revocation list or denylist for high-value sessions where immediate logout is required.
@@ -319,10 +235,6 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** RFC 7009, RFC 8725 §4.1, OWASP A02:2021, NIST SP 800-53 SC-23
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # WebSockets
 
 **MUST** authenticate the upgrade handshake and validate the Origin header on every WebSocket connection.
@@ -332,8 +244,4 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `Upgrade: websocket` handlers missing `checkOrigin`/`Origin` validation; auth deferred to post-open messages.
 
 **References:** OWASP API 2023, CWE-346, RFC 6455 §10.2
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

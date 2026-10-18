@@ -12,7 +12,3 @@ domains: [backend, governance]
 **Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
 
 **References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

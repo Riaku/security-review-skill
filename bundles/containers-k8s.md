@@ -2,7 +2,7 @@
 
 Container and Kubernetes runtime configuration.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [containers-k8s](../categories/containers-k8s.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/containers-k8s.md](../categories/containers-k8s.md) · Index: [SKILL.md](../SKILL.md)
 
 # No Admission Policy Engine (Pod Security Standards / Gatekeeper / Kyverno)
 
@@ -14,10 +14,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04, NIST SP 800-190 5.4
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
 
 **SHOULD** set `failurePolicy: Fail` only where the webhook is highly available, with valid TLS certs and namespace exclusions for its own namespace.
@@ -28,10 +24,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Auto-Mounted Service Account Tokens in Pods That Don't Need the API
 
 **SHOULD** set `automountServiceAccountToken: false` on pods and serviceaccounts that never call the Kubernetes API.
@@ -41,10 +33,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
 **References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # CIS Benchmarks (OS/container/k8s/cloud)
 
@@ -68,10 +56,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS Benchmarks (cisecurity.org), CIS Kubernetes Benchmark, CIS Docker Benchmark, DISA STIGs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # CIS Docker Benchmark
 
 **MUST** align container host and daemon configuration with the current CIS Docker Benchmark sections 2 (daemon) and 5 (runtime), including `daemon.json` settings, before production deployment.
@@ -81,10 +65,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** grep daemon.json for `userns-remap`, `log-driver`, `live-restore`; check `/var/run/docker.sock` permissions and `--privileged` in compose files.
 
 **References:** CIS Docker Benchmark v1.6.0, CIS Controls v8, NIST SP 800-190
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # ConfigMap Hot-Reload Assumption for Environment Variables
 
@@ -96,10 +76,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** K8s docs configmap env immutability, CWE-676, Bitnami/Flux config-reload patterns
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Crash-Loop Restart Storms Bounded and Alarmed
 
 **SHOULD** bound restart backoff and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.
@@ -109,10 +85,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** No alert on `kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}`; `restartPolicy` with no backoff ceiling or paging rule.
 
 **References:** K8s docs backoff, kube-state-metrics CrashLoopBackOff, CWE-770, SRE alerting practices
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # CRDs Without OpenAPI Validation Schemas
 
@@ -124,10 +96,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
 
----
-
-**Part of:** [api-design](../categories/api-design.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Dangerous Host Mounts: docker.sock, hostPath, Privileged Pods
 
 **MUST NOT** mount host paths such as `/`, `/etc`, or the container runtime socket into untrusted workloads, and MUST NOT mark pods privileged without documented justification.
@@ -137,10 +105,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** `hostPath` volumes pointing at `/etc`, `/proc`, `/var/run/docker.sock`; volume mounts of `containerd.sock` or `crio.sock`; env `DOCKER_HOST` pointing at a mounted socket path; `privileged: true` in pod manifests. Remedy: scoped socket proxy or a dedicated agent instead of raw socket exposure.
 
 **References:** CIS K8s 5.2.4, 5.2.5, CWE-668, OWASP K8s PS4, MITRE ATT&CK T1611, CIS Docker 2.4, NIST SP 800-190 4.4
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Dedicated Service Accounts per Workload
 
@@ -152,10 +116,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS Kubernetes 5.1.4 (minimize default SA admission), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Docker-in-Docker / Privileged Build Steps in CI
 
 **SHOULD** replace privileged Docker-in-Docker with rootless or daemonless builders (BuildKit, Kaniko, Buildah) since `privileged: true` grants the container host-level control.
@@ -165,10 +125,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
 **References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
@@ -180,10 +136,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Control-Plane Quorum (etcd) Health Monitored Separately from Workloads
 
 **MUST** monitor etcd quorum and leader health independently of application dashboards, alerting before quorum loss.
@@ -194,10 +146,6 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS K8s 2.0, etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # etcd Exposure and Missing etcd Encryption
 
 **MUST** restrict etcd (2379/2380) to control-plane peers and enable encryption at rest for all stored Secrets.
@@ -207,10 +155,6 @@ Container and Kubernetes runtime configuration.
 **Detect:** etcd client port reachable off-node; kube-apiserver missing `--encryption-provider-config`; no EncryptionConfiguration resource.
 
 **References:** CIS K8s 2.0, 3.2.1, CWE-311, NIST SP 800-190 5.2, K8s encryption-at-rest docs
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # File descriptor and conntrack table limits sized for peak
 
@@ -236,10 +180,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** Netflix tuning guides, Netfilter conntrack docs, Google SRE Book (capacity monitoring), USE method
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # GitOps Controller Running as cluster-admin
 
 **SHOULD** scope GitOps controllers (Flux, ArgoCD) to least-privilege per-namespace roles instead of the blanket `cluster-admin` ClusterRoleBinding.
@@ -249,10 +189,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** grep deploy manifests for `cluster-admin` bound to `system:serviceaccount:flux-system` / `argocd`; check ClusterRoleBinding subjects and reconciliation scopes.
 
 **References:** OWASP A05 Security Misconfiguration, CWE-250 Execution with Unnecessary Privileges, ArgoCD security docs, NIST SP 800-190
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Release hook ordering and failed-hook release blocking
 
@@ -264,10 +200,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** Helm hooks docs, CWE-664 improper control of resource lifecycle, NIST SP 800-190 change control
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Host Namespace Sharing (hostPath/hostPID/hostNetwork/hostIPC)
 
 **MUST NOT** set `hostPID`, `hostNetwork`, or `hostIPC` on ordinary workloads; each flag breaks the isolation boundary between pod and node.
@@ -277,10 +209,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** Pod spec keys `hostPID: true`, `hostNetwork: true`, `hostIPC: true`; DaemonSets using them without documented reason.
 
 **References:** CIS K8s 5.2.2-5.2.4, CWE-497, MITRE ATT&CK T1611, K8s docs namespaces
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
@@ -292,10 +220,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Kubernetes API Audit Logging Not Enabled
 
 **MUST** enable the kube-apiserver audit policy with persistent, tamper-resistant shipping of audit events.
@@ -305,10 +229,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** check kube-apiserver flags `--audit-policy-file`, `--audit-log-path`; grep manifests for `audit.k8s.io/v1` Policy; verify long retention on the sink.
 
 **References:** CIS Kubernetes 1.2.1–1.2.4, CWE-778, NIST SP 800-92, K8s docs audit-policy
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
@@ -320,10 +240,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
 **MUST NOT** grant `impersonate`, `bind`, or `escalate` verbs to non-admin subjects; each is a direct path to cluster-admin.
@@ -333,10 +249,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
 
 **References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Kubernetes RBAC & NetworkPolicies
 
@@ -348,10 +260,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP Kubernetes Top 10 K03/K07
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Kubelet Port Protection (10250 AuthN/AuthZ, Anonymous Access)
 
 **MUST NOT** allow anonymous authentication on kubelet port 10250; enable Webhook authorization and firewall the port to control-plane only.
@@ -362,10 +270,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** CIS K8s 4.2.1-4.2.3, CWE-306, MITRE ATT&CK T1610, K8s kubelet auth docs
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Liveness vs Readiness Probes
 
 **SHOULD NOT** wire dependency checks (DB, cache) into the liveness probe; reserve them for readiness only.
@@ -375,10 +279,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** `livenessProbe` with `exec: pg_isready`/DB query, identical liveness and readiness endpoints, `initialDelaySeconds: 0`.
 
 **References:** Kubernetes probe docs, CWE-770, Google SRE Workbook
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Metadata Endpoint Credential Theft (IMDS / 169.254.169.254)
 
@@ -404,10 +304,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet, CIS AWS 5.6/5.7
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Missing ownerReferences Causing Orphaned Managed Resources
 
 **SHOULD** set `ownerReferences` on every resource a controller creates so cascading deletion reclaims them automatically.
@@ -417,10 +313,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 **Detect:** Created resources lacking `metadata.ownerReferences`; garbage collector cannot trace children; orphan count grows over time.
 
 **References:** K8s docs garbage collection, ownerReferences, CWE-404, operator-sdk ownership patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Multi-Stage Builds
 
@@ -432,10 +324,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **References:** CIS Docker Benchmark (image build), NIST SP 800-190 4.2
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Mutable Image Tags (latest) Instead of Digest Pinning
 
 **SHOULD** reference images by immutable digest (`@sha256:`) rather than floating tags like `latest` in production manifests.
@@ -445,10 +333,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 **Detect:** Image fields ending in `:latest` or bare repo names; absence of `@sha256:` digest in Deployment/Pod specs.
 
 **References:** CIS Docker 4.5, NIST SP 800-190 4.4, OWASP A08 Software Supply Chain, CWE-829
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
 
@@ -460,10 +344,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Node Disk/Memory Pressure Eviction Behavior Understood
 
 **SHOULD** document and test how kubelet evicts pods under DiskPressure/MemoryPressure, ordering QoS classes and PDBs correctly.
@@ -473,10 +353,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 **Detect:** No eviction-threshold config in kubelet; no alerts on `nodefs.available`/`memory.available`; QoS classes unset on critical workloads.
 
 **References:** K8s docs eviction, kubelet resource-pressure evictions, CWE-770, SRE Workbook capacity practices
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # NodePort / LoadBalancer Accidentally Exposing Internal Services
 
@@ -501,10 +377,6 @@ spec:
 
 **References:** CWE-284, CIS Kubernetes 5.2.2, OWASP Kubernetes Top 10, AWS LB isolation docs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Noisy-neighbor isolation between tenants/workloads
 
 **MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
@@ -514,10 +386,6 @@ spec:
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
 **References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Non-Root Containers
 
@@ -529,10 +397,6 @@ spec:
 
 **References:** CIS Docker 4.1, CIS K8s 5.2.6, CWE-250, OWASP K8s PSA runAsNonRoot
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Operator Finalizer Leaks Blocking Resource Deletion
 
 **MUST** ensure operators remove their finalizers on owned resources even when reconciliation errors, so deletion never hangs indefinitely.
@@ -542,10 +406,6 @@ spec:
 **Detect:** Resources with `metadata.finalizers` referencing an operator whose controller is down; namespace stuck `Terminating` with lingering finalizers.
 
 **References:** K8s docs finalizers, etcd garbage collection, CWE-404, operator-sdk finalizer patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Pod Disruption Budgets
 
@@ -557,10 +417,6 @@ spec:
 
 **References:** K8s docs poddisruptionbudgets, SRE Workbook availability practices, NIST SP 800-190 5.4
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Pod Security Standards: seccomp, readOnlyRootFilesystem, allowPrivilegeEscalation
 
 **MUST** apply `RuntimeDefault` seccomp, `readOnlyRootFilesystem: true`, and `allowPrivilegeEscalation: false` on all pod security contexts.
@@ -570,10 +426,6 @@ spec:
 **Detect:** Pod YAML missing `securityContext.seccompProfile`, `readOnlyRootFilesystem`, or showing `allowPrivilegeEscalation: true`; grep manifests for `unconfined`, `unmasked`, `CAP_SYS_*`; run container escape test suites (e.g. cdve).
 
 **References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611, CIS Docker 5.3
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Privileged Containers and Excess Linux Capabilities
 
@@ -585,10 +437,6 @@ spec:
 
 **References:** CIS K8s 5.2.7, CAP(7), MITRE ATT&CK T1611, CWE-250
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Registry Outage Tolerated via Cached/Pinned Images
 
 **SHOULD** keep images cached on nodes and pinned by digest so a registry outage does not block scheduling or restarts.
@@ -598,10 +446,6 @@ spec:
 **Detect:** No `imagePullPolicy: IfNotPresent`/`Never` with pre-pulled images; no local registry mirror or pull-through cache configured.
 
 **References:** K8s docs imagePullPolicy, NIST SP 800-190 4.4, Harbor/Docker registry mirror docs, OWASP A08
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Resource Requests & Limits
 
@@ -613,10 +457,6 @@ spec:
 
 **References:** CIS K8s 5.2.1, NIST SP 800-190 5.3, CWE-770, K8s docs resource-management
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
@@ -626,10 +466,6 @@ spec:
 **Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Admission Enforcement of Signed Images (Verify, Not Just Sign)
 
@@ -641,10 +477,6 @@ spec:
 
 **References:** SLSA L4, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.4
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 
 **MUST** set PersistentVolume `persistentReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
@@ -655,10 +487,6 @@ spec:
 
 **References:** CIS K8s 5.2.3, NFS man root_squash, CWE-284, NIST SP 800-190 5.3
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Zombie Process Reaping Handled in Container PID 1
 
 **MUST** ensure the container's PID 1 reaps orphaned child processes, via an init system (tini/dumb-init) or a reaping-aware entrypoint.
@@ -668,8 +496,4 @@ spec:
 **Detect:** Container PID 1 is a shell or app without `--reaping`; `docker top`/`ps` shows defunct `<defunct>` entries; no tini/dumb-init in image.
 
 **References:** CIS Docker 5.x, CWE-459, tini/dumb-init docs, Kubernetes init container patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

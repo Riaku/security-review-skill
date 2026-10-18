@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `AES`, `encrypt(` near `password` fields, `Fernet`, `cryptography.fernet` applied to user credentials, ORM column named `encrypted_password`.
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-257, NIST SP 800-63B §5.1.1.2
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

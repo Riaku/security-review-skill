@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** judgment on documented policy artifacts: AI-use guidelines naming accountable owners, review requirements that don't weaken for AI-authored PRs, evidence reviewers can explain the code they approve.
 
 **References:** AI-generated-code review companion, deskilling research (METR/Anthropic findings), engineering-ownership practice
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

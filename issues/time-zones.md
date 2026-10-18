@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `datetime.now()` / `new Date()` without `tz=utc`, `localtime` in Postgres columns, `TIMESTAMP` instead of `TIMESTAMPTZ`, hardcoded `+08:00` offsets.
 
 **References:** CWE-1091, NIST SP 800-53 AU-3, ISO 8601
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

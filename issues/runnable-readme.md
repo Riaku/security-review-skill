@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** run README commands verbatim in a clean environment (CI doc-testing where possible); flag missing install/run/test sections, version-pinned prerequisites that no longer exist, or "TODO" placeholders.
 
 **References:** Google style guide (readme content), docs-as-code tested-README practice, twelve-factor dev-environment onboarding
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

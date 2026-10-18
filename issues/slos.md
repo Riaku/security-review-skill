@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** `slo:`/`sli:` in config, burn-rate alerts in Prometheus rules, absence of latency/availability metrics, dashboard-less target docs.
 
 **References:** Google SRE Workbook (SLO chapter), Prometheus recording rules, ISO 20000
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

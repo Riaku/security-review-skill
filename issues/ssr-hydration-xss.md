@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** grep `dangerouslySetInnerHTML`, `innerHTML`, `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, unescaped `{{ }}` templates.
 
 **References:** CWE-79, OWASP XSS Prevention Cheat Sheet, OWASP A03:2021
-
----
-
-**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

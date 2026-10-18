@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `console.log(` / `print(` in request handlers; check for logging config with `format: json` or structlog/pino/loguru setup.
 
 **References:** OWASP Logging Cheat Sheet, CWE-1118, NIST SP 800-92
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -23,7 +23,3 @@ $ dig example.com +dnssec     # RRSIG present, AD set, DS in parent
 ```
 
 **References:** RFC 4033/4034, RFC 6781 (key rollover), Cloudflare DNSSEC docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

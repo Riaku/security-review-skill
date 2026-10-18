@@ -23,7 +23,3 @@ SELECT * FROM users WHERE lower(email) = lower($1);  -- index-only lookup
 ```
 
 **References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, OWASP ASVS V3.1, CWE-400
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

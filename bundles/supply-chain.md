@@ -2,7 +2,7 @@
 
 Dependencies, artifacts, build provenance.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [supply-chain](../categories/supply-chain.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/supply-chain.md](../categories/supply-chain.md) · Index: [SKILL.md](../SKILL.md)
 
 # Artifact Signing & Provenance (cosign/Sigstore/SBOM)
 
@@ -14,10 +14,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** SLSA L3, Sigstore docs, NIST SP 800-161, NTIA SBOM minimum elements
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
 **MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
@@ -27,10 +23,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
 **References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Broken Link & Dependency Hijacking
 
@@ -42,10 +34,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** OWASP WSTG-BUSL, CWE-427, npm/CDN takeover incidents
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Build Provenance Attestation (SLSA-style signed provenance for artifacts)
 
 **MUST** attach signed provenance (source, builder, inputs) to every published artifact so consumers can verify its origin.
@@ -55,10 +43,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep `slsa`, `provenance`, `cosign attest`, `sigstore`, `in-toto` in CI configs and release steps.
 
 **References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 (SSDF), CWE-494
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # CI Action Pinning (SHA not tag)
 
@@ -70,10 +54,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
 
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # CI Artifact Integrity Handoff
 
 **MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.
@@ -83,10 +63,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
 
 **References:** OWASP CI/CD Top 10 CICD-SEC-9, CWE-345, NIST SP 800-218 (SSDF), SLSA provenance levels, sigstore/cosign docs
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Dependency Confusion / Package-Name Squatting
 
@@ -98,10 +74,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** CWE-427, OWASP A06:2021, Alex Birsan 2021 disclosure
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Dependency Vulnerabilities
 
 **MUST** scan third-party libraries against a current advisory database (OSV/GHSA) in CI and fail builds on critical or high findings.
@@ -111,10 +83,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** `requirements.txt`, `package-lock.json`, `go.mod`; run `pip-audit`, `npm audit`, `govulncheck`; grep `.github/workflows` for `osv-scanner`.
 
 **References:** OWASP A06:2021, CWE-1104, OSV.dev
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # EU Cyber Resilience Act (product security lifecycle, SBOM and vulnerability handling duties)
 
@@ -126,10 +94,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** EU CRA 2024/2847, ENISA SBOM guidance, ISO/IEC 30111
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [supply-chain](../categories/supply-chain.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Firmware Signing & Secure Boot
 
 **MUST** sign firmware images and enforce signature verification at boot (secure boot chain) so unsigned or tampered images cannot run on devices.
@@ -139,10 +103,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep build pipeline for signing steps (`sbsign`, `imgtool` (MCUboot), `openssl dgst -sign`, HSM calls); check bootloader verify-enforce (not just verify-log) mode; look for dev/test keys shipped in production images.
 
 **References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 I4, Arm TrustZone/UEFI Secure Boot docs
-
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
 
 # Hallucinated Packages
 
@@ -154,10 +114,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** CWE-427, Snyk "slopsquatting" research, OWASP LLM03
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Hermetic Builds (no undeclared network/env deps during build)
 
 **SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
@@ -167,10 +123,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
 **References:** SLSA build isolation, NIST SP 800-218 (SSDF), Reproducible Builds project, CWE-494
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # IaC Plan/Apply Triggered from Untrusted Pull Requests
 
@@ -182,10 +134,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** OWASP IaC Security, CWE-913, NIST SP 800-218 (SSDF), Terraform Cloud PR workflow docs, Checkov tfsec guidance
 
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Image Scanning
 
 **SHOULD** scan every container image for vulnerabilities and malware at build time and again before deployment, blocking on policy violations.
@@ -195,10 +143,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** CI steps invoking `trivy image`, `grype`, or `docker scout`; absence of any scan stage in pipeline YAML; registry scan config disabled.
 
 **References:** OWASP A06:2021, CIS Docker 4.9, NIST SP 800-190
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Lockfiles
 
@@ -210,10 +154,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** OWASP A06:2021, CWE-829, OSV.dev, SLSA framework
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Malware Alerts on Dependencies (registry-side malware detection)
 
 **MAY** subscribe to registry-side malware signals (npm malware advisories, PyPI malware scanning, Dependabot security alerts) and route them to a responder.
@@ -223,10 +163,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** Dependabot/Renovate security alerts enabled in repo settings; `npm audit --audit-level=moderate`; subscribed to GitHub security advisories for owned packages.
 
 **References:** OWASP A06:2021, npm malware policy, GitHub Advisory Database, CWE-506
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Third-party MCP/plugin trust and malicious tool-description injection
 
@@ -238,10 +174,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Model Artifact Integrity (pickle-format models)
 
 **MUST NOT** load pickle-format model artifacts (.pkl, .pt via torch.load default) from untrusted sources; prefer safetensors or verified signed formats.
@@ -251,10 +183,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep torch.load( without weights_only=True, pickle.load on model files, .pkl/.ckpt pulled from Hub without checksum/signature.
 
 **References:** OWASP LLM03:2025, CWE-502, CWE-94
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Mutable Image Tags (latest) Instead of Digest Pinning
 
@@ -266,10 +194,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** CIS Docker 4.5, NIST SP 800-190 4.4, OWASP A08 Software Supply Chain, CWE-829
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Registry Outage Tolerated via Cached/Pinned Images
 
 **SHOULD** keep images cached on nodes and pinned by digest so a registry outage does not block scheduling or restarts.
@@ -279,10 +203,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** No `imagePullPolicy: IfNotPresent`/`Never` with pre-pulled images; no local registry mirror or pull-through cache configured.
 
 **References:** K8s docs imagePullPolicy, NIST SP 800-190 4.4, Harbor/Docker registry mirror docs, OWASP A08
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Reproducible Builds
 
@@ -294,10 +214,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** CWE-937, reproducible-builds.org, SLSA L3
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)
 
 **MUST** generate a CycloneDX or SPDX SBOM per build and retain it long enough to answer "were we affected?" in incidents.
@@ -307,10 +223,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep `bom-*.json`, `cyclonedx`, `spdx`, `syft`, `cdxgen` in CI pipelines and artifact repos.
 
 **References:** NTIA SBOM minimum elements, NIST SP 800-161, OWASP CycloneDX, CWE-1357
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Secret Scanning
 
@@ -322,10 +234,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [supply-chain](../categories/supply-chain.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Admission Enforcement of Signed Images (Verify, Not Just Sign)
 
 **MUST** enforce signature verification at admission so unsigned or wrongly-signed images are rejected before they ever schedule.
@@ -335,10 +243,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
 
 **References:** SLSA L4, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.4
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
 
@@ -350,10 +254,6 @@ Dependencies, artifacts, build provenance.
 
 **References:** NIST SP 800-161, NIST SSDF (SP 800-218), ISO/IEC 27036
 
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Vendor/third-party risk management and subprocessor registers
 
 **SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
@@ -363,8 +263,4 @@ Dependencies, artifacts, build provenance.
 **Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses.
 
 **References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

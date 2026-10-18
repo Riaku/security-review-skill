@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor reports.
 
 **References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

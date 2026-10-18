@@ -25,7 +25,3 @@ with db.transaction():
 ```
 
 **References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), CWE-662
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

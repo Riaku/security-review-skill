@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** flag comments that restate the adjacent line (`// increment counter` above `count++`); look for TODO/dead commented-out code left in; positive signal: comments citing constraints, bug IDs, invariants, spec sections.
 
 **References:** Code Complete (McConnell) on comments, MIT CommKit coding-and-comment style, Clean Code comment guidance
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

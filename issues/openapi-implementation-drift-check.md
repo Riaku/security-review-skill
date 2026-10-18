@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** check CI for contract tests (Dredd, Schemathesis, Prism, schemathesis fuzz mode), response-middleware spec validation, or oasdiff between released spec versions.
 
 **References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

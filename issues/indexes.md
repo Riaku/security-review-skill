@@ -24,7 +24,3 @@ CREATE INDEX idx_orders_customer ON orders (customer_id);
 ```
 
 **References:** OWASP ASVS V3, Use The Index Luke, MySQL indexing best practices, CWE-400
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

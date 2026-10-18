@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `minReplicas: 0`, `scaleDownDelaySecondsAfterFinish`, initContainer warm-up steps, `timeoutSeconds` in client config; compare recorded cold-start timings against those timeouts.
 
 **References:** AWS Well-Architected REL11-BP03, CWE-400, Google SRE scaling practices
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

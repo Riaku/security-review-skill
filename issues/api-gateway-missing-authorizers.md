@@ -30,7 +30,3 @@ MyMethod:
 ```
 
 **References:** OWASP A01:2021, OWASP ASVS 4.1, AWS API Gateway authorization docs, CWE-306
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -23,7 +23,3 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 ```
 
 **References:** Arjay McCandless System Design Cheat Sheet (batching), psycopg execute_values docs, Kafka batch.size/linger.ms docs
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [database](../categories/database.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

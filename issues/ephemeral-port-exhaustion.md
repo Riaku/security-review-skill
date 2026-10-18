@@ -27,7 +27,3 @@ for url in urls:
 ```
 
 **References:** RFC 9293 (TIME-WAIT), Cloudflare "Why your server runs out of ports", nginx/HAProxy connection pooling docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

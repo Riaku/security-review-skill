@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** check Flux `GitRepository` secretRef/gpgGCM, ArgoCD `signedCrds`/commit verification, and RBAC blocking `kubectl apply` outside the controller service account.
 
 **References:** OWASP Kubernetes Top 10 K04 (centralized policy enforcement), NIST SP 800-190, Sigstore/cosign, Git signed commits
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

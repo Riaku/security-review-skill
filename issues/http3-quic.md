@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `alt-svc: h3` advertised with no UDP firewall rules or QUIC-aware WAF; rate limiters bound to TCP sockets only.
 
 **References:** RFC 9000, CWE-492, Cloudflare HTTP/3 deployment guidance
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

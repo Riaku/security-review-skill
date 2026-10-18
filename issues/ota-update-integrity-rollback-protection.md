@@ -12,7 +12,3 @@ domains: [iot-embedded]
 **Detect:** check OTA endpoint auth + TLS pinning on device side; verify version monotonicity enforcement (min-version counters, fuse-burn) in bootloader; inspect update manifest signing.
 
 **References:** OWASP IoT Top 10 IOT UPD, NIST IR 8259A, MCUboot anti-rollback docs
-
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)

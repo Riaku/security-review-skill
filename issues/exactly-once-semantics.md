@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for `exactly_once`, `isolation.level=read_committed`, `transactional.id`, then verify no non-transactional side effects (HTTP calls, DB writes) inside the transaction.
 
 **References:** Kafka EOS docs, CWE-662, NIST SP 800-53 SI-7
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

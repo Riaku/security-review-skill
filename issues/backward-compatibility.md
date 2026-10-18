@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** git diffs deleting response fields/routes without `@deprecated` markers; breaking-change linter (optic, oasdiff) absent from CI.
 
 **References:** OWASP API 2023, Google AIP-180, oasdiff breaking-change rules
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

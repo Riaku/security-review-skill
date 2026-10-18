@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** `error_budget` in SLO config, multi-window multi-burn-rate alert thresholds, no freeze policy on exhaustion.
 
 **References:** Google SRE Workbook (error budgets), Prometheus multi-window multi-burn-rate alerting
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

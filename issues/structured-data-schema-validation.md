@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** grep templates for `application/ld+json`; run Rich Results Test / Schema validator in CI; diff required vs emitted properties per type.
 
 **References:** Google Search Central structured data docs, schema.org validators, Rich Results Test
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

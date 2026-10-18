@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
 
 **References:** Stripe reconciliation guidance, PCI DSS 4.0 Req 10 (logging and monitoring), payments-engineering practice guides
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

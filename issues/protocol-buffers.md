@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** .proto diffs removing fields without adding `reserved N;`; missing `reserved` blocks in evolved messages.
 
 **References:** CWE-707, protobuf docs field reserved, Buf breaking-change rules
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

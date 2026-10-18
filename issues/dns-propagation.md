@@ -24,7 +24,3 @@ dig +short A app.example.com @8.8.8.8   # verify resolvers agree
 ```
 
 **References:** RFC 2181, AWS Route 53 failover/TTL guidance, Google Cloud DNS caching docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

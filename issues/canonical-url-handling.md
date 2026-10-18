@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** grep templates for `<link rel="canonical">`; crawl and flag pages whose canonical points to non-200 or non-canonical variants; check 301 rules for scheme/host/slash.
 
 **References:** Google Search Central canonicalization docs, SEO canonical best practices
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

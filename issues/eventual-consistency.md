@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for authz/balance queries hitting read replicas, `read_from=secondary`, replication-lag unchecked before decision logic, missing `session=` sticky reads.
 
 **References:** OWASP A01 Broken Access Control, CWE-367 TOCTOU, NIST SP 800-162
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

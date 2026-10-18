@@ -27,7 +27,3 @@ with conn.transaction():
 ```
 
 **References:** PostgreSQL Transactions docs, MySQL InnoDB Transaction Model, CWE-662
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

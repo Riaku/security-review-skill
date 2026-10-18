@@ -12,7 +12,3 @@ domains: [backend, government-compliance]
 **Detect:** grep configs/seed files for `admin:admin`, `changeme`, `default_password`, hardcoded credentials in Docker images, demo accounts in fixtures shipped to prod.
 
 **References:** CWE-1188, OWASP A05:2021, CIS Control 5.4, NIST SP 800-118
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

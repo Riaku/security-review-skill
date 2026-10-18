@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** Missing tests for `[]`, `0`, `-1`, `None`/`null`, `""`; `if len(x)` guards without else branch; untested max page size.
 
 **References:** CWE-754, CWE-1284, OWASP ASVS 5.1
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

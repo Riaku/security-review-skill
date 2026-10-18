@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep dashboards/alerts for `histogram_quantile(0.99` or `p99`; flag services whose SLOs use only mean/median latency.
 
 **References:** Google SRE Workbook SLI chapter, CWE-400, NIST SP 800-207 zero-trust monitoring
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

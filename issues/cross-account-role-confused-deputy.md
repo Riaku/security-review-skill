@@ -25,7 +25,3 @@ domains: [backend, infrastructure]
 ```
 
 **References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

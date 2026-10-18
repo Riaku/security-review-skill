@@ -24,7 +24,3 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 ```
 
 **References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, JEP-001 (Heroku), CWE-362
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

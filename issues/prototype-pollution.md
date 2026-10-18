@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
 
 **References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
-
----
-
-**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

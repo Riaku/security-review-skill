@@ -2,7 +2,7 @@
 
 Firmware, OTA, and device-identity security.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [iot-embedded](../categories/iot-embedded.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/iot-embedded.md](../categories/iot-embedded.md) · Index: [SKILL.md](../SKILL.md)
 
 # Device Provisioning Identity
 
@@ -14,10 +14,6 @@ Firmware, OTA, and device-identity security.
 
 **References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
 
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
-
 # Firmware Signing & Secure Boot
 
 **MUST** sign firmware images and enforce signature verification at boot (secure boot chain) so unsigned or tampered images cannot run on devices.
@@ -28,10 +24,6 @@ Firmware, OTA, and device-identity security.
 
 **References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 I4, Arm TrustZone/UEFI Secure Boot docs
 
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
-
 # OTA Update Channel Integrity & Rollback Protection
 
 **MUST** deliver OTA updates over authenticated channels with version anti-rollback so devices cannot be downgraded to vulnerable firmware.
@@ -41,8 +33,4 @@ Firmware, OTA, and device-identity security.
 **Detect:** check OTA endpoint auth + TLS pinning on device side; verify version monotonicity enforcement (min-version counters, fuse-burn) in bootloader; inspect update manifest signing.
 
 **References:** OWASP IoT Top 10 IOT UPD, NIST IR 8259A, MCUboot anti-rollback docs
-
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
 

@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `Math.random()`, Python `random.` for tokens, `uuid1`/sequential IDs in auth flows, `rand()` in token generation code.
 
 **References:** OWASP ASVS V3.2.2, CWE-330, NIST SP 800-90A
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

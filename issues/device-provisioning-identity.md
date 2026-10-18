@@ -12,7 +12,3 @@ domains: [backend, iot-embedded]
 **Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
 
 **References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
-
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)

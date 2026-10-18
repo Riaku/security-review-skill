@@ -12,7 +12,3 @@ domains: [mobile]
 **Detect:** grep push payload construction for tokens, codes, amounts, addresses; verify payloads are content-neutral ("You have a new message — open the app") with sensitive detail fetched in-app.
 
 **References:** OWASP MASVS-STORAGE, APNs payload security guidance, lock-screen disclosure studies
-
----
-
-**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for synthetic checkers (Pingdom, Grafana Synthetic Monitoring, CloudWatch Synthetics) hitting public URLs with content/TLS assertions, not just TCP pings.
 
 **References:** Google SRE Book Ch.6, OWASP Testing Guide 4.0, CWE-295
-
----
-
-**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

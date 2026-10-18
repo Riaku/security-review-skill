@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
 
 **References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** outbound LLM calls without redaction middleware; missing DPA or zero-retention agreement in vendor records.
 
 **References:** GDPR Art. 28, OWASP LLM02:2025, NIST Privacy Framework
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

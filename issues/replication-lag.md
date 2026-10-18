@@ -25,7 +25,3 @@ if replica is None:
 ```
 
 **References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Master, Google SRE Book: SLOs, CWE-362
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

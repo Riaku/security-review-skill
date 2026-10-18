@@ -2,7 +2,7 @@
 
 Tenant isolation across API, data, cache, queues, and lifecycle.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [multi-tenancy](../categories/multi-tenancy.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/multi-tenancy.md](../categories/multi-tenancy.md) · Index: [SKILL.md](../SKILL.md)
 
 # Cross-Tenant Cache Key Collision
 
@@ -14,10 +14,6 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **References:** OWASP Multi-Tenant Security Guidance, CWE-922 insecure storage
 
----
-
-**Part of:** [caching](../categories/caching.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Shared-Queue Tenant Isolation
 
 **SHOULD** isolate tenant workloads in queues by partition, dedicated queue, or per-message tenant enforcement so one tenant's burst or poison message cannot starve or crash others.
@@ -27,10 +23,6 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 **Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
 
 **References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Tenant-ID Spoofing at API Boundary
 
@@ -42,10 +34,6 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
 
----
-
-**Part of:** [multi-tenancy](../categories/multi-tenancy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Tenant Offboarding Data Purge
 
 **MUST** provide a verified, complete tenant purge: primary stores, replicas, caches, search indexes, backups policy, analytics, and third-party processors — with attestation evidence.
@@ -55,8 +43,4 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 **Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
 
 **References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

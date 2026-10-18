@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep callback handlers for absent `state` checks, `response_type=token` in public clients, missing `code_verifier`/`code_challenge` in auth URL construction.
 
 **References:** OWASP A01:2021, CWE-352, RFC 6749 §10.12, OAuth Security BCP §7
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

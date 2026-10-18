@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep producer code for `key=`, `partition_key`, constant or nullable keys; check broker metrics for per-partition byte imbalance.
 
 **References:** Kafka partitioning docs, CWE-400, NIST SP 800-53 SC-5
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

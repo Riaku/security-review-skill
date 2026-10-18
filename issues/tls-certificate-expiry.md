@@ -31,7 +31,3 @@ spec:
 ```
 
 **References:** CWE-298, OWASP A05:2021 Security Misconfiguration, Let's Encrypt renewal docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

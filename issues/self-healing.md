@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** review `restartPolicy`, `livenessProbe`, `auto_failover`, `recovery_loop`; check max-restart backoff and remediation alerting.
 
 **References:** Kubernetes restartPolicy/livenessProbe, NIST SP 800-34 auto-recovery
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

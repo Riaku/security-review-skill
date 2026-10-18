@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** `SOURCE_DATE_EPOCH` unset; build scripts embedding `date`/`hostname`; `-trimpath` absent in Go builds; unreproducible flag in `reproducible-builds.org` checks.
 
 **References:** CWE-937, reproducible-builds.org, SLSA L3
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

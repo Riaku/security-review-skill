@@ -24,7 +24,3 @@ class UserQuery(db.Query):
 ```
 
 **References:** OWASP ASVS V6.4, Rails default_scope docs, PostgreSQL Row Security, CWE-459
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

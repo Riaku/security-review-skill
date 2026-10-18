@@ -12,7 +12,3 @@ domains: [infrastructure, reliability]
 **Detect:** CloudTrail configured with CloudWatch metric filters + alarms (or equivalent GuardDuty/Activity Log alert rules) covering: root account usage, `AuthorizeSecurityGroupIngress` widening, `iam:Put*Policy`/`Attach*Policy`, console login failures burst, KMS key scheduling-for-deletion; absence of any alarm wired to the audit stream is the finding. Distinguish from `admin-activity-review` (periodic human review) — this item requires automated real-time alerting.
 
 **References:** CIS AWS 3.x (CloudTrail processing & alerting), AWS CloudTrail best practices, Azure Activity Log alert guidance, aquasecurity/trivy-checks AWS CloudTrail alert rules
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

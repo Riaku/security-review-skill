@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** review PRs touching public behavior for corresponding doc updates; flag documented commands/config/APIs that no longer match code (run documented examples in CI where possible); check docs last-modified vs code churn on covered surfaces.
 
 **References:** docs-as-code practice, Google style guide (keep docs current), CI doc-example testing (doctest/mddoc patterns)
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

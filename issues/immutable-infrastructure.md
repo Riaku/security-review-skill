@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
 
 **References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

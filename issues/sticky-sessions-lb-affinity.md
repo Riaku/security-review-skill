@@ -12,7 +12,3 @@ domains: [backend, reliability]
 **Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
 
 **References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

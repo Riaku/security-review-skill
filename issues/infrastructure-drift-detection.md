@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
 **References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

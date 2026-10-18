@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for `if (exists) then write`, `read(); modify(); write()` without CAS/`UPDATE ... WHERE version=`, non-atomic counters (`i++`), TOCTOU on file checks.
 
 **References:** CWE-362 Race Condition, OWASP Race Condition guidance, NIST SP 800-53 SI-10
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

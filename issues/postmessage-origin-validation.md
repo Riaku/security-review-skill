@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** grep `addEventListener('message'`, `postMessage(` with `'*'` target, handlers lacking `event.origin` comparison or `event.source` checks.
 
 **References:** CWE-346, OWASP A01:2021, MDN postMessage security considerations
-
----
-
-**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

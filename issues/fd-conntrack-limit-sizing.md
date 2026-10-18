@@ -26,7 +26,3 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 ```
 
 **References:** Netflix tuning guides, Netfilter conntrack docs, Google SRE Book (capacity monitoring), USE method
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

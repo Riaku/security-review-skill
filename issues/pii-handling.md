@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep for SSN, email, phone fields serialized without encryption; check TLS enforcement, `encrypt_pii`, field-level encryption config keys.
 
 **References:** CWE-311, CWE-312, NIST SP 800-122, GDPR Art. 32
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

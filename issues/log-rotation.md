@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** check logrotate configs, `maxSize`/`maxBackups` in winston/pino, `--log-opt max-size` in compose, or absent rotation on file appenders.
 
 **References:** NIST SP 800-92, CWE-400, CIS Docker 2.4
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

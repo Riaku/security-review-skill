@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `grpc.InsecureServerCreds`, absent `max_receive_message_size`, Envoy routes without `ext_authz`/`jwt_authn` filters.
 
 **References:** CWE-319, OWASP API 2023, gRPC security best practices
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

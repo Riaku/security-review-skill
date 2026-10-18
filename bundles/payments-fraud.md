@@ -2,7 +2,7 @@
 
 Payment flows, fraud, and money-movement safety.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [payments-fraud](../categories/payments-fraud.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/payments-fraud.md](../categories/payments-fraud.md) · Index: [SKILL.md](../SKILL.md)
 
 # 3D Secure / SCA
 
@@ -14,10 +14,6 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** PSD2 Article 97, EMV 3-D Secure 2.x (EMVCo), CWE-287, Stripe 3DS2 docs
 
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Chargebacks
 
 **SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
@@ -27,10 +23,6 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
 
 **References:** Visa VDMP, Mastercard ECP
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Idempotency (idempotency keys)
 
@@ -42,10 +34,6 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
 
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Ledger Invariant Checks
 
 **MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.
@@ -55,10 +43,6 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
 
 **References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Payment Webhook Reconciliation
 
@@ -70,10 +54,6 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** CWE-347, Stripe webhook signing guide
 
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
 **MUST** scope the cardholder data environment accurately and complete the correct SAQ level (or full ROC) for the actual card data flow, not the desired one.
@@ -84,10 +64,6 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** PCI DSS v4.0.1, SAQ A-D, PCI SSC scoping guidance
 
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Reconciliation Runbook
 
 **SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
@@ -97,8 +73,4 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
 
 **References:** Stripe reconciliation guidance, PCI DSS 4.0 Req 10 (logging and monitoring), payments-engineering practice guides
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

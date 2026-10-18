@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `keepalive_timeout 0`, absent `keepalive_requests`, nginx `worker_connections` vs unbounded upstream pools.
 
 **References:** CWE-400, OWASP ASVS V5.1, nginx keepalive directive docs
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep repos for "ITAR", "EAR", "export controlled" markers; code deployed to non-US regions, foreign-national access lists, public mirrors.
 
 **References:** ITAR 22 CFR 120-130, EAR 15 CFR 730-774, DDTC
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

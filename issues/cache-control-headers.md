@@ -12,7 +12,3 @@ domains: [frontend, reliability]
 **Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
 
 **References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
-
----
-
-**Part of:** [caching](../categories/caching.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

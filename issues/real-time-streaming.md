@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `channel.subscribe(channelName)` without per-user ACL check; predictable IDs like `order-{id}` with no ownership verification.
 
 **References:** OWASP API1:2023, CWE-285, Ably/Pusher channel authorization docs
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

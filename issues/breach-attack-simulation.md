@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** BAS tool configs (SafeBreach, AttackIQ, Atomic Red Team), `atomic-red-team` in CI, simulation schedules with rollback plans
 
 **References:** MITRE ATT&CK, Gartner BAS category, Atomic Red Team (T1059 etc.)
-
----
-
-**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

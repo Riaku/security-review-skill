@@ -24,7 +24,3 @@ def downgrade():
 ```
 
 **References:** Alembic Rolling Back Migrations, Flyway Undo Migrations, Google SRE Book: Rollback, CWE-1105
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** `hostPath` volumes pointing at `/etc`, `/proc`, `/var/run/docker.sock`; volume mounts of `containerd.sock` or `crio.sock`; env `DOCKER_HOST` pointing at a mounted socket path; `privileged: true` in pod manifests. Remedy: scoped socket proxy or a dedicated agent instead of raw socket exposure.
 
 **References:** CIS K8s 5.2.4, 5.2.5, CWE-668, OWASP K8s PS4, MITRE ATT&CK T1611, CIS Docker 2.4, NIST SP 800-190 4.4
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

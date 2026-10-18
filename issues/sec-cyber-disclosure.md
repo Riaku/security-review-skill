@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep for "8-K", "Item 1.05", materiality assessment process; no incident-to-disclosure workflow, missing disclosure committee charter.
 
 **References:** SEC 8-K Item 1.05 (2023), Reg S-K Item 106, SEC cyber disclosure guidance
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

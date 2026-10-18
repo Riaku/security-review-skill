@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
 
 **References:** OWASP SAMM, risk-based testing practice
-
----
-
-**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

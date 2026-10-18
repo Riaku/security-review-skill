@@ -2,7 +2,7 @@
 
 Secrets handling and cryptographic primitives.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [secrets-crypto](../categories/secrets-crypto.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/secrets-crypto.md](../categories/secrets-crypto.md) · Index: [SKILL.md](../SKILL.md)
 
 # Agent Context-Exclusion Files
 
@@ -14,10 +14,6 @@ Secrets handling and cryptographic primitives.
 
 **References:** Cursor .cursorignore, Gemini .aiexclude, GitHub content-exclusion controls
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # bcrypt & Argon2
 
 **SHOULD** use Argon2id (preferred) or bcrypt with cost ≥12 for password hashing; MD5, SHA-1, and bare SHA-256 are unacceptable for credentials.
@@ -27,10 +23,6 @@ Secrets handling and cryptographic primitives.
 **Detect:** `hashlib.md5`, `sha1(` on password fields, `bcrypt.gensalt(rounds=` below 12, absence of `argon2` in dependencies.
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-916, NIST SP 800-63B §5.1.1.2
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Client-Side TLS Verification Disabled
 
@@ -55,10 +47,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** CWE-295, CWE-299, OWASP ASVS 14.2, OWASP Testing Guide STG-CRYPTO-03
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Device Provisioning Identity
 
 **SHOULD** provision each device with a unique, hardware-bound identity (per-device cert/keys, TPM/secure element) — never shared fleet credentials.
@@ -68,10 +56,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
 
 **References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
-
----
-
-**Part of:** [iot-embedded](../categories/iot-embedded.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
 
 # Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
 
@@ -83,10 +67,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
 
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Embedding inversion and sensitive data in vector stores
 
 **SHOULD NOT** embed raw sensitive documents in vector stores without assessment; embeddings can leak near-verbatim source text under inversion attacks.
@@ -96,10 +76,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** vector DB ingest of unmasked PII fields; no access control on pgvector/Qdrant/Milvus collections; embeddings exported freely.
 
 **References:** OWASP LLM02:2025, OWASP LLM08:2025, CWE-311
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Encryption at Rest
 
@@ -111,10 +87,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** OWASP ASVS V0.9.2, CWE-311, NIST SP 800-53 SC-28
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # .env in .gitignore
 
 **MUST** list `.env`, `.env.*` (except committed `.env.example` templates) in `.gitignore` so local configuration never enters version control.
@@ -124,10 +96,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** `git check-ignore -v .env`; missing `.env` entry in `.gitignore`; `git ls-files | grep '\.env$'`.
 
 **References:** OWASP Top 10 A05:2021, CWE-538, CWE-312
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # etcd Exposure and Missing etcd Encryption
 
@@ -139,10 +107,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** CIS K8s 2.0, 3.2.1, CWE-311, NIST SP 800-190 5.2, K8s encryption-at-rest docs
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # FIPS 140-3 Validated Crypto
 
 **MUST** perform cryptographic operations for regulated data using FIPS 140-3 validated modules rather than unaudited library implementations.
@@ -152,10 +116,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** grep for "fips", "FIPS_MODE", openssl fips provider config; direct MD5/SHA1 usage, custom crypto, non-validated TLS libraries in regulated paths.
 
 **References:** FIPS 140-3, CMVP validated module list, NIST SP 800-175B
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # FIPS 186 / Digital Signature Standards
 
@@ -167,10 +127,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** FIPS 186-5, NIST SP 800-89
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Git-History Secret Remediation
 
 **MUST** remediate a committed secret by rewriting history (filter-repo/BFG), rotating the credential, and notifying collaborators to re-clone — deleting the file in a new commit is NOT remediation.
@@ -180,10 +136,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** on any discovered secret: verify history was rewritten (not just deleted-at-HEAD), credential rotated with expiry-before-exposure-window logic, forks/clones notified; judgment on incident record completeness.
 
 **References:** GitHub secret removal guidance, git-filter-repo/BFG docs, credential-exposure incident practice
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
@@ -195,10 +147,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** NIST IR 8547, NSA CNSA 2.0 timeline, CISA post-quantum cryptography guidance
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Hashing vs Encryption
 
 **MUST NOT** store passwords with reversible encryption; use one-way password hashing, and reserve encryption only for data that legitimately needs recovery.
@@ -208,10 +156,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** `AES`, `encrypt(` near `password` fields, `Fernet`, `cryptography.fernet` applied to user credentials, ORM column named `encrypted_password`.
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-257, NIST SP 800-63B §5.1.1.2
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Plaintext Secrets in Helm values Files and Rendered Manifests
 
@@ -223,10 +167,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** OWASP ASVS V2.10, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
 
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Insufficient Randomness for Tokens and IDs
 
 **MUST** generate session tokens, password resets, API keys, and invite codes from a cryptographically secure RNG (`secrets`, `crypto.randomBytes`, `SecureRandom`), never `random`/`Math.random`/sequential IDs.
@@ -236,10 +176,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** `Math.random()`, Python `random.` for tokens, `uuid1`/sequential IDs in auth flows, `rand()` in token generation code.
 
 **References:** OWASP ASVS V3.2.2, CWE-330, NIST SP 800-90A
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Integration Credential Sprawl
 
@@ -251,10 +187,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Least Privilege
 
 **MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.
@@ -264,10 +196,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
 
 **References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Password Salting
 
@@ -279,10 +207,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-759, NIST SP 800-63B §5.1.1.2
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Pipeline-Orchestrator Credential Sprawl
 
 **MUST** centralize credentials used by data orchestrators (Airflow connections, dbt profiles, Spark configs) in a secrets backend — not in DAG files, connections tables in plaintext, or CI env dumps.
@@ -293,10 +217,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
 
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Post-quantum cryptography migration plan and crypto-agility
 
 **SHOULD** maintain a documented PQC migration plan and crypto-agile design (algorithm negotiation, centralized crypto config) so ciphers can be swapped without rewrites.
@@ -306,10 +226,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** Hardcoded `RSA-2048`/`ECDH P-256` with no config indirection, absence of `ML-KEM`/`X25519` hybrid plans, TLS library pinned without upgrade path.
 
 **References:** NIST FIPS 203/204/205, NIST IR 8547 PQC migration, NSA CNSA 2.0
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # PQC readiness of TLS/VPN termination (hybrid KEM deployment)
 
@@ -332,10 +248,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Secret Scanning
 
 **MUST** run automated secret scanning (gitleaks, trufflehog, GitHub push protection) on every commit and full-history scans before publishing any repository.
@@ -345,10 +257,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
 **References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [supply-chain](../categories/supply-chain.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Secret Validity Checking (verify leaked keys are live)
 
@@ -360,10 +268,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** OWASP ASVS V2.10.4, GitHub secret scanning docs, AWS IAM key revocation runbooks
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Secrets in CI Logs
 
 **MUST NOT** echo, print, or interpolate secrets into CI output; mask values via CI secret masking and avoid commands that dump environment variables.
@@ -373,10 +277,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
 
 **References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Secrets in Instance Launch Payloads
 
@@ -388,10 +288,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** CIS AWS 5.4 (no secrets in user data), cloud-init sensitive-data guidance, AWS best practices for embedded credentials, aquasecurity/trivy-checks user-data secret rules
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Hardcoded API keys and secrets in mobile app binaries
 
 **MUST NOT** embed API keys, tokens, or symmetric secrets in app source, assets, or compiled binaries; ship them via short-lived server-issued credentials instead.
@@ -401,10 +297,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** run `strings`/mobSF scan on the binary; grep repo for `apiKey =`, `secret`, `BEGIN PRIVATE KEY`, hardcoded `AIza`/`sk-` prefixes in source and Info.plist/assets.
 
 **References:** OWASP MASVS-STORAGE-2, CWE-798, CWE-321, MAS Testing Guide Reverse Engineering
-
----
-
-**Part of:** [mobile](../categories/mobile.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
 # Secrets Management
 
@@ -416,10 +308,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** OWASP ASVS V2.10, CWE-259, NIST SP 800-57
 
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Secrets Rotation Automation (scheduled/triggered rotation without downtime)
 
 **MUST** rotate secrets automatically on schedule and immediately on suspected exposure, without manual steps or downtime.
@@ -429,10 +317,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** Grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`; IAM policies lacking `MaxAge`/rotation alarms (90 days typical); providers without rotation hooks in CI.
 
 **References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6, OWASP ASVS V2.10.4
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Plaintext secrets persisted in infrastructure-as-code state and outputs
 
@@ -444,10 +328,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
 
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Weak Crypto Primitives in Application Code
 
 **MUST NOT** use DES, RC4, MD5, SHA-1, ECB mode, or hand-rolled ciphers in application code; standardize on AES-GCM or ChaCha20-Poly1305 via maintained libraries.
@@ -457,8 +337,4 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** `DES`, `RC4`, `ECB`, `md5(`, `sha1(` in security paths, `Cipher.getInstance("DES")`, custom XOR/"encryption" functions.
 
 **References:** OWASP Cryptographic Storage Cheat Sheet, CWE-327, NIST SP 800-131A
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

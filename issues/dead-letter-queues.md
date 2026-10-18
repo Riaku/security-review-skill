@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for `dead_letter`, `DLQ`, `x-dead-letter-exchange`, `maxReceiveCount`, `redrive`, `purge` in queue configs and consumer handlers.
 
 **References:** OWASP ASVS 7.4, CWE-390, NIST SP 800-53 AU-9
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

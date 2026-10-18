@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep docs for "Govern", "Identify", "Protect", "Detect", "Respond", "Recover" categories; missing SIEM, incident runbook, asset inventory artifacts.
 
 **References:** NIST CSF 2.0, NIST SP 800-53, CIS Controls
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

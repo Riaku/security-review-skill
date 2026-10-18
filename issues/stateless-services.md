@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** `session.save_path` on local disk, `JSESSIONID` sticky sessions, writes to `/tmp` or pod-local volumes, `sessionAffinity: ClientIP`.
 
 **References:** The Twelve-Factor App (processes)
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

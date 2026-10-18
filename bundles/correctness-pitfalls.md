@@ -2,7 +2,7 @@
 
 Language-agnostic code-level failure modes.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [correctness-pitfalls](../categories/correctness-pitfalls.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/correctness-pitfalls.md](../categories/correctness-pitfalls.md) · Index: [SKILL.md](../SKILL.md)
 
 # Big O Notation
 
@@ -14,10 +14,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-407, CWE-834, OWASP ASVS 5.3
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Business Logic Workflow Bypass & Abuse
 
 **MUST** enforce step ordering, state transitions, and per-user limits server-side rather than trusting the client's flow.
@@ -27,10 +23,6 @@ Language-agnostic code-level failure modes.
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
 **References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Character Encoding
 
@@ -42,10 +34,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-172, CWE-836, OWASP XSS Cheat Sheet, RFC 3629
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Config-Example Template Drift
 
 **SHOULD** keep a committed example config (`config.example.*`) listing every key the code reads, with the real config untracked — and verify in review that the example hasn't drifted from actual required keys.
@@ -55,10 +43,6 @@ Language-agnostic code-level failure modes.
 **Detect:** diff example-config keys vs keys the code actually reads (grep config-access calls); flag example files missing entirely or missing recently-added settings; CI template-vs-code key comparison where tooling exists.
 
 **References:** twelve-factor config separation, analysis-code config-template practice
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Daylight Saving Time
 
@@ -70,10 +54,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Dead Code
 
 **SHOULD NOT** ship code paths that are never reached or never exercised by tests.
@@ -83,10 +63,6 @@ Language-agnostic code-level failure modes.
 **Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off, coverage reports showing 0 hits.
 
 **References:** CWE-561, CWE-1152
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Debouncing
 
@@ -98,10 +74,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-770, CWE-400, OWASP API4:2023
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # DST-Transition Behavior Test
 
 **SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
@@ -111,10 +83,6 @@ Language-agnostic code-level failure modes.
 **Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
 
 **References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Edge Cases
 
@@ -126,10 +94,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-754, CWE-1284, OWASP ASVS 5.1
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Error Handling
 
 **MUST** catch errors at the boundary that can recover, and propagate everything else with context instead of letting it vanish.
@@ -139,10 +103,6 @@ Language-agnostic code-level failure modes.
 **Detect:** `except:`, `except Exception: pass`, `catch {}`, `catch (e) {}`, `.catch(() => {})`, `err != nil` ignored, `|| pass`
 
 **References:** CWE-390, CWE-209, OWASP ASVS 7.4
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Blocking the Shared Concurrency Primitive
 
@@ -154,10 +114,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-400, CWE-662, OWASP ASVS 5.3
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Floating Point Math
 
 **SHOULD NOT** compare binary floating-point values for exact equality or accumulate them over many operations.
@@ -167,10 +123,6 @@ Language-agnostic code-level failure modes.
 **Detect:** `== 0.1`, `assert x == y` on floats, `sum(floats)`, `float(` in money/rate code, missing `math.isclose`/`abs(a-b) < eps`.
 
 **References:** CWE-1339, CWE-682, IEEE 754
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Integer Overflow
 
@@ -182,10 +134,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-190, CWE-682, CERT INT32-C
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Memory Safety: Buffer Overflow & Use-After-Free
 
 **MUST** bound every buffer write and never dereference freed or dangling memory in unsafe languages.
@@ -195,10 +143,6 @@ Language-agnostic code-level failure modes.
 **Detect:** `strcpy`/`sprintf`/`memcpy` without size checks, raw `malloc`/`free` lifetimes, indexing past array length, missing bounds sanitizer.
 
 **References:** CWE-120, CWE-416, CWE-787, CERT MEM rules
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Merge Conflicts
 
@@ -210,10 +154,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1152, OWASP ASVS 15.2, Git conflict docs
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Off-by-One Errors
 
 **MUST NOT** mix inclusive and exclusive bounds in loops, slices, pagination, and buffer sizes without a stated convention.
@@ -223,10 +163,6 @@ Language-agnostic code-level failure modes.
 **Detect:** `range(len(x)-1)`, `i <= len(`, `arr[n]` where `n == len(arr)`, `LIMIT`/`OFFSET` arithmetic, `pageSize * page` mismatches.
 
 **References:** CWE-193, CWE-119
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
 
@@ -238,10 +174,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-407, CWE-834, OWASP API DoS guidance
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [scaling-capacity](../categories/scaling-capacity.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Schema Validation
 
 **MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.
@@ -251,10 +183,6 @@ Language-agnostic code-level failure modes.
 **Detect:** Handler reads `request.json[...]` with no validator, missing Pydantic/Zod/JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
 
 **References:** CWE-915, CWE-1289, OWASP ASVS 5.2, OWASP API1:2023
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Storing Money as Floats
 
@@ -266,10 +194,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1240, CWE-682, PCI DSS 6.5
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)
 
 **MUST** raise typed errors and catch them narrowly at defined boundaries; never blanket-catch and continue as if nothing failed.
@@ -279,10 +203,6 @@ Language-agnostic code-level failure modes.
 **Detect:** Bare `except:`/`catch(Exception)`, error logged but flow continues, no custom error classes, missing React error boundary at UI roots.
 
 **References:** CWE-390, CWE-703, OWASP ASVS 7.4
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Technical Debt
 
@@ -294,10 +214,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1152, ISO 25010 maintainability, NIST SP 800-160
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Thread Safety
 
 **MUST** protect shared mutable state with locks, atomics, or immutability; never assume single-threaded execution.
@@ -307,10 +223,6 @@ Language-agnostic code-level failure modes.
 **Detect:** Shared dict/list mutated without `Lock`/`mutex`/`synchronized`, check-then-act on globals, non-atomic `count += 1`, cached mutable singletons.
 
 **References:** CWE-362, CWE-366, OWASP ASVS 12.3
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Time Zones
 
@@ -322,10 +234,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1091, NIST SP 800-53 AU-3, ISO 8601
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Unhandled Async Errors
 
 **MUST** attach an error handler to every async operation (promise/task/future/callback), or register a global unhandled-error hook that fails loudly.
@@ -336,10 +244,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-584, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Unicode
 
 **MUST NOT** assume one character equals one byte or one code point when measuring, truncating, or comparing user text.
@@ -349,8 +253,4 @@ Language-agnostic code-level failure modes.
 **Detect:** `len(s)` as display width, `substr`/`slice` on user text, missing NFC/NFKC normalization, homoglyph or confusable comparisons absent.
 
 **References:** CWE-176, Unicode TR36, OWASP ASVS 5.2
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

@@ -2,7 +2,7 @@
 
 SaaS integration surface: scopes, tags, webhooks, credentials.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [third-party-integrations](../categories/third-party-integrations.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/third-party-integrations.md](../categories/third-party-integrations.md) · Index: [SKILL.md](../SKILL.md)
 
 # Backing Services as Attached Resources
 
@@ -14,10 +14,6 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 
 **References:** 12factor.net/backing-services, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
 
----
-
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Integration Credential Sprawl
 
 **SHOULD** centralize third-party SaaS credentials in a secrets manager with owner, scope, and expiry metadata — no credentials in shared docs, wikis, or personal accounts.
@@ -27,10 +23,6 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 **Detect:** inventory integration creds: count vs documented owners; grep wikis/runbooks/env files for SaaS API keys; check rotation history per integration; flag creds tied to individual employees.
 
 **References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # OAuth Third-Party Scope Minimization
 
@@ -42,10 +34,6 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 
 **References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # SaaS Webhook Consumer Trust
 
 **MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
@@ -56,10 +44,6 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 
 **References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
 
----
-
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Third-Party Tag & Script Governance
 
 **MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
@@ -69,8 +53,4 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 **Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
 
 **References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
-
----
-
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

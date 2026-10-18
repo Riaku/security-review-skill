@@ -25,7 +25,3 @@ SELECT * FROM seats WHERE id = 42 FOR UPDATE NOWAIT;
 ```
 
 **References:** PostgreSQL SELECT FOR UPDATE docs, MySQL locking reads (InnoDB), CWE-662
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

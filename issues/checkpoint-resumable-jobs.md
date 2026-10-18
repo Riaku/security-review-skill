@@ -25,7 +25,3 @@ for r in db.rows.gt(cur).limit(1000):
 ```
 
 **References:** Arjay McCandless cheat sheet (checkpointing), Kafka consumer offset docs, AWS fault-tolerant batch guidance
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

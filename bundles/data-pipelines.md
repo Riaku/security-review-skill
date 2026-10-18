@@ -2,7 +2,7 @@
 
 ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [data-pipelines](../categories/data-pipelines.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/data-pipelines.md](../categories/data-pipelines.md) · Index: [SKILL.md](../SKILL.md)
 
 # Backfill Idempotency at Pipeline Scale
 
@@ -14,10 +14,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
 
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Data Version Pinning
 
 **SHOULD** pin the exact version of input datasets used to produce any output (DVC, immutable versioned files, recorded dataset hashes) so results are re-derivable and auditable.
@@ -27,10 +23,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** check for data-versioning tooling (DVC lock files, dataset manifests with hashes) or recorded input versions in output metadata; flag pipelines reading mutable "latest" datasets without pinning.
 
 **References:** DVC docs, data lineage/provenance practice, reproducible-research data management guidance
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Dual-Run Output Equivalence
 
@@ -42,10 +34,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** blue-green/canary practice applied to data pipelines, migration dual-run guidance
 
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Interactive-Session Artifact Leakage
 
 **MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.
@@ -55,10 +43,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
 **References:** Jupyter notebook security best practices, nbstripout/ClearOutputPreprocessor tooling
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # PII Propagation & Warehouse Lineage
 
@@ -70,10 +54,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Pipeline-Orchestrator Credential Sprawl
 
 **MUST** centralize credentials used by data orchestrators (Airflow connections, dbt profiles, Spark configs) in a secrets backend — not in DAG files, connections tables in plaintext, or CI env dumps.
@@ -84,10 +64,6 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
 
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Raw-Data Immutability
 
 **MUST NOT** modify raw source data in place; transformations operate on copies, preserving the raw layer for re-derivation and audit.
@@ -97,8 +73,4 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** check storage layout for read-only raw layer (permissions, separate bucket/schema) vs in-place edits; review pipeline code for writes to raw datasets; check raw retention policy.
 
 **References:** analysis data-management guidance (raw-as-read-only), medallion architecture raw-layer immutability
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 

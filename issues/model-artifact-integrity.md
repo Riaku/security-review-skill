@@ -12,7 +12,3 @@ domains: [governance, infrastructure]
 **Detect:** grep torch.load( without weights_only=True, pickle.load on model files, .pkl/.ckpt pulled from Hub without checksum/signature.
 
 **References:** OWASP LLM03:2025, CWE-502, CWE-94
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

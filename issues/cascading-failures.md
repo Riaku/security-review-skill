@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** trace fan-out for missing `timeout` on HTTP/DB clients; no breaker on cross-service calls.
 
 **References:** Google SRE Book cascading failures, AWS Well-Architected REL11, CWE-400
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

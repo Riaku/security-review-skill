@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `except:`, `except Exception: pass`, `catch {}`, `catch (e) {}`, `.catch(() => {})`, `err != nil` ignored, `|| pass`
 
 **References:** CWE-390, CWE-209, OWASP ASVS 7.4
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

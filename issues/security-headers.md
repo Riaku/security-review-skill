@@ -12,7 +12,3 @@ domains: [backend, frontend]
 **Detect:** Config lacking `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`; nginx/ingress snippets absent.
 
 **References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [governance, government-compliance]
 **Detect:** grep for "LGPD", "encarregado", "base legal", rights-request endpoints; missing privacy notices in pt-BR, no DPO contact published.
 
 **References:** LGPD Lei 13.709/2018, ANPD guidelines, ANPD DSR rules
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [data, reliability]
 **Detect:** grep dashboards/alerts for `oldest_job_age`, `job_age_seconds`, `head_of_line_blocking`; absence of max-age alerts alongside queue-depth alerts.
 
 **References:** Google SRE Workbook tail latency, NIST SP 800-53 AU-6, SLI/SLO practice
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

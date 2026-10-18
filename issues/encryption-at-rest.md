@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** RDS/S3 `encrypted = false`, `storageClass` without SSE-KMS, Longhorn/Vault unencrypted PVCs, backup files with plaintext contents.
 
 **References:** OWASP ASVS V0.9.2, CWE-311, NIST SP 800-53 SC-28
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

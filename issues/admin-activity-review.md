@@ -12,7 +12,3 @@ domains: [backend, reliability]
 **Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
 
 **References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
-
----
-
-**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [backend, reliability]
 **Detect:** `for ... for` over request arrays, `.map` inside `.filter` on user lists, join without index, no max-length on both sides.
 
 **References:** CWE-407, CWE-834, OWASP API DoS guidance
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [scaling-capacity](../categories/scaling-capacity.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

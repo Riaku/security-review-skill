@@ -2,7 +2,7 @@
 
 Identity, credentials, session lifecycle.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [authentication](../categories/authentication.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/authentication.md](../categories/authentication.md) · Index: [SKILL.md](../SKILL.md)
 
 # Account Enumeration
 
@@ -14,10 +14,6 @@ Identity, credentials, session lifecycle.
 
 **References:** OWASP A07:2021, CWE-204, CWE-203, NIST SP 800-63B §5.2.3
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Account recovery and password-reset flow security (tokens, helpdesk takeover)
 
 **MUST NOT** allow helpdesk or support staff to reset a user's password without a verified second channel (e.g. confirmed email + MFA challenge) and full audit logging.
@@ -28,10 +24,6 @@ Identity, credentials, session lifecycle.
 
 **References:** NIST SP 800-63B §5.1.1.2, CWE-287, OWASP A07:2021, CWE-354
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Anomalous Authentication Detection (impossible travel, rare UA/IP)
 
 **SHOULD** monitor for impossible-travel, rare user-agent, and unfamiliar-IP login patterns and trigger step-up MFA or alerting on anomalies.
@@ -41,10 +33,6 @@ Identity, credentials, session lifecycle.
 **Detect:** grep auth pipeline for absent `impossible_travel`, `geoip`, `ua_fingerprint` checks; no step-up MFA on new-device login; no alerting on geo-velocity anomalies.
 
 **References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [observability](../categories/observability.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # API Gateway / Edge Endpoints Deployed Without Authorizers
 
@@ -74,10 +62,6 @@ MyMethod:
 
 **References:** OWASP A01:2021, OWASP ASVS 4.1, AWS API Gateway authorization docs, CWE-306
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Default admin password, signing key and webhook auth on control planes
 
 **MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
@@ -87,10 +71,6 @@ MyMethod:
 **Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
 
 **References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Auto-Mounted Service Account Tokens in Pods That Don't Need the API
 
@@ -102,10 +82,6 @@ MyMethod:
 
 **References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Breached & Common Password Blocklist
 
 **SHOULD** reject new or changed passwords found in known-breached or common-password lists (e.g. HaveIBeenPwned k-anonymity API).
@@ -115,10 +91,6 @@ MyMethod:
 **Detect:** grep password policy code for absent blocklist/pwned-password check and no `k-anonymity`/`pwnedPasswords` call; flag policies enforcing character-class composition rules instead of length plus blocklist (NIST SP 800-63B forbids composition rules).
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-521, NCSC Pwned Passwords guidance
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Brute Force Protection
 
@@ -130,10 +102,6 @@ MyMethod:
 
 **References:** OWASP A07:2021, CWE-307, NIST SP 800-63B §5.2.2, CIS Control 6.2
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Cookie Flags: Secure, HttpOnly, SameSite
 
 **MUST** set `Secure`, `HttpOnly`, and `SameSite=Lax` (or `Strict`) on every session cookie issued by the application.
@@ -143,10 +111,6 @@ MyMethod:
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
 **References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Credential Access Detection (keylogging, token theft, credential dumping patterns)
 
@@ -158,10 +122,6 @@ MyMethod:
 
 **References:** MITRE ATT&CK TA0006/T1003, NIST SP 800-63B, CWE-522, GuardDuty credential-access detections
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [observability](../categories/observability.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Dedicated Service Accounts per Workload
 
 **SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload should declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.
@@ -171,10 +131,6 @@ MyMethod:
 **Detect:** `spec.serviceAccountName` absent or `default` in Deployments/Pods/StatefulSets; `default` SA bound to any Role/ClusterRole beyond the baseline; IAM roles (e.g. EKS IRSA annotations) attached to workloads running as `default`. Policy engines: Kyverno `require-dedicated-service-accounts` / a equivalent admission rule.
 
 **References:** CIS Kubernetes 5.1.4 (minimize default SA admission), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Default & Weak Credentials in Shipped Software
 
@@ -186,10 +142,6 @@ MyMethod:
 
 **References:** CWE-1188, OWASP A05:2021, CIS Control 5.4, NIST SP 800-118
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Insufficient Randomness for Tokens and IDs
 
 **MUST** generate session tokens, password resets, API keys, and invite codes from a cryptographically secure RNG (`secrets`, `crypto.randomBytes`, `SecureRandom`), never `random`/`Math.random`/sequential IDs.
@@ -199,10 +151,6 @@ MyMethod:
 **Detect:** `Math.random()`, Python `random.` for tokens, `uuid1`/sequential IDs in auth flows, `rand()` in token generation code.
 
 **References:** OWASP ASVS V3.2.2, CWE-330, NIST SP 800-90A
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # JWT Algorithm Confusion / alg=none / Unverified Signatures
 
@@ -214,10 +162,6 @@ MyMethod:
 
 **References:** CWE-347, OWASP A02:2021, RFC 8725 §3.1, Auth0 JWT Algorithm Confusion advisory
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # JWT Audience/Issuer Validation & kid/JWKS Abuse
 
 **MUST** verify `iss` and `aud` claims against an explicit allowlist and pin `kid` to a trusted JWKS entry before accepting a token.
@@ -228,10 +172,6 @@ MyMethod:
 
 **References:** RFC 8725 §3.3-3.4, CWE-345, OWASP A02:2021, OIDC Core §3.1.3.7
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # JWT Expiry
 
 **MUST** set short-lived access tokens (15 minutes or less) with an explicit `exp` claim that the verifier rejects when past.
@@ -241,10 +181,6 @@ MyMethod:
 **Detect:** grep for `expiresIn`, `exp:` with values like `86400`, `7d`, `never`; missing `exp` claim in token payloads or verifier code.
 
 **References:** OWASP A02:2021, CWE-613, RFC 7519 §4.1.4, NIST SP 800-63B §7.1
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Service Mesh Permissive mTLS and Direct-Pod-IP Bypass
 
@@ -269,10 +205,6 @@ mtls:
 
 **References:** Istio security docs (permissive mTLS caveats), OWASP Kubernetes Top 10, CWE-300
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # MFA
 
 **SHOULD** require a second factor for all administrative and remote-access accounts, enforced server-side after primary auth.
@@ -282,10 +214,6 @@ mtls:
 **Detect:** grep admin/SSH/RDP login paths for missing `mfa`/`totp`/`webauthn` checks, MFA toggle client-side only, `mfa_enabled` field absent in user model.
 
 **References:** NIST SP 800-63B §5.1, OWASP A07:2021, CWE-308, CIS Control 6.3
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Missing Authentication Middleware / Default-Deny Routing
 
@@ -297,10 +225,6 @@ mtls:
 
 **References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 4.5
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
 **MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.
@@ -310,10 +234,6 @@ mtls:
 **Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
 
 **References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # OAuth 2.0
 
@@ -325,10 +245,6 @@ mtls:
 
 **References:** OWASP A01:2021, CWE-352, RFC 6749 §10.12, OAuth Security BCP §7
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # OAuth Third-Party Scope Minimization
 
 **MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.
@@ -338,10 +254,6 @@ mtls:
 **Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
 
 **References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # OpenID Connect
 
@@ -353,10 +265,6 @@ mtls:
 
 **References:** OIDC Core §3.1.3.7, CWE-347, OWASP A02:2021, NIST SP 800-63B
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Password Reset Flow Security
 
 **MUST** issue single-use, high-entropy reset tokens with short expiry (≤15 min) over HTTPS, invalidated on use or password change.
@@ -366,10 +274,6 @@ mtls:
 **Detect:** grep reset handlers for tokens without `exp`/`used` flags, tokens in URL query strings logged by proxies, `md5(email)` as token, no rate limit on `/forgot-password`.
 
 **References:** OWASP A07:2021, CWE-640, CWE-639, NIST SP 800-63B §5.1.1.2
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Push-Token Binding & Rotation
 
@@ -381,10 +285,6 @@ mtls:
 
 **References:** OWASP MASVS-AUTH, APNs/FCM security guidance, push-token hijacking CVEs
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [mobile](../categories/mobile.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
-
 # Refresh Tokens
 
 **SHOULD** store refresh tokens server-side with rotation on every use, invalidating the previous token after exchange.
@@ -394,10 +294,6 @@ mtls:
 **Detect:** grep refresh endpoints for missing rotation (`old token reused`), refresh tokens kept in localStorage, no `revoked`/`rotated_at` column in token store.
 
 **References:** OWASP A02:2021, CWE-523, RFC 6749 §6, OAuth Security BCP §4.13
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # SAML assertion validation and XML signature wrapping
 
@@ -409,10 +305,6 @@ mtls:
 
 **References:** CWE-347, OWASP A02:2021, CVE-2017-11427, SAML Security BCP §4.1.5
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Session Fixation
 
 **MUST** regenerate the session identifier immediately after any successful authentication or privilege change.
@@ -422,10 +314,6 @@ mtls:
 **Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
 
 **References:** OWASP A07:2021, CWE-384, OWASP Session Management Cheat Sheet
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Session invalidation on credential change and logout
 
@@ -437,10 +325,6 @@ mtls:
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-613, RFC 7009
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Social Login Account-Linking Takeover
 
 **SHOULD NOT** auto-link a social identity (Google/GitHub) to an existing local account by matching email alone without verifying the user controls that account.
@@ -450,10 +334,6 @@ mtls:
 **Detect:** grep OAuth callback for auto-link on `email` match without prior password/MFA confirmation, missing `account_linking` verification step, `findOrCreate` by email.
 
 **References:** OWASP A07:2021, CWE-287, CWE-346, Auth0 Account Linking Vulnerability advisory
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Timing Attacks
 
@@ -465,10 +345,6 @@ mtls:
 
 **References:** CWE-208, CWE-203, OWASP A02:2021, NIST SP 800-53 SC-8
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Token Revocation & Logout Invalidation
 
 **MAY** rely on short expiry alone for stateless tokens, but MUST provide a revocation list or denylist for high-value sessions where immediate logout is required.
@@ -478,10 +354,6 @@ mtls:
 **Detect:** grep logout handler for missing token blacklist/`jti` denylist, no `/revoke` endpoint, Redis denylist absent, logout only clears client cookie.
 
 **References:** RFC 7009, RFC 8725 §4.1, OWASP A02:2021, NIST SP 800-53 SC-23
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
@@ -505,8 +377,4 @@ mtls:
 ```
 
 **References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

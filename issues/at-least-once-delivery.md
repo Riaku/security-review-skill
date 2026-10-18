@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for `ack` after processing, `auto_ack=True`, missing idempotency keys, `at_least_once`, unguarded side effects in consumers.
 
 **References:** CWE-362, AWS SQS delivery semantics, Designing Data-Intensive Applications (delivery semantics)
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

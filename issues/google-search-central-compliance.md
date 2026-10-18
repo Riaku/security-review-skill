@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** diff HTML served to Googlebot UA vs normal UA (cloaking check); review Search Console coverage + manual-action reports; audit templated landing-page generation.
 
 **References:** Google Search Essentials (spam policies), Google Search Central docs, Schema.org
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
