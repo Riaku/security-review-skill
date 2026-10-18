@@ -4634,5 +4634,39 @@
       "security-practices",
       "scaling-capacity"
     ]
+  },
+  {
+    "num": 554,
+    "title": "Fail-Secure Configuration (fail closed, never fail open)",
+    "slug": "fail-secure-configuration",
+    "categories": [
+      "security-practices",
+      "resilience"
+    ]
+  },
+  {
+    "num": 555,
+    "title": "Secure by Default Shipping (MFA/logging/SSO out-of-box, not paywalled)",
+    "slug": "secure-by-default-shipping",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 556,
+    "title": "Zero Trust Architecture (no implicit network trust)",
+    "slug": "zero-trust-architecture",
+    "categories": [
+      "cloud-network",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 557,
+    "title": "Defense-in-Depth Layering (independent control layers per asset)",
+    "slug": "defense-in-depth-layering",
+    "categories": [
+      "security-practices"
+    ]
   }
 ]

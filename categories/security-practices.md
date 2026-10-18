@@ -23,3 +23,7 @@ Issues:
 - `verification-level-tiers`
 - `attack-path-analysis`
 - `nfr-traceability`
+- `fail-secure-configuration`
+- `secure-by-default-shipping`
+- `zero-trust-architecture`
+- `defense-in-depth-layering`

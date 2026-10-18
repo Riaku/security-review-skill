@@ -20,3 +20,4 @@ Issues:
 - `admission-webhook-failure-policy`
 - `backlog-catchup-throttling`
 - `startup-dependency-ordering`
+- `fail-secure-configuration`

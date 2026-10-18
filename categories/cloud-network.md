@@ -64,3 +64,4 @@ Issues:
 - `egress-control`
 - `open-directory-listing`
 - `exposed-data-service-ports`
+- `zero-trust-architecture`

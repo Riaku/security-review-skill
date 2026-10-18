@@ -110,6 +110,8 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
   hand-edit bundles; edit `issues/<slug>.md` and re-run
   `python3 scripts/gen_manifests.py`.
 - `references/tooling.md` — human-readable scanner/tool catalog by class.
+- `references/mitre-attack.md` — ATT&CK tactic→issue mapping for tagging
+  detection findings and reviewing telemetry coverage.
 - `references/platform-hosting.md` — verified vendor security guides +
   review surfaces per platform (Cloudflare, Vercel, GitHub Pages, Fly.io,
   Azure, GCP); read the matching section when triage detects the platform.

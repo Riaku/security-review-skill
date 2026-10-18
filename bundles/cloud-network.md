@@ -1,4 +1,4 @@
-# cloud-network — full checklist (61 items)
+# cloud-network — full checklist (62 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -1271,4 +1271,14 @@ resource "aws_iam_policy" "ci" {
 **Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
+
+# Zero Trust Architecture
+
+**SHOULD** verify every request explicitly regardless of network location — no implicit trust for internal networks, device posture checked, per-request authorization, least-privilege service identity.
+
+**Why:** Perimeter-based trust collapses the moment one host is compromised; zero trust contains blast radius by treating every call as coming from an attacker until proven otherwise.
+
+**Detect:** look for mTLS everywhere / service mesh, identity-aware proxies (BeyondCorp-style), absence of "trusted internal network" CIDR allow-lists as sole authz, continuous session validation rather than once-at-connect.
+
+**References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
 

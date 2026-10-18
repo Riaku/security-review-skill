@@ -1,4 +1,4 @@
-# security-practices — full checklist (20 items)
+# security-practices — full checklist (24 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -203,4 +203,44 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
 
 **References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
+
+# Fail-Secure Configuration
+
+**MUST** design components to fail in a secure state: auth failures deny access, TLS verification failures abort the connection, policy engine outages block rather than allow, and partial initialization never exposes privileged surfaces.
+
+**Why:** Fail-open is the silent killer — an auth service timeout that defaults to "allowed" or a verifier that skips on error turns an outage into a breach window.
+
+**Detect:** grep for `except: pass` / default-allow branches around authz and TLS verify calls; check `failOpen: false` on admission webhooks, `ssl_verify` defaults, circuit-breaker fallback behavior on security checks.
+
+**References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
+
+# Secure by Default Shipping
+
+**MUST** ship products secure out-of-the-box: MFA, logging, and SSO available at no extra cost and enabled (or one-click) on first run — never paywalled or buried as advanced features.
+
+**Why:** CISA's Secure by Design finding: the security burden has been pushed onto consumers because vendors ship insecure defaults; most customers never harden what they buy.
+
+**Detect:** review default config of the shipped product: are MFA/logging/encrypted transport on by default? Is any baseline security control gated behind paid tiers or manual hardening docs?
+
+**References:** CISA Secure by Design whitepaper & Pledge, OWASP Secure Product Design Cheat Sheet
+
+# Zero Trust Architecture
+
+**SHOULD** verify every request explicitly regardless of network location — no implicit trust for internal networks, device posture checked, per-request authorization, least-privilege service identity.
+
+**Why:** Perimeter-based trust collapses the moment one host is compromised; zero trust contains blast radius by treating every call as coming from an attacker until proven otherwise.
+
+**Detect:** look for mTLS everywhere / service mesh, identity-aware proxies (BeyondCorp-style), absence of "trusted internal network" CIDR allow-lists as sole authz, continuous session validation rather than once-at-connect.
+
+**References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
+
+# Defense-in-Depth Layering
+
+**SHOULD** protect each asset with multiple independent control layers (network, app, data, runtime) so no single failure exposes it; layers must be independent, not correlated.
+
+**Why:** Every control fails eventually — a bypassed WAF, a missed CVE, a phished credential. Correlated layers (all bypassed by the same trick) are one layer wearing a trench coat.
+
+**Detect:** map each crown-jewel asset to its control stack; flag assets protected by a single layer; check layer independence (e.g. WAF + app validation + DB authz vs WAF-only; secrets not readable by the same principal that reaches the app).
+
+**References:** OWASP Secure Product Design Cheat Sheet, NIST SP 800-53 defense-in-depth, CISA Secure by Design
 
