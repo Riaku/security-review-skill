@@ -35,3 +35,4 @@ Issues:
 - `non-human-identity-governance`
 - `oauth-third-party-scope-minimization`
 - `push-token-binding`
+- `dedicated-service-accounts`

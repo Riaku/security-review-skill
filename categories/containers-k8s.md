@@ -46,3 +46,4 @@ Issues:
 - `immutable-infrastructure`
 - `runtime-threat-detection`
 - `egress-control`
+- `dedicated-service-accounts`

@@ -45,3 +45,4 @@ Issues:
 - `erasure-propagation-secondary-stores`
 - `data-portability-export`
 - `notebook-output-data-leakage`
+- `object-level-data-access-logging`

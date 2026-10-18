@@ -62,3 +62,4 @@ Issues:
 - `caa-record-policy`
 - `cert-issuance-monitoring`
 - `agent-egress-allowlist`
+- `management-plane-activity-alerting`

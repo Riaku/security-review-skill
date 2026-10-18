@@ -76,3 +76,4 @@ contributed. Kept current as new sources are mined.
 | 12-Factor App — https://12factor.net/ | v16: backing-services-attached-resources, build-release-run-separation, logs-as-event-streams, one-off-admin-processes |
 | Martin Fowler — Microservices (Decentralized Data Management) — https://martinfowler.com/articles/microservices.html | v16: database-per-service |
 | Catio — Architecture as Code — https://www.catio.tech/blog/architecture-as-code | v16: architecture-fitness-functions (per Ford/Parsons/Kua, Building Evolutionary Architectures) |
+| aquasecurity/trivy-checks — https://github.com/aquasecurity/trivy-checks | v17: management-plane-activity-alerting, object-level-data-access-logging, dedicated-service-accounts, secrets-in-launch-payloads (mined from 1,103 Rego checks / 995 AVD docs; bulk of remaining checks mapped to existing generic items) |
