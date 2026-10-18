@@ -26,3 +26,4 @@ Issues:
 - `backlog-catchup-throttling`
 - `webhook-replay-protection`
 - `priority-queues-head-of-line-blocking`
+- `shared-queue-tenant-isolation`

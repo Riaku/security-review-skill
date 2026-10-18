@@ -31,3 +31,6 @@ Issues:
 - `push-protection`
 - `secret-validity-checks`
 - `secrets-rotation-automation`
+- `device-provisioning-identity`
+- `integration-credential-sprawl`
+- `pipeline-orchestrator-credentials`

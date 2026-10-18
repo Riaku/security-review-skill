@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (14 items)
+# testing-strategy — full checklist (16 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -143,4 +143,24 @@ Test pyramid, practices, and quality gates.
 **Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
 
 **References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+
+# OpenAPI–Implementation Drift Check
+
+**SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.
+
+**Why:** A spec that lies is worse than no spec: consumers code against documented behavior the implementation quietly diverged from, and breaking changes ship "documented as safe."
+
+**Detect:** check CI for contract tests (Dredd, Schemathesis, Prism, schemathesis fuzz mode), response-middleware spec validation, or oasdiff between released spec versions.
+
+**References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
+
+# Automated A11y Gate in CI
+
+**SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
+
+**Why:** One-line accessibility checklist items change nothing; a CI gate on actual scans makes regressions visible at the PR and compounds into real WCAG compliance over time.
+
+**Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
+
+**References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
 

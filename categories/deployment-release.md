@@ -29,3 +29,5 @@ Issues:
 - `immutable-infrastructure`
 - `policy-as-code-enforcement`
 - `artifact-signing-verification`
+- `stale-flag-expiry-policy`
+- `kill-switch-verification`

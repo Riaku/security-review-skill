@@ -31,3 +31,4 @@ Issues:
 - `pinned-ci-actions`
 - `artifact-signing-verification`
 - `broken-link-hijacking`
+- `firmware-signing-secure-boot`

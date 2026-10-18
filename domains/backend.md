@@ -16,6 +16,8 @@ Categories:
 - `correctness-pitfalls`
 - `testing-strategy`
 - `security-practices`
+- `multi-tenancy`
+- `third-party-integrations`
 
 ## Stack quick-map
 

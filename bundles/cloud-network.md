@@ -1,4 +1,4 @@
-# cloud-network — full checklist (62 items)
+# cloud-network — full checklist (64 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -1281,4 +1281,24 @@ resource "aws_iam_policy" "ci" {
 **Detect:** look for mTLS everywhere / service mesh, identity-aware proxies (BeyondCorp-style), absence of "trusted internal network" CIDR allow-lists as sole authz, continuous session validation rather than once-at-connect.
 
 **References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
+
+# CAA Record Policy
+
+**SHOULD** publish CAA records restricting which CAs may issue certificates for the domain, with issuewild and iodef contact configured.
+
+**Why:** Without CAA, any trusted CA can issue for your domain — a compromised or careless CA anywhere is a MITM cert waiting to happen; CAA narrows that to chosen issuers.
+
+**Detect:** `dig CAA <domain>` and check issuewild coverage (missing issuewild = wildcards blocked for all CAs — verify intent); confirm CAA covers all public cert domains including delegated subdomains.
+
+**References:** RFC 8659 CAA, CA/B Forum baseline requirements, letsencrypt CAA documentation
+
+# Certificate-Issuance Monitoring
+
+**SHOULD** alert on any certificate issued for your domains (CT-log monitoring via Certstream/CRT.sh) to detect unauthorized issuance fast.
+
+**Why:** Rogue/mistaken certs for your domain appear in Certificate Transparency logs publicly — if you're not watching, you learn about the fake cert from an outage or a breach report.
+
+**Detect:** check for CT-monitoring service/cron (Censys monitor, Certstream consumer, crt.sh search alerts) covering all brand domains and wildcard patterns; verify alert routing to a responder.
+
+**References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
 

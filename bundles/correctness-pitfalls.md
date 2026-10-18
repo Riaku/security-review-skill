@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (31 items)
+# correctness-pitfalls — full checklist (34 items)
 
 Language-agnostic code-level failure modes.
 
@@ -313,4 +313,34 @@ Language-agnostic code-level failure modes.
 **Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
 
 **References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
+
+# Backfill Idempotency at Pipeline Scale
+
+**MUST** make pipeline backfills/re-runs idempotent: reprocessing a date range produces the same result, never duplicates or double-counts.
+
+**Why:** Every data team eventually re-runs a week of jobs; non-idempotent backfills double revenue figures or duplicate records that take months to discover and unwind.
+
+**Detect:** check jobs use MERGE/upsert/overwrite-partition semantics vs append; look for run-id dedupe keys; review backfill runbook for "safe to re-run" statement per job.
+
+**References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
+
+# Ledger Invariant Checks
+
+**MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.
+
+**Why:** Silent ledger drift (rounding, partial writes, bugs) compounds into real financial loss; systems without invariant checks discover errors at reconciliation time — too late to cheaply fix.
+
+**Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
+
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+
+# DST-Transition Behavior Test
+
+**SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
+
+**Why:** Cron jobs silently skip or double-fire at DST boundaries; "runs every 2h" becomes 23 or 25 runs twice a year — a bug that hides for months and hits exactly when you're asleep.
+
+**Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
+
+**References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
 

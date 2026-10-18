@@ -59,3 +59,4 @@ Issues:
 - `exposed-data-service-ports`
 - `database-selection-workload-fit`
 - `durability-acknowledgment-policy`
+- `erasure-propagation-secondary-stores`

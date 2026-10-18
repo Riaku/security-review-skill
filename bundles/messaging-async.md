@@ -1,4 +1,4 @@
-# messaging-async — full checklist (23 items)
+# messaging-async — full checklist (24 items)
 
 Queues, delivery semantics, workers, jobs.
 
@@ -270,4 +270,14 @@ for r in db.rows.gt(cur).limit(1000):
 **Detect:** grep for a single queue serving mixed job sizes; check for priority queue config (SQS FIFO priorities, Celery queues, RabbitMQ x-max-priority); review job-duration vs SLA mismatch.
 
 **References:** AWS SQS priority patterns, RabbitMQ priority queues, DDIA queueing chapter
+
+# Shared-Queue Tenant Isolation
+
+**SHOULD** isolate tenant workloads in queues by partition, dedicated queue, or per-message tenant enforcement so one tenant's burst or poison message cannot starve or crash others.
+
+**Why:** Shared queues turn noisy neighbors into outages and let a poison message from tenant A block tenant B's processing indefinitely.
+
+**Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
+
+**References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
 

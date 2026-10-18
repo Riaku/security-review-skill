@@ -1,4 +1,4 @@
-# database — full checklist (56 items)
+# database — full checklist (57 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -1236,4 +1236,14 @@ export = anonymize(df, k=20,
 **Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
 
 **References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
+
+# Erasure Propagation to Secondary Stores
+
+**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
+
+**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
+
+**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
+
+**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 

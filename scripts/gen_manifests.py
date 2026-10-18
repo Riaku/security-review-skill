@@ -34,12 +34,13 @@ DOMAINS = {
         ],
     },
     "data": {
-        "scope": "Databases, replication, distributed data, queues and async pipelines.",
+        "scope": "Databases, replication, distributed data, queues, async pipelines, and data/ETL platforms.",
         "signals": [
             "Migration directories (alembic, flyway, prisma, goose, atlas)",
             "DB clients/drivers in dependencies (postgres, mysql, mongo, redis clients)",
             "Queue clients (kafka, rabbitmq, sqs, celery, sidekiq, bull)",
             "CDC/streaming tooling (debezium, flink)",
+            "Data-pipeline tooling (airflow/ dags/ dir, dbt projects, spark jobs, glue, dataflow)",
         ],
         "quickmap": [
             "Any SQL-backed service → database",
@@ -112,6 +113,18 @@ DOMAINS = {
             "Health data → regulatory-frameworks (HIPAA) + compliance-privacy",
         ],
     },
+    "iot-embedded": {
+        "scope": "Firmware, embedded devices, and device-paired services.",
+        "signals": [
+            "Firmware toolchains: PlatformIO.ini, ESP-IDF, Zephyr, mbed, MCUboot, linker scripts for MCU targets",
+            "C/C++ bare-metal or RTOS code, .bin/.elf firmware artifacts, OTA update services",
+            "Hardware SDKs paired with mobile/cloud apps (BLE/Matter/MQTT device code)",
+        ],
+        "quickmap": [
+            "Any firmware/OTA/device-provisioning code → iot-embedded, supply-chain",
+            "Device + cloud backend → also backend categories for the paired API",
+        ],
+    },
 }
 
 
@@ -146,6 +159,11 @@ def cat_scope(cat: str) -> str:
         "hardening-benchmarks": "CIS/STIG-style configuration baselines.",
         "regulatory-frameworks": "Audit and regulatory regimes.",
         "seo-web-quality": "Search visibility, crawl/index hygiene, and page experience (Google Search Central, CWV, Lighthouse).",
+        "multi-tenancy": "Tenant isolation across API, data, cache, queues, and lifecycle.",
+        "email-security": "Mail authentication, brand protection, and email-content trust.",
+        "iot-embedded": "Firmware, OTA, and device-identity security.",
+        "third-party-integrations": "SaaS integration surface: scopes, tags, webhooks, credentials.",
+        "data-pipelines": "ETL/orchestration security: pipeline creds, lineage, backfill safety.",
     }[cat]
 
 
@@ -155,16 +173,19 @@ def main() -> int:
     INDEX = {
         "backend": ["web-api-security", "authentication", "authorization-access-control",
                     "secrets-crypto", "api-design", "correctness-pitfalls",
-                    "testing-strategy", "security-practices"],
+                    "testing-strategy", "security-practices", "multi-tenancy",
+                    "third-party-integrations"],
         "frontend": ["web-client-security", "seo-web-quality"],
-        "data": ["database", "distributed-systems", "messaging-async"],
+        "data": ["database", "distributed-systems", "messaging-async", "data-pipelines"],
         "infrastructure": ["supply-chain", "cloud-network", "deployment-release",
                           "containers-k8s", "cicd-pipeline-security"],
         "reliability": ["resilience", "caching", "observability", "sre-incidents",
                        "scaling-capacity"],
-        "governance": ["compliance-privacy", "ai-llm", "payments-fraud"],
+        "governance": ["compliance-privacy", "ai-llm", "payments-fraud",
+                      "email-security"],
         "mobile": ["mobile"],
         "government-compliance": ["hardening-benchmarks", "regulatory-frameworks"],
+        "iot-embedded": ["iot-embedded"],
     }
     all_cats = sorted({c for t in TOPICS for c in t["categories"]})
     mapped = {c for lst in INDEX.values() for c in lst}

@@ -65,3 +65,5 @@ Issues:
 - `open-directory-listing`
 - `exposed-data-service-ports`
 - `zero-trust-architecture`
+- `caa-record-policy`
+- `cert-issuance-monitoring`

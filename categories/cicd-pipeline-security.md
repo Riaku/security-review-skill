@@ -27,3 +27,4 @@ Issues:
 - `pinned-ci-actions`
 - `policy-as-code-enforcement`
 - `lighthouse-ci-performance-budgets`
+- `breaking-change-linting-ci`

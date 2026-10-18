@@ -1,4 +1,4 @@
-# authentication — full checklist (30 items)
+# authentication — full checklist (32 items)
 
 Identity, credentials, session lifecycle.
 
@@ -347,4 +347,24 @@ mtls:
 **Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
 
 **References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
+
+# OAuth Third-Party Scope Minimization
+
+**MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.
+
+**Why:** Over-scoped integrations (`offline_access`, full mailbox, full repo) turn a third-party breach into your breach; scopes granted years ago silently persist.
+
+**Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
+
+**References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
+
+# Push-Token Binding & Rotation
+
+**MUST** bind APNs/FCM device tokens to the authenticated user+device and invalidate on logout/account change; never accept a token from an unauthenticated registration.
+
+**Why:** Unbound push tokens let an attacker register their device against someone's account (token swap) and receive their notifications — 2FA codes, account alerts, private messages.
+
+**Detect:** grep push registration endpoints for auth requirement and user+device binding; check logout path unregisters tokens; flag token storage without account association or per-install rotation.
+
+**References:** OWASP MASVS-AUTH, APNs/FCM security guidance, push-token hijacking CVEs
 

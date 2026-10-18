@@ -3,6 +3,11 @@
 **Date:** {date} · **Skill:** security-review-skill
 **Domains reviewed:** {domains}
 **Categories dispatched:** {categories} · **Items covered:** {item_count}
+**Depth profile:** {quick | standard | deep} · **Baseline diffed against:** {baseline_date or "none (first review)"}
+
+## Verdict: {BLOCK | SHIP-WITH-CONDITIONS | SHIP}
+
+{one-line justification per the verdict gates in references/severity-rubric.md}
 
 ## Summary
 

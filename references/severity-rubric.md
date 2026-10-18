@@ -48,3 +48,18 @@ No exploit path found, but the gap is real → low.
 - **Evidence gates severity:** no `file:line` evidence → the finding is
   `needs-human`, not a guess at any severity.
 - `not-applicable` and `pass` carry no severity.
+
+## Verdict Gates (review-level decision)
+
+Map the finding set to a release verdict in the report:
+
+- **BLOCK** — any `critical` finding open.
+- **SHIP-WITH-CONDITIONS** — any `high` open, or `needs-human` on an
+  authentication / payment / data-destruction path. Conditions must be
+  explicit, owned, and dated.
+- **SHIP** — no open critical/high; remaining mediums/lows listed as
+  backlog items.
+
+The verdict is advisory for the reviewer's process, not an automated
+merge gate — but the report MUST state one so the review has a decision,
+not just a list.

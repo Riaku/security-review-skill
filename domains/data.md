@@ -1,17 +1,19 @@
 # data
 
-Databases, replication, distributed data, queues and async pipelines.
+Databases, replication, distributed data, queues, async pipelines, and data/ETL platforms.
 
 Detection signals:
 - Migration directories (alembic, flyway, prisma, goose, atlas)
 - DB clients/drivers in dependencies (postgres, mysql, mongo, redis clients)
 - Queue clients (kafka, rabbitmq, sqs, celery, sidekiq, bull)
 - CDC/streaming tooling (debezium, flink)
+- Data-pipeline tooling (airflow/ dags/ dir, dbt projects, spark jobs, glue, dataflow)
 
 Categories:
 - `database`
 - `distributed-systems`
 - `messaging-async`
+- `data-pipelines`
 
 ## Stack quick-map
 

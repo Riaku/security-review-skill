@@ -40,3 +40,6 @@ Issues:
 - `lateral-movement-detection`
 - `credential-access-detection`
 - `runtime-threat-detection`
+- `admin-activity-review`
+- `audit-log-chain-of-custody`
+- `cert-issuance-monitoring`

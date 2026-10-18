@@ -17,3 +17,5 @@ Issues:
 - `code-review-practice`
 - `linting-static-analysis`
 - `code-fuzzing`
+- `openapi-implementation-drift-check`
+- `automated-a11y-gate-in-ci`

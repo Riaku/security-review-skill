@@ -21,3 +21,4 @@ Issues:
 - `backlog-catchup-throttling`
 - `startup-dependency-ordering`
 - `fail-secure-configuration`
+- `kill-switch-verification`

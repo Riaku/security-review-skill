@@ -1,4 +1,4 @@
-# security-practices — full checklist (24 items)
+# security-practices — full checklist (27 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -243,4 +243,34 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** map each crown-jewel asset to its control stack; flag assets protected by a single layer; check layer independence (e.g. WAF + app validation + DB authz vs WAF-only; secrets not readable by the same principal that reaches the app).
 
 **References:** OWASP Secure Product Design Cheat Sheet, NIST SP 800-53 defense-in-depth, CISA Secure by Design
+
+# Privileged-Action Attribution
+
+**MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.
+
+**Why:** Shared root/admin credentials destroy non-repudiation; when an incident happens, "admin did it" is not an answer.
+
+**Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
+
+**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
+
+# Break-Glass Access Procedure
+
+**SHOULD** define a monitored break-glass path for emergency privileged access: pre-authorized, logged, alerting on use, and reviewed within 24h.
+
+**Why:** Without a sanctioned emergency path, responders improvise with standing admin access — which is either absent in the outage or abused permanently after it.
+
+**Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
+
+**References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
+
+# Admin Activity Review
+
+**SHOULD** periodically review administrative actions (config changes, permission grants, data exports) against expected operations, on a defined cadence.
+
+**Why:** Insider misuse and compromised admin accounts both hide in plain sight; unreviewed admin logs are a detection gap no amount of collection fixes.
+
+**Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
+
+**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
 

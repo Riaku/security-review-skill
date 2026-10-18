@@ -1,4 +1,4 @@
-# observability — full checklist (37 items)
+# observability — full checklist (40 items)
 
 Logs, metrics, traces, profiling, alerting.
 
@@ -396,4 +396,34 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
+
+# Admin Activity Review
+
+**SHOULD** periodically review administrative actions (config changes, permission grants, data exports) against expected operations, on a defined cadence.
+
+**Why:** Insider misuse and compromised admin accounts both hide in plain sight; unreviewed admin logs are a detection gap no amount of collection fixes.
+
+**Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
+
+**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
+
+# Audit-Log Chain of Custody
+
+**SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
+
+**Why:** Audit findings you can't prove weren't altered are worthless in court or a regulator's hands; tampering by an insider must be detectable.
+
+**Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
+
+**References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
+
+# Certificate-Issuance Monitoring
+
+**SHOULD** alert on any certificate issued for your domains (CT-log monitoring via Certstream/CRT.sh) to detect unauthorized issuance fast.
+
+**Why:** Rogue/mistaken certs for your domain appear in Certificate Transparency logs publicly — if you're not watching, you learn about the fake cert from an outage or a breach report.
+
+**Detect:** check for CT-monitoring service/cron (Censys monitor, Certstream consumer, crt.sh search alerts) covering all brand domains and wildcard patterns; verify alert routing to a responder.
+
+**References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
 

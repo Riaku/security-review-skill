@@ -12,3 +12,4 @@ Issues:
 - `cdns`
 - `cache-control-headers`
 - `etags`
+- `cross-tenant-cache-key-collision`

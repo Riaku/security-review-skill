@@ -1,4 +1,4 @@
-# deployment-release — full checklist (26 items)
+# deployment-release — full checklist (28 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -300,4 +300,24 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
 **References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+
+# Stale-Flag Expiry Policy
+
+**SHOULD** give every feature flag an owner and expiry; flags past expiry trigger cleanup tickets, and long-lived flags are treated as config debt.
+
+**Why:** Zombie flags accumulate branches that no one understands, each a latent config-drift and dead-code hazard; flag sprawl measurably degrades codebase health.
+
+**Detect:** grep flag definitions for expiry/owner metadata; count flags older than N months without cleanup; check flag service (LaunchDarkly/Unleash) for stale-flag reports and kill dates.
+
+**References:** Feature-Toggle engineering (Fowler), LaunchDarkly stale-flag governance, Unleash flag lifecycle
+
+# Kill-Switch Verification
+
+**SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
+
+**Why:** An untested kill-switch is a rumor: the flag path may be dead code, the config may not propagate, or the dependency may be the very thing that's failing.
+
+**Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
+
+**References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
 

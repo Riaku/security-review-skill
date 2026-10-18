@@ -27,3 +27,6 @@ Issues:
 - `secure-by-default-shipping`
 - `zero-trust-architecture`
 - `defense-in-depth-layering`
+- `privileged-action-attribution`
+- `break-glass-access-procedure`
+- `admin-activity-review`

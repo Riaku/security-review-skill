@@ -1,4 +1,4 @@
-# web-client-security — full checklist (22 items)
+# web-client-security — full checklist (23 items)
 
 Browser-side attack surface and defenses.
 
@@ -236,4 +236,14 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 **Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
 
 **References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+
+# Third-Party Tag & Script Governance
+
+**MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
+
+**Why:** Marketing tags execute with your page's full privileges — a compromised tag is a Magecart-class supply-chain attack on your users' sessions and payment data.
+
+**Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
+
+**References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
 

@@ -4668,5 +4668,329 @@
     "categories": [
       "security-practices"
     ]
+  },
+  {
+    "num": 558,
+    "title": "Tenant-ID Spoofing at API Boundary",
+    "slug": "tenant-id-spoofing-api-boundary",
+    "categories": [
+      "multi-tenancy",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 559,
+    "title": "Cross-Tenant Cache Key Collision",
+    "slug": "cross-tenant-cache-key-collision",
+    "categories": [
+      "multi-tenancy",
+      "caching"
+    ]
+  },
+  {
+    "num": 560,
+    "title": "Tenant Offboarding Data Purge",
+    "slug": "tenant-offboarding-data-purge",
+    "categories": [
+      "multi-tenancy",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 561,
+    "title": "Shared-Queue Tenant Isolation",
+    "slug": "shared-queue-tenant-isolation",
+    "categories": [
+      "multi-tenancy",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 562,
+    "title": "BIMI & VMC Certificates",
+    "slug": "bimi-vmc-certificates",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 563,
+    "title": "MTA-STS & TLS Reporting",
+    "slug": "mta-sts-tls-reporting",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 564,
+    "title": "Lookalike-Domain Monitoring",
+    "slug": "lookalike-domain-monitoring",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 565,
+    "title": "Email-Template Injection",
+    "slug": "email-template-injection",
+    "categories": [
+      "email-security",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 566,
+    "title": "Firmware Signing & Secure Boot",
+    "slug": "firmware-signing-secure-boot",
+    "categories": [
+      "iot-embedded",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 567,
+    "title": "OTA Update Channel Integrity & Rollback Protection",
+    "slug": "ota-update-integrity-rollback-protection",
+    "categories": [
+      "iot-embedded"
+    ]
+  },
+  {
+    "num": 568,
+    "title": "Device Provisioning Identity",
+    "slug": "device-provisioning-identity",
+    "categories": [
+      "iot-embedded",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 569,
+    "title": "OAuth Third-Party Scope Minimization",
+    "slug": "oauth-third-party-scope-minimization",
+    "categories": [
+      "third-party-integrations",
+      "authentication"
+    ]
+  },
+  {
+    "num": 570,
+    "title": "Third-Party Tag & Script Governance",
+    "slug": "third-party-tag-script-governance",
+    "categories": [
+      "third-party-integrations",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 571,
+    "title": "SaaS Webhook Consumer Trust",
+    "slug": "saas-webhook-consumer-trust",
+    "categories": [
+      "third-party-integrations",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 572,
+    "title": "Integration Credential Sprawl",
+    "slug": "integration-credential-sprawl",
+    "categories": [
+      "third-party-integrations",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 573,
+    "title": "Privileged-Action Attribution",
+    "slug": "privileged-action-attribution",
+    "categories": [
+      "security-practices",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 574,
+    "title": "Break-Glass Access Procedure",
+    "slug": "break-glass-access-procedure",
+    "categories": [
+      "security-practices",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 575,
+    "title": "Admin Activity Review",
+    "slug": "admin-activity-review",
+    "categories": [
+      "security-practices",
+      "observability"
+    ]
+  },
+  {
+    "num": 576,
+    "title": "Litigation Hold Capability",
+    "slug": "litigation-hold-capability",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 577,
+    "title": "Audit-Log Chain of Custody",
+    "slug": "audit-log-chain-of-custody",
+    "categories": [
+      "compliance-privacy",
+      "observability"
+    ]
+  },
+  {
+    "num": 578,
+    "title": "Push-Token Binding & Rotation",
+    "slug": "push-token-binding",
+    "categories": [
+      "mobile",
+      "authentication"
+    ]
+  },
+  {
+    "num": 579,
+    "title": "Push-Payload Sensitivity",
+    "slug": "push-payload-sensitivity",
+    "categories": [
+      "mobile"
+    ]
+  },
+  {
+    "num": 580,
+    "title": "Stale-Flag Expiry Policy",
+    "slug": "stale-flag-expiry-policy",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 581,
+    "title": "Kill-Switch Verification",
+    "slug": "kill-switch-verification",
+    "categories": [
+      "deployment-release",
+      "resilience"
+    ]
+  },
+  {
+    "num": 582,
+    "title": "OpenAPI\u2013Implementation Drift Check",
+    "slug": "openapi-implementation-drift-check",
+    "categories": [
+      "api-design",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 583,
+    "title": "Breaking-Change Linting in CI",
+    "slug": "breaking-change-linting-ci",
+    "categories": [
+      "api-design",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 584,
+    "title": "Pipeline-Orchestrator Credential Sprawl",
+    "slug": "pipeline-orchestrator-credentials",
+    "categories": [
+      "data-pipelines",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 585,
+    "title": "PII Propagation & Warehouse Lineage",
+    "slug": "pii-propagation-warehouse-lineage",
+    "categories": [
+      "data-pipelines",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 586,
+    "title": "Backfill Idempotency at Pipeline Scale",
+    "slug": "backfill-idempotency",
+    "categories": [
+      "data-pipelines",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 587,
+    "title": "Erasure Propagation to Secondary Stores",
+    "slug": "erasure-propagation-secondary-stores",
+    "categories": [
+      "compliance-privacy",
+      "database"
+    ]
+  },
+  {
+    "num": 588,
+    "title": "Data Portability Export Mechanics",
+    "slug": "data-portability-export",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 589,
+    "title": "Automated A11y Gate in CI",
+    "slug": "automated-a11y-gate-in-ci",
+    "categories": [
+      "seo-web-quality",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 590,
+    "title": "CAA Record Policy",
+    "slug": "caa-record-policy",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 591,
+    "title": "Certificate-Issuance Monitoring",
+    "slug": "cert-issuance-monitoring",
+    "categories": [
+      "cloud-network",
+      "observability"
+    ]
+  },
+  {
+    "num": 592,
+    "title": "Ledger Invariant Checks",
+    "slug": "ledger-invariant-checks",
+    "categories": [
+      "payments-fraud",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 593,
+    "title": "Reconciliation Runbook",
+    "slug": "reconciliation-runbook",
+    "categories": [
+      "payments-fraud",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 594,
+    "title": "DST-Transition Behavior Test",
+    "slug": "dst-transition-behavior-test",
+    "categories": [
+      "correctness-pitfalls",
+      "sre-incidents"
+    ]
   }
 ]

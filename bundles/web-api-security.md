@@ -1,4 +1,4 @@
-# web-api-security — full checklist (49 items)
+# web-api-security — full checklist (52 items)
 
 Server-side API and web application attack surface.
 
@@ -599,4 +599,34 @@ iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
 **Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
 
 **References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+
+# Tenant-ID Spoofing at API Boundary
+
+**MUST** derive the tenant from the authenticated session/token on every request — never from a client-supplied tenant_id parameter or header.
+
+**Why:** The classic cross-tenant breach: API trusts `?tenant_id=` from the caller, letting one tenant read or mutate another's data with a valid session.
+
+**Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
+
+**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
+
+# Email-Template Injection
+
+**MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
+
+**Why:** Usernames or fields containing `<a href="https://phish...">` turn your trusted, DKIM-signed transactional email into a phishing vector your own domain vouches for.
+
+**Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
+
+**References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
+
+# SaaS Webhook Consumer Trust
+
+**MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
+
+**Why:** Unverified webhook endpoints accept forged events ("payment captured", "user verified") from anyone who finds the URL; SaaS signing secrets also rotate, which unverified integrations hide until they break.
+
+**Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
+
+**References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
 

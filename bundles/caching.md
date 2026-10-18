@@ -1,4 +1,4 @@
-# caching — full checklist (9 items)
+# caching — full checklist (10 items)
 
 Cache correctness, performance, and eviction.
 
@@ -93,4 +93,14 @@ Cache correctness, performance, and eviction.
 **Detect:** `ETag` built from user-independent hashes; `If-None-Match` handlers ignoring tenant ID; weak `W/` validators on auth-sensitive resources.
 
 **References:** OWASP A04:2021, CWE-916, RFC 7232 section 2.3, RFC 9110 8.8.3
+
+# Cross-Tenant Cache Key Collision
+
+**MUST** include tenant identity in every cache key for tenant-scoped data (cache, CDN, search index, session store).
+
+**Why:** A cache key like `user:1042` without tenant scope serves tenant A's data to tenant B on ID reuse — a silent, high-volume cross-tenant leak.
+
+**Detect:** grep cache set/get calls for keys lacking `tenant`/`org` components; check CDN cache keys and vary headers for tenant-scoped pages; review Redis key naming convention.
+
+**References:** OWASP Multi-Tenant Security Guidance, CWE-922 insecure storage
 

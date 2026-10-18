@@ -1,4 +1,4 @@
-# payments-fraud — full checklist (5 items)
+# payments-fraud — full checklist (7 items)
 
 Payment flows, fraud, and money-movement safety.
 
@@ -53,4 +53,24 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** grep for "PAN", "cardholder", "CDE", "SAQ-" in configs; card data in logs, unsegmented networks, SAQ type mismatched to flow.
 
 **References:** PCI DSS v4.0.1, SAQ A-D, PCI SSC scoping guidance
+
+# Ledger Invariant Checks
+
+**MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.
+
+**Why:** Silent ledger drift (rounding, partial writes, bugs) compounds into real financial loss; systems without invariant checks discover errors at reconciliation time — too late to cheaply fix.
+
+**Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
+
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+
+# Reconciliation Runbook
+
+**SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
+
+**Why:** Money systems disagree with their counterparties routinely; without a reconciliation runbook, every mismatch becomes a fire-drill, and real losses hide in the "we'll check later" pile.
+
+**Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
+
+**References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
 

@@ -11,6 +11,7 @@ Categories:
 - `compliance-privacy`
 - `ai-llm`
 - `payments-fraud`
+- `email-security`
 
 ## Stack quick-map
 

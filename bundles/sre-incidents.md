@@ -1,4 +1,4 @@
-# sre-incidents — full checklist (36 items)
+# sre-incidents — full checklist (39 items)
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
@@ -401,4 +401,34 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** grep `postmortem`, `RCA`, `blameless`, review templates, action tickets linked to incident IDs.
 
 **References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17
+
+# Break-Glass Access Procedure
+
+**SHOULD** define a monitored break-glass path for emergency privileged access: pre-authorized, logged, alerting on use, and reviewed within 24h.
+
+**Why:** Without a sanctioned emergency path, responders improvise with standing admin access — which is either absent in the outage or abused permanently after it.
+
+**Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
+
+**References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
+
+# Reconciliation Runbook
+
+**SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
+
+**Why:** Money systems disagree with their counterparties routinely; without a reconciliation runbook, every mismatch becomes a fire-drill, and real losses hide in the "we'll check later" pile.
+
+**Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
+
+**References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
+
+# DST-Transition Behavior Test
+
+**SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
+
+**Why:** Cron jobs silently skip or double-fire at DST boundaries; "runs every 2h" becomes 23 or 25 runs twice a year — a bug that hides for months and hits exactly when you're asleep.
+
+**Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
+
+**References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
 

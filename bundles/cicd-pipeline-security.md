@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (24 items)
+# cicd-pipeline-security — full checklist (25 items)
 
 CI/CD system as an attack surface.
 
@@ -243,4 +243,14 @@ CI/CD system as an attack surface.
 **Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
 
 **References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
+
+# Breaking-Change Linting in CI
+
+**SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
+
+**Why:** Hand-review misses subtle contract breaks; automated diffing (oasdiff/buf breaking) catches them at the PR that introduces them, before consumers discover at runtime.
+
+**Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
+
+**References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
 

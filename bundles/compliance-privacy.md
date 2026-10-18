@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (36 items)
+# compliance-privacy — full checklist (43 items)
 
 Privacy operations and data protection in code.
 
@@ -405,4 +405,74 @@ export = anonymize(df, k=20,
 **Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
 
 **References:** NIST SP 800-122, GDPR Art. 4/32
+
+# Tenant Offboarding Data Purge
+
+**MUST** provide a verified, complete tenant purge: primary stores, replicas, caches, search indexes, backups policy, analytics, and third-party processors — with attestation evidence.
+
+**Why:** Offboarded tenant data lingering in a warehouse layer or search index is a compliance breach waiting to be discovered; "we deleted the account" rarely means everything.
+
+**Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
+
+**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
+
+# Privileged-Action Attribution
+
+**MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.
+
+**Why:** Shared root/admin credentials destroy non-repudiation; when an incident happens, "admin did it" is not an answer.
+
+**Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
+
+**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
+
+# Litigation Hold Capability
+
+**SHOULD** be able to suspend retention/deletion policies on demand for legal preservation (litigation hold) across all data stores and logs.
+
+**Why:** Automated retention deletion that can't be paused becomes spoliation of evidence; legal needs a kill-switch on the shredder.
+
+**Detect:** review retention jobs for a hold flag respected at deletion time; check backup lifecycle, log rotation, and SaaS retention can be frozen per custodian/case; verify hold procedure is documented and tested.
+
+**References:** EDRR model (NIST SP 800-221), FRCP 37(e), legal hold vendor docs (Exterro, Relativity)
+
+# Audit-Log Chain of Custody
+
+**SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
+
+**Why:** Audit findings you can't prove weren't altered are worthless in court or a regulator's hands; tampering by an insider must be detectable.
+
+**Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
+
+**References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
+
+# PII Propagation & Warehouse Lineage
+
+**SHOULD** track where PII flows through warehouse layers (raw→staging→marts→exports) with lineage, and enforce classification at each hop.
+
+**Why:** PII copied into analytics tables, temp datasets, and BI exports silently multiplies copies beyond the retention and access controls that protect the source.
+
+**Detect:** review lineage tooling (OpenLineage, dbt lineage, DataHub/Collibra) for PII-tagged datasets; sample staging/mart tables for unclassified columns containing emails/ids; check export destinations inherit classification.
+
+**References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
+
+# Erasure Propagation to Secondary Stores
+
+**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
+
+**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
+
+**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
+
+**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
+
+# Data Portability Export Mechanics
+
+**SHOULD** provide a complete, machine-readable export of a user's data (JSON/CSV) covering all stores where they appear, generated within the regulatory SLA.
+
+**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under a 30-day clock without pre-built tooling fails.
+
+**Detect:** review export tooling coverage vs datastore inventory; check export includes activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
+
+**References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
 
