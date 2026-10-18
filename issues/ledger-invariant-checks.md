@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, payments-fraud]
+domains: [backend, governance]
+---
+
 # Ledger Invariant Checks
 
 **MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.

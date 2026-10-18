@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, testing-strategy]
+domains: [backend, infrastructure]
+---
+
 # Code Review Practice
 
 **MUST** require at least one independent reviewer for every change touching authentication, cryptography, or input handling, with a documented security checklist and a response SLA.

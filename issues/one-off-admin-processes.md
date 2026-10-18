@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Admin Tasks as One-Off Processes from the Release
 
 **SHOULD** run admin and maintenance tasks (migrations, REPLs, one-time scripts) as one-off processes from the same released code, config, and dependency isolation — committed to the repo — rather than ad-hoc scripts executed against production out-of-band.

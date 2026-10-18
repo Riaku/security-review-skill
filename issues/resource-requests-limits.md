@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Resource Requests & Limits
 
 **SHOULD** set explicit CPU/memory requests and limits on every container so one workload cannot starve the node or the scheduler cannot place blindly.

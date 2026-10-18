@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Sharding
 
 **MUST** choose a shard key that distributes write load evenly and keeps transactionally-related rows on the same shard; cross-shard transactions MUST be avoided by design, not discovered in production.

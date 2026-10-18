@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Dependency Confusion / Package-Name Squatting
 
 **MUST NOT** resolve internal package names from public registries; private packages must install only from the internal registry via explicit scope or index pinning.

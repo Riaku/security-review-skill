@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # API Versioning
 
 **SHOULD** version APIs explicitly via URL path or header from day one, keeping the breaking-change policy documented per version.

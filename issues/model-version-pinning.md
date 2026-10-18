@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Model Version Pinning
 
 **MUST** pin exact model versions or digests rather than floating aliases like gpt-4 or latest in production configs.

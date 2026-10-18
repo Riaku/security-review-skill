@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Multi-Region
 
 **SHOULD** deploy across regions only when latency and data residency allow, with explicit region-failure semantics.

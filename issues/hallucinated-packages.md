@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, supply-chain]
+domains: [governance, infrastructure]
+---
+
 # Hallucinated Packages
 
 **SHOULD** verify that every package name in generated or AI-assisted code actually exists and matches intent before installing.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

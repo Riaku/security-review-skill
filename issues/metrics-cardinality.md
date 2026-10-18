@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Metrics Cardinality
 
 **MUST NOT** label metrics with unbounded values like user IDs, emails, session tokens, or raw URLs.

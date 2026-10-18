@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks]
+domains: [government-compliance]
+---
+
 # SSH Hardening
 
 **MUST NOT** permit root login or password authentication on internet-facing SSH; keys only, with `PermitRootLogin no`, `PasswordAuthentication no`, and modern MACs/ciphers.

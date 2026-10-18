@@ -4,6 +4,62 @@ CI/CD system as an attack surface.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · index: [SKILL.md](../SKILL.md)
 
+# Advisory-vs-Enforced Agent Checks
+
+**MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
+
+**Why:** The whole ecosystem converged on this distinction: "hooks are deterministic; CLAUDE.md is advisory" (Anthropic). Policy claimed in instruction files with no hook behind it is unenforced policy wearing a costume.
+
+**Detect:** security rules present only in instruction-file text with no corresponding hook/CI enforcement; hook config (e.g. .claude/settings.json) empty while policy claims enforcement.
+
+**References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# AI-generated code review gate before merge
+
+**SHOULD** require human security review of AI-generated code before merge; Copilot-style output is not self-certifying.
+
+**Why:** Models reproduce vulnerable patterns and plausible-but-broken crypto from training data at high volume and speed.
+
+**Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
+
+**References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
+
+**MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.
+
+**Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
+
+**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
+
+**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
+
+**SHOULD** run kube-bench, Lynis, or Trivy misconfig scans in CI on every image and host config change, failing the pipeline on high-severity findings.
+
+**Why:** Hardening drifts silently after deploy; without automated benchmark gates, regressions ship unnoticed until an attacker exploits them.
+
+**Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --security-check misconfig` steps and severity gates.
+
+**References:** CIS Benchmarks, NIST SP 800-53 CM-6, DevSecOps, CWE-1188
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Branch Protection
 
 **MUST** require reviewed, status-passing pull requests before merging into protected branches, with force-push and branch deletion disabled.
@@ -18,33 +74,19 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Secrets in CI Logs
+# Breaking-Change Linting in CI
 
-**MUST NOT** echo, print, or interpolate secrets into CI output; mask values via CI secret masking and avoid commands that dump environment variables.
+**SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
 
-**Why:** Build logs are widely readable — teammates, forked PRs, and third-party integrations can harvest tokens from a single verbose step.
+**Why:** Hand-review misses subtle contract breaks; automated diffing (oasdiff/buf breaking) catches them at the PR that introduces them, before consumers discover at runtime.
 
-**Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
+**Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
 
-**References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# CI Runner Isolation
-
-**MUST** run untrusted build jobs on ephemeral, per-job isolated runners with no shared workspace, persistent credentials, or network access to production networks.
-
-**Why:** Reused or shared runners let one malicious job harvest secrets and artifacts left behind by previous builds.
-
-**Detect:** Self-hosted runner labels in workflow `runs-on`; persistent `/var/run/docker.sock` mounts; runner config `ephemeral=false`; shared cache dirs across jobs.
-
-**References:** OWASP CI Security CS3, CWE-419, NIST SP 800-218 PW.5, GitHub Actions security hardening guide
+**References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
 
 ---
 
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [api-design](../categories/api-design.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # CI Action Pinning (SHA not tag)
 
@@ -55,6 +97,20 @@ CI/CD system as an attack surface.
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
 **References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide, OWASP CI/CD Top 10 CICD-SEC-4, NIST SP 800-161
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# CI Artifact Integrity Handoff
+
+**MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.
+
+**Why:** Unsigned artifacts can be swapped or tampered with between build and deploy with no way to detect the substitution.
+
+**Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
+
+**References:** OWASP CI Security CS5, CWE-345, NIST SP 800-218 PW.6, SLSA provenance levels, sigstore/cosign docs
 
 ---
 
@@ -74,61 +130,19 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# CI Artifact Integrity Handoff
+# CI Runner Isolation
 
-**MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.
+**MUST** run untrusted build jobs on ephemeral, per-job isolated runners with no shared workspace, persistent credentials, or network access to production networks.
 
-**Why:** Unsigned artifacts can be swapped or tampered with between build and deploy with no way to detect the substitution.
+**Why:** Reused or shared runners let one malicious job harvest secrets and artifacts left behind by previous builds.
 
-**Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
+**Detect:** Self-hosted runner labels in workflow `runs-on`; persistent `/var/run/docker.sock` mounts; runner config `ephemeral=false`; shared cache dirs across jobs.
 
-**References:** OWASP CI Security CS5, CWE-345, NIST SP 800-218 PW.6, SLSA provenance levels, sigstore/cosign docs
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
-
-**SHOULD** run kube-bench, Lynis, or Trivy misconfig scans in CI on every image and host config change, failing the pipeline on high-severity findings.
-
-**Why:** Hardening drifts silently after deploy; without automated benchmark gates, regressions ship unnoticed until an attacker exploits them.
-
-**Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --security-check misconfig` steps and severity gates.
-
-**References:** CIS Benchmarks, NIST SP 800-53 CM-6, DevSecOps, CWE-1188
+**References:** OWASP CI Security CS3, CWE-419, NIST SP 800-218 PW.5, GitHub Actions security hardening guide
 
 ---
 
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# Code Review Practice
-
-**MUST** require at least one independent reviewer for every change touching authentication, cryptography, or input handling, with a documented security checklist and a response SLA.
-
-**Why:** Single-author security code ships logic errors and backdoors that a second pair of eyes reliably catches.
-
-**Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
-
-**References:** OWASP ASVS V1.1.4, NIST SP 800-218 PS.1 (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# Linting & Static Analysis Enforced in CI (linter, type checker, SAST)
-
-**MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.
-
-**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it, and defects caught in production cost orders of magnitude more than at commit time.
-
-**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
-
-**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # CI Workflow Injection via Untrusted PR Content (pull_request_target)
 
@@ -144,19 +158,19 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
+# Code Review Practice
 
-**MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.
+**MUST** require at least one independent reviewer for every change touching authentication, cryptography, or input handling, with a documented security checklist and a response SLA.
 
-**Why:** Copied files and build args persist in layer history and are recoverable from any pushed image with `docker history`.
+**Why:** Single-author security code ships logic errors and backdoors that a second pair of eyes reliably catches.
 
-**Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
+**Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 PS.1, BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP ASVS V1.1.4, NIST SP 800-218 PS.1 (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
 
 ---
 
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Docker-in-Docker / Privileged Build Steps in CI
 
@@ -172,6 +186,20 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
+# Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
+
+**MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.
+
+**Why:** Copied files and build args persist in layer history and are recoverable from any pushed image with `docker history`.
+
+**Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
+
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 PS.1, BuildKit secret mounting docs, hadolint DL3025/DL3009
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # GitOps Repo Write Access Equals Cluster Write Access
 
 **MUST** treat write access to a GitOps repo as production cluster admin and restrict it accordingly with review, CODEOWNERS, and separation of duties.
@@ -185,76 +213,6 @@ CI/CD system as an attack surface.
 ---
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
-
-**MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.
-
-**Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
-
-**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
-
-**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# IaC Plan/Apply Triggered from Untrusted Pull Requests
-
-**MUST NOT** run `terraform apply` (or equivalent) directly from fork or untrusted PR content; apply only from a reviewed, trusted branch after human approval.
-
-**Why:** Malicious HCL in a PR can exfiltrate state, open security-group holes, or destroy resources the moment CI auto-applies it.
-
-**Detect:** CI configs auto-applying on `pull_request` events; plan jobs echoing full state containing secrets; missing manual approval gate before apply stage.
-
-**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 PW.8, Terraform Cloud PR workflow docs, Checkov tfsec guidance
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# AI-generated code review gate before merge
-
-**SHOULD** require human security review of AI-generated code before merge; Copilot-style output is not self-certifying.
-
-**Why:** Models reproduce vulnerable patterns and plausible-but-broken crypto from training data at high volume and speed.
-
-**Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
-
-**References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Patch management SLAs (MTTR targets by severity, exception tracking)
-
-**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
-
-**Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
-
-**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
-
-**References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# SARIF-Standardized Scan Results (unified alert pipeline)
-
-**SHOULD** emit all scanner findings in SARIF and ingest them into one dashboard, because scattered formats hide coverage gaps and duplicate triage.
-
-**Why:** Findings in per-tool logs go unseen; a unified pipeline makes severity trends and deduplication auditable.
-
-**Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
-
-**References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Hermetic Builds (no undeclared network/env deps during build)
 
@@ -270,6 +228,48 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
+# IaC Plan/Apply Triggered from Untrusted Pull Requests
+
+**MUST NOT** run `terraform apply` (or equivalent) directly from fork or untrusted PR content; apply only from a reviewed, trusted branch after human approval.
+
+**Why:** Malicious HCL in a PR can exfiltrate state, open security-group holes, or destroy resources the moment CI auto-applies it.
+
+**Detect:** CI configs auto-applying on `pull_request` events; plan jobs echoing full state containing secrets; missing manual approval gate before apply stage.
+
+**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 PW.8, Terraform Cloud PR workflow docs, Checkov tfsec guidance
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# Linting & Static Analysis Enforced in CI (linter, type checker, SAST)
+
+**MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.
+
+**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it, and defects caught in production cost orders of magnitude more than at commit time.
+
+**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
+
+**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# Patch management SLAs (MTTR targets by severity, exception tracking)
+
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
+
+**Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
+
+**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
+
+**References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
 **SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
@@ -284,20 +284,6 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Breaking-Change Linting in CI
-
-**SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
-
-**Why:** Hand-review misses subtle contract breaks; automated diffing (oasdiff/buf breaking) catches them at the PR that introduces them, before consumers discover at runtime.
-
-**Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
-
-**References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Review-Bot Neutral-Status Trap
 
 **MUST** verify that AI review gates actually fail on unresolved findings — a required status that reports neutral/success while findings remain open does not block merges.
@@ -310,7 +296,7 @@ CI/CD system as an attack surface.
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Review-Config Immutable to the Reviewee
 
@@ -326,19 +312,33 @@ CI/CD system as an attack surface.
 
 **Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Advisory-vs-Enforced Agent Checks
+# SARIF-Standardized Scan Results (unified alert pipeline)
 
-**MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
+**SHOULD** emit all scanner findings in SARIF and ingest them into one dashboard, because scattered formats hide coverage gaps and duplicate triage.
 
-**Why:** The whole ecosystem converged on this distinction: "hooks are deterministic; CLAUDE.md is advisory" (Anthropic). Policy claimed in instruction files with no hook behind it is unenforced policy wearing a costume.
+**Why:** Findings in per-tool logs go unseen; a unified pipeline makes severity trends and deduplication auditable.
 
-**Detect:** security rules present only in instruction-file text with no corresponding hook/CI enforcement; hook config (e.g. .claude/settings.json) empty while policy claims enforcement.
+**Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
-**References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
+**References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Secrets in CI Logs
+
+**MUST NOT** echo, print, or interpolate secrets into CI output; mask values via CI secret masking and avoid commands that dump environment variables.
+
+**Why:** Build logs are widely readable — teammates, forked PRs, and third-party integrations can harvest tokens from a single verbose step.
+
+**Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
+
+**References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Unattended-Agent Automation Governance
 
@@ -352,5 +352,5 @@ CI/CD system as an attack surface.
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

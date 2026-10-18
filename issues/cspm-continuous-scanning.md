@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)
 
 **MUST** scan cloud configuration continuously for misconfigurations instead of relying on point-in-time audits.

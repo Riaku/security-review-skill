@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # At-Least-Once Delivery
 
 **SHOULD** document at-least-once semantics explicitly and require idempotent consumers, since redelivery on ack failure is guaranteed.

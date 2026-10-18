@@ -241,13 +241,16 @@ def check_round_trip(c: lg.Crawl) -> RoundTrip:
         if doc.parent == doms_dir:
             listed_by_dom[doc] = listed(doc, ml.DOMAIN_ITEM_RE, cats_dir)
 
-    # --- category headers: the domain each one points at -------------------
+    # --- category headers: the domains each one points at -------------------
+    # The nav line is `Domain: [x](../domains/x.md)` for a category whose items
+    # all sit in one domain, `Domains: [x] · [y]` once they span several — an
+    # item declares its own domains, so a category rolls them up.
     dom_of_cat: dict[pathlib.Path, set[pathlib.Path]] = {}
     for doc in c.docs:
         if doc.parent != cats_dir:
             continue
         line = next((ln for ln in text_of(doc).splitlines()
-                     if ln.startswith("Domain:")), None)
+                     if ln.startswith(("Domain:", "Domains:"))), None)
         doms: set[pathlib.Path] = set()
         if line is not None:
             for ln in lg.iter_links(doc, line):

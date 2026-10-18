@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Idle-in-transaction sessions monitored and killed
 
 **MUST** set a bounded `idle_in_transaction_session_timeout` so sessions holding open transactions without activity are terminated automatically.

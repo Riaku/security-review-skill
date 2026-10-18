@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Stateless Services
 
 **SHOULD** keep session and application state external (datastore, token) so any replica can serve any request.

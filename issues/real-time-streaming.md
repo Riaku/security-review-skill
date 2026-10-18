@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Real-time Streaming
 
 **MUST** authorize each stream subscription per-user; never broadcast a channel that any authenticated client can name and join.

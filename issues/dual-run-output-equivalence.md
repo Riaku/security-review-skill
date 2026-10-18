@@ -1,3 +1,8 @@
+---
+categories: [data-pipelines]
+domains: [data]
+---
+
 # Dual-Run Output Equivalence
 
 **SHOULD** run old and new processing paths in parallel and diff their outputs before cutting over for high-risk data/logic changes (the data-layer analogue of blue-green deployment).

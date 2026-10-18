@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Flame Graphs
 
 **SHOULD** make flame graphs available for CPU and allocation hot spots so performance regressions and abuse patterns are visually diagnosable.

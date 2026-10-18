@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Infrastructure as Code
 
 **MUST** define all cloud and cluster resources in version-controlled IaC templates reviewed through pull requests, never via console clicks.

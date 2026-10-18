@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, observability]
+domains: [infrastructure, reliability]
+---
+
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
 **SHOULD** Track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.

@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Build Provenance Attestation (SLSA-style signed provenance for artifacts)
 
 **MUST** attach signed provenance (source, builder, inputs) to every published artifact so consumers can verify its origin.

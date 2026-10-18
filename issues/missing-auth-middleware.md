@@ -1,3 +1,8 @@
+---
+categories: [authentication, web-api-security]
+domains: [backend]
+---
+
 # Missing Authentication Middleware / Default-Deny Routing
 
 **MUST** default-deny: every route requires authentication unless explicitly marked public via an allowlist.

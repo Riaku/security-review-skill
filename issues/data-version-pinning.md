@@ -1,3 +1,8 @@
+---
+categories: [data-pipelines]
+domains: [data]
+---
+
 # Data Version Pinning
 
 **SHOULD** pin the exact version of input datasets used to produce any output (DVC, immutable versioned files, recorded dataset hashes) so results are re-derivable and auditable.

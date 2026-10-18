@@ -1,3 +1,8 @@
+---
+categories: [authentication, third-party-integrations]
+domains: [backend]
+---
+
 # OAuth Third-Party Scope Minimization
 
 **MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.

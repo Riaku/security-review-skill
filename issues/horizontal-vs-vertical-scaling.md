@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Horizontal vs Vertical Scaling
 
 **SHOULD** prefer horizontal scaling for stateless tiers and reserve vertical scaling for stateful components, documenting each datastore's single-node ceiling.

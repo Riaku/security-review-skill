@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, correctness-pitfalls]
+domains: [backend, infrastructure]
+---
+
 # Zombie Process Reaping Handled in Container PID 1
 
 **MUST** ensure the container's PID 1 reaps orphaned child processes, via an init system (tini/dumb-init) or a reaping-aware entrypoint.

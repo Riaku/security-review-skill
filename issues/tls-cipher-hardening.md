@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # TLS/ Cipher Suite Hardening (Mozilla profiles, disable legacy)
 
 **MUST** Terminating endpoints offer only modern suites per the Mozilla Intermediate (or Modern) profile, and MUST NOT negotiate RC4, 3DES, SHA-1 MACs, export, or anonymous suites.
@@ -21,4 +26,4 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 ---
 
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

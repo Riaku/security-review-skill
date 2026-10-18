@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, database]
+domains: [backend, data]
+---
+
 # Durability Acknowledgment Policy
 
 **MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).

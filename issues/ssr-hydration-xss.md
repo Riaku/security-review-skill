@@ -1,3 +1,8 @@
+---
+categories: [web-client-security]
+domains: [frontend]
+---
+
 # SSR Hydration XSS
 
 **MUST NOT** interpolate user-controlled data into server-rendered HTML without context-aware escaping, especially inside script, attribute, or URL contexts.

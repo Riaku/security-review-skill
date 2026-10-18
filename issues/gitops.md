@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # GitOps
 
 **MUST** make Git the single source of truth for cluster state, with sync controllers denying out-of-band mutation and requiring signed commits for merge.

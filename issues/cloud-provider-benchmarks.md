@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # Cloud Provider Security Benchmarks (AWS Foundations / Azure / GCP CIS)
 
 **SHOULD** The provider's own framework — AWS Foundational Security Best Practices, Azure Secure Score, GCP CIS recommendations — be continuously evaluated in the native tool rather than spot-checked by hand.
@@ -21,4 +26,4 @@
 
 ---
 
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

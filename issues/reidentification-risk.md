@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, database]
+domains: [data, governance]
+---
+
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 
 **MUST NOT** describe a dataset as anonymous unless re-identification is infeasible with auxiliary data; pseudonymized data — reversible keys, stable IDs — remains personal data under GDPR.

@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, containers-k8s]
+domains: [infrastructure]
+---
+
 # NodePort / LoadBalancer Accidentally Exposing Internal Services
 
 **SHOULD NOT** publish admin dashboards, databases, or metrics endpoints via NodePort or an internet-facing LoadBalancer; internal services stay internal unless a reviewed ingress explicitly fronts them.

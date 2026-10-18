@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Error Tracking
 
 **SHOULD** route unhandled exceptions to an error tracker (Sentry-style) with release, environment, and correlation context — while scrubbing sensitive fields before transmission.

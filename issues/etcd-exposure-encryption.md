@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # etcd Exposure and Missing etcd Encryption
 
 **MUST** restrict etcd (2379/2380) to control-plane peers and enable encryption at rest for all stored Secrets.

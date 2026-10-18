@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Outbox Pattern
 
 **MUST** write domain changes and their outbox events in one atomic database transaction, never publishing before commit.

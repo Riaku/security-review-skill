@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Strict Build / Release / Run Separation
 
 **MUST NOT** rebuild per environment: build once, compose config into a versioned release, and promote the identical digest-pinned artifact from staging to production.

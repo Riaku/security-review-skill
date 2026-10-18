@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # SQL Injection
 
 **MUST** Use parameterized queries or bound variables; never concatenate user input into SQL.

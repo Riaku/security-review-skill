@@ -1,3 +1,8 @@
+---
+categories: [authentication, observability]
+domains: [backend, reliability]
+---
+
 # Credential Access Detection (keylogging, token theft, credential dumping patterns)
 
 **SHOULD** detect credential harvesting: LSASS dumps, keylogging hooks, OAuth token replay, metadata-service credential scraping.

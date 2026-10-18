@@ -1,3 +1,8 @@
+---
+categories: [observability, security-practices]
+domains: [backend, reliability]
+---
+
 # Log Injection & Log Forging
 
 **MUST NOT** write unsanitized user input into log lines; strip CR/LF and control characters before logging any request data.

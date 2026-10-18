@@ -1,3 +1,8 @@
+---
+categories: [caching, multi-tenancy]
+domains: [backend, reliability]
+---
+
 # Cross-Tenant Cache Key Collision
 
 **MUST** include tenant identity in every cache key for tenant-scoped data (cache, CDN, search index, session store).

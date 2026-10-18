@@ -1,3 +1,8 @@
+---
+categories: [third-party-integrations, web-api-security]
+domains: [backend]
+---
+
 # SaaS Webhook Consumer Trust
 
 **MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.

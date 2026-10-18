@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Zero Trust Architecture
 
 **SHOULD** verify every request explicitly regardless of network location — no implicit trust for internal networks, device posture checked, per-request authorization, least-privilege service identity.

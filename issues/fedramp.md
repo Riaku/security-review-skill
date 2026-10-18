@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # FedRAMP (Low/Moderate/High)
 
 **MUST** map every cloud service consumed by the system to a FedRAMP authorization boundary at the impact level matching the data it processes, with inherited controls documented in the System Security Plan.

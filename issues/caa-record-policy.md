@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # CAA Record Policy
 
 **SHOULD** publish CAA records restricting which CAs may issue certificates for the domain, with issuewild and iodef contact configured.

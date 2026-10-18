@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Data Residency
 
 **MUST** store and process data within the geographic boundaries mandated by applicable regulation or customer contract.

@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, secrets-crypto]
+domains: [backend, government-compliance]
+---
+
 # FIPS 186 / Digital Signature Standards
 
 **SHOULD** generate and verify digital signatures using approved algorithms (ECDSA, RSA per FIPS 186-5) with approved curves and key lengths only.

@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Log Levels
 
 **SHOULD NOT** ship production builds with debug or trace level logging enabled by default.

@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # SOAR / Security Orchestration & Automated Response
 
 **MAY** automate containment through SOAR playbooks, with human review gates on destructive actions.

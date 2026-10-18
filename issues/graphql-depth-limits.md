@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # GraphQL Query Depth & Complexity Limits
 
 **MUST** Cap query depth, node count, and alias size, rejecting over-budget queries before execution.

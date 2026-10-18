@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # DNS
 
 **MUST NOT** Any security decision rely on DNS names or reverse DNS without validation, and resolvers in use be explicitly configured rather than inherited from DHCP.

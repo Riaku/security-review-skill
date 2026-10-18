@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, cicd-pipeline-security]
+domains: [backend, infrastructure]
+---
+
 # GitOps Repo Write Access Equals Cluster Write Access
 
 **MUST** treat write access to a GitOps repo as production cluster admin and restrict it accordingly with review, CODEOWNERS, and separation of duties.

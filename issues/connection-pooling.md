@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Connection Pooling
 
 **MUST** route application database access through a sized connection pool instead of opening a fresh connection per request.

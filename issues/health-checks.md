@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Health Checks
 
 **MUST** expose an authenticated-or-network-restricted health endpoint that verifies dependencies rather than just process liveness.

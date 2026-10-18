@@ -1,3 +1,8 @@
+---
+categories: [database, deployment-release]
+domains: [data, infrastructure]
+---
+
 # Dual-write plus backfill migration cutover rehearsed
 
 **SHOULD** rehearse the full dual-write → backfill → verify → cutover sequence on a staging copy of production data before running it live, with tested rollback at each phase.

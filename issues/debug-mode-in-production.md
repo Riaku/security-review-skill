@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # Debug/Dev Mode in Production
 
 **MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.

@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, security-practices]
+domains: [backend, government-compliance]
+---
+
 # Cyber insurance alignment: coverage preconditions and denial clauses
 
 **MUST NOT** let representations on insurance applications (MFA everywhere, EDR deployed, backups tested) drift from actual configuration, since denial clauses void claims on misrepresentation.

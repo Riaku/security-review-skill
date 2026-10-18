@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Secret Validity Checking (verify leaked keys are live)
 
 **SHOULD** validate whether a reported leaked credential is still active before closing the finding, and confirm revocation actually took effect at the provider.

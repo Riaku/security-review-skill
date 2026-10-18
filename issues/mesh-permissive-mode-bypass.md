@@ -1,3 +1,8 @@
+---
+categories: [authentication, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Service Mesh Permissive mTLS and Direct-Pod-IP Bypass
 
 **MUST NOT** treat permissive-mode mTLS as an access-control boundary; enforce STRICT mTLS per namespace and pair it with NetworkPolicies that block plaintext direct-pod-IP access.

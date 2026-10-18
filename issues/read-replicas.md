@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Read Replicas
 
 **MUST** route write-critical reads to the primary and reserve replicas for traffic that tolerates staleness; never send a read-your-own-write query to a replica.

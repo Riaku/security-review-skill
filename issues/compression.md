@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Compression
 
 **SHOULD NOT** compress responses that contain attacker-controllable input alongside secrets in the same stream (CRIME/BREACH class).

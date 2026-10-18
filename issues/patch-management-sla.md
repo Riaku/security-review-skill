@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
 **MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.

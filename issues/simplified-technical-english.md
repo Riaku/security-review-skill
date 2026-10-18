@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Simplified Technical English for Procedures
 
 **SHOULD** write operational/procedural documentation in controlled language per ASD-STE100: short sentences (max ~25 words), one meaning per word, active voice, one instruction per step, no idioms.

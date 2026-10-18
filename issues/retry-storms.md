@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Retry Storms
 
 **MUST NOT** retry without a hard budget shared across the call graph; nested retries multiply one failure into dozens.

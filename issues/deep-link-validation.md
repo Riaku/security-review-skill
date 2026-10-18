@@ -1,3 +1,8 @@
+---
+categories: [mobile]
+domains: [mobile]
+---
+
 # Deep Link / Universal Link Validation
 
 **SHOULD** validate scheme, host, and parameters of every incoming deep link server-side, treating link-supplied identifiers as untrusted input.

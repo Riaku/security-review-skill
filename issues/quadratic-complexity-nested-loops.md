@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, scaling-capacity]
+domains: [backend, reliability]
+---
+
 # Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
 
 **MUST NOT** nest loops over two externally sized collections without a bound on either dimension.

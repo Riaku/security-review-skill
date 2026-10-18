@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, observability]
+domains: [data, reliability]
+---
+
 # Queue Depth and Consumer Lag Alerting
 
 **MUST** page on queue depth and consumer lag thresholds so stalled processing is caught before data is lost or SLAs break.

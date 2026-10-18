@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Data Classification & Labeling (PII/confidential tagged at rest and in pipelines)
 
 **SHOULD** tag PII and confidential data at creation and carry labels through storage and ETL so downstream controls act on them.

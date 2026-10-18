@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Log Pipeline Backpressure and Drop Rate
 
 **MUST** monitor the log pipeline's own backlog and drop rate under load so telemetry loss is visible when it happens.

@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Single Points of Failure
 
 **SHOULD NOT** let one component — a DNS record, a credential, one box — gate the whole service path.

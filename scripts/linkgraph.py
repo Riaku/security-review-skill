@@ -6,7 +6,7 @@ links (issue <-> category <-> domain <-> SKILL.md), so the tree can be traversed
 without consulting an index: follow the links. This module is that traversal —
 a single, testable implementation shared by:
 
-  gen_manifests.py   assembles each bundle by *following* the links of its
+  gen_artifacts.py   assembles each bundle by *following* the links of its
                      category manifest (category -> issue link -> issue file)
   check_links.py     resolution, plus reachability/orphan detection from
                      SKILL.md and round-trip consistency of the graph

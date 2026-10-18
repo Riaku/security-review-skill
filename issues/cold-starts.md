@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Cold Starts
 
 **MUST** bound cold-start latency (provision plus warm-up) below the client timeout for every scale-from-zero or lazily-loaded path.

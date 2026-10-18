@@ -4,47 +4,47 @@ Browser-side attack surface and defenses.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [web-client-security](../categories/web-client-security.md) · index: [SKILL.md](../SKILL.md)
 
-# XSS
+# Broken Link & Dependency Hijacking
 
-**MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
+**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
 
-**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
+**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
 
-**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data.
+**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
 
-**References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# CSRF
-
-**MUST** Require a per-session token or origin check on every state-changing request.
-
-**Why:** Without it, an attacker's page forges authenticated requests that change user state.
-
-**Detect:** POST/PUT/DELETE routes lacking `csrf_protect`, `X-CSRF-Token`, `SameSite`; `csrf_exempt=True`.
-
-**References:** OWASP A01:2021, CWE-352, OWASP CSRF Prevention Cheat Sheet
+**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
 
 ---
 
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [supply-chain](../categories/supply-chain.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# CORS
+# Sensitive Data in Browser Storage (localStorage/sessionStorage)
 
-**MUST NOT** Pair wildcard or reflected `Access-Control-Allow-Origin` with `Allow-Credentials: true`; whitelist trusted origins.
+**MUST NOT** store session tokens, refresh tokens, PII, or cryptographic keys in localStorage or sessionStorage.
 
-**Why:** Wildcard-plus-credentials lets any site read authenticated responses cross-origin.
+**Why:** Web storage has no expiry or HttpOnly protection, so any XSS exfiltrates it persistently and it survives browser restarts and shared machines.
 
-**Detect:** `Allow-Origin: *`, `allow_origins=['*']`, `@CrossOrigin` with credentials, origin reflection.
+**Detect:** grep `localStorage.setItem`, `sessionStorage.setItem` for `token`, `jwt`, `password`, `secret`, `ssn`; review auth libraries' persistence config.
 
-**References:** OWASP A05:2021, CWE-942, MDN CORS credentials
+**References:** CWE-922, OWASP A02:2021, OWASP Authentication Cheat Sheet (token storage)
 
 ---
 
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Cache-Control Headers
+
+**MUST** set explicit `Cache-Control` on every HTTP response; responses carrying auth tokens, PII, or CSRF values require `no-store`, never a bare default.
+
+**Why:** Missing directives let browsers and proxies cache sensitive pages, exposing them via back-button or shared caches.
+
+**Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
+
+**References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
+
+---
+
+**Part of:** [caching](../categories/caching.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Clickjacking
 
@@ -74,48 +74,6 @@ Browser-side attack surface and defenses.
 
 **Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Security Headers
-
-**MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.
-
-**Why:** Missing headers leave transport, sniffing, and framing attacks unmitigated.
-
-**Detect:** Config lacking `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`; nginx/ingress snippets absent.
-
-**References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# Session Fixation
-
-**MUST** regenerate the session identifier immediately after any successful authentication or privilege change.
-
-**Why:** If the session ID survives login, an attacker who planted one earlier rides the victim's now-authenticated session undetected.
-
-**Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
-
-**References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# Cache-Control Headers
-
-**MUST** set explicit `Cache-Control` on every HTTP response; responses carrying auth tokens, PII, or CSRF values require `no-store`, never a bare default.
-
-**Why:** Missing directives let browsers and proxies cache sensitive pages, exposing them via back-button or shared caches.
-
-**Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
-
-**References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
-
----
-
-**Part of:** [caching](../categories/caching.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Cookie Consent
 
 **SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.
@@ -129,48 +87,6 @@ Browser-side attack surface and defenses.
 ---
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Unsafe Merge Into Shared Runtime State
-
-**MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.
-
-**Why:** Poisoning shared state (JS `Object.prototype` via `__proto__` is the classic case; unsafe map/dict merge into shared config or caches is the same class) leaks attacker-controlled values to every later consumer — enabling XSS, auth bypass, and RCE.
-
-**Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
-
-**References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
-
----
-
-**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# SSR Hydration XSS
-
-**MUST NOT** interpolate user-controlled data into server-rendered HTML without context-aware escaping, especially inside script, attribute, or URL contexts.
-
-**Why:** Unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
-
-**Detect:** grep `dangerouslySetInnerHTML`, `innerHTML`, `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, unescaped `{{ }}` templates.
-
-**References:** CWE-79, OWASP XSS Prevention Cheat Sheet, OWASP A03:2021
-
----
-
-**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# CRLF / HTTP Header Injection & Response Splitting
-
-**SHOULD NOT** Put user input into headers or redirect targets without rejecting CR/LF and `%0d%0a`.
-
-**Why:** Injected line breaks forge headers or a whole second response, poisoning caches and sessions.
-
-**Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
-
-**References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Cookie Flags: Secure, HttpOnly, SameSite
 
@@ -186,15 +102,57 @@ Browser-side attack surface and defenses.
 
 **Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Web Cache Poisoning & Cache Deception
+# CORS
 
-**SHOULD NOT** cache responses that vary on unkeyed inputs like headers, query params, or cookies without declaring `Vary` or normalizing them.
+**MUST NOT** Pair wildcard or reflected `Access-Control-Allow-Origin` with `Allow-Credentials: true`; whitelist trusted origins.
 
-**Why:** An attacker can get a poisoned response stored in CDN/proxy cache and served to every subsequent visitor of that URL.
+**Why:** Wildcard-plus-credentials lets any site read authenticated responses cross-origin.
 
-**Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
+**Detect:** `Allow-Origin: *`, `allow_origins=['*']`, `@CrossOrigin` with credentials, origin reflection.
 
-**References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+**References:** OWASP A05:2021, CWE-942, MDN CORS credentials
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# CRLF / HTTP Header Injection & Response Splitting
+
+**SHOULD NOT** Put user input into headers or redirect targets without rejecting CR/LF and `%0d%0a`.
+
+**Why:** Injected line breaks forge headers or a whole second response, poisoning caches and sessions.
+
+**Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
+
+**References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Cross-Site WebSocket Hijacking (CSWSH)
+
+**MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.
+
+**Why:** WebSockets ignore CORS; any malicious site can open a socket using the victim's cookies and act as them in real time.
+
+**Detect:** grep `ws://`, `wss://`, `upgrade` handlers, `onConnection` without origin checks; nginx `proxy_set_header Origin` passthrough config.
+
+**References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# CSRF
+
+**MUST** Require a per-session token or origin check on every state-changing request.
+
+**Why:** Without it, an attacker's page forges authenticated requests that change user state.
+
+**Detect:** POST/PUT/DELETE routes lacking `csrf_protect`, `X-CSRF-Token`, `SameSite`; `csrf_exempt=True`.
+
+**References:** OWASP A01:2021, CWE-352, OWASP CSRF Prevention Cheat Sheet
 
 ---
 
@@ -227,20 +185,6 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **Part of:** [cloud-network](../categories/cloud-network.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Cross-Site WebSocket Hijacking (CSWSH)
-
-**MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.
-
-**Why:** WebSockets ignore CORS; any malicious site can open a socket using the victim's cookies and act as them in real time.
-
-**Detect:** grep `ws://`, `wss://`, `upgrade` handlers, `onConnection` without origin checks; nginx `proxy_set_header Origin` passthrough config.
-
-**References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # window.postMessage Origin Validation
 
 **MUST** verify `event.origin` against an expected allowlist and use a target-origin argument on every `postMessage` call.
@@ -255,33 +199,61 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Sensitive Data in Browser Storage (localStorage/sessionStorage)
+# Unsafe Merge Into Shared Runtime State
 
-**MUST NOT** store session tokens, refresh tokens, PII, or cryptographic keys in localStorage or sessionStorage.
+**MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.
 
-**Why:** Web storage has no expiry or HttpOnly protection, so any XSS exfiltrates it persistently and it survives browser restarts and shared machines.
+**Why:** Poisoning shared state (JS `Object.prototype` via `__proto__` is the classic case; unsafe map/dict merge into shared config or caches is the same class) leaks attacker-controlled values to every later consumer — enabling XSS, auth bypass, and RCE.
 
-**Detect:** grep `localStorage.setItem`, `sessionStorage.setItem` for `token`, `jwt`, `password`, `secret`, `ssn`; review auth libraries' persistence config.
+**Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
 
-**References:** CWE-922, OWASP A02:2021, OWASP Authentication Cheat Sheet (token storage)
+**References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
 
 ---
 
 **Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Broken Link & Dependency Hijacking
+# Security Headers
 
-**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
+**MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.
 
-**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
+**Why:** Missing headers leave transport, sniffing, and framing attacks unmitigated.
 
-**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
+**Detect:** Config lacking `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`; nginx/ingress snippets absent.
 
-**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+**References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
 
 ---
 
-**Part of:** [supply-chain](../categories/supply-chain.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Session Fixation
+
+**MUST** regenerate the session identifier immediately after any successful authentication or privilege change.
+
+**Why:** If the session ID survives login, an attacker who planted one earlier rides the victim's now-authenticated session undetected.
+
+**Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
+
+**References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# SSR Hydration XSS
+
+**MUST NOT** interpolate user-controlled data into server-rendered HTML without context-aware escaping, especially inside script, attribute, or URL contexts.
+
+**Why:** Unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
+
+**Detect:** grep `dangerouslySetInnerHTML`, `innerHTML`, `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, unescaped `{{ }}` templates.
+
+**References:** CWE-79, OWASP XSS Prevention Cheat Sheet, OWASP A03:2021
+
+---
+
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Third-Party Tag & Script Governance
 
@@ -296,4 +268,32 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 ---
 
 **Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Web Cache Poisoning & Cache Deception
+
+**SHOULD NOT** cache responses that vary on unkeyed inputs like headers, query params, or cookies without declaring `Vary` or normalizing them.
+
+**Why:** An attacker can get a poisoned response stored in CDN/proxy cache and served to every subsequent visitor of that URL.
+
+**Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
+
+**References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# XSS
+
+**MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
+
+**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
+
+**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data.
+
+**References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

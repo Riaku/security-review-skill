@@ -4,27 +4,15 @@ Mail authentication, brand protection, and email-content trust.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [email-security](../categories/email-security.md) · index: [SKILL.md](../SKILL.md)
 
-# SPF, DKIM & DMARC
+# BIMI & VMC Certificates
 
-**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
+**SHOULD** publish BIMI records with a Verified Mark Certificate (VMC) and aligned DMARC policy to authenticate brand-mark display in inboxes.
 
-**Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
+**Why:** Without BIMI/VMC, spoofed phishing emails render indistinguishable from legitimate brand mail; with it, forged senders visibly fail.
 
-**Detect:** Run `dig TXT <domain>` and `dig TXT _dmarc.<domain>`; flag `p=none` with no `sp` subdomain policy. Enumerate senders (SES, Mailchimp, Zendesk) and confirm each is SPF-included or DKIM-signing. Check for conflicting SPF records.
+**Detect:** `dig default._bimi.<domain>` for BIMI record; verify logo is SVGZ with valid VMC/CMC; confirm DMARC alignment is a prerequisite (BIMI requires enforcement policy).
 
-**Bad:**
-```
-_dmarc.example.com.  TXT  "v=DMARC1; p=none"        # monitoring only
-(no DKIM signing from the marketing platform)
-```
-
-**Good:**
-```
-"v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@example.com; pct=100"
-SPF: "v=spf1 include:amazonses.com -all"
-```
-
-**References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
+**References:** bimigroup.org, Google Postmaster BIMI requirements, M3AAWG sender best practices
 
 ---
 
@@ -57,15 +45,29 @@ send(to=addr, ...)
 
 **Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# BIMI & VMC Certificates
+# Email-Template Injection
 
-**SHOULD** publish BIMI records with a Verified Mark Certificate (VMC) and aligned DMARC policy to authenticate brand-mark display in inboxes.
+**MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
 
-**Why:** Without BIMI/VMC, spoofed phishing emails render indistinguishable from legitimate brand mail; with it, forged senders visibly fail.
+**Why:** Usernames or fields containing `<a href="https://phish...">` turn your trusted, DKIM-signed transactional email into a phishing vector your own domain vouches for.
 
-**Detect:** `dig default._bimi.<domain>` for BIMI record; verify logo is SVGZ with valid VMC/CMC; confirm DMARC alignment is a prerequisite (BIMI requires enforcement policy).
+**Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
 
-**References:** bimigroup.org, Google Postmaster BIMI requirements, M3AAWG sender best practices
+**References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
+
+---
+
+**Part of:** [email-security](../categories/email-security.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Lookalike-Domain Monitoring
+
+**SHOULD** continuously monitor for typosquat/lookalike registrations of your brand domains and take takedown action.
+
+**Why:** Brand-adjacent domains (`yourcompany-secure.com`, homoglyph variants) are pre-staged for phishing before you know they exist; takedown is far cheaper before a campaign runs.
+
+**Detect:** review for a monitoring service/cron (Dmarcian, Red Points, custom diff of newly-registered domains vs brand patterns); check homoglyph/keyboard-adjacent variants are in scope.
+
+**References:** M3AAWG brand abuse guidance, Unicode homoglyph attacks, phishing pretexting reports
 
 ---
 
@@ -85,31 +87,29 @@ send(to=addr, ...)
 
 **Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Lookalike-Domain Monitoring
+# SPF, DKIM & DMARC
 
-**SHOULD** continuously monitor for typosquat/lookalike registrations of your brand domains and take takedown action.
+**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
 
-**Why:** Brand-adjacent domains (`yourcompany-secure.com`, homoglyph variants) are pre-staged for phishing before you know they exist; takedown is far cheaper before a campaign runs.
+**Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
 
-**Detect:** review for a monitoring service/cron (Dmarcian, Red Points, custom diff of newly-registered domains vs brand patterns); check homoglyph/keyboard-adjacent variants are in scope.
+**Detect:** Run `dig TXT <domain>` and `dig TXT _dmarc.<domain>`; flag `p=none` with no `sp` subdomain policy. Enumerate senders (SES, Mailchimp, Zendesk) and confirm each is SPF-included or DKIM-signing. Check for conflicting SPF records.
 
-**References:** M3AAWG brand abuse guidance, Unicode homoglyph attacks, phishing pretexting reports
+**Bad:**
+```
+_dmarc.example.com.  TXT  "v=DMARC1; p=none"        # monitoring only
+(no DKIM signing from the marketing platform)
+```
+
+**Good:**
+```
+"v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@example.com; pct=100"
+SPF: "v=spf1 include:amazonses.com -all"
+```
+
+**References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
 
 ---
 
 **Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Email-Template Injection
-
-**MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
-
-**Why:** Usernames or fields containing `<a href="https://phish...">` turn your trusted, DKIM-signed transactional email into a phishing vector your own domain vouches for.
-
-**Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
-
-**References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
-
----
-
-**Part of:** [email-security](../categories/email-security.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

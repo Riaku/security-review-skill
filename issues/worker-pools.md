@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, scaling-capacity]
+domains: [data, reliability]
+---
+
 # Worker Pools
 
 **SHOULD** size worker pools against queue arrival rates and set autoscaling bounds with starvation detection; undersized pools silently age jobs.

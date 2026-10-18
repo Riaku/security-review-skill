@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # XSS
 
 **MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.

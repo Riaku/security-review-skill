@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, deployment-release]
+domains: [infrastructure]
+---
+
 # Infrastructure Drift Detection (live state vs IaC diffed and alerted)
 
 **MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.

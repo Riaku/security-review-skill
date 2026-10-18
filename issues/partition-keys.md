@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Partition Keys
 
 **SHOULD** choose partition keys with high cardinality and even distribution; low-cardinality or null keys hot-spot a single partition.

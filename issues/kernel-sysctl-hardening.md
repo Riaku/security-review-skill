@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks]
+domains: [government-compliance]
+---
+
 # Kernel/Sysctl Hardening
 
 **MUST** disable source routing, redirect sends, and proxy ARP, and enable `kernel.kptr_restrict=2`, `kernel.yama.ptrace_scope=1`, and ASLR system-wide via sysctl.

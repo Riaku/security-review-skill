@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # API Gateway Mapping Template / Proxy Passthrough Injection
 
 **MUST NOT** interpolate raw request data into VTL mapping templates or constructed upstream payloads without escaping and schema validation; treat `$input` and `$context` fields as attacker-controlled strings.

@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, observability]
+domains: [infrastructure, reliability]
+---
+
 # SARIF-Standardized Scan Results (unified alert pipeline)
 
 **SHOULD** emit all scanner findings in SARIF and ingest them into one dashboard, because scattered formats hide coverage gaps and duplicate triage.

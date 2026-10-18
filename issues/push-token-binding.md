@@ -1,3 +1,8 @@
+---
+categories: [authentication, mobile]
+domains: [backend, mobile]
+---
+
 # Push-Token Binding & Rotation
 
 **MUST** bind APNs/FCM device tokens to the authenticated user+device and invalidate on logout/account change; never accept a token from an unauthenticated registration.

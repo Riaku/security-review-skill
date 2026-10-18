@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Error Budgets
 
 **SHOULD** spend the gap between 100% and the SLO as a budget for risky releases, freezing changes when exhausted.

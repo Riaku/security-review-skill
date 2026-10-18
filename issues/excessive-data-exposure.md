@@ -1,3 +1,8 @@
+---
+categories: [api-design, compliance-privacy]
+domains: [backend, governance]
+---
+
 # Excessive Data Exposure in API Serialization
 
 **MUST NOT** serialize whole ORM/model objects to API responses; project an explicit DTO containing only intended fields.

@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Foreign Keys
 
 **MUST** declare foreign key constraints on relational columns rather than relying on application-level "we always check first" logic.

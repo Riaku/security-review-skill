@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # Cloud Instance Metadata Endpoint Protection (IMDSv2)
 
 **MUST** require session-token (IMDSv2) mode on every EC2-style instance and container host, with a hop limit of 1–2, so that simple single-request SSRF cannot read credentials.

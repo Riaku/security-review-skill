@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Chaos Engineering
 
 **MAY** run controlled failure injection in production-like environments, scoped by blast radius and abort criteria.

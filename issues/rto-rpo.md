@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # RTO & RPO
 
 **MUST** define a recovery time objective and recovery point objective per service, and size infrastructure to meet both.

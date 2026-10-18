@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # NAT Gateways
 
 **SHOULD** Outbound traffic from private subnets traverse a managed NAT gateway deployed one-per-AZ, and long-lived NAT instances with static EIPs be eliminated.

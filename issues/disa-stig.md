@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks]
+domains: [government-compliance]
+---
+
 # DISA STIG Hardening
 
 **SHOULD** apply DISA STIG checklists to systems handling regulated or government-adjacent data, documenting every deviation with a documented mitigation.

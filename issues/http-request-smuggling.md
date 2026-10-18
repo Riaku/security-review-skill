@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # HTTP Request Smuggling (CL.TE / TE.CL Desync)
 
 **MUST** Front-end and back-end agree on one framing per request: reject requests carrying both `Content-Length` and `Transfer-Encoding`, and disable lenient chunked parsing downstream.

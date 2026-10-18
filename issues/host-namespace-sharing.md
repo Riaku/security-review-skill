@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Host Namespace Sharing (hostPath/hostPID/hostNetwork/hostIPC)
 
 **MUST NOT** set `hostPID`, `hostNetwork`, or `hostIPC` on ordinary workloads; each flag breaks the isolation boundary between pod and node.

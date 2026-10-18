@@ -1,3 +1,8 @@
+---
+categories: [authentication, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # Dedicated Service Accounts per Workload
 
 **SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload **SHOULD** declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.

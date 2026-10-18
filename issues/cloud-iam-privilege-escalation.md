@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Cloud IAM Privilege Escalation Paths
 
 **MUST** trace every newly granted cloud permission for escalation edges before merge: actions that let a principal widen its own access.

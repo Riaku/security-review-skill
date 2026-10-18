@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Environment Parity
 
 **SHOULD** keep dev, staging, and production identical in runtime versions, TLS termination, and network policy so defects surface before prod.

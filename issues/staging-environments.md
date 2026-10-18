@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Staging Environments
 
 **MUST NOT** populate staging with production data copies unless they are masked, encrypted, and access-restricted to the same degree as prod.

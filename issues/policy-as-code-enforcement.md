@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, deployment-release]
+domains: [infrastructure]
+---
+
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
 **SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.

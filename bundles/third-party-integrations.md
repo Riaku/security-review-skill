@@ -4,47 +4,19 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [third-party-integrations](../categories/third-party-integrations.md) · index: [SKILL.md](../SKILL.md)
 
-# OAuth Third-Party Scope Minimization
+# Backing Services as Attached Resources
 
-**MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.
+**SHOULD** access every backing service (database, queue, cache, SMTP) through an environment-supplied location and credential so the specific provider or instance can be swapped without code changes.
 
-**Why:** Over-scoped integrations (`offline_access`, full mailbox, full repo) turn a third-party breach into your breach; scopes granted years ago silently persist.
+**Why:** Hardcoded provider hostnames and instance identifiers block credential rotation, block moving to a managed or failover instance, and leak internal topology into the repo. A compromise of one provider instance becomes a code-change emergency instead of a config swap.
 
-**Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
+**Detect:** grep code for hardcoded connection strings, provider URLs, and instance IDs instead of injected bindings; verify a staging deploy can point at a different provider instance with config only.
 
-**References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# Third-Party Tag & Script Governance
-
-**MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
-
-**Why:** Marketing tags execute with your page's full privileges — a compromised tag is a Magecart-class supply-chain attack on your users' sessions and payment data.
-
-**Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
-
-**References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
+**References:** 12factor.net/backing-services, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
 
 ---
 
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# SaaS Webhook Consumer Trust
-
-**MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
-
-**Why:** Unverified webhook endpoints accept forged events ("payment captured", "user verified") from anyone who finds the URL; SaaS signing secrets also rotate, which unverified integrations hide until they break.
-
-**Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
-
-**References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
-
----
-
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Integration Credential Sprawl
 
@@ -60,17 +32,45 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 
 **Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
-# Backing Services as Attached Resources
+# OAuth Third-Party Scope Minimization
 
-**SHOULD** access every backing service (database, queue, cache, SMTP) through an environment-supplied location and credential so the specific provider or instance can be swapped without code changes.
+**MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.
 
-**Why:** Hardcoded provider hostnames and instance identifiers block credential rotation, block moving to a managed or failover instance, and leak internal topology into the repo. A compromise of one provider instance becomes a code-change emergency instead of a config swap.
+**Why:** Over-scoped integrations (`offline_access`, full mailbox, full repo) turn a third-party breach into your breach; scopes granted years ago silently persist.
 
-**Detect:** grep code for hardcoded connection strings, provider URLs, and instance IDs instead of injected bindings; verify a staging deploy can point at a different provider instance with config only.
+**Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
 
-**References:** 12factor.net/backing-services, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
+**References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
 
 ---
 
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [authentication](../categories/authentication.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
+# SaaS Webhook Consumer Trust
+
+**MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
+
+**Why:** Unverified webhook endpoints accept forged events ("payment captured", "user verified") from anyone who finds the URL; SaaS signing secrets also rotate, which unverified integrations hide until they break.
+
+**Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
+
+**References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
+
+---
+
+**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
+# Third-Party Tag & Script Governance
+
+**MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
+
+**Why:** Marketing tags execute with your page's full privileges — a compromised tag is a Magecart-class supply-chain attack on your users' sessions and payment data.
+
+**Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
+
+**References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
+
+---
+
+**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

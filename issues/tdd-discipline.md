@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Test-Driven Development Discipline
 
 **SHOULD** write the failing test before the security fix, watching it go red, then minimal code to green, so the test provably guards the behavior.

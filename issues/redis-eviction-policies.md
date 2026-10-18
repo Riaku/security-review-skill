@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # Redis Eviction Policies
 
 **MUST** set an explicit `maxmemory-policy` per Redis instance; default noeviction with unbounded growth, or allkeys-lru on a mixed-purpose instance, is a finding.

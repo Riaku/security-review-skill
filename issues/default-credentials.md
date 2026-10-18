@@ -1,3 +1,8 @@
+---
+categories: [authentication, hardening-benchmarks]
+domains: [backend, government-compliance]
+---
+
 # Default & Weak Credentials in Shipped Software
 
 **MUST NOT** ship software with default usernames/passwords or demo accounts enabled in production; force credential change on first login.

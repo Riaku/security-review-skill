@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # BCP 14 Keyword Usage (RFC 2119 + RFC 8174)
 
 **MUST** use requirement keywords (MUST, MUST NOT, SHOULD, SHOULD NOT, MAY) in ALL CAPS with their RFC 2119/8174 meanings in specs, API docs, and policy documents, and define them on first use per RFC 8174 §3.

@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Request Size Limits
 
 **MUST** enforce a maximum request body size at the edge before parsing, rejecting oversized payloads with 413.

@@ -1,3 +1,8 @@
+---
+categories: [web-client-security]
+domains: [frontend]
+---
+
 # Unsafe Merge Into Shared Runtime State
 
 **MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.

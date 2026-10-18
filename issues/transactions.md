@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Transactions
 
 **SHOULD** wrap multi-statement writes that must all succeed together in a single database transaction, and keep those transactions short.

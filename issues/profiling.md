@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Profiling
 
 **MAY** run continuous CPU/heap profiling in production at low overhead to catch performance anomalies early.

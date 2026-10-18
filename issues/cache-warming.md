@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # Cache Warming
 
 **SHOULD** restrict cache-warming jobs to authenticated internal triggers and rate-limit them, never exposing warm endpoints to unauthenticated callers.

@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, web-api-security]
+domains: [backend]
+---
+
 # Regular Expression DoS (ReDoS)
 
 **MUST NOT** run user-supplied or unbounded text against regexes containing nested quantifiers or ambiguous alternation.

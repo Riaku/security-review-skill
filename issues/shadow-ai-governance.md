@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, compliance-privacy]
+domains: [governance]
+---
+
 # Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
 
 **MUST** inventory and govern AI features in third-party software and employee-adopted AI SaaS, since unsanctioned tools move data outside policy.

@@ -1,3 +1,8 @@
+---
+categories: [authentication, observability]
+domains: [backend, reliability]
+---
+
 # Anomalous Authentication Detection (impossible travel, rare UA/IP)
 
 **SHOULD** monitor for impossible-travel, rare user-agent, and unfamiliar-IP login patterns and trigger step-up MFA or alerting on anomalies.

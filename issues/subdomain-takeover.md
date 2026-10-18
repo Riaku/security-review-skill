@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Subdomain Takeover / Dangling DNS
 
 **MUST NOT** Any DNS record remain pointing at a deprovisioned cloud resource — S3 bucket, Heroku app, CloudFront distribution — after that resource is released.

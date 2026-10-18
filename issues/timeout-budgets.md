@@ -1,3 +1,8 @@
+---
+categories: [api-design, resilience]
+domains: [backend, reliability]
+---
+
 # Timeout Budgets / Deadline Propagation
 
 **MUST** propagate an end-to-end deadline through every downstream hop, each consuming from the remaining budget.

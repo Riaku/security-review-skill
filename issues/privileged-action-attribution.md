@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, security-practices]
+domains: [backend, governance]
+---
+
 # Privileged-Action Attribution
 
 **MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.

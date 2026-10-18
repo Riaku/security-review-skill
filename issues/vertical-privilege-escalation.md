@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control]
+domains: [backend]
+---
+
 # Vertical Privilege Escalation / Function-Level Authorization
 
 **MUST** check authorization on every admin or elevated endpoint server-side; never rely on hiding buttons or menus in the UI.

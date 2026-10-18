@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, compliance-privacy]
+domains: [governance]
+---
+
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
 **MUST** redact or tokenize PII and execute a DPA with the provider before payloads leave the trust boundary.

@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Attack Surface Management (continuous exposure discovery)
 
 **MUST** continuously discover and inventory every internet-facing asset (domains, subdomains, IPs, cloud endpoints) rather than relying on a static list.

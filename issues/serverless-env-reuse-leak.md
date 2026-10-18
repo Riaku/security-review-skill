@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, compliance-privacy]
+domains: [governance, infrastructure]
+---
+
 # Serverless Execution Environment Reuse Leaking Data Across Invocations
 
 **MUST NOT** cache per-request data — customer records, tokens, decrypted keys — in module-level or global mutable state of a serverless function, because warm containers are shared by later, possibly different, invocations.
@@ -26,4 +31,4 @@ def handler(event, ctx):
 
 ---
 
-**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

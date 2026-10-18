@@ -1,3 +1,8 @@
+---
+categories: [database, sre-incidents]
+domains: [data, reliability]
+---
+
 # Backup Verification Drills (scheduled restore tests, not just backup jobs)
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.

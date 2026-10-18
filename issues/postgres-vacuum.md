@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Postgres VACUUM
 
 **SHOULD** keep autovacuum enabled and tuned per-table rather than disabling it for hand-rolled cron vacuuming.

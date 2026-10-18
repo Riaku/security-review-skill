@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, containers-k8s]
+domains: [infrastructure]
+---
+
 # Docker-in-Docker / Privileged Build Steps in CI
 
 **SHOULD** replace privileged Docker-in-Docker with rootless or daemonless builders (BuildKit, Kaniko, Buildah) since `privileged: true` grants the container host-level control.

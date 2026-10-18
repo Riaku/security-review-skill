@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # GitOps Controller Running as cluster-admin
 
 **SHOULD** scope GitOps controllers (Flux, ArgoCD) to least-privilege per-namespace roles instead of the blanket `cluster-admin` ClusterRoleBinding.

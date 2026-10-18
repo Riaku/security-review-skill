@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Structured Data (Schema.org) Validation
 
 **SHOULD** emit valid JSON-LD structured data (Organization, Product, Article, FAQ, BreadcrumbList) and validate it before deploy.

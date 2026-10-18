@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Presigned URLs
 
 **SHOULD** Presigned URLs carry the shortest expiry the user journey tolerates — minutes, not days — and MUST NOT be generated for destructive or administrative operations.

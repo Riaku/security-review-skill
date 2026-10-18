@@ -1,3 +1,8 @@
+---
+categories: [database, sre-incidents]
+domains: [data, reliability]
+---
+
 # Backup Encryption & Immutable/Offsite Copies
 
 **MUST** encrypt backups at rest and keep copies that are immutable (object-lock/WORM) and offsite, so a compromised production environment cannot destroy or tamper with every copy.

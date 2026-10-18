@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, data-pipelines]
+domains: [backend, data]
+---
+
 # Backfill Idempotency at Pipeline Scale
 
 **MUST** make pipeline backfills/re-runs idempotent: reprocessing a date range produces the same result, never duplicates or double-counts.

@@ -1,3 +1,8 @@
+---
+categories: [authentication, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # Auto-Mounted Service Account Tokens in Pods That Don't Need the API
 
 **SHOULD** set `automountServiceAccountToken: false` on pods and serviceaccounts that never call the Kubernetes API.

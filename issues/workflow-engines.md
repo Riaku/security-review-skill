@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems, messaging-async]
+domains: [data]
+---
+
 # Workflow Engines
 
 **MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since Temporal/Step Functions re-execute steps after failure or recovery.

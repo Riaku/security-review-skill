@@ -1,3 +1,8 @@
+---
+categories: [database, web-api-security]
+domains: [backend, data]
+---
+
 # NoSQL Query Injection
 
 **MUST NOT** build queries by merging raw user input into query objects; validate types and use explicit field-level operators instead of user-controlled dicts or `$where` clauses.

@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # CAP Theorem
 
 **SHOULD** document, per datastore, the explicit consistency-versus-availability tradeoff chosen under partition, and test it.

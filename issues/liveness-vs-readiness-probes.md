@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, sre-incidents]
+domains: [infrastructure, reliability]
+---
+
 # Liveness vs Readiness Probes
 
 **SHOULD NOT** wire dependency checks (DB, cache) into the liveness probe; reserve them for readiness only.

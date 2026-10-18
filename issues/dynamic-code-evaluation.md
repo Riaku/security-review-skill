@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, web-api-security]
+domains: [backend]
+---
+
 # Dynamic Code Evaluation of User Input (eval/exec)
 
 **MUST NOT** pass any externally influenced string to `eval`, `exec`, `Function`, or template code execution.

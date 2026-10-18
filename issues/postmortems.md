@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Postmortems
 
 **SHOULD** write a blameless postmortem for every significant incident within days, with action items tracked to closure.

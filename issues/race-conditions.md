@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Race Conditions
 
 **MUST** guard shared-state mutations with proper synchronization (atomic ops, compare-and-set, or scoped locks), never check-then-act on unsynchronized reads.

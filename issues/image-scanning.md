@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Image Scanning
 
 **SHOULD** scan every container image for vulnerabilities and malware at build time and again before deployment, blocking on policy violations.

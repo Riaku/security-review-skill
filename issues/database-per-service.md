@@ -1,3 +1,8 @@
+---
+categories: [database, distributed-systems]
+domains: [data]
+---
+
 # Database per Service
 
 **SHOULD** give each service its own datastore and schema, accessed only through that service's API; **SHOULD NOT** let multiple services share a database instance or read each other's tables directly.

@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Index Bloat & Faceted-URL Control
 
 **SHOULD NOT** allow faceted navigation, session IDs, sort/filter params, and internal search results to be indexed at scale.

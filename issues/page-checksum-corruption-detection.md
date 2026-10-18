@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Page checksums enabled to catch silent data corruption
 
 **MUST** enable data page checksums (`--data-checksums` at initdb, or vendor equivalent) so bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently.

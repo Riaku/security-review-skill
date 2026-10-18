@@ -1,3 +1,8 @@
+---
+categories: [third-party-integrations, web-client-security]
+domains: [backend, frontend]
+---
+
 # Third-Party Tag & Script Governance
 
 **MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).

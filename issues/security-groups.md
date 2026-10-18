@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Security Groups
 
 **MUST NOT** A security group admit `0.0.0.0/0` or `::/0` on administrative or data ports; prefer referencing other security groups over raw CIDR ranges.

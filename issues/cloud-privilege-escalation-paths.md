@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
 
 **SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.

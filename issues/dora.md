@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, sre-incidents]
+domains: [government-compliance, reliability]
+---
+
 # DORA (financial sector resilience)
 
 **MUST** classify critical ICT functions, test resilience (including TLPT threat-led testing), and register ICT third-party arrangements per DORA timelines.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

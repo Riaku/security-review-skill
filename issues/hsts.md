@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # HSTS
 
 **SHOULD** Every HTTPS response carry a `Strict-Transport-Security` header with a max-age of at least one year, plus `includeSubDomains` on apex domains.

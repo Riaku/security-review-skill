@@ -1,3 +1,8 @@
+---
+categories: [observability, sre-incidents]
+domains: [reliability]
+---
+
 # Synthetic External Monitoring
 
 **SHOULD** run synthetic probes from outside the network perimeter to catch outages, TLS problems, and defacement invisible to internal monitoring.

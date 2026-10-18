@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # System prompt extraction and sensitive config embedded in prompts
 
 **SHOULD NOT** embed secrets, credentials, or proprietary logic in system prompts, since extraction via jailbreak or logging is always possible.

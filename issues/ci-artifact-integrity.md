@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, supply-chain]
+domains: [infrastructure]
+---
+
 # CI Artifact Integrity Handoff
 
 **MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.

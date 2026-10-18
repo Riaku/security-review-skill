@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, security-practices]
+domains: [backend, governance]
+---
+
 # Treat LLM output as untrusted input (sanitize before HTML/SQL/shell/URL sinks)
 
 **MUST** sanitize or parameterize every LLM output before it reaches an HTML, SQL, shell, or URL sink.

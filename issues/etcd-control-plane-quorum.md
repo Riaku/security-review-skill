@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, sre-incidents]
+domains: [infrastructure, reliability]
+---
+
 # Control-Plane Quorum (etcd) Health Monitored Separately from Workloads
 
 **MUST** monitor etcd quorum and leader health independently of application dashboards, alerting before quorum loss.

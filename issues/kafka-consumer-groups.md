@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Kafka Consumer Groups
 
 **MUST** assign each application a distinct consumer group ID; sharing one group between services silently splits the message stream.

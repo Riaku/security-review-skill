@@ -1,3 +1,8 @@
+---
+categories: [authentication, cicd-pipeline-security, deployment-release]
+domains: [backend, infrastructure]
+---
+
 # ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
 
 **MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.

@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Customer-Facing Status Page and Outage Comms Templates
 
 **SHOULD** publish a status page and pre-approved outage templates so customers learn impact from you, not rumor.

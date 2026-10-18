@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
 
 **SHOULD** run kube-bench, Lynis, or Trivy misconfig scans in CI on every image and host config change, failing the pipeline on high-severity findings.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

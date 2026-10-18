@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # NIST Cybersecurity Framework (CSF)
 
 **SHOULD** cover all five functions—Identify, Protect, Detect, Respond, Recover—with at least one measurable activity per category, so governance gaps surface before incidents do.

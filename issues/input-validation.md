@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Input Validation
 
 **MUST** Validate all external input against type, length, range, and format allowlists at the trust boundary.

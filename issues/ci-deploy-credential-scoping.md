@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security]
+domains: [infrastructure]
+---
+
 # CI Deploy-Credential Scoping
 
 **MUST NOT** grant deploy credentials to every workflow; scope each secret and token to the single job and target environment that needs it.

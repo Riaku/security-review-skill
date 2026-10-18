@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Feature Flags
 
 **MUST NOT** use feature flags as a substitute for access control; authorization checks belong server-side regardless of a flag's state.

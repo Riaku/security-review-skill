@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Verification-Level Tiers (ASVS L1/L2/L3: basic / standard / privileged-app requirements)
 
 **MUST** assign each app an ASVS tier (L1 basic, L2 sensitive data, L3 privileged) and verify controls at that level.

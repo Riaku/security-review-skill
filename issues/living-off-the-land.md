@@ -1,3 +1,8 @@
+---
+categories: [observability, security-practices]
+domains: [backend, reliability]
+---
+
 # Living-off-the-Land Abuse
 
 **MUST** monitor execution of legitimate binaries (curl, ssh, powershell, wmic, certutil, base64) for arguments and contexts inconsistent with normal operations.

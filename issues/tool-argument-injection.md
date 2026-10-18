@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Tool / Function-Call Argument Injection
 
 **MUST** validate and schema-check every model-generated tool argument server-side before execution; never trust the model to sanitize parameters.

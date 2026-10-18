@@ -1,3 +1,8 @@
+---
+categories: [observability, scaling-capacity]
+domains: [reliability]
+---
+
 # Disk and inode exhaustion forecasted with lead time
 
 **MUST** forecast disk and inode consumption from historical growth rates and alert early enough (days, not hours) to act before full.

@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # GDPR
 
 **MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection.

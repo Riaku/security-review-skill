@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Edge Cases
 
 **SHOULD** test empty, single-element, maximum, zero, negative, and null inputs explicitly rather than trusting the happy path.

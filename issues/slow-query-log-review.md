@@ -1,3 +1,8 @@
+---
+categories: [database, observability]
+domains: [data, reliability]
+---
+
 # Slow query log captured, reviewed, and regression-tracked
 
 **SHOULD** enable the slow query log (or `pg_stat_statements`) at an SLO-appropriate threshold, review it on a standing cadence, and treat new entrants as regressions worth a ticket.

@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Robots.txt & noindex Governance
 
 **MUST** treat robots.txt as a crawl-traffic control, never a security control, and keep `noindex` meta/X-Robots-Tag policy deliberate per environment (staging MUST be noindex).

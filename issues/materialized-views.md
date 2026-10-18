@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Materialized Views
 
 **MAY** serve data from materialized views, but the freshness contract MUST be explicit: every consumer must know the maximum staleness and refresh schedule.

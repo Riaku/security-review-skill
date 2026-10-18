@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Google Search Central Compliance
 
 **SHOULD** follow Google Search Central spam-and-quality policies: no cloaking, doorway pages, keyword stuffing, or hidden text; crawlable without login walls where indexability is intended.

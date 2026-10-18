@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Meta & OG Tag Completeness
 
 **SHOULD** emit per-page title (unique, ≤60 chars), meta description, Open Graph, and Twitter Card tags — generated from content, not boilerplate.

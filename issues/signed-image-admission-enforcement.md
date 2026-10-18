@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, supply-chain]
+domains: [infrastructure]
+---
+
 # Admission Enforcement of Signed Images (Verify, Not Just Sign)
 
 **MUST** enforce signature verification at admission so unsigned or wrongly-signed images are rejected before they ever schedule.

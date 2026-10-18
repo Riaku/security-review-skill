@@ -1,3 +1,8 @@
+---
+categories: [database, messaging-async]
+domains: [data]
+---
+
 # Long-running jobs checkpoint so restarts resume, not restart
 
 **MUST** persist progress checkpoints in long-running batch jobs so an interrupted run resumes from the last checkpoint instead of reprocessing from the beginning.

@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security]
+domains: [infrastructure]
+---
+
 # Branch Protection
 
 **MUST** require reviewed, status-passing pull requests before merging into protected branches, with force-push and branch deletion disabled.

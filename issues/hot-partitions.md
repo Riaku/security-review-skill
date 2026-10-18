@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Hot Partitions
 
 **MUST** distribute write load across partitions or shards so no single partition absorbs a disproportionate share of traffic.

@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Connection Draining
 
 **SHOULD** drain established connections at the load balancer before removing a backend from rotation.

@@ -1,3 +1,8 @@
+---
+categories: [authentication, web-api-security]
+domains: [backend]
+---
+
 # Account recovery and password-reset flow security (tokens, helpdesk takeover)
 
 **MUST NOT** allow helpdesk or support staff to reset a user's password without a verified second channel (e.g. confirmed email + MFA challenge) and full audit logging.

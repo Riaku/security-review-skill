@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # HTTP/2
 
 **SHOULD** enable HTTP/2 only with tuned flow-control windows and stream concurrency limits at the edge.

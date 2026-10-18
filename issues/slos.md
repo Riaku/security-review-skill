@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # SLOs
 
 **MUST** define measurable service level indicators with explicit error targets, wired to live dashboards.

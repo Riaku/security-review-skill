@@ -4,6 +4,34 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [documentation-quality](../categories/documentation-quality.md) · index: [SKILL.md](../SKILL.md)
 
+# Agent Instruction-File Review Surface
+
+**MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.
+
+**Why:** These files steer all generated code in the repo; a one-line frontmatter change (e.g. `alwaysApply: true`) is a prompt-injection-from-inside-the-repo vector, and rot makes claims diverge from CI reality.
+
+**Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
+
+**References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Architecture Doc & ADR Coverage
+
+**SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
+
+**Why:** Without a current overview, every reviewer and new engineer rebuilds the mental model from code — and without ADRs, settled decisions get re-litigated endlessly or silently violated by people who never knew they were settled.
+
+**Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
+
+**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # BCP 14 Keyword Usage (RFC 2119 + RFC 8174)
 
 **MUST** use requirement keywords (MUST, MUST NOT, SHOULD, SHOULD NOT, MAY) in ALL CAPS with their RFC 2119/8174 meanings in specs, API docs, and policy documents, and define them on first use per RFC 8174 §3.
@@ -13,20 +41,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** grep docs for lowercase must/should/may in requirement contexts; check specs include the RFC 2119/8174 keyword-definition boilerplate; flag "must" used as emphasis rather than obligation.
 
 **References:** RFC 2119, RFC 8174 §3, IETF BCP 14
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# Developer-Doc Style Consistency
-
-**SHOULD** follow a single documented style guide (e.g. Google developer documentation style) across project docs: present tense, second person ("you"), active voice, sentence-case headings, consistent terminology per glossary.
-
-**Why:** Inconsistent style reads as unreliable; inconsistent terminology is worse — two names for one concept makes docs contradict each other and users distrust all of it.
-
-**Detect:** spot-check docs for voice/tense/person consistency and terminology drift (same concept under different names); check for a linked style guide and linting (Vale, proselint) enforcing it.
-
-**References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter
 
 ---
 
@@ -46,6 +60,20 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
+# Developer-Doc Style Consistency
+
+**SHOULD** follow a single documented style guide (e.g. Google developer documentation style) across project docs: present tense, second person ("you"), active voice, sentence-case headings, consistent terminology per glossary.
+
+**Why:** Inconsistent style reads as unreliable; inconsistent terminology is worse — two names for one concept makes docs contradict each other and users distrust all of it.
+
+**Detect:** spot-check docs for voice/tense/person consistency and terminology drift (same concept under different names); check for a linked style guide and linting (Vale, proselint) enforcing it.
+
+**References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Docs-Code Synchronization
 
 **MUST** update documentation in the same change that alters the behavior it describes; stale docs are treated as a bug, not a backlog item.
@@ -55,20 +83,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** review PRs touching public behavior for corresponding doc updates; flag documented commands/config/APIs that no longer match code (run documented examples in CI where possible); check docs last-modified vs code churn on covered surfaces.
 
 **References:** docs-as-code practice, Google style guide (keep docs current), CI doc-example testing (doctest/mddoc patterns)
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# Single-Source Documentation
-
-**SHOULD** document each fact once with links pointing at the canonical location, rather than repeating it across files.
-
-**Why:** Every duplicate is a future contradiction — copies drift out of sync and readers can't tell which one is current; the fix cost multiplies with each copy made.
-
-**Detect:** grep docs for the same instructions/config/versions appearing in multiple files; flag copy-pasted blocks; check cross-references use links/includes instead of duplication.
-
-**References:** Write the Docs DRY documentation guidance, docs-as-code single-source practice
 
 ---
 
@@ -102,20 +116,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
-# Architecture Doc & ADR Coverage
-
-**SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
-
-**Why:** Without a current overview, every reviewer and new engineer rebuilds the mental model from code — and without ADRs, settled decisions get re-litigated endlessly or silently violated by people who never knew they were settled.
-
-**Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
-
-**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Simplified Technical English for Procedures
 
 **SHOULD** write operational/procedural documentation in controlled language per ASD-STE100: short sentences (max ~25 words), one meaning per word, active voice, one instruction per step, no idioms.
@@ -130,17 +130,17 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
-# Agent Instruction-File Review Surface
+# Single-Source Documentation
 
-**MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.
+**SHOULD** document each fact once with links pointing at the canonical location, rather than repeating it across files.
 
-**Why:** These files steer all generated code in the repo; a one-line frontmatter change (e.g. `alwaysApply: true`) is a prompt-injection-from-inside-the-repo vector, and rot makes claims diverge from CI reality.
+**Why:** Every duplicate is a future contradiction — copies drift out of sync and readers can't tell which one is current; the fix cost multiplies with each copy made.
 
-**Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
+**Detect:** grep docs for the same instructions/config/versions appearing in multiple files; flag copy-pasted blocks; check cross-references use links/includes instead of duplication.
 
-**References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
+**References:** Write the Docs DRY documentation guidance, docs-as-code single-source practice
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

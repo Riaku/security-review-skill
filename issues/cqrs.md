@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # CQRS
 
 **SHOULD** validate and authorize commands against the write model's current state, never trusting the read model's possibly stale projection for access control.

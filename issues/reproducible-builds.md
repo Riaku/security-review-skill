@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Reproducible Builds
 
 **SHOULD** produce bit-for-bit reproducible artifacts by eliminating timestamps, random paths, and nondeterministic ordering from builds.

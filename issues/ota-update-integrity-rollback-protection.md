@@ -1,3 +1,8 @@
+---
+categories: [iot-embedded]
+domains: [iot-embedded]
+---
+
 # OTA Update Channel Integrity & Rollback Protection
 
 **MUST** deliver OTA updates over authenticated channels with version anti-rollback so devices cannot be downgraded to vulnerable firmware.

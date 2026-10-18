@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # EU AI Act conformity (risk tiering, GPAI obligations, transparency and deployment deadlines)
 
 **MUST** classify each AI system's risk tier and meet the corresponding obligations—transparency notices, conformity assessment for high-risk, GPAI documentation—before the phased enforcement deadlines.

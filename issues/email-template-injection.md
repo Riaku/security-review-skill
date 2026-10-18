@@ -1,3 +1,8 @@
+---
+categories: [email-security, web-api-security]
+domains: [backend, governance]
+---
+
 # Email-Template Injection
 
 **MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.

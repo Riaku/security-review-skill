@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Capacity Planning
 
 **MUST** forecast capacity against projected peak (not average) load with explicit headroom, reviewed on a recurring cadence tied to growth data.

@@ -1,3 +1,8 @@
+---
+categories: [resilience, web-api-security]
+domains: [backend, reliability]
+---
+
 # Decompression Bombs & XML Entity Expansion
 
 **MUST** Cap compressed size, decompressed output, and entity expansion depth before and during parsing of untrusted input.

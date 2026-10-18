@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Purple Teaming (red+blue collaborative feedback loops)
 
 **SHOULD** run structured purple-team sessions where red-team techniques are replayed against blue detections, closing each gap in both directions.

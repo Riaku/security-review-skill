@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # UUIDs vs Auto-Increment
 
 **SHOULD NOT** expose sequential auto-increment identifiers in public URLs or API payloads for resources whose existence or volume is sensitive.

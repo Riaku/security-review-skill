@@ -1,3 +1,8 @@
+---
+categories: [authentication, web-client-security]
+domains: [backend, frontend]
+---
+
 # Session Fixation
 
 **MUST** regenerate the session identifier immediately after any successful authentication or privilege change.

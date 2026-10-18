@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # Cross-Site WebSocket Hijacking (CSWSH)
 
 **MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.

@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # ORM Lazy Loading
 
 **SHOULD NOT** rely on lazy-loaded relationships inside request handlers or loops; fetch required associations eagerly or via explicit joins.

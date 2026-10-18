@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, containers-k8s]
+domains: [infrastructure]
+---
+
 # Cloud Metadata Endpoint Credential Theft (IMDS / 169.254.169.254)
 
 **MUST** treat the link-metadata range (`169.254.169.254/32`, GCE `metadata.google.internal`, Azure `169.254.169.254/metadata`) as hostile territory: block it at the network layer from any workload that processes user-supplied URLs.

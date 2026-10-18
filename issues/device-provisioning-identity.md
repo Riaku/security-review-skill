@@ -1,3 +1,8 @@
+---
+categories: [iot-embedded, secrets-crypto]
+domains: [backend, iot-embedded]
+---
+
 # Device Provisioning Identity
 
 **SHOULD** provision each device with a unique, hardware-bound identity (per-device cert/keys, TPM/secure element) — never shared fleet credentials.

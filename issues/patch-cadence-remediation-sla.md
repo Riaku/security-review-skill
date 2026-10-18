@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks, security-practices]
+domains: [backend, government-compliance]
+---
+
 # Patch cadence and remediation SLAs for known CVEs in production images
 
 **MUST** rebuild and redeploy base images on a fixed cadence (weekly minimum), remediating critical CVEs within 24 hours of disclosure.

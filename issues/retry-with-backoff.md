@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Retry with Backoff (explicit policy: bounded retries, exponential + jitter)
 
 **SHOULD** declare retry policy per call site: bounded count, exponential delay, randomized jitter; never infinite immediate retries.

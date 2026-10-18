@@ -1,3 +1,8 @@
+---
+categories: [api-design, authentication]
+domains: [backend]
+---
+
 # Token Revocation & Logout Invalidation
 
 **MAY** rely on short expiry alone for stateless tokens, but MUST provide a revocation list or denylist for high-value sessions where immediate logout is required.

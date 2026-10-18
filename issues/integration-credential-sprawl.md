@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto, third-party-integrations]
+domains: [backend]
+---
+
 # Integration Credential Sprawl
 
 **SHOULD** centralize third-party SaaS credentials in a secrets manager with owner, scope, and expiry metadata — no credentials in shared docs, wikis, or personal accounts.

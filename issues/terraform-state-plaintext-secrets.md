@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # Plaintext Secrets Persisted in Terraform State and Outputs
 
 **MUST** mark sensitive Terraform variables and outputs with `sensitive = true` and store state remotely with access controls and encryption; never expose raw state in logs or PRs.

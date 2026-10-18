@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Ingress Controllers
 
 **MUST** Treat the ingress controller as a high-value attack surface: run it least-privileged, patch on the vendor's security cadence, and never expose admin or metrics ports publicly.

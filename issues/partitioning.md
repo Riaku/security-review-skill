@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Partitioning
 
 **SHOULD** partition very large tables by a natural access dimension (time, tenant) and verify that queries prune partitions instead of scanning all of them.

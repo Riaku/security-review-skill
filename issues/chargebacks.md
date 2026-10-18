@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Chargebacks
 
 **SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.

@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Non-Root Containers
 
 **MUST NOT** run container processes as UID 0; every image declares a `USER` with a numeric non-zero ID.

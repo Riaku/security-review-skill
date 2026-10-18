@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Insecure Deserialization
 
 **MUST NOT** Deserialize untrusted data with pickle, ObjectInputStream, unserialize, or BinaryFormatter; use schema-validated JSON.

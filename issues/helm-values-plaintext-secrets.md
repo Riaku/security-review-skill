@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # Plaintext Secrets in Helm values Files and Rendered Manifests
 
 **MUST NOT** commit plaintext secrets in `values.yaml` or render them into manifests; reference ExternalSecret/SealedSecret objects or inject at deploy time instead.

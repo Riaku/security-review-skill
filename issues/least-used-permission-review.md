@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control]
+domains: [backend]
+---
+
 # Least-Frequently-Used Permission Review (periodic entitlement pruning)
 
 **SHOULD** periodically revoke entitlements unused over a defined window (e.g. 90 days), starting with the broadest grants.

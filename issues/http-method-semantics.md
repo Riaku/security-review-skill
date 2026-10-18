@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # HTTP Method Semantics
 
 **MUST NOT** perform state-changing operations via GET or other safe methods; mutations belong in POST/PUT/PATCH/DELETE only.

@@ -1,3 +1,8 @@
+---
+categories: [database, messaging-async]
+domains: [data]
+---
+
 # Overlapping cron executions guarded by single-runner locks
 
 **MUST** guard scheduled jobs with a single-runner lock (advisory lock, flock, or leader election) so a slow run cannot overlap the next scheduled tick.

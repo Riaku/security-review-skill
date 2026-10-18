@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks]
+domains: [government-compliance]
+---
+
 # CIS Controls (IG1–IG3)
 
 **SHOULD** map security controls to CIS Controls v8 implementation groups, with IG1 as the baseline for every asset and IG2/IG3 layered by risk tier.

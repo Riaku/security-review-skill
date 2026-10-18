@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, supply-chain]
+domains: [governance, infrastructure]
+---
+
 # Vendor/third-party risk management and subprocessor registers
 
 **SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

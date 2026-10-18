@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Secrets in Instance Launch Payloads
 
 **MUST NOT** place credentials, tokens, or private keys in instance launch payloads — EC2 user-data, cloud-init scripts/templates, Azure `customData`, GCP startup-script metadata; grant scoped instance roles or fetch secrets from a secrets manager at boot instead.

@@ -1,3 +1,8 @@
+---
+categories: [mobile, secrets-crypto]
+domains: [backend, mobile]
+---
+
 # Hardcoded API keys and secrets in mobile app binaries
 
 **MUST NOT** embed API keys, tokens, or symmetric secrets in app source, assets, or compiled binaries; ship them via short-lived server-issued credentials instead.

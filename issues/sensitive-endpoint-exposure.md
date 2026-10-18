@@ -1,3 +1,8 @@
+---
+categories: [hardening-benchmarks, web-api-security]
+domains: [backend, government-compliance]
+---
+
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
 **MUST NOT** Expose admin panels, actuator endpoints, `.git`/`.env` files, or dashboards publicly; gate them behind auth.

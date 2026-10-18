@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # HTTP Status Codes
 
 **MUST** return accurate status codes: 401 for unauthenticated, 403 for unauthorized, 404 for missing resources, never 200 with an error body.

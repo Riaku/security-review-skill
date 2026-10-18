@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality, testing-strategy]
+domains: [backend, frontend]
+---
+
 # Automated A11y Gate in CI
 
 **SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.

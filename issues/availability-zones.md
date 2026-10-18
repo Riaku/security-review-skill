@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Availability Zones
 
 **MUST** spread replicas across at least two availability zones so one zone's failure cannot drop the service below minimum capacity.

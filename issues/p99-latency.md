@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # p99 Latency
 
 **SHOULD** track and alert on p99 (not just average) latency for critical endpoints and dependency calls.

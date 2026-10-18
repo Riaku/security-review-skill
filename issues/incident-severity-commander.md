@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Incident Severity Levels with a Designated Incident Commander
 
 **MUST** assign a named incident commander per severity level at declaration, with coordination authority.

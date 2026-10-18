@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 
 **MUST** set PersistentVolume `persistentReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.

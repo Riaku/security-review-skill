@@ -1,3 +1,8 @@
+---
+categories: [supply-chain, web-client-security]
+domains: [frontend, infrastructure]
+---
+
 # Broken Link & Dependency Hijacking
 
 **SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.

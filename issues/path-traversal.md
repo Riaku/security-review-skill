@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Path Traversal
 
 **MUST NOT** Use user input directly in file paths; resolve and confirm the result stays inside the base directory.

@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, correctness-pitfalls]
+domains: [backend, infrastructure]
+---
+
 # Operator Finalizer Leaks Blocking Resource Deletion
 
 **MUST** ensure operators remove their finalizers on owned resources even when reconciliation errors, so deletion never hangs indefinitely.

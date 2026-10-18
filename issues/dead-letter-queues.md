@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Dead Letter Queues
 
 **MUST** route messages that exhaust retries to a monitored dead letter queue instead of silently discarding them.

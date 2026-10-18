@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, resilience]
+domains: [infrastructure, reliability]
+---
+
 # Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
 
 **SHOULD** set `failurePolicy: Fail` only where the webhook is highly available, with valid TLS certs and namespace exclusions for its own namespace.

@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Secure by Default Shipping
 
 **MUST** ship products secure out-of-the-box: MFA, logging, and SSO available at no extra cost and enabled (or one-click) on first run — never paywalled or buried as advanced features.

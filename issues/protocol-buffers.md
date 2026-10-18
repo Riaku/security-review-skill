@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Protocol Buffers
 
 **MUST NOT** reuse or repurpose reserved field numbers in .proto definitions; mark removed fields `reserved` to prevent wire-level confusion.

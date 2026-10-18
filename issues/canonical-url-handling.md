@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Canonical URL Handling
 
 **SHOULD** emit a self-referencing canonical link on every indexable page and canonicalize http→https, www→apex, trailing-slash, and param variants to one URL per resource.

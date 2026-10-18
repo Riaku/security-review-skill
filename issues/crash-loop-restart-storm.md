@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, observability]
+domains: [infrastructure, reliability]
+---
+
 # Crash-Loop Restart Storms Bounded and Alarmed
 
 **SHOULD** bound restart backoff and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.

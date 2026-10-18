@@ -1,3 +1,8 @@
+---
+categories: [multi-tenancy, web-api-security]
+domains: [backend]
+---
+
 # Tenant-ID Spoofing at API Boundary
 
 **MUST** derive the tenant from the authenticated session/token on every request — never from a client-supplied tenant_id parameter or header.

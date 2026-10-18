@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Session invalidation on credential change and logout
 
 **MUST** invalidate all existing sessions and tokens when a user changes their password, email, or MFA settings.

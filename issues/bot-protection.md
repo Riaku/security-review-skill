@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, web-api-security]
+domains: [backend, governance]
+---
+
 # Bot Protection
 
 **MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).

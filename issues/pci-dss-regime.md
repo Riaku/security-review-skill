@@ -1,3 +1,8 @@
+---
+categories: [payments-fraud, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
 **MUST** scope the cardholder data environment accurately and complete the correct SAQ level (or full ROC) for the actual card data flow, not the desired one.

@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Integer Overflow
 
 **MUST NOT** perform arithmetic on externally influenced integers without width or range checks.

@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Soft Deletes
 
 **MUST** filter soft-deleted rows (`deleted_at IS NULL`) in every query path, and enforce that filter centrally rather than per-call.

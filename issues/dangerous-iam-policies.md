@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
 **MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.

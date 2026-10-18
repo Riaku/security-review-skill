@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Strong Consistency
 
 **MUST** route linearizable reads and writes through the consensus quorum, never bypassing it with direct node access for critical paths.

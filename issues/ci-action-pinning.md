@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, supply-chain]
+domains: [infrastructure]
+---
+
 # CI Action Pinning (SHA not tag)
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.

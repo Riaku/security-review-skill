@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Error Handling
 
 **MUST** catch errors at the boundary that can recover, and propagate everything else with context instead of letting it vanish.

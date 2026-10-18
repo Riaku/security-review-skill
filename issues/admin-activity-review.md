@@ -1,3 +1,8 @@
+---
+categories: [observability, security-practices]
+domains: [backend, reliability]
+---
+
 # Admin Activity Review
 
 **SHOULD** periodically review administrative actions (config changes, permission grants, data exports) against expected operations, on a defined cadence.

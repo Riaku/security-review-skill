@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # SLAs
 
 **SHOULD NOT** contract externally committed availability that internal SLOs and capacity cannot demonstrably sustain.

@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, compliance-privacy]
+domains: [backend, governance]
+---
+
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
 **MUST** revoke all access within a defined SLA (24h) on termination, and re-evaluate entitlements on every internal transfer — movers are as risky as leavers.

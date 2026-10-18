@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # 12-Factor Apps
 
 **SHOULD** externalize config to the environment and treat processes as stateless, so no secret or session state is baked into images or local disk.

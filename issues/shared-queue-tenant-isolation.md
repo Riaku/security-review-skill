@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, multi-tenancy]
+domains: [backend, data]
+---
+
 # Shared-Queue Tenant Isolation
 
 **SHOULD** isolate tenant workloads in queues by partition, dedicated queue, or per-message tenant enforcement so one tenant's burst or poison message cannot starve or crash others.

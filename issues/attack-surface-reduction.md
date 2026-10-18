@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Attack Surface Reduction (deliberate exposure minimization)
 
 **SHOULD NOT** expose administrative interfaces, dashboards, or debug endpoints directly to the public internet without an access broker such as VPN or zero-trust gateway.

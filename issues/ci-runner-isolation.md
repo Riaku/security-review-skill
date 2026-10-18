@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security]
+domains: [infrastructure]
+---
+
 # CI Runner Isolation
 
 **MUST** run untrusted build jobs on ephemeral, per-job isolated runners with no shared workspace, persistent credentials, or network access to production networks.

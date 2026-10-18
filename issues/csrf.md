@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # CSRF
 
 **MUST** Require a per-session token or origin check on every state-changing request.

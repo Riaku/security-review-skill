@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Disaster Recovery
 
 **MUST** maintain a rehearsed recovery plan for full-site loss, with restore verified from actual backups.

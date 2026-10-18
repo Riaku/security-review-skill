@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, deployment-release]
+domains: [infrastructure]
+---
+
 # Helm Hook Ordering and Failed-Hook Release Blocking
 
 **MUST** set `hook-weight` and `hook-delete-policy` explicitly so migrations run before workloads, and treat a failed hook as a release blocker rather than a warning.

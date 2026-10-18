@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
 
 **MUST** vet critical suppliers at onboarding and re-review their security posture on a fixed cadence.

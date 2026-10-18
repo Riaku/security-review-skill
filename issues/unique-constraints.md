@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Unique Constraints
 
 **MUST** enforce business-level uniqueness (email, username, SKU per tenant) with database UNIQUE constraints, not just a pre-insert existence check in code.

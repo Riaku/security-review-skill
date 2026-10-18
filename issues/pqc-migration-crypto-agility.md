@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, secrets-crypto]
+domains: [backend, government-compliance]
+---
+
 # Post-quantum cryptography migration plan and crypto-agility
 
 **SHOULD** maintain a documented PQC migration plan and crypto-agile design (algorithm negotiation, centralized crypto config) so ciphers can be swapped without rewrites.

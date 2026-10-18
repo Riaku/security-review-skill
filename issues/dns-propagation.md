@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # DNS Propagation
 
 **SHOULD** Lower record TTLs to 300 seconds or less well before a planned cutover, and keep them low until the migration is confirmed stable.

@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Floating Point Math
 
 **SHOULD NOT** compare binary floating-point values for exact equality or accumulate them over many operations.

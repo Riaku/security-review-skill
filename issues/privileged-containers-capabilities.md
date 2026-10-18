@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # Privileged Containers and Excess Linux Capabilities
 
 **SHOULD NOT** grant capabilities beyond the app's proven need; drop all by default and add back only what fails without them.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

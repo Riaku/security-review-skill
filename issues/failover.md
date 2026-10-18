@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Failover
 
 **MUST** automatically redirect traffic to healthy replicas within the documented failover time, with the promotion path tested.

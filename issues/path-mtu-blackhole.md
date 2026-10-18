@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Path MTU blackholes diagnosed on tunnel/VPN paths
 
 **SHOULD** verify path MTU handling on every tunnel, VPN, or encapsulated route: clamp MSS at tunnel ingress and never blanket-drop ICMP "fragmentation needed" messages.

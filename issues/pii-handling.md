@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # PII Handling
 
 **SHOULD NOT** transmit or store unencrypted personally identifiable information outside designated secure stores.

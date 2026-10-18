@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Beaconing Detection
 
 **MUST** analyze outbound connection timing for fixed-interval patterns that indicate C2 beaconing.

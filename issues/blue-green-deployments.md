@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Blue-Green Deployments
 
 **SHOULD** keep the idle environment patched and drained of live secrets, with automated cutover health gates before traffic shifts.

@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Distributed Tracing
 
 **MUST** propagate trace context across all service and queue boundaries so a single request is followable end to end.
