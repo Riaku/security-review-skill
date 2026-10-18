@@ -1,0 +1,47 @@
+name: validate-skill
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly link re-check (link rot doesn't wait for PRs)
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Structure validation (issues ↔ manifests ↔ topics.json)
+        run: python3 scripts/validate_skill.py
+
+      - name: Generated artifacts in sync
+        run: python3 scripts/check_generated.py
+
+      - name: Size budgets (SKILL.md < 500 lines, issues <= 1500 words)
+        run: |
+          set -e
+          lines=$(wc -l < SKILL.md)
+          if [ "$lines" -ge 500 ]; then
+            echo "SKILL.md is $lines lines (spec budget: <500) — move detail to references/"
+            exit 1
+          fi
+          echo "SKILL.md: $lines lines OK"
+          big=$(awk 'END{}' /dev/null; for f in issues/*.md; do
+            w=$(wc -w < "$f")
+            if [ "$w" -gt 1500 ]; then echo "$f ($w words)"; fi
+          done)
+          if [ -n "$big" ]; then
+            echo "Oversized issue files:"; echo "$big"; exit 1
+          fi
+          echo "all issue files within budget"
+
+      - name: Link check
+        run: python3 scripts/check_links.py
