@@ -9,7 +9,7 @@ license: MIT
 metadata:
   author: security-review-skill contributors
   spec: https://agentskills.io/specification
-  attribution: Original 250-item list by @ghumare64 (https://x.com/ghumare64/status/2111332908657148356); system-design concepts from Arjay McCandless's System Design Cheat Sheet; expanded with curated, government/regulatory, cloud-native, ops, and discovery-agent additions.
+  attribution: Full source list in SOURCES.md. Seed: 250-item list by @ghumare64 (https://x.com/ghumare64/status/2111332908657148356); system-design content from Arjay McCandless's Cheat Sheet and Ultimate System Design Playbook; expanded from OWASP/NIST/MITRE/SLSA and vendor platform guides.
 ---
 
 # Security Review Skill

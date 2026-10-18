@@ -47,4 +47,4 @@ completeness): {na_summary}
 
 ---
 Findings are advisory: a `pass` means no violation was found in the code read,
-not a guarantee. Attribution: original list by @ghumare64; see AGENTS.md.
+not a guarantee. Attribution: original list by @ghumare64; see SOURCES.md.
