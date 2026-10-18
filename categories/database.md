@@ -56,3 +56,4 @@ Issues:
 - `unauthenticated-data-store-exposure`
 - `reidentification-risk`
 - `backup-verification-drills`
+- `exposed-data-service-ports`

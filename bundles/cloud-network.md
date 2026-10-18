@@ -1,4 +1,4 @@
-# cloud-network — full checklist (59 items)
+# cloud-network — full checklist (61 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -1174,81 +1174,101 @@ resource "aws_iam_policy" "ci" {
 
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
-**MUST NOT** grant wildcard actions or resources (`*:*`, `admin/*`) or unscoped PassRole chains; policy linters must fail CI on them.
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants are the shortest path from a single leaked credential to full account takeover, and PassRole chains hide escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover, and PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, `iam:PassRole` without condition, `AdministratorAccess`; run policy-sentry, pmapper, tfsec checks.
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`; run cloudsplaining, tfsec.
 
-**References:** AWS IAM security best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
 
 # Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
 
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph and prune every path from low-privilege identities to admin.
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
 
-**Why:** Individually reasonable permissions compose into escalation ladders (create-role, assume-role, modify-trust) that no single policy review catches.
+**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
 
-**Detect:** run pmapper `analyze --enum`, cloudsplaining cross-account reports, IAM Access Analyzer `unreachable`/external findings; grep trust policies for `AWS: "*"`.
+**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
 
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation graph
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
 
 # CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)
 
-**MUST** scan cloud configuration continuously for misconfigurations rather than relying on point-in-time audits.
+**MUST** scan cloud configuration continuously for misconfigurations instead of relying on point-in-time audits.
 
 **Why:** Public buckets, open security groups, and disabled logging appear between audits; attackers scan for them constantly.
 
-**Detect:** grep for CSPM tooling: `prowler`, `scoutsuite`, `cloudsploit`, `Palo Alto Prisma`, `Wiz`, `checkov --framework cloud`, scheduled posture-scan CI jobs and alert routing.
+**Detect:** grep for `prowler`, `scoutsuite`, `cloudsploit`, `checkov --framework cloud`, scheduled posture-scan jobs with alert routing.
 
-**References:** NIST CS2 (SP 800-223 CSPM), CIS Benchmarks for AWS/Azure/GCP, NIST SP 800-53 CM-6, CWE-16
+**References:** NIST CS2 (SP 800-223), CIS Cloud Benchmarks, NIST SP 800-53 CM-6, CWE-16
 
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
-**SHOULD** alert on post-compromise horizontal motion: unusual SSH/WinRM hops, mass SMB enumeration, anomalous role assumption across accounts.
+**SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
 
-**Why:** Once inside, attackers pivot toward crown jewels; without motion alerts, breach dwell time stretches to months while one foothold becomes total compromise.
+**Why:** Without motion alerts, dwell time stretches to months while one foothold becomes total compromise of crown jewels.
 
-**Detect:** grep detection rules for `lateral_movement`, `T1021`, `remote_services`, `admin_shares`, `PassTheHash`, unusual-login detections in SIEM/YARA-L/Sigma rules.
+**Detect:** grep detection rules for `T1021`, `remote_services`, `admin_shares`, `pass-the-hash`, unusual-login Sigma/YARA-L rules.
 
-**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma lateral-movement rules, AWS GuardDuty UnauthorizedAccess
+**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma rules, GuardDuty UnauthorizedAccess
 
 # Infrastructure Drift Detection (live state vs IaC diffed and alerted)
 
-**MUST** continuously diff live infrastructure state against IaC definitions and alert on unauthorized manual changes.
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
 
-**Why:** Console-clicked changes bypass review and become invisible security holes — an open security group nobody wrote down never gets fixed.
+**Why:** Console-clicked changes bypass review and become invisible holes — an open security group nobody wrote down never gets fixed.
 
-**Detect:** grep for `terraform plan -detailed-exitcode` scheduled jobs, `drift`, `terraformer`, Driftctl, AWS Config `detect-config-drift`, `kubectl diff -f` cron checks.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f` scheduled checks.
 
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift detection docs, AWS Config conformance packs
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs, AWS Config conformance packs
 
 # Service Mesh / Service-to-Service mTLS (identity for internal traffic)
 
-**SHOULD** enforce mutual TLS between internal services so east-west traffic is authenticated and encrypted, not trusted by network location alone.
+**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
 
-**Why:** Flat internal networks let an attacker who breaches one service impersonate any other and sniff credentials in cleartext.
+**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
 
-**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `apiVersion: security.istio.io`, `tls: mode: ENABLE` in Linkerd/Consul configs, mesh policy manifests.
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
 
-**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319 (cleartext transmission)
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319
 
 # Attack-Path Analysis (reachable chains from exposure to crown jewels)
 
-**SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, and cut the shortest chains first.
+**SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, cutting shortest chains first.
 
-**Why:** Individual findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
+**Why:** Findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
 
-**Detect:** grep for attack-path tooling: `cartography`, `bloodhound`, `peanut`, Wiz/Knossos attack paths, `reachability` graph exports, `attack_path` reports in vuln management.
+**Detect:** grep for `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports, CSEM attack-path tooling output.
 
 **References:** MITRE ATT&CK, NIST SP 800-30 (risk assessment), BloodHound docs, CSEM attack-path analysis
 
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
-**SHOULD** restrict outbound network traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate data.
+**SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
 
-**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary external endpoints.
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary endpoints.
 
-**Detect:** grep egress configs: `NetworkPolicy egress`, `egress gateway`, `egress_filter`, proxy allow-lists, `default-deny` outbound firewall rules, `egress-destination-range`.
+**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound firewall rules, `egress_filter` configs.
 
 **References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011 (Exfiltration), CIS Kubernetes Benchmark 5.3
+
+# Open Directory Listing
+
+**SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
+
+**Why:** `Autoindex on` / bucket list permission turns one known filename pattern into a full inventory of everything ever placed there.
+
+**Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
+
+**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+
+# Exposed Data-Service Ports
+
+**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+
+**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+
+**References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
 

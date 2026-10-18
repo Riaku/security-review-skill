@@ -369,31 +369,31 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
-**SHOULD** alert on post-compromise horizontal motion: unusual SSH/WinRM hops, mass SMB enumeration, anomalous role assumption across accounts.
+**SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
 
-**Why:** Once inside, attackers pivot toward crown jewels; without motion alerts, breach dwell time stretches to months while one foothold becomes total compromise.
+**Why:** Without motion alerts, dwell time stretches to months while one foothold becomes total compromise of crown jewels.
 
-**Detect:** grep detection rules for `lateral_movement`, `T1021`, `remote_services`, `admin_shares`, `PassTheHash`, unusual-login detections in SIEM/YARA-L/Sigma rules.
+**Detect:** grep detection rules for `T1021`, `remote_services`, `admin_shares`, `pass-the-hash`, unusual-login Sigma/YARA-L rules.
 
-**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma lateral-movement rules, AWS GuardDuty UnauthorizedAccess
+**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma rules, GuardDuty UnauthorizedAccess
 
 # Credential Access Detection (keylogging, token theft, credential dumping patterns)
 
-**SHOULD** detect credential-harvesting behavior: LSASS/mimikatz dumps, keylogging hooks, OAuth token replay, cloud credential scraping from instance metadata.
+**SHOULD** detect credential harvesting: LSASS dumps, keylogging hooks, OAuth token replay, metadata-service credential scraping.
 
-**Why:** Stolen credentials are the leading initial-access vector; catching the theft step stops breaches that identity-based controls alone miss.
+**Why:** Stolen credentials are the leading initial-access vector; catching the theft step stops breaches identity controls alone miss.
 
-**Detect:** grep detection content for `T1003`, `lsass`, `mimikatz`, `secretsdump`, `169.254.169.254` access alerts, `GetTokenAlot`/token-replay rules in SIEM configs.
+**Detect:** grep detection content for `T1003`, `lsass`, `mimikatz`, `secretsdump`, alerts on `169.254.169.254` access, token-replay rules.
 
-**References:** MITRE ATT&CK TA0006/T1003, NIST SP 800-63B, CWE-522, AWS GuardDuty credential-access detections
+**References:** MITRE ATT&CK TA0006/T1003, NIST SP 800-63B, CWE-522, GuardDuty credential-access detections
 
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
-**MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious process spawns.
+**MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
 
-**Why:** Scanners only see what you built; attackers operate in what's running, and without runtime visibility they work unnoticed inside "secure" images.
+**Why:** Scanners only see what you built; attackers operate in what's running, working unnoticed inside otherwise "secure" images.
 
-**Detect:** grep for `falco`, `sysdig`, `tracee`, `tetragon`, `ebpf` in deployment YAML/DaemonSets, runtime-security rules files, `falco_rules.yaml` customizations.
+**Detect:** grep for `falco`, `tracee`, `tetragon`, `sysdig`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
-**References:** MITRE ATT&CK container matrix (T1610), CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
+**References:** MITRE ATT&CK container matrix T1610, CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
 

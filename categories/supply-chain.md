@@ -30,3 +30,4 @@ Issues:
 - `hermetic-builds`
 - `pinned-ci-actions`
 - `artifact-signing-verification`
+- `broken-link-hijacking`

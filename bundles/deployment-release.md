@@ -263,41 +263,41 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 # Infrastructure Drift Detection (live state vs IaC diffed and alerted)
 
-**MUST** continuously diff live infrastructure state against IaC definitions and alert on unauthorized manual changes.
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
 
-**Why:** Console-clicked changes bypass review and become invisible security holes — an open security group nobody wrote down never gets fixed.
+**Why:** Console-clicked changes bypass review and become invisible holes — an open security group nobody wrote down never gets fixed.
 
-**Detect:** grep for `terraform plan -detailed-exitcode` scheduled jobs, `drift`, `terraformer`, Driftctl, AWS Config `detect-config-drift`, `kubectl diff -f` cron checks.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f` scheduled checks.
 
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift detection docs, AWS Config conformance packs
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs, AWS Config conformance packs
 
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
-**SHOULD NOT** patch running servers over SSH; rebuild and redeploy images instead, so every host matches a known, auditable template.
+**SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
 
-**Why:** Snowflake hosts mutated by hand hide rootkits, drift from hardening baselines, and cannot be trusted or reliably reproduced during an incident.
+**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines, resist reproduction, and can't be trusted during incidents.
 
-**Detect:** grep for SSH-to-prod runbooks, `apt upgrade` on live hosts vs image pipelines: Packer, AMI bake jobs, `deployment strategy: Recreate`, Auto Scaling group launch templates.
+**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate` deployments.
 
-**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2, Chromebook/immutable-infra pattern, AWS Well-Architected operational excellence
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2, AWS Well-Architected, immutable-infrastructure pattern
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
-**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, CEF/Cloud Custodian) enforced in CI and at admission, not in wikis.
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and at admission, not in wikis.
 
 **Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
 
-**Detect:** grep for `rego` files, `policy.rego`, `opa check`, `sentinel policy`, `admission webhook`, `conftest`, `gatekeeper constraint templates` in repos and cluster configs.
+**Detect:** grep for `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
 
-**References:** NIST SP 800-53 CM-6, OPA documentation, Open Policy Agent admission control,OPA Gatekeeper, CIS Kubernetes 5.2
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2, Policy-as-Code patterns
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
-**MUST** verify signatures (cosign/sigstore) on container images and release artifacts at deploy time, rejecting anything unsigned or mismatched.
+**MUST** verify signatures (cosign/sigstore) on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
 
-**Why:** An unsigned image pulled into production may be a tampered one; verification at the deploy boundary is the last honest checkpoint.
+**Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
 
-**Detect:** grep for `cosign verify`, `sigstore`, `signature_verification: true`, Kyverno `verifyImages`, admission signature policies, `--verification-policy` in deploy pipelines.
+**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, `--verification-policy` in deploy pipelines.
 
-**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CIS Docker Benchmark 4.x, CWE-347
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
 

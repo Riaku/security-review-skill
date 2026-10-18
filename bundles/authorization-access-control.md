@@ -228,41 +228,41 @@ resource "aws_iam_policy" "ci" {
 
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
-**MUST NOT** grant wildcard actions or resources (`*:*`, `admin/*`) or unscoped PassRole chains; policy linters must fail CI on them.
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants are the shortest path from a single leaked credential to full account takeover, and PassRole chains hide escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover, and PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, `iam:PassRole` without condition, `AdministratorAccess`; run policy-sentry, pmapper, tfsec checks.
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`; run cloudsplaining, tfsec.
 
-**References:** AWS IAM security best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
 
 # Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
 
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph and prune every path from low-privilege identities to admin.
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
 
-**Why:** Individually reasonable permissions compose into escalation ladders (create-role, assume-role, modify-trust) that no single policy review catches.
+**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
 
-**Detect:** run pmapper `analyze --enum`, cloudsplaining cross-account reports, IAM Access Analyzer `unreachable`/external findings; grep trust policies for `AWS: "*"`.
+**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
 
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation graph
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
 
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
-**MUST** inventory every service account, API key, and machine credential, assign an owner, and scope each to least privilege with expiry.
+**MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.
 
-**Why:** Machine identities typically outnumber humans 50:1 and are rarely reviewed — orphaned service accounts become the attacker's favorite door.
+**Why:** Machine identities outnumber humans 50:1 and are rarely reviewed; orphaned service accounts become attackers' favorite door.
 
-**Detect:** grep for `service_account`, `api_key`, `client_secret` inventories, IAM user-vs-role audits, Vault identity listings, `orphaned_credentials` reports, workload-identity configs.
+**Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs, IAM user-vs-role audits.
 
 **References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, Cloud Security Alliance NHI guidance
 
 # Least-Frequently-Used Permission Review (periodic entitlement pruning)
 
-**MAY** start with quick wins, but SHOULD run periodic reviews that revoke permissions nobody has used in a defined window (e.g. 90 days).
+**MAY** begin with quick wins, but SHOULD periodically revoke entitlements unused over a defined window (e.g. 90 days).
 
-**Why:** Unused entitlements are pure attack surface: they never help legitimate work yet sit ready for any account that gets compromised.
+**Why:** Unused permissions are pure attack surface: they never help legitimate work yet sit ready for any compromised account.
 
-**Detect:** grep access-review exports: `unused_permissions`, `last_used_timestamp`, IAM Access Advisor / GCP Policy Intelligence unused reports, entitlement-review job configs.
+**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor / GCP unused-service reports, entitlement-review jobs.
 
-**References:** NIST SP 800-53 AC-2(3) (periodic review), CIS Control 5, AWS IAM Access Advisor, SOX/ISO 27001 A.5.18 review cadence
+**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor, ISO 27001 A.5.18 review cadence
 

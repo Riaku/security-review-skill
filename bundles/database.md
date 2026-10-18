@@ -1,4 +1,4 @@
-# database — full checklist (53 items)
+# database — full checklist (54 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -1199,11 +1199,21 @@ export = anonymize(df, k=20,
 
 # Backup Verification Drills (scheduled restore tests, not just backup jobs)
 
-**MUST** run scheduled restore drills that prove backups actually recover systems, with results tracked and failures escalated.
+**MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
 
-**Why:** Backups that were never restored are unverified guesses; ransomware crews routinely encrypt backup targets too, so only tested restores count.
+**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too, so only tested restores count.
 
-**Detect:** grep for `restore_test`, `drill`, `pg_restore` in scheduled jobs, `velero restore create --from-backup`, AWS Backup restore testing plans, runbook docs with drill dates.
+**Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
 
-**References:** NIST SP 800-34 (Contingency Planning), CIS Control 11, NIST CSF PR.IP-4, CWE-190 (recovery failure context)
+**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+
+# Exposed Data-Service Ports
+
+**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+
+**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+
+**References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
 

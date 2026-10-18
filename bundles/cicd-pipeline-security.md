@@ -196,11 +196,11 @@ CI/CD system as an attack surface.
 
 # Hermetic Builds (no undeclared network/env deps during build)
 
-**SHOULD NOT** let builds reach the open network or read undeclared environment variables; all inputs must be declared and cached.
+**SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
 
-**Why:** Non-hermetic builds silently pull mutated or malicious dependencies mid-build, making artifacts unreproducible and quietly tamperable.
+**Why:** Non-hermetic builds silently pull mutated packages mid-build, leaving artifacts unreproducible and quietly tamperable.
 
-**Detect:** grep CI for `network:` modes, `--network=none`, `bazel --noenable_bzlmod`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
+**Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
 **References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
 
@@ -208,29 +208,29 @@ CI/CD system as an attack surface.
 
 **MUST** block direct pushes to protected branches and require reviewed, up-to-date approvals before merge.
 
-**Why:** Unprotected main branches let a single bad or malicious commit ship straight to production, bypassing every downstream control.
+**Why:** Unprotected main branches let one bad or malicious commit ship straight to production, bypassing every downstream control.
 
-**Detect:** GitHub settings `required_status_checks`, `enforce_admins`, `required_pull_request_reviews`; grep CODEOWNERS, `branch_protection`, `protect_develop`.
+**Detect:** grep `enforce_admins`, `required_pull_request_reviews`, `required_status_checks` in repo settings-as-code; CODEOWNERS files.
 
 **References:** OWASP SAMM Code Reviews, NIST SP 800-218 PW.7, CWE-1104, GitHub branch protection docs
 
 # Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
 
-**MUST** reference third-party CI actions and build dependencies by immutable commit SHA rather than mutable tags like `@v1`.
+**MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
 
-**Why:** Floating tags can be retagged overnight to attacker code that runs with your CI's tokens and secrets — the Codecov and tj-actions incidents proved it.
+**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens — the tj-actions incident proved it.
 
-**Detect:** grep workflow YAML for `uses: owner/repo@v` (tag refs) vs `uses: owner/repo@<40-hex-sha>`; `renovate.json` pin configs, `dependabot` pin settings.
+**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate `pin` configs, dependabot pin settings.
 
-**References:** OWASP CI/CD Security Top 10 CICD-SEC-4, GitHub Actions security hardening, SLSA dependency provenance, CWE-829
+**References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
-**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, CEF/Cloud Custodian) enforced in CI and at admission, not in wikis.
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and at admission, not in wikis.
 
 **Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
 
-**Detect:** grep for `rego` files, `policy.rego`, `opa check`, `sentinel policy`, `admission webhook`, `conftest`, `gatekeeper constraint templates` in repos and cluster configs.
+**Detect:** grep for `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
 
-**References:** NIST SP 800-53 CM-6, OPA documentation, Open Policy Agent admission control,OPA Gatekeeper, CIS Kubernetes 5.2
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2, Policy-as-Code patterns
 

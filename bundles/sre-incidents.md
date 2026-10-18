@@ -384,21 +384,21 @@ health_check: {interval: 10s, timeout: 5s,
 
 # Backup Verification Drills (scheduled restore tests, not just backup jobs)
 
-**MUST** run scheduled restore drills that prove backups actually recover systems, with results tracked and failures escalated.
+**MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
 
-**Why:** Backups that were never restored are unverified guesses; ransomware crews routinely encrypt backup targets too, so only tested restores count.
+**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too, so only tested restores count.
 
-**Detect:** grep for `restore_test`, `drill`, `pg_restore` in scheduled jobs, `velero restore create --from-backup`, AWS Backup restore testing plans, runbook docs with drill dates.
+**Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
 
-**References:** NIST SP 800-34 (Contingency Planning), CIS Control 11, NIST CSF PR.IP-4, CWE-190 (recovery failure context)
+**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
 
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
 **MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.
 
-**Why:** Without structured learning, the same failure repeats; blame-driven cultures hide information precisely when it's most needed.
+**Why:** Without structured learning the same failure repeats, and blame-driven cultures hide information precisely when it's most needed.
 
-**Detect:** grep for `postmortem`, `post_incident`, `RCA`, `blameless`, incident review templates, action-item trackers linked to incident IDs in ticketing exports.
+**Detect:** grep for `postmortem`, `RCA`, `blameless`, review templates, action-item tickets linked to incident IDs in trackers.
 
-**References:** NIST SP 800-61 (IR lifecycle, post-incident activity), Google SRE Book postmortem culture, CIS Control 17, ISO/IEC 27035
+**References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17, ISO/IEC 27035
 

@@ -1,9 +1,9 @@
 # Service Mesh / Service-to-Service mTLS (identity for internal traffic)
 
-**SHOULD** enforce mutual TLS between internal services so east-west traffic is authenticated and encrypted, not trusted by network location alone.
+**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
 
-**Why:** Flat internal networks let an attacker who breaches one service impersonate any other and sniff credentials in cleartext.
+**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
 
-**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `apiVersion: security.istio.io`, `tls: mode: ENABLE` in Linkerd/Consul configs, mesh policy manifests.
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
 
-**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319 (cleartext transmission)
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319

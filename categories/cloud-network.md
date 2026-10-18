@@ -62,3 +62,5 @@ Issues:
 - `service-mesh-mtls`
 - `attack-path-analysis`
 - `egress-control`
+- `open-directory-listing`
+- `exposed-data-service-ports`

@@ -1,9 +1,9 @@
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
-**MUST NOT** grant wildcard actions or resources (`*:*`, `admin/*`) or unscoped PassRole chains; policy linters must fail CI on them.
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants are the shortest path from a single leaked credential to full account takeover, and PassRole chains hide escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover, and PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, `iam:PassRole` without condition, `AdministratorAccess`; run policy-sentry, pmapper, tfsec checks.
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`; run cloudsplaining, tfsec.
 
-**References:** AWS IAM security best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence

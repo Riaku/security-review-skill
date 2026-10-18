@@ -4433,5 +4433,58 @@
     "categories": [
       "authorization-access-control"
     ]
+  },
+  {
+    "num": 530,
+    "title": "Exposed Debug & Actuator Endpoints (Spring /env, Django DEBUG, pprof)",
+    "slug": "exposed-debug-actuator-endpoints",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 531,
+    "title": "Container Escape Hardening (seccomp, read-only rootfs, syscall surface)",
+    "slug": "container-escape-hardening",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 532,
+    "title": "Forced Browsing & Unprotected Admin Panels",
+    "slug": "forced-browsing-admin-panels",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 533,
+    "title": "Open Directory Listing",
+    "slug": "open-directory-listing",
+    "categories": [
+      "web-api-security",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 534,
+    "title": "Broken Link & Dependency Hijacking",
+    "slug": "broken-link-hijacking",
+    "categories": [
+      "web-client-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 535,
+    "title": "Exposed Data-Service Ports (Redis/Elastic/Mongo/Docker API)",
+    "slug": "exposed-data-service-ports",
+    "categories": [
+      "cloud-network",
+      "database"
+    ]
   }
 ]

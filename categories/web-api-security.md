@@ -48,3 +48,6 @@ Issues:
 - `webhook-replay-protection`
 - `code-fuzzing`
 - `unvalidated-redirects-forwards`
+- `exposed-debug-actuator-endpoints`
+- `forced-browsing-admin-panels`
+- `open-directory-listing`

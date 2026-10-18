@@ -48,3 +48,4 @@ Issues:
 - `runtime-threat-detection`
 - `service-mesh-mtls`
 - `egress-control`
+- `container-escape-hardening`

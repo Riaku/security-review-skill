@@ -1,4 +1,4 @@
-# web-api-security — full checklist (45 items)
+# web-api-security — full checklist (48 items)
 
 Server-side API and web application attack surface.
 
@@ -542,21 +542,51 @@ iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
 
 # Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
 
-**SHOULD** continuously fuzz parsers, decoders, and other untrusted-input handlers with AFL/libFuzzer or OSS-Fuzz-style harnesses.
+**SHOULD** continuously fuzz parsers, decoders, and untrusted-input handlers with AFL/libFuzzer-style harnesses.
 
-**Why:** Hand-written tests miss edge cases; fuzzing finds the memory corruption and crash bugs attackers actively weaponize in parsers.
+**Why:** Hand-written tests miss edge cases; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
 
-**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `FUZZ_TARGET`, `cargo-fuzz`, `atheris`, corpus/seed directories in repos and CI.
+**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
 
-**References:** OWASP Fuzzing chapter, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+**References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
 
 # Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
 
-**MUST NOT** send users to attacker-controlled destinations via unvalidated `redirect`, `next`, or `returnUrl` parameters; validate against an allow-list.
+**MUST NOT** route users via unvalidated `redirect`/`returnUrl` parameters; destinations must pass an allow-list check.
 
-**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or authorization codes to external hosts.
+**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or OAuth codes externally.
 
-**Detect:** grep for `?redirect=`, `next=`, `returnUrl`, `rd=`, `url=` passed to `redirect()`/`Location:` without allow-list checks; Semgrep `open-redirect` rules.
+**Detect:** grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` without allow-list validation; Semgrep open-redirect rules.
 
-**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Unvalidated Redirects and Forwards Cheat Sheet, OAuth 2.0 redirect_uri validation (RFC 6819)
+**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Redirects Cheat Sheet, RFC 6819
+
+# Exposed Debug & Actuator Endpoints
+
+**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+
+**Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
+
+**Detect:** grep routes/config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`; DAST-scan prod for `/env`, `/heapdump`, `/debug`, `/server-status`.
+
+**References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
+
+# Forced Browsing & Unprotected Admin Panels
+
+**MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).
+
+**Why:** Scanners (Nuclei, ffuf) find default-open admin UIs constantly; "security by obscure path" fails against wordlist enumeration.
+
+**Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
+
+**References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
+
+# Open Directory Listing
+
+**SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
+
+**Why:** `Autoindex on` / bucket list permission turns one known filename pattern into a full inventory of everything ever placed there.
+
+**Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
+
+**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
 

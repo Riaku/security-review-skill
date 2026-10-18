@@ -1,4 +1,4 @@
-# web-client-security — full checklist (19 items)
+# web-client-security — full checklist (22 items)
 
 Browser-side attack surface and defenses.
 
@@ -199,11 +199,41 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 # Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
 
-**MUST NOT** send users to attacker-controlled destinations via unvalidated `redirect`, `next`, or `returnUrl` parameters; validate against an allow-list.
+**MUST NOT** route users via unvalidated `redirect`/`returnUrl` parameters; destinations must pass an allow-list check.
 
-**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or authorization codes to external hosts.
+**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or OAuth codes externally.
 
-**Detect:** grep for `?redirect=`, `next=`, `returnUrl`, `rd=`, `url=` passed to `redirect()`/`Location:` without allow-list checks; Semgrep `open-redirect` rules.
+**Detect:** grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` without allow-list validation; Semgrep open-redirect rules.
 
-**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Unvalidated Redirects and Forwards Cheat Sheet, OAuth 2.0 redirect_uri validation (RFC 6819)
+**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Redirects Cheat Sheet, RFC 6819
+
+# Exposed Debug & Actuator Endpoints
+
+**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+
+**Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
+
+**Detect:** grep routes/config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`; DAST-scan prod for `/env`, `/heapdump`, `/debug`, `/server-status`.
+
+**References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
+
+# Forced Browsing & Unprotected Admin Panels
+
+**MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).
+
+**Why:** Scanners (Nuclei, ffuf) find default-open admin UIs constantly; "security by obscure path" fails against wordlist enumeration.
+
+**Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
+
+**References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
+
+# Broken Link & Dependency Hijacking
+
+**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
+
+**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
+
+**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
+
+**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
 
