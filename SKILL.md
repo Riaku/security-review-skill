@@ -74,11 +74,8 @@ higher severity wins and the report flags the disagreement.
 **Provenance:** every merged finding keeps all contributing slugs so
 nothing is silently lost.
 
-### Phase 4 — Baseline & Verdict
+### Phase 4 — Verdict
 
-- Persist the findings set per
-  [`references/review-lifecycle.md`](references/review-lifecycle.md) so the next
-  review diffs instead of cold-starting.
 - Render the verdict gate (see
   [`references/severity-rubric.md`](references/severity-rubric.md)):
   **BLOCK** (any critical open) / **SHIP-WITH-CONDITIONS** (highs present
@@ -156,9 +153,6 @@ Item counts per category: no separate script is needed — read
 - [`references/severity-rubric.md`](references/severity-rubric.md) — severity
   definition (exploitability × blast radius × modifiers); sub-agents MUST rate
   findings against it.
-- [`references/review-lifecycle.md`](references/review-lifecycle.md) — baseline
-  artifacts, finding states (open/fixed/wontfix/regressed), and diff-based
-  re-review.
 - [`scripts/tool-issues.json`](scripts/tool-issues.json) — machine-readable
   tool→issues mapping (the standard format; edit here to link tools to issues).
 - [`references/tool-index.md`](references/tool-index.md) — **generated** reverse

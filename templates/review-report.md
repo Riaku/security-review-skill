@@ -3,7 +3,7 @@
 **Date:** {date} · **Skill:** security-review-skill
 **Domains reviewed:** {domains}
 **Categories dispatched:** {categories} · **Items covered:** {item_count}
-**Depth profile:** {quick | standard | deep} · **Baseline diffed against:** {baseline_date or "none (first review)"}
+**Depth profile:** {quick | standard | deep}
 
 ## Verdict: {BLOCK | SHIP-WITH-CONDITIONS | SHIP}
 
