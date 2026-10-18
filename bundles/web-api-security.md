@@ -1,4 +1,4 @@
-# web-api-security — full checklist (52 items)
+# web-api-security — full checklist (49 items)
 
 Server-side API and web application attack surface.
 
@@ -212,11 +212,11 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **SHOULD NOT** Redirect from query params (`next`, `returnTo`) without an allowlist or relative-path restriction.
 
-**Why:** "login?next=evil.com" links land victims on phishing pages via your trusted domain.
+**Why:** "login?next=evil.com" links land victims on phishing pages via your trusted domain, and open redirects can also leak SSO tokens or OAuth codes to external destinations.
 
-**Detect:** `redirect(request.args['next'])`, `location=` from params without allowlist or leading-slash enforcement.
+**Detect:** `redirect(request.args['next'])`, `location=` from params without allowlist or leading-slash enforcement; grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` headers.
 
-**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide
+**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide, RFC 6819
 
 # Debug/Dev Mode in Production
 
@@ -495,31 +495,6 @@ metadata_options {
 
 **References:** NIST SP 800-63B §5.1.1.2, CWE-287, OWASP A07:2021, CWE-354
 
-# Cloud metadata service abuse (SSRF to IMDS, IMDSv2 enforcement, metadata blocking)
-
-**MUST** combine defenses against metadata abuse end-to-end: enforce IMDSv2 hop-limit 1 on instances, deny link-local egress from SSRF-capable workloads, and reject user-supplied URLs that resolve into reserved ranges at connect time.
-
-**Why:** Metadata abuse rarely needs a novel exploit — an attacker chains an ordinary SSRF with a v1-tolerant instance or an open egress path, and walks away with node role credentials. Any single missing layer in the chain is enough to complete the attack.
-
-**Detect:** Verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates; confirm egress proxies/NetworkPolicies drop `169.254.169.254` and cloud aliases; test SSRF filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Review container hostNetwork settings that sidestep pod-level blocks.
-
-**Bad:**
-```python
-# SSRF filter checks the string only; v1 IMDS answers a plain GET
-if not url.startswith("http://169.254.169.254"):
-    requests.get(url)
-```
-
-**Good:**
-```
-# defense in depth: v2-only IMDS + network-level deny
-aws ec2 modify-instance-metadata-options --instance-id i-123 \
-  --http-tokens required --http-put-response-hop-limit 1
-iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
-```
-
-**References:** AWS IMDSv2 security bulletin, CIS AWS 5.6/5.7, OWASP SSRF Prevention Cheat Sheet, MITRE ATT&CK T1552.005
-
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
 **MUST NOT** Expose admin panels, actuator endpoints, `.git`/`.env` files, or dashboards publicly; gate them behind auth.
@@ -532,33 +507,13 @@ iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
 
 # Webhook Replay Protection
 
-**MAY** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
+**MUST NOT** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
 
 **Why:** A captured signed webhook stays replayable forever without expiry — an attacker resends a legitimate payment event days later undetected.
 
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
-
-# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
-
-**SHOULD** continuously fuzz parsers, decoders, and untrusted-input handlers with AFL/libFuzzer-style harnesses.
-
-**Why:** Hand-written tests miss edge cases; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
-
-**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
-
-**References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
-
-# Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
-
-**MUST NOT** route users via unvalidated `redirect`/`returnUrl` parameters; destinations must pass an allow-list check.
-
-**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or OAuth codes externally.
-
-**Detect:** grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` without allow-list validation.
-
-**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Redirects Cheat Sheet, RFC 6819
 
 # Exposed Debug & Actuator Endpoints
 

@@ -1,4 +1,4 @@
-# supply-chain — full checklist (29 items)
+# supply-chain — full checklist (26 items)
 
 Dependencies, artifacts, build provenance.
 
@@ -8,11 +8,11 @@ Dependencies, artifacts, build provenance.
 
 **MUST** run automated secret scanning (gitleaks, trufflehog, GitHub push protection) on every commit and full-history scans before publishing any repository.
 
-**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes.
+**Why:** Developers routinely commit live credentials under deadline pressure; without scanning, leaks ship silently to public or shared remotes — and a secret once committed stays in git history forever, so rotation is the only true fix and is often missed.
 
-**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks, absent GitHub `secret_scanning` settings in org config.
+**Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319
+**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 PS.1, GitHub push protection docs
 
 # Dependency Vulnerabilities
 
@@ -23,16 +23,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** `requirements.txt`, `package-lock.json`, `go.mod`; run `pip-audit`, `npm audit`, `govulncheck`; grep `.github/workflows` for `osv-scanner`.
 
 **References:** OWASP A06:2021, CWE-1104, SCB-001
-
-# Supply Chain Attacks
-
-**MUST** pin all external build inputs (base images, actions, tools) to immutable digests rather than mutable tags.
-
-**Why:** Attackers compromise upstream tags or CI actions to inject malicious code into otherwise trusted builds, as in SolarWinds and event-stream.
-
-**Detect:** `uses: owner/action@v1` without `@sha256:`; `FROM image:latest`; unpinned `curl | bash` in Dockerfiles or CI scripts.
-
-**References:** NIST SP 800-161, CWE-829, SLSA L2
 
 # Image Scanning
 
@@ -108,11 +98,11 @@ Dependencies, artifacts, build provenance.
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
 
-**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions.
+**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; upstream tag compromises (SolarWinds, event-stream) extend the same lesson to every unpinned build input.
 
-**Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; actionlint `pin-versions` rule.
+**Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
-**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide
+**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide, OWASP CI/CD Top 10 CICD-SEC-4, NIST SP 800-161
 
 # CI Artifact Integrity Handoff
 
@@ -123,16 +113,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
 
 **References:** OWASP CI Security CS5, CWE-345, NIST SP 800-218 PW.6, SLSA provenance levels, sigstore/cosign docs
-
-# Docker Socket Mounted into Containers
-
-**MUST NOT** expose `/var/run/docker.sock` (or containerd/CRI-O sockets) to application containers; use a scoped proxy or dedicated agent instead.
-
-**Why:** Socket access grants full container-control API, which is trivially equivalent to root on the node and defeats every other control.
-
-**Detect:** Volume mounts of `docker.sock`, `containerd.sock`, or `crio.sock`; env `DOCKER_HOST` pointing at a mounted socket path.
-
-**References:** CIS Docker 2.4, CWE-732, OWASP Top10 A05, NIST SP 800-190 4.4
 
 # Mutable Image Tags (latest) Instead of Digest Pinning
 
@@ -253,16 +233,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
 **References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
-
-# Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
-
-**MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
-
-**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
-
-**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
-
-**References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 

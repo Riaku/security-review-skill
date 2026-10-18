@@ -1,4 +1,4 @@
-# deployment-release — full checklist (28 items)
+# deployment-release — full checklist (30 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -320,4 +320,24 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
 
 **References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
+
+# Strict Build / Release / Run Separation
+
+**MUST NOT** rebuild per environment: build once, compose config into a versioned release, and promote the identical digest-pinned artifact from staging to production.
+
+**Why:** A per-environment rebuild means the binary that passed staging review is not the binary running in production, silently breaking the review-to-deployment trust chain. Non-promoted builds also make rollbacks unreliable and provenance unverifiable.
+
+**Detect:** CI jobs that build separately per environment; `:latest` tags used across environments; config compiled at build time instead of injected at release time; production digests that cannot be traced to the reviewed staging digest.
+
+**References:** 12factor.net/build-release-run, SLSA Build L2+ provenance, OpenSSF artifact promotion guidance
+
+# Admin Tasks as One-Off Processes from the Release
+
+**SHOULD** run admin and maintenance tasks (migrations, REPLs, one-time scripts) as one-off processes from the same released code, config, and dependency isolation — committed to the repo — rather than ad-hoc scripts executed against production out-of-band.
+
+**Why:** Out-of-band admin access (manual `psql` into prod, hand-copied scripts, SSH one-offs) is unauditable, drifts from the released code's assumptions, and is the classic vector for irreversible mistakes. Running the same image as a scoped one-off Job keeps credentials, code version, and audit trail aligned.
+
+**Detect:** runbooks showing manual DB/console access instead of `kubectl job` or release-hook migrations; admin scripts not present in the repo; production mutations with no corresponding committed task definition.
+
+**References:** 12factor.net/admin-processes, OWASP Logging Cheat Sheet (audit of admin actions), Kubernetes Jobs pattern
 

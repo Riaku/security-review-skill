@@ -80,7 +80,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 
 ## docker-bench-security
 - `issues/cis-docker-benchmark.md`
-- `issues/docker-socket-mount.md`
+- `issues/dangerous-host-mounts.md`
 - `issues/privileged-containers-capabilities.md`
 
 ## driftctl
@@ -90,14 +90,13 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 ## falco
 - `issues/runtime-threat-detection.md`
 - `issues/living-off-the-land.md`
-- `issues/container-escape-hardening.md`
+- `issues/pod-security-standards.md`
 
 ## ffuf
 - `issues/forced-browsing-admin-panels.md`
 - `issues/path-traversal.md`
 
 ## github-push-protection
-- `issues/push-protection.md`
 - `issues/secret-scanning.md`
 
 ## gitleaks
@@ -210,7 +209,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 ## policy-sentry
 - `issues/least-privilege.md`
 - `issues/dangerous-iam-policies.md`
-- `issues/cloud-iam-escalation-paths.md`
+- `issues/cloud-iam-privilege-escalation.md`
 
 ## pre-commit
 - `issues/linting-static-analysis.md`
@@ -236,7 +235,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 
 ## scoutsuite
 - `issues/cspm-continuous-scanning.md`
-- `issues/cloud-iam-wildcard-policies.md`
+- `issues/dangerous-iam-policies.md`
 
 ## semgrep
 - `issues/sql-injection.md`
@@ -294,7 +293,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 
 ## tetragon
 - `issues/runtime-threat-detection.md`
-- `issues/service-mesh-mtls.md`
+- `issues/mtls-service-auth.md`
 - `issues/egress-control.md`
 
 ## tfsec
@@ -304,7 +303,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 
 ## tracee
 - `issues/runtime-threat-detection.md`
-- `issues/container-escape-hardening.md`
+- `issues/pod-security-standards.md`
 
 ## trivy
 - `issues/dependency-vulnerabilities.md`

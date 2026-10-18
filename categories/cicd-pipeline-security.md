@@ -16,6 +16,7 @@ Issues:
 - `dockerfile-build-secret-leakage`
 - `dind-privileged-ci-builds`
 - `gitops-repo-cluster-privilege-mapping`
+- `argocd-default-credentials`
 - `iac-untrusted-pr-plan-injection`
 - `ai-generated-code-review`
 - `patch-management-sla`
@@ -27,4 +28,3 @@ Issues:
 - `review-config-immutable-to-reviewee`
 - `advisory-vs-enforced-agent-checks`
 - `unattended-agent-automation-governance`
-- `argocd-default-credentials`
