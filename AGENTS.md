@@ -21,13 +21,18 @@ Run the full CI-equivalent **locally** before pushing:
 python3 scripts/gen_manifests.py      # regenerate domains/categories/bundles
 python3 scripts/check_generated.py    # generated artifacts must be in sync
 python3 scripts/validate_skill.py     # structure invariants (exit 0)
+python3 scripts/check_links.py --offline   # relative links + crawl graph
 ```
 
-All three must exit 0. Notes:
+All four must exit 0. Notes:
 
 - `validate_skill.py` alone is NOT the gate. `scripts/tool-issues.json` (tool→issue
   mappings) and `bundles/` are a separate graph only `check_generated.py` verifies;
   a merge PR passed the validator and failed CI on stale tool mappings.
+- `check_links.py --offline` is the fourth leg: it resolves every relative link and
+  crawls the graph from `SKILL.md`, so a dangling or orphaned document fails here
+  while the other three stay green. CI runs it without `--offline` (external URLs
+  too); run it that way before requesting review if you touched reference links.
 - After merges/refactors that remove or rename slugs, remap every reference in
   `topics.json`, all `categories/*.md` manifests, AND `scripts/tool-issues.json`
   (dedupe per tool), then regenerate.
@@ -128,6 +133,23 @@ recount from the validator output.
    `scripts/gen_manifests.py`; the ONLY hand-authored link list is SKILL.md's
    Category Index table. `scripts/check_links.py` resolves every relative link in
    CI, so a hand-broken link fails the build.
+7. The link graph must stay navigable from `SKILL.md`. `scripts/linkgraph.py` is
+   the crawl engine; CI fails if any document under `issues/`, `categories/`,
+   `domains/`, `references/`, `templates/` or `bundles/` has no path from
+   SKILL.md. Every document is one level below the root, so a link target is
+   always `../<dir>/<file>.md` (SKILL.md itself is the exception: root-level,
+   unprefixed).
+8. Hand-authored documents must be *named*: a file in `references/` or
+   `templates/` is not satisfied by reachability alone, it needs an inbound link
+   from another document — adding a file there without linking it fails CI. The
+   generated directories are the opposite and are reached through their
+   directory links. Root-level `SKILL.md`, `AGENTS.md` and `SOURCES.md` are the
+   only documents exempt from needing an inbound link.
+9. Bundles are assembled by *crawling*, not by querying `topics.json`: the
+   generator follows each `categories/<category>.md` manifest's issue links and
+   reads the files they resolve to. `topics.json` remains the coverage authority
+   — the generator asserts the crawl agrees with it (order included) and fails if
+   it does not.
 
 ## Adding an item
 
@@ -135,8 +157,18 @@ recount from the validator output.
 2. Create `issues/<slug>.md` in the required format.
 3. Run `python3 scripts/gen_manifests.py`. The generator writes the category and
    domain link lists AND each issue's trailing `**Part of:**` nav footer — never
-   hand-edit either; edit `topics.json` or the issue file and re-run.
+   hand-edit either; edit `topics.json` or the issue file and re-run. It then
+   re-crawls the graph and asserts every item is reachable and agrees with
+   `topics.json`.
 4. Run the Pre-PR gate, commit on a branch, open a PR.
+
+## Adding a document (not an item)
+
+Hand-authored documents (a new `references/<name>.md`, a template, a root-level
+doc) must be *named*: link them from `SKILL.md` — usually its file-layout section
+— as [`references/<name>.md`](references/<name>.md), the way every other file
+there is linked. A directory link is not enough for `references/` or
+`templates/`, and the crawl check fails if a document has no inbound link.
 
 ## Attribution
 

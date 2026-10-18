@@ -1,24 +1,39 @@
 #!/usr/bin/env python3
 """Generate the skill's link-bearing artifacts from scripts/topics.json.
 
-Writes:
+Writes (as before):
   domains/*.md              detection signals + quick-map, categories as links
   categories/*.md           the category's items as links to issues/<slug>.md
   bundles/*.md              every item of a category inlined (bulk artifact)
   references/tool-index.md  tool -> issue links
   issues/*.md               ONLY the trailing "**Part of:**" nav footer
 
+Each bundle is assembled by *crawling*, not by querying topics.json: for every
+category it follows the issue links that categories/<category>.md lists, in
+manifest order (lg.issue_slugs), and reads each item's body from the path that
+link resolves to (the link's Link.path).
+
+topics.json stays the coverage authority. After writing the manifests this
+script re-crawls the relative link graph from SKILL.md and asserts the crawl
+reaches every issue and every category, that each category's crawled slug list
+equals (order included) the topics.json-derived list, and that no edge is
+broken — failing loudly, naming the offending category/slug, otherwise. A
+category manifest the crawl never reaches is refused before its bundle is
+assembled. scripts/linkgraph.py is the crawl engine.
+
 Everything cross-links by relative markdown link (see scripts/manifest_links.py)
 so any document can be clicked through to its neighbours.
 
 Idempotent: re-run after topics.json changes. Detection signals, scopes, and
 stack quick-maps are hand-authored here (single source); the link lists and the
-per-issue nav footers are derived from scripts/topics.json.
+per-issue nav footers are derived from scripts/topics.json, and the bundles are
+derived from the documents those links reach.
 """
 import json
 import pathlib
 import re
 
+import linkgraph as lg
 import manifest_links as ml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -238,21 +253,67 @@ def main() -> int:
         lines += [f"- {ml.issue_link(s)}" for s in slugs]
         (ROOT / "categories" / f"{cat}.md").write_text("\n".join(lines) + "\n")
 
+    # --- cross-check the crawl against topics.json (the coverage authority) ---
+    # The manifests and footers just written are the graph this script now
+    # *follows* to assemble the bundles below (and that check_links.py crawls in
+    # CI). Crawl it from SKILL.md and assert the links realise topics.json, so a
+    # category with no inbound link — or a manifest that lost an item — fails
+    # loudly here instead of silently yielding a short (or empty) bundle.
+    crawl = lg.crawl()
+    issues_dir = (ROOT / "issues").resolve()
+    reached = crawl.reached
+
+    assert not crawl.broken, (
+        f"crawl from SKILL.md found {len(crawl.broken)} broken link(s): "
+        + "; ".join(f"{ln.source.relative_to(ROOT)}:{ln.line} -> {ln.target}"
+                    for ln in crawl.broken))
+
+    indexed = {t["slug"] for t in TOPICS}
+    for cat in all_cats:
+        manifest = (ROOT / "categories" / f"{cat}.md").resolve()
+        assert manifest in reached, (
+            f"category {cat}: categories/{cat}.md has no inbound link, so the "
+            f"crawl from SKILL.md never reaches it (it would yield no bundle)")
+        crawled_slugs = lg.issue_slugs(manifest)
+        indexed_slugs = [t["slug"] for t in TOPICS if cat in t["categories"]]
+        assert crawled_slugs == indexed_slugs, (
+            f"category {cat}: crawl and topics.json disagree — its manifest "
+            f"links {crawled_slugs} but topics.json lists {indexed_slugs}")
+
+    reached_issues = {p.stem for p in reached
+                      if p.parent == issues_dir and p.suffix == ".md"}
+    missing = sorted(indexed - reached_issues)
+    assert not missing, (
+        f"crawl from SKILL.md never reached {len(missing)} of {len(indexed)} "
+        f"issues, e.g. {missing[:10]}")
+
     # Bulk bundles: one generated file per category with every item inlined.
     # For harnesses that prefer few large reads over many small ones. Generated
     # artifact — never hand-edit; edit issues/<slug>.md and re-run this script.
+    # Assembled by *following links*: the item list is the issue links its
+    # categories/<category>.md manifest lists (lg.issue_slugs, manifest order)
+    # and each body is read from the path that link resolves to (Link.path) —
+    # not by scanning topics.json; the assertions above prove the two agree.
     # Each inlined item keeps its nav footer, so a bundle entry clicks through
     # to its canonical issues/<slug>.md.
     (ROOT / "bundles").mkdir(exist_ok=True)
     for cat in all_cats:
-        slugs = [t["slug"] for t in TOPICS if cat in t["categories"]]
+        manifest = (ROOT / "categories" / f"{cat}.md").resolve()
+        assert manifest in reached, (
+            f"category {cat}: categories/{cat}.md was not reached by the crawl "
+            f"— refusing to assemble its bundle from an unreachable manifest")
+        slugs = lg.issue_slugs(manifest)
+        item_path = {}
+        for ln in lg.iter_links(manifest):
+            if ln.path.parent == issues_dir and ln.path.suffix == ".md":
+                item_path.setdefault(ln.path.stem, ln.path)
         parts = [f"# {cat} — full checklist ({len(slugs)} items)", "",
                  cat_scope(cat), "",
                  "> Generated artifact — edit the issue files, not this one. "
                  f"Sources: {ml.ISSUES_DIR_LINK} · manifest: "
                  f"{ml.category_link(cat)} · index: {ml.SKILL_LINK}", ""]
         for s in slugs:
-            body = (ROOT / "issues" / f"{s}.md").read_text().rstrip()
+            body = item_path[s].read_text().rstrip()
             parts += [body, ""]
         (ROOT / "bundles" / f"{cat}.md").write_text("\n".join(parts) + "\n")
 

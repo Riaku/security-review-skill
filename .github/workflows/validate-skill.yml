@@ -38,5 +38,5 @@ jobs:
           fi
           echo "all issue files within budget"
 
-      - name: Link check
+      - name: Link check (external URLs, relative links, crawl graph)
         run: python3 scripts/check_links.py
