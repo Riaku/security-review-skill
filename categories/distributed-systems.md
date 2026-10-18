@@ -21,3 +21,4 @@ Issues:
 - `event-sourcing`
 - `race-conditions`
 - `workflow-engines`
+- `database-per-service`

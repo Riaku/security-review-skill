@@ -98,9 +98,9 @@ Test pyramid, practices, and quality gates.
 
 **SHOULD** continuously fuzz externally reachable parsers, file format handlers, and API endpoints with malformed and random inputs in CI or nightly jobs.
 
-**Why:** Hand-written tests cannot anticipate the input shapes that trigger memory corruption or parser confusion attackers hunt for.
+**Why:** Hand-written tests cannot anticipate the input shapes that trigger memory corruption or parser confusion attackers hunt for; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
 
-**Detect:** oss-fuzz targets, `atheris`/`libFuzzer`/`honggfuzz` configs, restler or schemathesis fuzz runs in CI; zero fuzz targets on C/C++ or upload handlers.
+**Detect:** oss-fuzz targets, `atheris`/`libFuzzer`/`honggfuzz`/AFL configs, `fuzz_targets` declarations and seed/corpus directories, `cargo-fuzz`, restler or schemathesis fuzz runs in CI; zero fuzz targets on C/C++ or upload handlers.
 
 **References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 PW.8 (fuzzing), Google OSS-Fuzz
 
@@ -128,21 +128,11 @@ Test pyramid, practices, and quality gates.
 
 **MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.
 
-**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it.
+**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it, and defects caught in production cost orders of magnitude more than at commit time.
 
-**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely.
+**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs
-
-# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
-
-**SHOULD** continuously fuzz parsers, decoders, and untrusted-input handlers with AFL/libFuzzer-style harnesses.
-
-**Why:** Hand-written tests miss edge cases; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
-
-**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
-
-**References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
 # OpenAPI–Implementation Drift Check
 
@@ -193,4 +183,14 @@ Test pyramid, practices, and quality gates.
 **Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
 
 **References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
+
+# Architecture Fitness Functions in CI
+
+**SHOULD** encode architectural constraints (dependency direction and depth, layering rules, latency budgets, secrets-only-via-secrets-layer) as executable checks that run in CI on every change, not as documentation reviewed once.
+
+**Why:** ADRs record that a boundary was decided; fitness functions keep it from eroding over the next 200 commits. Unenforced architectural rules drift silently until they fail at scale, and a stated boundary with no automated check is indistinguishable from no boundary.
+
+**Detect:** presence of ArchUnit, import-linter, dependency-cruiser, or custom structural validators wired into CI config; absence of any automated structural check is the finding.
+
+**References:** catio.tech/blog/architecture-as-code, Ford/Parsons/Kua "Building Evolutionary Architectures" (fitness functions)
 

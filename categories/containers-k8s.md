@@ -13,7 +13,6 @@ Issues:
 - `cis-docker-benchmark`
 - `pod-security-standards`
 - `dangerous-host-mounts`
-- `docker-socket-mount`
 - `privileged-containers-capabilities`
 - `host-namespace-sharing`
 - `automount-serviceaccount-token`
@@ -46,6 +45,4 @@ Issues:
 - `noisy-neighbor-isolation`
 - `immutable-infrastructure`
 - `runtime-threat-detection`
-- `service-mesh-mtls`
 - `egress-control`
-- `container-escape-hardening`

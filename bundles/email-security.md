@@ -1,8 +1,53 @@
-# email-security — full checklist (4 items)
+# email-security — full checklist (6 items)
 
 Mail authentication, brand protection, and email-content trust.
 
 > Generated artifact. Canonical source: `issues/<slug>.md`.
+
+# SPF, DKIM & DMARC
+
+**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
+
+**Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
+
+**Detect:** Run `dig TXT <domain>` and `dig TXT _dmarc.<domain>`; flag `p=none` with no `sp` subdomain policy. Enumerate senders (SES, Mailchimp, Zendesk) and confirm each is SPF-included or DKIM-signing. Check for conflicting SPF records.
+
+**Bad:**
+```
+_dmarc.example.com.  TXT  "v=DMARC1; p=none"        # monitoring only
+(no DKIM signing from the marketing platform)
+```
+
+**Good:**
+```
+"v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@example.com; pct=100"
+SPF: "v=spf1 include:amazonses.com -all"
+```
+
+**References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
+
+# Email Bounce Handling
+
+**MUST** Hard bounces and spam complaints be consumed programmatically and fed into a suppression list so invalid addresses are never mailed again.
+
+**Why:** Mailing dead addresses tanks sender reputation; Gmail and Outlook then divert the whole domain's legitimate mail to spam, and ignored abuse complaints can get the sending IP delisted for weeks.
+
+**Detect:** Check whether SES/SendGrid bounce and complaint notifications have a live SNS consumer — a notification config with no subscriber is the classic gap. Grep for suppression checks before send, and for retry loops that requeue bounced mail.
+
+**Bad:**
+```python
+for addr in mailing_list:
+    send(to=addr, ...)   # bounces go nowhere; we re-send next campaign anyway
+```
+
+**Good:**
+```python
+if suppressed(addr):     # populated from SNS bounce/complaint consumer
+    continue
+send(to=addr, ...)
+```
+
+**References:** AWS SES bounce & complaint handling docs, Gmail Sender Guidelines, M3AAWG sender best practices
 
 # BIMI & VMC Certificates
 

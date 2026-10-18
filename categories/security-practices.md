@@ -17,12 +17,10 @@ Issues:
 - `attack-surface-reduction`
 - `purple-teaming`
 - `breach-attack-simulation`
-- `shift-left-security`
 - `secure-by-design`
 - `security-champions`
 - `verification-level-tiers`
 - `attack-path-analysis`
-- `nfr-traceability`
 - `fail-secure-configuration`
 - `secure-by-default-shipping`
 - `zero-trust-architecture`
@@ -34,3 +32,4 @@ Issues:
 - `decision-record-provenance`
 - `architecture-doc-adr-coverage`
 - `coding-agent-sandbox-config`
+- `one-off-admin-processes`

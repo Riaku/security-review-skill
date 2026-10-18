@@ -33,13 +33,11 @@ Issues:
 - `postgres-vacuum`
 - `materialized-views`
 - `backups`
-- `testing-restores`
 - `point-in-time-recovery`
 - `orm-lazy-loading`
 - `backup-encryption-immutability`
 - `data-retention-deletion`
 - `batching`
-- `async-writes`
 - `nosql-injection`
 - `cron-overlap-guard`
 - `idle-in-transaction-monitoring`
@@ -60,3 +58,4 @@ Issues:
 - `database-selection-workload-fit`
 - `durability-acknowledgment-policy`
 - `erasure-propagation-secondary-stores`
+- `database-per-service`

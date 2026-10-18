@@ -73,3 +73,6 @@ contributed. Kept current as new sources are mined.
 - System-design additions from user's screenshots (reads/writes split, reliability, long-running jobs, real-time, scale-writes)
 - Engineering-practice additions (O(n²)/nested loops, TDD, circuit breakers, rate limiting, idempotency, CI/CD, exception handling, cost/observability alerting)
 - Compliance direction (CIS, STIG, FedRAMP, and related government/regulatory regimes)
+| 12-Factor App — https://12factor.net/ | v16: backing-services-attached-resources, build-release-run-separation, logs-as-event-streams, one-off-admin-processes |
+| Martin Fowler — Microservices (Decentralized Data Management) — https://martinfowler.com/articles/microservices.html | v16: database-per-service |
+| Catio — Architecture as Code — https://www.catio.tech/blog/architecture-as-code | v16: architecture-fitness-functions (per Ford/Parsons/Kua, Building Evolutionary Architectures) |

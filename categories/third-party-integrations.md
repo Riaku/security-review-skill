@@ -7,3 +7,4 @@ Issues:
 - `third-party-tag-script-governance`
 - `saas-webhook-consumer-trust`
 - `integration-credential-sprawl`
+- `backing-services-attached-resources`

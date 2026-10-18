@@ -29,7 +29,6 @@ Issues:
 - `log-pipeline-backpressure`
 - `synthetic-external-monitoring`
 - `deploy-markers-on-metrics`
-- `pii-in-logs`
 - `sarif-standardization`
 - `threat-hunting`
 - `masquerading-detection`
@@ -44,3 +43,4 @@ Issues:
 - `audit-log-chain-of-custody`
 - `cert-issuance-monitoring`
 - `agent-session-traceability`
+- `logs-as-event-streams`

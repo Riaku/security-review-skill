@@ -16,9 +16,9 @@ Issues:
 - `tdd-discipline`
 - `code-review-practice`
 - `linting-static-analysis`
-- `code-fuzzing`
 - `openapi-implementation-drift-check`
 - `automated-a11y-gate-in-ci`
 - `test-determinism-and-isolation`
 - `self-generated-expected-output`
 - `agent-verification-loop`
+- `architecture-fitness-functions`

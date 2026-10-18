@@ -6,7 +6,6 @@ Issues:
 - `least-privilege`
 - `secrets-management`
 - `env-in-gitignore`
-- `api-key-rotation`
 - `secret-scanning`
 - `hashing-vs-encryption`
 - `password-salting`
@@ -28,7 +27,6 @@ Issues:
 - `pqc-tls-readiness`
 - `embedding-inversion-vector-stores`
 - `secrets-in-mobile-binaries`
-- `push-protection`
 - `secret-validity-checks`
 - `secrets-rotation-automation`
 - `device-provisioning-identity`

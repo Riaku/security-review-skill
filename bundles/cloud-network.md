@@ -1,4 +1,4 @@
-# cloud-network — full checklist (65 items)
+# cloud-network — full checklist (59 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -361,51 +361,6 @@ resource "aws_budgets_budget" "acct" {
 
 **References:** AWS Budgets docs, GCP Budget alerts, CIS AWS Foundations 4.x, OWASP A09:2021 Logging & Monitoring Failures
 
-# SPF, DKIM & DMARC
-
-**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
-
-**Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
-
-**Detect:** Run `dig TXT <domain>` and `dig TXT _dmarc.<domain>`; flag `p=none` with no `sp` subdomain policy. Enumerate senders (SES, Mailchimp, Zendesk) and confirm each is SPF-included or DKIM-signing. Check for conflicting SPF records.
-
-**Bad:**
-```
-_dmarc.example.com.  TXT  "v=DMARC1; p=none"        # monitoring only
-(no DKIM signing from the marketing platform)
-```
-
-**Good:**
-```
-"v=DMARC1; p=reject; sp=reject; rua=mailto:dmarc@example.com; pct=100"
-SPF: "v=spf1 include:amazonses.com -all"
-```
-
-**References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
-
-# Email Bounce Handling
-
-**MUST** Hard bounces and spam complaints be consumed programmatically and fed into a suppression list so invalid addresses are never mailed again.
-
-**Why:** Mailing dead addresses tanks sender reputation; Gmail and Outlook then divert the whole domain's legitimate mail to spam, and ignored abuse complaints can get the sending IP delisted for weeks.
-
-**Detect:** Check whether SES/SendGrid bounce and complaint notifications have a live SNS consumer — a notification config with no subscriber is the classic gap. Grep for suppression checks before send, and for retry loops that requeue bounced mail.
-
-**Bad:**
-```python
-for addr in mailing_list:
-    send(to=addr, ...)   # bounces go nowhere; we re-send next campaign anyway
-```
-
-**Good:**
-```python
-if suppressed(addr):     # populated from SNS bounce/complaint consumer
-    continue
-send(to=addr, ...)
-```
-
-**References:** AWS SES bounce & complaint handling docs, Gmail Sender Guidelines, M3AAWG sender best practices
-
 # Subdomain Takeover / Dangling DNS
 
 **MUST NOT** Any DNS record remain pointing at a deprovisioned cloud resource — S3 bucket, Heroku app, CloudFront distribution — after that resource is released.
@@ -434,7 +389,7 @@ marketing.example.com.  CNAME  old-campaign.s3-website-us-east-1.amazonaws.com
 
 **Why:** "It's inside the VPC so it's fine" collapses the moment one workload is compromised: shared keys leak in env files and logs and identify no caller, while per-workload certs give cryptographic identity that expires before reuse.
 
-**Detect:** Look for SPIFFE/SPIRE or cert-manager `Certificate` with `usages: [client auth]`. Grep for peers authenticated only by IP allowlist or a fleet-wide `INTERNAL_API_KEY`. Check cert lifetimes (hours, not years) and automated rotation.
+**Detect:** Look for SPIFFE/SPIRE or cert-manager `Certificate` with `usages: [client auth]`. Grep for peers authenticated only by IP allowlist or a fleet-wide `INTERNAL_API_KEY`. Check cert lifetimes (hours, not years) and automated rotation. Mesh-enforced mTLS counts as satisfying this: check `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io` annotations, Linkerd/Consul `tls: ENABLE` policy manifests.
 
 **Bad:**
 ```python
@@ -448,7 +403,7 @@ peer = verify_client_cert(request, ca=trust_bundle)   # SPIFFE ID per workload
 if peer.spiffe_id in allowed_callers[endpoint]: ok()
 ```
 
-**References:** SPIFFE/SPIRE docs, NIST SP 800-207 Zero Trust, Istio identity & certificate docs
+**References:** SPIFFE/SPIRE docs, NIST SP 800-207 Zero Trust, Istio identity & certificate docs, CIS Kubernetes Benchmark 5.x
 
 # DNSSEC
 
@@ -659,9 +614,9 @@ metadata_options {
 
 **MUST** trace every newly granted cloud permission for escalation edges before merge: actions that let a principal widen its own access.
 
-**Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover.
+**Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover. Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action), so the diff must be judged against what the principal already holds.
 
-**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards. Tools: Cloudsplaining, PMapper, IAM Access Analyzer.
+**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change.
 
 **Bad:**
 ```json
@@ -675,7 +630,7 @@ metadata_options {
  "Condition": {"StringEquals": {"iam:PassedToService": "lambda.amazonaws.com"}}}
 ```
 
-**References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices
+**References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
 
 # DNS Rebinding Against Internal Services
 
@@ -704,9 +659,9 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **MUST** treat the link-metadata range (`169.254.169.254/32`, GCE `metadata.google.internal`, Azure `169.254.169.254/metadata`) as hostile territory: block it at the network layer from any workload that processes user-supplied URLs.
 
-**Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET.
+**Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET — and any single missing layer in the chain (v1-tolerant instance, open egress, string-only URL filter) completes the attack.
 
-**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, and proxy configurations that allow CONNECT to it. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
+**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. On instances, verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
 
 **Bad:**
 ```python
@@ -722,7 +677,7 @@ ipset -A blacklist 169.254.169.254
 iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 ```
 
-**References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet
+**References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet, CIS AWS 5.6/5.7
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
@@ -746,34 +701,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 ```
 
 **References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
-
-# Wildcard Actions/Resources in Cloud IAM Policies Generated by IaC
-
-**MUST NOT** ship IAM policies containing `"Action": "*"` or `"Resource": "*"` from infrastructure-as-code; generated and hand-written policies alike require least-privilege scoping before merge.
-
-**Why:** Wildcards are copy-pasted from tutorials and then forgotten; one leaked credential with `*:*` is a full-account incident, and IaC makes the blast radius reproducible across every environment the module touches.
-
-**Detect:** Lint Terraform `aws_iam_policy`/`google_service_account_iam_*` resources, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for `"*"` in Action/Resource arrays, `Action: "*:*"` on GCP, and modules that accept `policy_json` verbatim. Run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI; flag any policy where the analyzer reports admin-equivalent grants.
-
-**Bad:**
-```hcl
-policy = jsonencode({
-  Statement = [{ Effect = "Allow", Action = "*", Resource = "*" }]
-})
-```
-
-**Good:**
-```hcl
-policy = jsonencode({
-  Statement = [{
-    Effect   = "Allow"
-    Action   = ["s3:GetObject", "s3:PutObject"]
-    Resource = "${aws_s3_bucket.app.arn}/uploads/*"
-  }]
-})
-```
-
-**References:** CWE-269, CIS AWS 5.28–5.36, Cloudsplaining, AWS IAM Access Analyzer
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -1062,31 +989,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs
 
-# Cloud metadata service abuse (SSRF to IMDS, IMDSv2 enforcement, metadata blocking)
-
-**MUST** combine defenses against metadata abuse end-to-end: enforce IMDSv2 hop-limit 1 on instances, deny link-local egress from SSRF-capable workloads, and reject user-supplied URLs that resolve into reserved ranges at connect time.
-
-**Why:** Metadata abuse rarely needs a novel exploit — an attacker chains an ordinary SSRF with a v1-tolerant instance or an open egress path, and walks away with node role credentials. Any single missing layer in the chain is enough to complete the attack.
-
-**Detect:** Verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates; confirm egress proxies/NetworkPolicies drop `169.254.169.254` and cloud aliases; test SSRF filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Review container hostNetwork settings that sidestep pod-level blocks.
-
-**Bad:**
-```python
-# SSRF filter checks the string only; v1 IMDS answers a plain GET
-if not url.startswith("http://169.254.169.254"):
-    requests.get(url)
-```
-
-**Good:**
-```
-# defense in depth: v2-only IMDS + network-level deny
-aws ec2 modify-instance-metadata-options --instance-id i-123 \
-  --http-tokens required --http-put-response-hop-limit 1
-iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
-```
-
-**References:** AWS IMDSv2 security bulletin, CIS AWS 5.6/5.7, OWASP SSRF Prevention Cheat Sheet, MITRE ATT&CK T1552.005
-
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
 **MUST NOT** expose any datastore port (Redis, Elasticsearch, MongoDB, Memcached, etcd) to a network where untrusted clients can reach it without authentication and network-level restriction.
@@ -1112,35 +1014,6 @@ spec:
 ```
 
 **References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
-
-# Cloud IAM privilege escalation path review (PassRole, policy inheritance, wildcards)
-
-**MUST** review every IAM policy diff for escalation vectors — role-passing grants, inherited or propagated policy chains, and wildcard patterns — before it reaches a live account, not after an incident hunt finds it.
-
-**Why:** Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action). Reviewing the diff in isolation misses how the new permission composes with what already exists.
-
-**Detect:** For each PR touching IAM: does it add `PassRole`, and to whom can that principal pass roles? Do managed-policy attachments or GCP folder/organization inheritance silently widen the effective set? Does any `NotAction` or `Resource: "*"` exist that future service launches will inherit? Run PMapper or IAM Access Analyzer before/after the change and diff the reachable-permissions graph.
-
-**Bad:**
-```hcl
-# "just for CI" — but any repo can now pass the org-admin role to itself
-resource "aws_iam_policy" "ci" {
-  policy = jsonencode({ Statement = [{
-    Effect = "Allow", Action = "iam:PassRole", Resource = "*" }] })
-}
-```
-
-**Good:**
-```hcl
-resource "aws_iam_policy" "ci" {
-  policy = jsonencode({ Statement = [{
-    Effect = "Allow", Action = "iam:PassRole",
-    Resource = aws_iam_role.ci-runner.arn   # only its own low-priv role
-  }] })
-}
-```
-
-**References:** MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Access Analyzer, GCP Policy Analyzer
 
 # Data Exfiltration Monitoring
 
@@ -1176,11 +1049,11 @@ resource "aws_iam_policy" "ci" {
 
 **MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants turn one leaked credential into full account takeover; PassRole hides escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover; IaC makes the blast radius reproducible across every environment the module touches, and PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`.
+**Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
-**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
 
 # Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
 
@@ -1221,16 +1094,6 @@ resource "aws_iam_policy" "ci" {
 **Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
 **References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
-
-# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
-
-**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
-
-**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
-
-**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
-
-**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319
 
 # Attack-Path Analysis (reachable chains from exposure to crown jewels)
 

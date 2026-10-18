@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (44 items)
+# compliance-privacy — full checklist (42 items)
 
 Privacy operations and data protection in code.
 
@@ -43,16 +43,6 @@ Privacy operations and data protection in code.
 **Detect:** grep for region/zone config in storage, compute, CDN settings; check `data_residency`, `region_constraint`, `geo_fence` keys absent or misconfigured.
 
 **References:** GDPR Ch. V, Russian 152-FZ, China PIPL Art. 40, ISO 27018
-
-# SOC 2
-
-**SHOULD** implement controls mapped to Trust Services Criteria (security, availability, confidentiality) with evidence collection automated.
-
-**Why:** Gaps in control coverage cause audit failures, lost enterprise deals, and inability to demonstrate security posture to customers.
-
-**Detect:** grep for missing control mappings in compliance-as-code; check `trust_service_criteria`, `control_id`, evidence automation config absent.
-
-**References:** AICPA TSC CC1-CC9, SOC 2 Type II, ISO 27001 Annex A
 
 # PCI DSS
 
@@ -181,11 +171,11 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
 
-**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data.
+**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data; unredacted request bodies, headers, and stack traces spread PII into traces and error-reporters as secondary sinks.
 
-**Detect:** grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; test by logging a known secret and checking it never appears in output.
+**Detect:** Grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; grep for `log.*request`, `log.*body`, `console.log(err)` without redaction and missing `redact_fields`/`mask_pii` filter config. Test by logging a known secret and checking it never appears in logs, traces, or error-reporter payloads.
 
-**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3
+**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
 # Excessive Data Exposure in API Serialization
 
@@ -362,16 +352,6 @@ def handler(event, ctx):
 **Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
 
 **References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
-
-# PII leakage into application logs, traces, and error reporters
-
-**SHOULD NOT** log raw request bodies, headers, or stack traces containing PII without redaction or masking.
-
-**Why:** Unredacted PII in logs spreads personal data into observability systems, creating unauthorized secondary processing and breach surface.
-
-**Detect:** grep for `log.*request`, `log.*body`, `console.log(err)` without redaction; check `redact_fields`, `mask_pii`, log filter config absent.
-
-**References:** CWE-532, OWASP A05:2021, GDPR Art. 5(1)(c), NIST SP 800-92
 
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 

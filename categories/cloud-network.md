@@ -18,8 +18,6 @@ Issues:
 - `public-s3-buckets`
 - `presigned-urls`
 - `cloud-billing-alerts`
-- `spf-dkim-dmarc`
-- `email-bounce-handling`
 - `subdomain-takeover`
 - `mtls-service-auth`
 - `dnssec`
@@ -35,7 +33,6 @@ Issues:
 - `dns-rebinding`
 - `metadata-endpoint-credential-theft`
 - `workload-identity-audience-validation`
-- `cloud-iam-wildcard-policies`
 - `cross-account-role-confused-deputy`
 - `api-gateway-missing-authorizers`
 - `api-gateway-mapping-template-injection`
@@ -48,9 +45,7 @@ Issues:
 - `path-mtu-blackhole`
 - `lb-health-check-flapping`
 - `pqc-tls-readiness`
-- `imds-metadata-abuse`
 - `unauthenticated-data-store-exposure`
-- `cloud-iam-escalation-paths`
 - `data-exfiltration-monitoring`
 - `attack-surface-management`
 - `attack-surface-reduction`
@@ -59,7 +54,6 @@ Issues:
 - `cspm-continuous-scanning`
 - `lateral-movement-detection`
 - `infrastructure-drift-detection`
-- `service-mesh-mtls`
 - `attack-path-analysis`
 - `egress-control`
 - `open-directory-listing`

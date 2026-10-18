@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (29 items)
+# cicd-pipeline-security — full checklist (25 items)
 
 CI/CD system as an attack surface.
 
@@ -8,9 +8,9 @@ CI/CD system as an attack surface.
 
 **MUST** require reviewed, status-passing pull requests before merging into protected branches, with force-push and branch deletion disabled.
 
-**Why:** Unprotected main branches let anyone push unreviewed or malicious code straight into production builds.
+**Why:** Unprotected main branches let anyone push unreviewed or malicious code straight into production builds, bypassing every downstream control.
 
-**Detect:** GitHub settings API `branches/*/protection`; grep repo scripts for `push --force` to main; missing `.github/settings.yml` `protected_branches`.
+**Detect:** GitHub settings API `branches/*/protection` — check `enforce_admins`, `required_pull_request_reviews`, `required_status_checks`; grep repo scripts for `push --force` to main; missing `.github/settings.yml` `protected_branches`; CODEOWNERS files.
 
 **References:** OWASP CI Security CS1, CWE-284, NIST SP 800-218 PW.7, GitHub branch protection docs
 
@@ -38,11 +38,11 @@ CI/CD system as an attack surface.
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
 
-**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions.
+**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; upstream tag compromises (SolarWinds, event-stream) extend the same lesson to every unpinned build input.
 
-**Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; actionlint `pin-versions` rule.
+**Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
-**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide
+**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide, OWASP CI/CD Top 10 CICD-SEC-4, NIST SP 800-161
 
 # CI Deploy-Credential Scoping
 
@@ -88,11 +88,11 @@ CI/CD system as an attack surface.
 
 **MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.
 
-**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it.
+**Why:** Advisory-only scans are ignored at scale; vulnerable code merges unchecked because nothing blocks it, and defects caught in production cost orders of magnitude more than at commit time.
 
-**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely.
+**Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs
+**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
 # CI Workflow Injection via Untrusted PR Content (pull_request_target)
 
@@ -134,6 +134,16 @@ CI/CD system as an attack surface.
 
 **References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
 
+# ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
+
+**MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.
+
+**Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
+
+**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
+
+**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
+
 # IaC Plan/Apply Triggered from Untrusted Pull Requests
 
 **MUST NOT** run `terraform apply` (or equivalent) directly from fork or untrusted PR content; apply only from a reviewed, trusted branch after human approval.
@@ -156,23 +166,13 @@ CI/CD system as an attack surface.
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
-**MUST** define mean-time-to-remediate targets per severity (critical 7d, high 30d, medium 90d) and log every exception with owner and expiry date.
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
 
 **Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
 
 **Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
 
 **References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
-
-# Push Protection (block secrets at commit/push time)
-
-**MUST** scan every commit and push for credentials and reject those containing live secrets before they enter history.
-
-**Why:** A secret once committed stays in git history forever; rotation is the only true fix and is often missed.
-
-**Detect:** Missing pre-commit/gitleaks/trufflehog hooks; no GitHub push protection or secret-scanning alerts enabled; `.git/hooks/pre-commit` absent from repo tooling.
-
-**References:** CWE-798, NIST SP 800-218 PS.1, GitHub push protection docs, gitleaks / trufflehog / detect-secrets
 
 # SARIF-Standardized Scan Results (unified alert pipeline)
 
@@ -184,16 +184,6 @@ CI/CD system as an attack surface.
 
 **References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
-# Shift-Left Security (security earliest in the lifecycle)
-
-**MUST** run SAST, dependency, and secret scanning in CI on every pull request, failing the build on high-severity findings rather than deferring them to pre-release.
-
-**Why:** Defects caught in production cost orders of magnitude more than at commit time; late gates train teams to bypass them.
-
-**Detect:** `.github/workflows` with `sast`/`semgrep`/`gitleaks` steps, `fail-on: high` in scanner config, pre-commit hooks
-
-**References:** OWASP SAMM Security Testing, MS SDL, OWASP DevSecOps Maturity Model
-
 # Hermetic Builds (no undeclared network/env deps during build)
 
 **SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
@@ -204,26 +194,6 @@ CI/CD system as an attack surface.
 
 **References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
 
-# Branch Protection & Required Reviews (no direct pushes, enforced approval)
-
-**MUST** block direct pushes to protected branches and require reviewed, up-to-date approvals before merge.
-
-**Why:** Unprotected main branches let one bad or malicious commit ship straight to production, bypassing every downstream control.
-
-**Detect:** grep `enforce_admins`, `required_pull_request_reviews`, `required_status_checks` in repo settings-as-code; CODEOWNERS files.
-
-**References:** OWASP SAMM Code Reviews, NIST SP 800-218 PW.7, CWE-1104, GitHub branch protection docs
-
-# Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
-
-**MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
-
-**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
-
-**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
-
-**References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
-
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
 **SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
@@ -233,16 +203,6 @@ CI/CD system as an attack surface.
 **Detect:** grep `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
 
 **References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
-
-# Lighthouse CI Performance Budgets
-
-**SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
-
-**Why:** Untracked Lighthouse scores decay one merge at a time; a CI gate makes regression visible at the commit that caused it.
-
-**Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
-
-**References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
 
 # Breaking-Change Linting in CI
 
