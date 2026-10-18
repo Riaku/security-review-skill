@@ -1,6 +1,6 @@
 # Security & Deployment Review — {repo_name}
 
-**Date:** {date} · **Skill:** security-review-skill v0.1.0
+**Date:** {date} · **Skill:** security-review-skill
 **Domains reviewed:** {domains}
 **Categories dispatched:** {categories} · **Items covered:** {item_count}
 

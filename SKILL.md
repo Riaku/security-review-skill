@@ -8,7 +8,6 @@ description: >-
 license: MIT
 metadata:
   author: security-review-skill contributors
-  version: "0.1.0"
   spec: https://agentskills.io/specification
   attribution: Original 250-item list by @ghumare64 (https://x.com/ghumare64/status/2111332908657148356); system-design concepts from Arjay McCandless's System Design Cheat Sheet; expanded with curated, government/regulatory, cloud-native, ops, and discovery-agent additions.
 ---
@@ -106,6 +105,8 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
   hand-edit bundles; edit `issues/<slug>.md` and re-run
   `python3 scripts/gen_manifests.py`.
 - `references/tooling.md` — human-readable scanner/tool catalog by class.
+- `references/severity-rubric.md` — severity definition (exploitability ×
+  blast radius × modifiers); sub-agents MUST rate findings against it.
 - `scripts/tool-issues.json` — machine-readable tool→issues mapping (the
   standard format; edit here to link tools to issues).
 - `references/tool-index.md` — **generated** reverse index: each tool →

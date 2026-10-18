@@ -25,5 +25,9 @@ Return ONLY a JSON array (no prose, no fences) of objects:
   "recommendation": "<imperative fix, echoing the issue's MUST/SHOULD wording>"
 }
 
+Severity MUST follow `references/severity-rubric.md` (exploitability × blast
+radius × data sensitivity; keyword-level and exposure modifiers). Do not
+invent your own severity intuition.
+
 Include one object per manifest slug. `evidence` may be "no instances found" for
 a pass. Order by severity, worst first.
