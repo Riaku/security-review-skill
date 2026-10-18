@@ -110,6 +110,9 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
   hand-edit bundles; edit `issues/<slug>.md` and re-run
   `python3 scripts/gen_manifests.py`.
 - `references/tooling.md` — human-readable scanner/tool catalog by class.
+- `references/platform-hosting.md` — verified vendor security guides +
+  review surfaces per platform (Cloudflare, Vercel, GitHub Pages, Fly.io,
+  Azure, GCP); read the matching section when triage detects the platform.
 - `references/tree-traversal.md` — frontier/rounds evaluation model
   (adapted from the `grilling` skill) for Phases 1–3.
 - `references/severity-rubric.md` — severity definition (exploitability ×
