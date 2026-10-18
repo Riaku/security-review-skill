@@ -86,26 +86,30 @@ recount from the validator output.
 ## Versioning policy
 
 - **Select exactly ONE versioning strategy for this repo and enforce it; do not mix
-  strategies.** The selected strategy is **SemVer-style corpus versions**
-  (MAJOR.MINOR.PATCH), as used by the `vN` markers in commit history
-  (v13 → v16).
-- Mapping for this corpus (adapted from semver.org):
-  - **MAJOR** — incompatible taxonomy changes: category renames/removals, item
-    merges that delete slugs consumers may reference, manifest-format changes.
-  - **MINOR** — backward-compatible additions: new items, new categories that
-    don't break existing references.
-  - **PATCH** — compatible fixes: wording, references, detect lines, CI/tooling.
-  - Pre-release labels (`-rc.1`) MAY be used for taxonomy reworks under review.
-- Enforce the strategy: version markers appear in the commit/PR title
-  (`feat: v16 — …`), and any change that breaks item-slug compatibility MUST be
-  MAJOR — reviewers reject MAJOR-worthy changes shipped as PATCH.
-- If the repo ever switches strategy (e.g. date-based/calVer for corpus snapshots),
-  the switch itself is a MAJOR change and MUST replace, not supplement, the old
-  scheme — two live schemes in one repo is a failure state.
-- Related: keep slug compatibility within a MINOR where possible; prefer adding a
-  new slug and keeping the old file over renaming in place. Merges that delete
-  slugs (dedupe) are planned as MAJOR or batched into one documented MINOR with
-  an explicit removed-slugs list in the release notes.
+  strategies.** This repo does not mandate which strategy — the project (or the
+  PR author, agreed in review) picks the one that fits how the corpus is consumed,
+  then applies it consistently. Candidate strategies: SemVer-style
+  (MAJOR.MINOR.PATCH), date-based (CalVer), or a simple monotonically increasing
+  corpus-revision number (the `vN` markers currently in commit history).
+- Whichever strategy is selected, it MUST be:
+  - **Documented** — named in this file with its bump rules, so every contributor
+    applies the same meaning to a version.
+  - **Enforced** — the version marker appears in the commit/PR title
+    (`feat: v16 — …`), and review rejects changes that under-state the bump
+    (e.g. a slug-breaking taxonomy change shipped as a patch-level change).
+  - **Single** — two live schemes in one repo is a failure state. Switching
+    strategy is itself the biggest possible bump and MUST replace, not
+    supplement, the old scheme.
+- If SemVer (or a compatibility-driven scheme) is the selected strategy, the
+  mapping for this corpus is: **MAJOR** = incompatible taxonomy changes
+  (category renames/removals, item merges that delete slugs consumers may
+  reference, manifest-format changes); **MINOR** = backward-compatible
+  additions (new items/categories); **PATCH** = compatible fixes (wording,
+  references, detect lines, tooling). Pre-release labels (`-rc.1`) MAY mark
+  taxonomy reworks under review.
+- Independent of strategy: keep slug compatibility where possible — prefer adding
+  a new slug over renaming in place; merges that delete slugs (dedupe) must be
+  announced with an explicit removed-slugs list in the release notes.
 
 ## Non-negotiable invariants
 
