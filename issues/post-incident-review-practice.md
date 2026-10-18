@@ -5,7 +5,7 @@ domains: [reliability]
 
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
-**MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.
+**MUST** hold a blameless post-incident review for every significant incident within days, with corrective actions assigned, tracked, and verified closed.
 
 **Why:** Without structured learning the same failure repeats; blame-driven cultures hide information when it's needed most.
 

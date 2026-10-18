@@ -9,7 +9,7 @@ domains: [backend]
 
 **Why:** gRPC over h2c without interception skips WAF and auth layers, exposing every RPC method to anyone who can reach the port.
 
-**Detect:** `grpc.InsecureServerCreds`, absent `max_receive_message_size`, Envoy routes without `grpc_auth` filters.
+**Detect:** `grpc.InsecureServerCreds`, absent `max_receive_message_size`, Envoy routes without `ext_authz`/`jwt_authn` filters.
 
 **References:** CWE-319, OWASP API 2023, gRPC security best practices
 

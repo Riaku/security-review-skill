@@ -8,11 +8,11 @@ Test pyramid, practices, and quality gates.
 
 **MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
 
-**Why:** All major vendors converge on this: an agent without an executable check ships plausible-looking code indefinitely ("if you can't verify it, don't ship it" — Anthropic; "Done when" — GLM; easy-to-verify RL — Qwen).
+**Why:** Industry practice converges on this: an agent without an executable check ships plausible-looking code indefinitely.
 
 **Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
 
-**References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
+**References:** Anthropic Claude Code best practices, vendor coding-agent verification guidance
 
 ---
 
@@ -44,7 +44,7 @@ Test pyramid, practices, and quality gates.
 
 ---
 
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Code Review Practice
 
@@ -54,7 +54,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
 
-**References:** OWASP ASVS V1.1.4, NIST SP 800-218 PS.1 (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
+**References:** OWASP ASVS V1.1.4, NIST SP 800-218 (SSDF) (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
 
 ---
 
@@ -68,7 +68,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** Pact consumer/provider specs, OpenAPI schema validation in CI (`schemathesis`, `dredd`), missing contract checks on internal REST/gRPC services.
 
-**References:** OWASP API Security Top 10 API2, CWE-20, NIST SP 800-218 PW.7
+**References:** OWASP API Security Top 10 API2, CWE-20, NIST SP 800-218 (SSDF)
 
 ---
 
@@ -96,7 +96,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** `retry=True`, `@flaky`, `pytest-rerunfailures` on security-tagged tests; CI configs with `continue-on-error` around auth suites.
 
-**References:** OWASP ASVS V4.1.2, CWE-364 (Signal Fault), NIST SP 800-218 PW.7a
+**References:** OWASP ASVS V4.1.2, CWE-364 (Signal Fault), NIST SP 800-218 (SSDF)a
 
 ---
 
@@ -110,7 +110,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** oss-fuzz targets, `atheris`/`libFuzzer`/`honggfuzz`/AFL configs, `fuzz_targets` declarations and seed/corpus directories, `cargo-fuzz`, restler or schemathesis fuzz runs in CI; zero fuzz targets on C/C++ or upload handlers.
 
-**References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 PW.8 (fuzzing), Google OSS-Fuzz
+**References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 (SSDF) (fuzzing), Google OSS-Fuzz
 
 ---
 
@@ -124,7 +124,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** docker-compose.test.yml, testcontainers usage, `pytest -m integration` markers; absence of any test touching a live DB or HTTP stub.
 
-**References:** OWASP ASVS V4.1.4, CWE-1057, NIST SP 800-218 PW.8
+**References:** OWASP ASVS 4.1.4, CWE-1057, NIST SP 800-218 (SSDF)
 
 ---
 
@@ -138,7 +138,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+**References:** OWASP CI/CD Top 10 CICD-SEC-10, CWE-1156, NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
 ---
 
@@ -152,7 +152,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** mocks/stubs of auth functions in the same module's tests, `unittest.mock.patch` targeting local validators rather than outbound clients.
 
-**References:** OWASP ASVS V4.1, CWE-453 (Insecure Default Variable), NIST SP 800-218 PW.7
+**References:** OWASP ASVS V4.1, CWE-453 (Insecure Default Variable), NIST SP 800-218 (SSDF)
 
 ---
 
@@ -180,7 +180,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** hypothesis (`@given`), fast-check (`fc.assert`), jqwik usage on parsers/validators; missing property specs on input-handling modules.
 
-**References:** CWE-20, OWASP ASVS V5.1 (validation), NIST SP 800-218 PW.7
+**References:** CWE-20, OWASP ASVS V5.1 (validation), NIST SP 800-218 (SSDF)
 
 ---
 
@@ -194,7 +194,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** security fix PRs lacking a corresponding test case; CVE IDs or advisory references absent from test names/comments (e.g. `test_cve_2024_xxx`).
 
-**References:** OWASP ASVS V4.1.1, CWE-757, NIST SP 800-218 RV.1 (verification after remediation)
+**References:** OWASP ASVS V4.1.1, CWE-757, NIST SP 800-218 (SSDF) (verification after remediation)
 
 ---
 
@@ -222,7 +222,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** `curl -k`-free health checks, smoke stage in pipeline (`smoke.yml`, `post-deploy` job) asserting HTTPS status and auth cookie issuance.
 
-**References:** OWASP ASVS V14.2 (config), NIST SP 800-218 PO.3, WSTG v4.2 (config management testing)
+**References:** OWASP ASVS 14.2 (configuration), NIST SP 800-218 (SSDF), WSTG v4.2 (configuration testing)
 
 ---
 
@@ -236,7 +236,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** commit history showing fix commits with no preceding failing-test commit; PRs where tests and fixes arrive simultaneously with no red run in CI logs.
 
-**References:** NIST SP 800-218 PW.7 (test-first practices), OWASP BSIMM TTD-1, CWE-1140 (attempt to use cached test results)
+**References:** NIST SP 800-218 (SSDF), CWE-1140
 
 ---
 
@@ -264,7 +264,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** test files named `*_test.py`, `*.test.js` adjacent to auth/parser modules; coverage reports showing <80% on security-critical files.
 
-**References:** OWASP ASVS V4.1, CWE-1232, NIST SP 800-218 PW.7
+**References:** OWASP ASVS V4.1, CWE-1232, NIST SP 800-218 (SSDF)
 
 ---
 

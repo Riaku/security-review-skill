@@ -4,9 +4,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 ## Issues
 
-- [agent-hitl-approval](../issues/agent-hitl-approval.md)
 - [cloud-iam-privilege-escalation](../issues/cloud-iam-privilege-escalation.md)
-- [cloud-privilege-escalation-paths](../issues/cloud-privilege-escalation-paths.md)
 - [cross-account-role-confused-deputy](../issues/cross-account-role-confused-deputy.md)
 - [dangerous-iam-policies](../issues/dangerous-iam-policies.md)
 - [gitops-controller-cluster-admin-overreach](../issues/gitops-controller-cluster-admin-overreach.md)

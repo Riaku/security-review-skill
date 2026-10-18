@@ -11,7 +11,7 @@ domains: [infrastructure]
 
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
-**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+**References:** SLSA build isolation, NIST SP 800-218 (SSDF), Reproducible Builds project, CWE-494
 
 ---
 

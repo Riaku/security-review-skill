@@ -1,6 +1,6 @@
 ---
-categories: [containers-k8s, correctness-pitfalls]
-domains: [backend, infrastructure]
+categories: [containers-k8s]
+domains: [infrastructure]
 ---
 
 # Missing ownerReferences Causing Orphaned Managed Resources
@@ -15,4 +15,4 @@ domains: [backend, infrastructure]
 
 ---
 
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -1,4 +1,4 @@
-# cloud-network — full checklist (60 items)
+# cloud-network — full checklist (59 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -8,11 +8,11 @@ Cloud networking, DNS, edge, cloud resource exposure.
 
 **MUST** route coding-agent egress (model calls, MCP-over-HTTP, web fetch) through an explicit proxy/allowlist — and repo-supplied env must never control where agent traffic goes.
 
-**Why:** DeepSeek's harness refuses to start rather than let a cloned repo set proxy vars; OpenAI uses allowlist-first domain rules where deny always wins — repo-controlled egress is an exfiltration path.
+**Why:** Some agent harnesses refuse to start rather than honor repo-controlled proxy settings, and vendors ship allowlist-first egress where deny wins — repo-controlled egress is an exfiltration path.
 
 **Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
 
-**References:** DeepSeek harness proxy-refusal pattern, OpenAI Codex domain rules, GitHub agent internet firewall, Cursor fixed-destination egress
+**References:** OpenAI Codex domain rules, Anthropic agent network controls, vendor agent egress allowlists
 
 ---
 
@@ -233,7 +233,7 @@ resource "aws_budgets_budget" "acct" {
 
 **Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover. Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action), so the diff must be judged against what the principal already holds.
 
-**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change.
+**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change. Periodically recompute the full role-to-role and cross-account escalation graph and prune every path from low privilege to admin.
 
 **Bad:**
 ```json
@@ -276,25 +276,11 @@ metadata_options {
 }
 ```
 
-**References:** AWS Security Bulletin IMPDS-2019-001, AWS Security Best Practices (SCA) SEC2-BP07, CIS AWS 5.6
+**References:** AWS IMDSv2 announcement (2019), AWS Well-Architected Security Pillar, CIS AWS 5.6
 
 ---
 
 **Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
-
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
-
-**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
-
-**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
-
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Provider Security Benchmarks (AWS Foundations / Azure / GCP CIS)
 
@@ -367,7 +353,7 @@ metadata_options {
   "aws:SourceArn": "arn:aws:events:us-east-1:999988887777:rule/nightly-sync"}}
 ```
 
-**References:** AWS Confused Deputy Prevention Guide, CWE-915, AWS Security Best Practices SEC3-BP05
+**References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
 
 ---
 
@@ -679,7 +665,7 @@ server {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 ```
 
-**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, OWASP WSTG-401-14
+**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, WSTG-CONF-07
 
 ---
 
@@ -1056,7 +1042,7 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
 
 **Why:** Adversaries can record encrypted sessions now and decrypt them years later once quantum computers mature; data with a multi-decade confidentiality lifetime — VPN tunnels, backups, personal data — needs the quantum transition clocked deliberately, not in a panic.
 
-**Detect:** Enumerate termination points (nginx/Apache, Envoy, cloud LBs, WireGuard/IPsec concentrators) and their TLS library versions; check for `ML-KEM`/`X25519MLKEM768` support (OpenSSL 3.5+, BoringSSL, AWS KMS/PQN), client-population coverage, and whether the inventory records each endpoint's data-sensitivity lifetime. Review VPN cipher suites for absence of any KEM upgrade path.
+**Detect:** Enumerate termination points (nginx/Apache, Envoy, cloud LBs, WireGuard/IPsec concentrators) and their TLS library versions; check for `ML-KEM`/`X25519MLKEM768` support (OpenSSL 3.5+, BoringSSL, cloud KMS PQC offerings), client-population coverage, and whether the inventory records each endpoint's data-sensitivity lifetime. Review VPN cipher suites for absence of any KEM upgrade path.
 
 **Bad:**
 ```

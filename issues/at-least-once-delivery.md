@@ -11,7 +11,7 @@ domains: [data]
 
 **Detect:** grep for `ack` after processing, `auto_ack=True`, missing idempotency keys, `at_least_once`, unguarded side effects in consumers.
 
-**References:** CWE-362, AWS SQS delivery semantics, NIST SP 800-171 3.1.1
+**References:** CWE-362, AWS SQS delivery semantics, Designing Data-Intensive Applications (delivery semantics)
 
 ---
 

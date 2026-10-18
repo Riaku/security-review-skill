@@ -36,11 +36,11 @@ LLM feature security and quality.
 
 **MUST** route coding-agent egress (model calls, MCP-over-HTTP, web fetch) through an explicit proxy/allowlist — and repo-supplied env must never control where agent traffic goes.
 
-**Why:** DeepSeek's harness refuses to start rather than let a cloned repo set proxy vars; OpenAI uses allowlist-first domain rules where deny always wins — repo-controlled egress is an exfiltration path.
+**Why:** Some agent harnesses refuse to start rather than honor repo-controlled proxy settings, and vendors ship allowlist-first egress where deny wins — repo-controlled egress is an exfiltration path.
 
 **Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
 
-**References:** DeepSeek harness proxy-refusal pattern, OpenAI Codex domain rules, GitHub agent internet firewall, Cursor fixed-destination egress
+**References:** OpenAI Codex domain rules, Anthropic agent network controls, vendor agent egress allowlists
 
 ---
 
@@ -58,7 +58,7 @@ LLM feature security and quality.
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Agent Instruction-File Review Surface
 
@@ -106,11 +106,11 @@ LLM feature security and quality.
 
 **MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
 
-**Why:** All major vendors converge on this: an agent without an executable check ships plausible-looking code indefinitely ("if you can't verify it, don't ship it" — Anthropic; "Done when" — GLM; easy-to-verify RL — Qwen).
+**Why:** Industry practice converges on this: an agent without an executable check ships plausible-looking code indefinitely.
 
 **Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
 
-**References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
+**References:** Anthropic Claude Code best practices, vendor coding-agent verification guidance
 
 ---
 
@@ -176,11 +176,11 @@ LLM feature security and quality.
 
 **SHOULD** run the AI reviewer/critic on a different model family than the producer for security-sensitive changes — same-model review shares blind spots.
 
-**Why:** GitHub's rubber-duck critic explicitly runs on a different model "less likely to share the same blind spots, biases, or failure modes"; a same-model reviewer tends to approve its own kind's mistakes.
+**Why:** Some vendors run the reviewer/critic on a different model family, on the theory it is less likely to share the same blind spots, biases, or failure modes; a same-model reviewer tends to approve its own kind's mistakes.
 
 **Detect:** review pipeline config shows same model for author and critic; no independent-model step for security-sensitive diffs; judgment on independence of the review chain.
 
-**References:** GitHub Copilot rubber-duck cross-model critic, Anthropic fresh-context adversarial subagent review
+**References:** vendor cross-model review practice, Anthropic fresh-context adversarial subagent review
 
 ---
 
@@ -306,7 +306,7 @@ LLM feature security and quality.
 
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
-**References:** OWASP LLM06:2025, MITRE ATLAS T0059, CWE-829
+**References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
 
 ---
 
@@ -320,7 +320,7 @@ LLM feature security and quality.
 
 **Detect:** grep torch.load( without weights_only=True, pickle.load on model files, .pkl/.ckpt pulled from Hub without checksum/signature.
 
-**References:** OWASP LLM08:2025, CWE-502, CWE-94
+**References:** OWASP LLM03:2025, CWE-502, CWE-94
 
 ---
 
@@ -362,7 +362,7 @@ LLM feature security and quality.
 
 **Detect:** ingest pipelines without source allowlists or content scanning; vector index accepting unauthenticated uploads.
 
-**References:** OWASP LLM08:2025, CWE-506, MITRE ATLAS T0043
+**References:** OWASP LLM04:2025, CWE-506, MITRE ATLAS
 
 ---
 

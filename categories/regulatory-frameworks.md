@@ -21,7 +21,6 @@ Audit and regulatory regimes.
 - [fedramp](../issues/fedramp.md)
 - [fips-140-3](../issues/fips-140-3.md)
 - [fips-186-signatures](../issues/fips-186-signatures.md)
-- [gdpr-regime](../issues/gdpr-regime.md)
 - [hipaa](../issues/hipaa.md)
 - [india-dpdp-act](../issues/india-dpdp-act.md)
 - [iso-27001](../issues/iso-27001.md)

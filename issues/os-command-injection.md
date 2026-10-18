@@ -1,5 +1,5 @@
 ---
-categories: [correctness-pitfalls, web-api-security]
+categories: [web-api-security]
 domains: [backend]
 ---
 
@@ -15,4 +15,4 @@ domains: [backend]
 
 ---
 
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

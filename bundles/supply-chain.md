@@ -26,7 +26,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
-**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
 
 ---
 
@@ -40,7 +40,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
 
-**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+**References:** OWASP WSTG-BUSL, CWE-427, npm/CDN takeover incidents
 
 ---
 
@@ -54,7 +54,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** grep `slsa`, `provenance`, `cosign attest`, `sigstore`, `in-toto` in CI configs and release steps.
 
-**References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 PW.4, CWE-494
+**References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 (SSDF), CWE-494
 
 ---
 
@@ -64,11 +64,11 @@ Dependencies, artifacts, build provenance.
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
 
-**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; upstream tag compromises (SolarWinds, event-stream) extend the same lesson to every unpinned build input.
+**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; the same trust-in-mutable-references lesson applies to every unpinned build input — compromised build systems and hijacked packages (SolarWinds, event-stream) show what runs with your pipeline's privileges when an upstream reference is subverted.
 
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
-**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide, OWASP CI/CD Top 10 CICD-SEC-4, NIST SP 800-161
+**References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
 
 ---
 
@@ -82,7 +82,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
 
-**References:** OWASP CI Security CS5, CWE-345, NIST SP 800-218 PW.6, SLSA provenance levels, sigstore/cosign docs
+**References:** OWASP CI/CD Top 10 CICD-SEC-9, CWE-345, NIST SP 800-218 (SSDF), SLSA provenance levels, sigstore/cosign docs
 
 ---
 
@@ -110,7 +110,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** `requirements.txt`, `package-lock.json`, `go.mod`; run `pip-audit`, `npm audit`, `govulncheck`; grep `.github/workflows` for `osv-scanner`.
 
-**References:** OWASP A06:2021, CWE-1104, SCB-001
+**References:** OWASP A06:2021, CWE-1104, OSV.dev
 
 ---
 
@@ -136,9 +136,9 @@ Dependencies, artifacts, build provenance.
 
 **Why:** Unsigned firmware is the ultimate persistence layer — an attacker who flashes once owns the device permanently and it survives every software remediation.
 
-**Detect:** grep build pipeline for signing steps (`osslsigncode`, `imgtool`, HSM calls); check bootloader verify-enforce (not just verify-log) mode; look for dev/test keys shipped in production images.
+**Detect:** grep build pipeline for signing steps (`sbsign`, `imgtool` (MCUboot), `openssl dgst -sign`, HSM calls); check bootloader verify-enforce (not just verify-log) mode; look for dev/test keys shipped in production images.
 
-**References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 (IOT ASSET), Arm TrustZone/UEFI Secure Boot docs
+**References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 I4, Arm TrustZone/UEFI Secure Boot docs
 
 ---
 
@@ -166,7 +166,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
-**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+**References:** SLSA build isolation, NIST SP 800-218 (SSDF), Reproducible Builds project, CWE-494
 
 ---
 
@@ -180,7 +180,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** CI configs auto-applying on `pull_request` events; plan jobs echoing full state containing secrets; missing manual approval gate before apply stage.
 
-**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 PW.8, Terraform Cloud PR workflow docs, Checkov tfsec guidance
+**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 (SSDF), Terraform Cloud PR workflow docs, Checkov tfsec guidance
 
 ---
 
@@ -208,7 +208,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** Missing `package-lock.json`, `poetry.lock`, `go.sum`; CI flags like `--no-lock`, `npm install` without `ci`; `.gitignore` excluding lockfiles.
 
-**References:** OWASP A06:2021, CWE-829, SCB-002
+**References:** OWASP A06:2021, CWE-829, OSV.dev, SLSA framework
 
 ---
 
@@ -236,7 +236,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
-**References:** OWASP LLM06:2025, MITRE ATLAS T0059, CWE-829
+**References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
 
 ---
 
@@ -250,7 +250,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** grep torch.load( without weights_only=True, pickle.load on model files, .pkl/.ckpt pulled from Hub without checksum/signature.
 
-**References:** OWASP LLM08:2025, CWE-502, CWE-94
+**References:** OWASP LLM03:2025, CWE-502, CWE-94
 
 ---
 
@@ -320,7 +320,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 PS.1, GitHub push protection docs
+**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
 
 ---
 

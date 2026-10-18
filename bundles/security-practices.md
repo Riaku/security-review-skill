@@ -26,7 +26,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
-**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+**References:** C4 model, ADR practice (Nygard)
 
 ---
 
@@ -138,7 +138,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** judgment on presence of decision/assumption records near consequential logic and outputs (ADRs in docs/adr, assumption logs in analysis projects), with dates and authors.
 
-**References:** ADR practice, decision-record keeping in analysis-code guidance, nfr-traceability companion
+**References:** ADR practice (Nygard)
 
 ---
 
@@ -170,7 +170,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 ---
 
-**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Living-off-the-Land Abuse
 
@@ -208,7 +208,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** grep for user-controlled values interpolated into logger calls (`log.info("User " + username)`) without newline stripping; check for encoder/sanitizer in log appender config.
 
-**References:** OWASP Logging Cheat Sheet, CWE-117, OWASP WSTG-INPV-009
+**References:** OWASP Logging Cheat Sheet, CWE-117
 
 ---
 
@@ -306,7 +306,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
 
-**References:** Aqua books proportionate assurance, risk-based testing practice, security-tier classification guidance
+**References:** OWASP SAMM, risk-based testing practice
 
 ---
 
@@ -362,7 +362,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** `champions` roster doc, training completion records, `office hours` schedule, per-team champion named in CODEOWNERS
 
-**References:** OWASP SAMM Security Champions, BSIMM 11.1, Microsoft Security Champions Program
+**References:** OWASP SAMM Security Champions, BSIMM satellite, Microsoft Security Champions Program
 
 ---
 

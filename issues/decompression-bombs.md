@@ -1,6 +1,6 @@
 ---
-categories: [resilience, web-api-security]
-domains: [backend, reliability]
+categories: [web-api-security]
+domains: [backend]
 ---
 
 # Decompression Bombs & XML Entity Expansion
@@ -15,4 +15,4 @@ domains: [backend, reliability]
 
 ---
 
-**Part of:** [resilience](../categories/resilience.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

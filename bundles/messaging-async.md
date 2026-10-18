@@ -12,7 +12,7 @@ Queues, delivery semantics, workers, jobs.
 
 **Detect:** grep for `ack` after processing, `auto_ack=True`, missing idempotency keys, `at_least_once`, unguarded side effects in consumers.
 
-**References:** CWE-362, AWS SQS delivery semantics, NIST SP 800-171 3.1.1
+**References:** CWE-362, AWS SQS delivery semantics, Designing Data-Intensive Applications (delivery semantics)
 
 ---
 
@@ -71,7 +71,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 ---
 
-**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Overlapping cron executions guarded by single-runner locks
 
@@ -135,7 +135,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
 
 ---
 
@@ -219,7 +219,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Detect:** check for `webhook_secret`, `stripe-signature`, `HMAC verify`, idempotency keys in webhook handler config and DB schema.
 
-**References:** OWASP WSTG-ATHN-02, CWE-347, PCI DSS 4.0 Req 6.2, Stripe webhook signing guide
+**References:** CWE-347, Stripe webhook signing guide
 
 ---
 

@@ -9,7 +9,7 @@ domains: [reliability]
 
 **Why:** Silent failures hide exploitation attempts; conversely, unscrubbed error payloads ship credentials and PII to third-party trackers.
 
-**Detect:** grep for `before_send` / `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
+**Detect:** grep for `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, Sentry security docs, Sentry `before_send` filtering
 

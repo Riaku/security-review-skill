@@ -26,7 +26,7 @@ Release engineering: strategies, environments, versioning.
 
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
-**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
 
 ---
 
@@ -191,7 +191,7 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Detect:** check Flux `GitRepository` secretRef/gpgGCM, ArgoCD `signedCrds`/commit verification, and RBAC blocking `kubectl apply` outside the controller service account.
 
-**References:** OWASP Kubernetes Top 10 (K8s-2017-0001 unsigned images/policies), NIST SP 800-190, Sigstore/cosign, Git signed commits CVE-2020-5260
+**References:** OWASP Kubernetes Top 10 K04 (centralized policy enforcement), NIST SP 800-190, Sigstore/cosign, Git signed commits
 
 ---
 
@@ -311,9 +311,9 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
-**MUST** use a live-migration tool (gh-ost, `pt-online-schema-change`, or a non-blocking Postgres equivalent) for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`.
+**MUST** use a non-blocking migration strategy for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`: gh-ost or `pt-online-schema-change` for MySQL, expand-contract/`pgroll` or concurrent-index patterns for Postgres.
 
-**Why:** A naive `ALTER` on a multi-hundred-gigabyte table can hold an exclusive lock for hours, freezing writes and cascading timeouts through dependent services — and retrying it mid-outage doubles the damage.
+**Why:** A naive `ALTER` on a multi-hundred-gigabyte MySQL table can block writes for the whole copy, freezing writes and cascading timeouts through dependent services — and retrying it mid-outage doubles the damage. (gh-ost/pt-osc are MySQL-only; Postgres 11+ makes `ADD COLUMN` with `DEFAULT` metadata-only, but rewrites still need online treatment.)
 
 **Detect:** Scan migration directories for raw `ALTER TABLE` against known-large tables, missing size thresholds in the runbook, and absence of gh-ost/pt-osc in CI/CD. Migrations should declare expected duration and lock behavior.
 
@@ -329,7 +329,7 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
   --execute   # ghost-table copy, seconds-long cutover
 ```
 
-**References:** GitHub gh-ost docs, Percona pt-online-schema-change docs, PostgreSQL CREATE INDEX CONCURRENTLY docs
+**References:** GitHub gh-ost docs (MySQL), Percona pt-online-schema-change docs (MySQL), pgroll docs (Postgres), PostgreSQL CREATE INDEX CONCURRENTLY docs
 
 ---
 
@@ -357,7 +357,7 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 **Detect:** grep migration folders for down scripts missing or marked irreversible; check deploy manifests for `revisionHistoryLimit` and `kubectl rollout undo` runbook presence.
 
-**References:** NIST SP 800-34 contingency planning, Fowler Parallel Change, CWE-581 group authorization failure on rollback state
+**References:** NIST SP 800-34 contingency planning, Fowler Parallel Change
 
 ---
 
@@ -385,7 +385,7 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 **Detect:** grep ETL/sync jobs for unmasked `SELECT *` from prod tables into staging; check staging ingress for absent auth, disabled audit logging, open security groups.
 
-**References:** OWASP Top 10 A02 broken authentication, GDPR Art. 32, CWE-201 information exposure through sent data
+**References:** OWASP Top 10 A02:2021 Cryptographic Failures, GDPR Art. 32, CWE-201
 
 ---
 

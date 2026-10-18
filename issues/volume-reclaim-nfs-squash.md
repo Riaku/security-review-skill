@@ -1,6 +1,6 @@
 ---
-categories: [containers-k8s, secrets-crypto]
-domains: [backend, infrastructure]
+categories: [containers-k8s]
+domains: [infrastructure]
 ---
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
@@ -15,4 +15,4 @@ domains: [backend, infrastructure]
 
 ---
 
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

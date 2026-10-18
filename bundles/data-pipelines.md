@@ -16,7 +16,7 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 ---
 
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [data-pipelines](../categories/data-pipelines.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Data Version Pinning
 
@@ -54,7 +54,7 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
-**References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
+**References:** Jupyter notebook security best practices, nbstripout/ClearOutputPreprocessor tooling
 
 ---
 

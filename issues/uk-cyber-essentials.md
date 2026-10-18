@@ -5,7 +5,7 @@ domains: [government-compliance]
 
 # UK GDPR + Cyber Essentials / Cyber Essentials Plus
 
-**SHOULD** pair UK GDPR data controls with Cyber Essentials' four technical controls (secure config, boundary firewalls, access control, patching), verified externally for CE+.
+**SHOULD** pair UK GDPR data controls with Cyber Essentials' five technical controls (firewalls, secure configuration, security update management, user access control, malware protection), verified externally for CE+.
 
 **Why:** UK insurers and public-sector buyers reject suppliers lacking CE; basic misconfigurations cause most breaches it targets.
 

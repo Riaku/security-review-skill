@@ -19,7 +19,6 @@ Browser/client-side code: SPAs, SSR apps, browser-exposed surface.
 - [compliance-privacy](../categories/compliance-privacy.md)
 - [seo-web-quality](../categories/seo-web-quality.md)
 - [supply-chain](../categories/supply-chain.md)
-- [testing-strategy](../categories/testing-strategy.md)
 - [third-party-integrations](../categories/third-party-integrations.md)
 - [web-api-security](../categories/web-api-security.md)
 - [web-client-security](../categories/web-client-security.md)

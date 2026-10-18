@@ -11,7 +11,7 @@ domains: [infrastructure]
 
 **Detect:** Self-hosted runner labels in workflow `runs-on`; persistent `/var/run/docker.sock` mounts; runner config `ephemeral=false`; shared cache dirs across jobs.
 
-**References:** OWASP CI Security CS3, CWE-419, NIST SP 800-218 PW.5, GitHub Actions security hardening guide
+**References:** OWASP CI/CD Top 10 CICD-SEC-7, CWE-419, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide
 
 ---
 

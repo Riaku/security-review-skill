@@ -26,7 +26,6 @@ How it is built and where it runs: containers, cloud, CI/CD.
 - [cloud-network](../categories/cloud-network.md)
 - [compliance-privacy](../categories/compliance-privacy.md)
 - [containers-k8s](../categories/containers-k8s.md)
-- [correctness-pitfalls](../categories/correctness-pitfalls.md)
 - [database](../categories/database.md)
 - [deployment-release](../categories/deployment-release.md)
 - [hardening-benchmarks](../categories/hardening-benchmarks.md)

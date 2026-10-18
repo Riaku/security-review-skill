@@ -17,7 +17,6 @@ Cloud networking, DNS, edge, cloud resource exposure.
 - [cloud-billing-alerts](../issues/cloud-billing-alerts.md)
 - [cloud-iam-privilege-escalation](../issues/cloud-iam-privilege-escalation.md)
 - [cloud-metadata-endpoint](../issues/cloud-metadata-endpoint.md)
-- [cloud-privilege-escalation-paths](../issues/cloud-privilege-escalation-paths.md)
 - [cloud-provider-benchmarks](../issues/cloud-provider-benchmarks.md)
 - [cost-optimization-alerting](../issues/cost-optimization-alerting.md)
 - [cross-account-role-confused-deputy](../issues/cross-account-role-confused-deputy.md)

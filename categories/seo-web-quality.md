@@ -4,7 +4,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 ## Issues
 
-- [automated-a11y-gate-in-ci](../issues/automated-a11y-gate-in-ci.md)
 - [canonical-url-handling](../issues/canonical-url-handling.md)
 - [core-web-vitals-budgets](../issues/core-web-vitals-budgets.md)
 - [crawler-renderable-content](../issues/crawler-renderable-content.md)
@@ -19,4 +18,4 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 - [structured-data-schema-validation](../issues/structured-data-schema-validation.md)
 - [xml-sitemap-maintenance](../issues/xml-sitemap-maintenance.md)
 
-Domains: [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · Index: [SKILL.md](../SKILL.md)
+Domain: [frontend](../domains/frontend.md) · Index: [SKILL.md](../SKILL.md)

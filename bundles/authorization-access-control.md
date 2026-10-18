@@ -1,22 +1,8 @@
-# authorization-access-control — full checklist (18 items)
+# authorization-access-control — full checklist (16 items)
 
 Who may do what: RBAC, RLS, least privilege.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [authorization-access-control](../categories/authorization-access-control.md) · index: [SKILL.md](../SKILL.md)
-
-# Human-in-the-loop approval for destructive agent tool calls
-
-**MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).
-
-**Why:** A hijacked or hallucinating agent with unguarded write access can cause irreversible damage in a single automated chain.
-
-**Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
-
-**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Cloud IAM Privilege Escalation Paths
 
@@ -24,7 +10,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover. Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action), so the diff must be judged against what the principal already holds.
 
-**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change.
+**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change. Periodically recompute the full role-to-role and cross-account escalation graph and prune every path from low privilege to admin.
 
 **Bad:**
 ```json
@@ -39,20 +25,6 @@ Who may do what: RBAC, RLS, least privilege.
 ```
 
 **References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
-
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
-
-**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
-
-**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
-
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
 
 ---
 
@@ -79,7 +51,7 @@ Who may do what: RBAC, RLS, least privilege.
   "aws:SourceArn": "arn:aws:events:us-east-1:999988887777:rule/nightly-sync"}}
 ```
 
-**References:** AWS Confused Deputy Prevention Guide, CWE-915, AWS Security Best Practices SEC3-BP05
+**References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
 
 ---
 
@@ -121,7 +93,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
-**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
+**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
 
 ---
 

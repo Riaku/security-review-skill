@@ -20,7 +20,7 @@ Mail authentication, brand protection, and email-content trust.
 
 # Email Bounce Handling
 
-**MUST** Hard bounces and spam complaints be consumed programmatically and fed into a suppression list so invalid addresses are never mailed again.
+**MUST** consume hard bounces and spam complaints programmatically and feed them into a suppression list so invalid addresses are never mailed again.
 
 **Why:** Mailing dead addresses tanks sender reputation; Gmail and Outlook then divert the whole domain's legitimate mail to spam, and ignored abuse complaints can get the sending IP delisted for weeks.
 
@@ -89,7 +89,7 @@ send(to=addr, ...)
 
 # SPF, DKIM & DMARC
 
-**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
+**MUST** publish SPF, DKIM, and a DMARC record ending in a rejecting policy for every domain that sends mail, with alignment verified for each sending service.
 
 **Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
 

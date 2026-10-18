@@ -96,7 +96,7 @@ Cache correctness, performance, and eviction.
 
 **Detect:** `ETag` built from user-independent hashes; `If-None-Match` handlers ignoring tenant ID; weak `W/` validators on auth-sensitive resources.
 
-**References:** OWASP A04:2021, CWE-916, RFC 7232 section 2.3, RFC 9110 8.8.3
+**References:** OWASP A04:2021, RFC 7232 section 2.3, RFC 9110 8.8.3
 
 ---
 
@@ -104,7 +104,7 @@ Cache correctness, performance, and eviction.
 
 # Explicit eviction policy on every in-memory data store
 
-**MUST** set an explicit memory limit and eviction policy on every in-memory data store; unbounded growth, or a policy that can evict security-critical keys such as sessions and rate-limit counters, is a finding. Redis `maxmemory-policy` left at `noeviction`, or `allkeys-lru` on a mixed-purpose instance, is the common case.
+**MUST** set an explicit memory limit and eviction policy on every in-memory data store, matched to the data it holds; unbounded growth, or a policy that can evict security-critical keys such as sessions and rate-limit counters, is a finding. Redis `maxmemory` left unbounded or `maxmemory-policy` at `noeviction`, or `allkeys-lru` on a mixed-purpose instance, is the common case.
 
 **Why:** Unchecked eviction can drop session or rate-limit keys under memory pressure, silently disabling auth throttling.
 

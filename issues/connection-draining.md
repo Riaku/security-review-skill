@@ -11,7 +11,7 @@ domains: [reliability]
 
 **Detect:** `drain_timeout`, `idle_timeout` on Envoy/HAProxy, `notReadyBeforeDrainDelay`, missing `connectionDraining` in cloud LB config.
 
-**References:** AWS ELB draining, Envoy drain documentation, CWE-582, NIST SP 800-178
+**References:** AWS ELB connection draining, Envoy drain documentation
 
 ---
 

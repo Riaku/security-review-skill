@@ -11,7 +11,7 @@ domains: [infrastructure]
 
 **Detect:** Grep workflows for `pull_request_target` combined with `secrets.`, `${{ github.event.* }}` in `run:` blocks, or `checkout` of `github.event.pull_request.head.sha`.
 
-**References:** OWASP CI Security CS2, CWE-94, NIST SP 800-218 PW.8, GitHub Actions security hardening guide
+**References:** OWASP CI/CD Top 10 CICD-SEC-4, CWE-94, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide
 
 ---
 
