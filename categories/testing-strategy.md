@@ -24,4 +24,4 @@ Test pyramid, practices, and quality gates.
 - [test-determinism-and-isolation](../issues/test-determinism-and-isolation.md)
 - [unit-tests](../issues/unit-tests.md)
 
-Domains: [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · Index: [SKILL.md](../SKILL.md)
+Domains: [backend](../domains/backend.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · Index: [SKILL.md](../SKILL.md)

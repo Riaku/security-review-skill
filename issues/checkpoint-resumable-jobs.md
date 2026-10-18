@@ -1,5 +1,5 @@
 ---
-categories: [database, messaging-async]
+categories: [messaging-async]
 domains: [data]
 ---
 
@@ -28,4 +28,4 @@ for r in db.rows.gt(cur).limit(1000):
 
 ---
 
-**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

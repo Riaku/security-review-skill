@@ -11,7 +11,7 @@ domains: [backend, reliability]
 
 **Detect:** grep for user-controlled values interpolated into logger calls (`log.info("User " + username)`) without newline stripping; check for encoder/sanitizer in log appender config.
 
-**References:** OWASP Logging Cheat Sheet, CWE-117, OWASP WSTG-INPV-009
+**References:** OWASP Logging Cheat Sheet, CWE-117
 
 ---
 

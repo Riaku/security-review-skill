@@ -11,7 +11,7 @@ domains: [backend]
 
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
-**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+**References:** C4 model, ADR practice (Nygard)
 
 ---
 

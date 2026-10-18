@@ -21,7 +21,6 @@ Databases, replication, distributed data, queues, async pipelines, and data/ETL 
 - [api-design](../categories/api-design.md)
 - [cloud-network](../categories/cloud-network.md)
 - [compliance-privacy](../categories/compliance-privacy.md)
-- [correctness-pitfalls](../categories/correctness-pitfalls.md)
 - [data-pipelines](../categories/data-pipelines.md)
 - [database](../categories/database.md)
 - [deployment-release](../categories/deployment-release.md)

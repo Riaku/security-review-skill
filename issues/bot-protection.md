@@ -1,6 +1,6 @@
 ---
-categories: [compliance-privacy, web-api-security]
-domains: [backend, governance]
+categories: [web-api-security]
+domains: [backend]
 ---
 
 # Bot Protection
@@ -15,4 +15,4 @@ domains: [backend, governance]
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -1,22 +1,8 @@
-# seo-web-quality — full checklist (14 items)
+# seo-web-quality — full checklist (13 items)
 
 Search visibility, crawl/index hygiene, and page experience (Google Search Central, CWV, Lighthouse).
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [seo-web-quality](../categories/seo-web-quality.md) · index: [SKILL.md](../SKILL.md)
-
-# Automated A11y Gate in CI
-
-**SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
-
-**Why:** One-line accessibility checklist items change nothing; a CI gate on actual scans makes regressions visible at the PR and compounds into real WCAG compliance over time.
-
-**Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
-
-**References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Canonical URL Handling
 

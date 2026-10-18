@@ -26,7 +26,7 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
-**References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+**References:** C4 model, ADR practice (Nygard)
 
 ---
 
@@ -54,7 +54,7 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **Detect:** flag comments that restate the adjacent line (`// increment counter` above `count++`); look for TODO/dead commented-out code left in; positive signal: comments citing constraints, bug IDs, invariants, spec sections.
 
-**References:** Stack Overflow code-comment best practices, MIT CommKit coding-and-comment style, clean-code comment guidance
+**References:** Code Complete (McConnell) on comments, MIT CommKit coding-and-comment style, Clean Code comment guidance
 
 ---
 

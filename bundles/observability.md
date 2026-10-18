@@ -219,7 +219,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** grep for `traceparent` / `tracestate` header propagation in HTTP clients and message producers; check tracer init covers every framework middleware.
 
-**References:** W3C Trace Context, OWASP Testing Guide 4.2, NIST SP 800-187
+**References:** W3C Trace Context, OpenTelemetry documentation
 
 ---
 
@@ -231,7 +231,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Why:** Silent failures hide exploitation attempts; conversely, unscrubbed error payloads ship credentials and PII to third-party trackers.
 
-**Detect:** grep for `before_send` / `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
+**Detect:** grep for `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, Sentry security docs, Sentry `before_send` filtering
 
@@ -345,7 +345,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** grep for user-controlled values interpolated into logger calls (`log.info("User " + username)`) without newline stripping; check for encoder/sanitizer in log appender config.
 
-**References:** OWASP Logging Cheat Sheet, CWE-117, OWASP WSTG-INPV-009
+**References:** OWASP Logging Cheat Sheet, CWE-117
 
 ---
 
@@ -555,7 +555,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
-**References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
+**References:** CWE-1053, NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
 ---
 

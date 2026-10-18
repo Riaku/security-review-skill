@@ -1,6 +1,6 @@
 ---
-categories: [correctness-pitfalls, data-pipelines]
-domains: [backend, data]
+categories: [data-pipelines]
+domains: [data]
 ---
 
 # Backfill Idempotency at Pipeline Scale
@@ -15,4 +15,4 @@ domains: [backend, data]
 
 ---
 
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [data-pipelines](../categories/data-pipelines.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

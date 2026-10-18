@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (43 items)
+# compliance-privacy — full checklist (40 items)
 
 Privacy operations and data protection in code.
 
@@ -32,20 +32,6 @@ Privacy operations and data protection in code.
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Bot Protection
-
-**MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).
-
-**Why:** Unprotected endpoints enable credential stuffing, account enumeration, and resource exhaustion attacks at scale.
-
-**Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
-
-**References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Breach notification clocks across jurisdictions
 
 **MUST** detect and triage breaches fast enough to meet the strictest applicable notification deadline (72h GDPR, state laws).
@@ -58,7 +44,7 @@ Privacy operations and data protection in code.
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # CCPA/CPRA
 
@@ -74,25 +60,11 @@ Privacy operations and data protection in code.
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
-# Chargebacks
-
-**SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
-
-**Why:** Excessive chargebacks trigger card brand fines, higher processing rates, or termination of merchant privileges.
-
-**Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
-
-**References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
 **MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
 
-**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC and OfSan fines and forced redesigns.
+**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 
 **Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
 
@@ -257,31 +229,17 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 # GDPR
 
-**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection.
+**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection, and maintain the accountability artifacts regulators expect: DPO appointment where required (Art. 37), DPIAs for high-risk processing (Art. 35), and records of processing.
 
-**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83.
+**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83 — and enforcement is complaint- and breach-driven, so undocumented processing decisions become the fine's evidence.
 
-**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models.
+**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models; missing DPIAs, DPO designation, records of processing, consent logs, cross-border transfer clauses.
 
-**References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
+**References:** GDPR Arts. 5, 6, 35, 37, 83; ISO 27701; EDPB guidelines; ICO enforcement register
 
 ---
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
-
-**MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.
-
-**Why:** Regulators act on data subject complaints and breach notifications; undocumented processing decisions become the fine's evidence.
-
-**Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
-
-**References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
@@ -291,7 +249,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** Long-retention archives encrypted only with RSA-2048/ECC, TLS sessions without hybrid KEM, backups with no key-rotation schedule.
 
-**References:** NIST IR 8547, NSA CNSA 2.0 timeline, HNDL classification guidance
+**References:** NIST IR 8547, NSA CNSA 2.0 timeline, CISA post-quantum cryptography guidance
 
 ---
 
@@ -313,7 +271,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 
@@ -389,7 +347,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
-**References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
+**References:** Jupyter notebook security best practices, nbstripout/ClearOutputPreprocessor tooling
 
 ---
 

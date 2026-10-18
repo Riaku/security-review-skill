@@ -148,11 +148,11 @@ def check_relative(files) -> tuple[int, list[tuple[str, int, str]], int]:
 # subdirectory — or at the root — is not.
 #
 # Root-level documents allowed to have *no* inbound link. SKILL.md is where the
-# crawl starts, so nothing needs to point back at it; AGENTS.md and SOURCES.md
-# are agent/attribution housekeeping rather than part of the navigable tree
-# (they are not targets of the cross-linking every other document does). Every
-# other unreachable document fails the run.
-ROOT_EXEMPT = ("SKILL.md", "AGENTS.md", "SOURCES.md")
+# crawl starts, so nothing needs to point back at it; AGENTS.md, SOURCES.md and
+# README.md are agent/attribution/entry-point housekeeping rather than part of
+# the navigable tree (they are not targets of the cross-linking every other
+# document does). Every other unreachable document fails the run.
+ROOT_EXEMPT = ("SKILL.md", "AGENTS.md", "SOURCES.md", "README.md")
 
 # Hand-authored directories hold documents a human wrote, so each one must be
 # *named* by an inbound link: reachability through a directory link is not

@@ -1,6 +1,6 @@
 ---
-categories: [seo-web-quality, testing-strategy]
-domains: [backend, frontend]
+categories: [testing-strategy]
+domains: [backend]
 ---
 
 # Automated A11y Gate in CI
@@ -15,4 +15,4 @@ domains: [backend, frontend]
 
 ---
 
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

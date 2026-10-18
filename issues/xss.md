@@ -5,7 +5,7 @@ domains: [backend, frontend]
 
 # XSS
 
-**MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
+**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data.
 
 **Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
 

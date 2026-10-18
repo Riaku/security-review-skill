@@ -52,7 +52,7 @@ CI/CD system as an attack surface.
 
 **Why:** Hardening drifts silently after deploy; without automated benchmark gates, regressions ship unnoticed until an attacker exploits them.
 
-**Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --security-check misconfig` steps and severity gates.
+**Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --scanners misconfig` steps and severity gates.
 
 **References:** CIS Benchmarks, NIST SP 800-53 CM-6, DevSecOps, CWE-1188
 
@@ -68,7 +68,7 @@ CI/CD system as an attack surface.
 
 **Detect:** GitHub settings API `branches/*/protection` — check `enforce_admins`, `required_pull_request_reviews`, `required_status_checks`; grep repo scripts for `push --force` to main; missing `.github/settings.yml` `protected_branches`; CODEOWNERS files.
 
-**References:** OWASP CI Security CS1, CWE-284, NIST SP 800-218 PW.7, GitHub branch protection docs
+**References:** OWASP CI/CD Top 10 CICD-SEC-1, CWE-284, NIST SP 800-218 (SSDF), GitHub branch protection docs
 
 ---
 
@@ -92,11 +92,11 @@ CI/CD system as an attack surface.
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
 
-**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; upstream tag compromises (SolarWinds, event-stream) extend the same lesson to every unpinned build input.
+**Why:** A retagged or hijacked tag silently swaps in attacker-controlled code that runs with your workflow's permissions, as the tj-actions incident proved; the same trust-in-mutable-references lesson applies to every unpinned build input — compromised build systems and hijacked packages (SolarWinds, event-stream) show what runs with your pipeline's privileges when an upstream reference is subverted.
 
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
-**References:** OWASP CI Security CS2, CWE-829, NIST SP 800-218 PO.3, GitHub Actions security hardening guide, OWASP CI/CD Top 10 CICD-SEC-4, NIST SP 800-161
+**References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
 
 ---
 
@@ -110,7 +110,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
 
-**References:** OWASP CI Security CS5, CWE-345, NIST SP 800-218 PW.6, SLSA provenance levels, sigstore/cosign docs
+**References:** OWASP CI/CD Top 10 CICD-SEC-9, CWE-345, NIST SP 800-218 (SSDF), SLSA provenance levels, sigstore/cosign docs
 
 ---
 
@@ -124,7 +124,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Repo-level `secrets.*` used in many workflows instead of environment-scoped ones; cloud IAM policies with `*` resources attached to CI roles; missing `environment:` stanzas.
 
-**References:** OWASP CI Security CS4, CWE-250, NIST SP 800-218 PS.2, GitHub environments and OIDC deploy docs
+**References:** OWASP CI/CD Top 10 CICD-SEC-6, CWE-250, NIST SP 800-218 (SSDF), GitHub environments and OIDC deploy docs
 
 ---
 
@@ -138,7 +138,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Self-hosted runner labels in workflow `runs-on`; persistent `/var/run/docker.sock` mounts; runner config `ephemeral=false`; shared cache dirs across jobs.
 
-**References:** OWASP CI Security CS3, CWE-419, NIST SP 800-218 PW.5, GitHub Actions security hardening guide
+**References:** OWASP CI/CD Top 10 CICD-SEC-7, CWE-419, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide
 
 ---
 
@@ -152,7 +152,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Grep workflows for `pull_request_target` combined with `secrets.`, `${{ github.event.* }}` in `run:` blocks, or `checkout` of `github.event.pull_request.head.sha`.
 
-**References:** OWASP CI Security CS2, CWE-94, NIST SP 800-218 PW.8, GitHub Actions security hardening guide
+**References:** OWASP CI/CD Top 10 CICD-SEC-4, CWE-94, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide
 
 ---
 
@@ -166,7 +166,7 @@ CI/CD system as an attack surface.
 
 **Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
 
-**References:** OWASP ASVS V1.1.4, NIST SP 800-218 PS.1 (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
+**References:** OWASP ASVS V1.1.4, NIST SP 800-218 (SSDF) (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
 
 ---
 
@@ -180,7 +180,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
-**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 PW.5, Kaniko and BuildKit rootless docs, GitLab CI best practices
+**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
 
 ---
 
@@ -194,7 +194,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 PS.1, BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
 
 ---
 
@@ -208,7 +208,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
-**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
+**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
 
 ---
 
@@ -222,7 +222,7 @@ CI/CD system as an attack surface.
 
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
-**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+**References:** SLSA build isolation, NIST SP 800-218 (SSDF), Reproducible Builds project, CWE-494
 
 ---
 
@@ -236,7 +236,7 @@ CI/CD system as an attack surface.
 
 **Detect:** CI configs auto-applying on `pull_request` events; plan jobs echoing full state containing secrets; missing manual approval gate before apply stage.
 
-**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 PW.8, Terraform Cloud PR workflow docs, Checkov tfsec guidance
+**References:** OWASP IaC Security, CWE-913, NIST SP 800-218 (SSDF), Terraform Cloud PR workflow docs, Checkov tfsec guidance
 
 ---
 
@@ -250,7 +250,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+**References:** OWASP CI/CD Top 10 CICD-SEC-10, CWE-1156, NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
 ---
 
@@ -320,7 +320,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
-**References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
+**References:** CWE-1053, NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
 ---
 

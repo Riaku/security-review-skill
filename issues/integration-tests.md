@@ -11,7 +11,7 @@ domains: [backend]
 
 **Detect:** docker-compose.test.yml, testcontainers usage, `pytest -m integration` markers; absence of any test touching a live DB or HTTP stub.
 
-**References:** OWASP ASVS V4.1.4, CWE-1057, NIST SP 800-218 PW.8
+**References:** OWASP ASVS 4.1.4, CWE-1057, NIST SP 800-218 (SSDF)
 
 ---
 

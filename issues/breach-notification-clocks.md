@@ -1,6 +1,6 @@
 ---
-categories: [compliance-privacy, regulatory-frameworks, sre-incidents]
-domains: [governance, government-compliance, reliability]
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
 ---
 
 # Breach notification clocks across jurisdictions
@@ -15,4 +15,4 @@ domains: [governance, government-compliance, reliability]
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

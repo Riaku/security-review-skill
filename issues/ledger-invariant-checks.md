@@ -1,6 +1,6 @@
 ---
-categories: [correctness-pitfalls, payments-fraud]
-domains: [backend, governance]
+categories: [payments-fraud]
+domains: [governance]
 ---
 
 # Ledger Invariant Checks
@@ -11,8 +11,8 @@ domains: [backend, governance]
 
 **Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
 
-**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks
 
 ---
 
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [payments-fraud](../categories/payments-fraud.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

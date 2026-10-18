@@ -11,7 +11,7 @@ domains: [backend]
 
 **Detect:** hypothesis (`@given`), fast-check (`fc.assert`), jqwik usage on parsers/validators; missing property specs on input-handling modules.
 
-**References:** CWE-20, OWASP ASVS V5.1 (validation), NIST SP 800-218 PW.7
+**References:** CWE-20, OWASP ASVS V5.1 (validation), NIST SP 800-218 (SSDF)
 
 ---
 

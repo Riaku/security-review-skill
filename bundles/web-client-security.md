@@ -12,7 +12,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
 
-**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+**References:** OWASP WSTG-BUSL, CWE-427, npm/CDN takeover incidents
 
 ---
 
@@ -96,7 +96,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265bis, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
 
 ---
 
@@ -235,7 +235,7 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
 
-**References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
+**References:** OWASP A07:2021, CWE-384, OWASP Session Management Cheat Sheet
 
 ---
 
@@ -277,7 +277,7 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
 
-**References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+**References:** PortSwigger Web Cache Poisoning research, OWASP A04:2021
 
 ---
 
@@ -285,7 +285,7 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 # XSS
 
-**MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
+**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data.
 
 **Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
 

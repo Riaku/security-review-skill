@@ -1,4 +1,4 @@
-# resilience — full checklist (19 items)
+# resilience — full checklist (17 items)
 
 Fault-tolerance patterns under dependency failure.
 
@@ -88,34 +88,6 @@ Fault-tolerance patterns under dependency failure.
 
 **Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Decompression Bombs & XML Entity Expansion
-
-**MUST** Cap compressed size, decompressed output, and entity expansion depth before and during parsing of untrusted input.
-
-**Why:** A kilobyte zip-bomb or "billion laughs" XML expands to gigabytes, exhausting memory in seconds.
-
-**Detect:** `zipfile.extractall`, `zlib.decompress` without size caps; XML parsers without entity-expansion limits.
-
-**References:** CWE-409, CWE-776, CWE-789
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Fail-Secure Configuration
-
-**MUST** design components to fail in a secure state: auth failures deny access, TLS verification failures abort the connection, policy engine outages block rather than allow, and partial initialization never exposes privileged surfaces.
-
-**Why:** Fail-open is the silent killer — an auth service timeout that defaults to "allowed" or a verifier that skips on error turns an outage into a breach window.
-
-**Detect:** grep for `except: pass` / default-allow branches around authz and TLS verify calls; check `failOpen: false` on admission webhooks, `ssl_verify` defaults, circuit-breaker fallback behavior on security checks.
-
-**References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Graceful Degradation
 
 **SHOULD** define a fallback per dependency so optional features shed instead of failing the whole request when a non-critical service is down.
@@ -138,7 +110,7 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
 
 ---
 
@@ -216,13 +188,13 @@ Fault-tolerance patterns under dependency failure.
 
 # Self-Healing Systems (auto-restart, auto-failover, self-repair loops)
 
-**MAY** automate restart and failover for known failure modes, but each repair loop MUST be bounded, observable, and rate-limited.
+**SHOULD** automate restart and failover only for known failure modes, keeping each repair loop bounded, observable, and rate-limited.
 
 **Why:** Unmonitored auto-repair oscillates between nodes and masks root causes until capacity is silently exhausted.
 
 **Detect:** review `restartPolicy`, `livenessProbe`, `auto_failover`, `recovery_loop`; check max-restart backoff and remediation alerting.
 
-**References:** Kubernetes restartPolicy/livenessProbe, AWS REL11-BP10, NIST SP 800-34 auto-recovery, CWE-251
+**References:** Kubernetes restartPolicy/livenessProbe, NIST SP 800-34 auto-recovery
 
 ---
 

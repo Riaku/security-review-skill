@@ -10,8 +10,6 @@ Fault-tolerance patterns under dependency failure.
 - [bulkheads](../issues/bulkheads.md)
 - [cascading-failures](../issues/cascading-failures.md)
 - [circuit-breakers](../issues/circuit-breakers.md)
-- [decompression-bombs](../issues/decompression-bombs.md)
-- [fail-secure-configuration](../issues/fail-secure-configuration.md)
 - [graceful-degradation](../issues/graceful-degradation.md)
 - [idempotency](../issues/idempotency.md)
 - [jitter](../issues/jitter.md)

@@ -1,6 +1,6 @@
 ---
-categories: [resilience, security-practices]
-domains: [backend, reliability]
+categories: [security-practices]
+domains: [backend]
 ---
 
 # Fail-Secure Configuration
@@ -15,4 +15,4 @@ domains: [backend, reliability]
 
 ---
 
-**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

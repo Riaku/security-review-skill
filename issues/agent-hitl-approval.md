@@ -1,6 +1,6 @@
 ---
-categories: [ai-llm, authorization-access-control]
-domains: [backend, governance]
+categories: [ai-llm]
+domains: [governance]
 ---
 
 # Human-in-the-loop approval for destructive agent tool calls
@@ -15,4 +15,4 @@ domains: [backend, governance]
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

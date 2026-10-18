@@ -1,6 +1,6 @@
 ---
-categories: [correctness-pitfalls, database]
-domains: [backend, data]
+categories: [database]
+domains: [data]
 ---
 
 # Durability Acknowledgment Policy
@@ -15,4 +15,4 @@ domains: [backend, data]
 
 ---
 
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [database](../categories/database.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

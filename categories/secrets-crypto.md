@@ -34,7 +34,6 @@ Secrets handling and cryptographic primitives.
 - [secrets-management](../issues/secrets-management.md)
 - [secrets-rotation-automation](../issues/secrets-rotation-automation.md)
 - [terraform-state-plaintext-secrets](../issues/terraform-state-plaintext-secrets.md)
-- [volume-reclaim-nfs-squash](../issues/volume-reclaim-nfs-squash.md)
 - [weak-crypto-primitives](../issues/weak-crypto-primitives.md)
 
 Domains: [backend](../domains/backend.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [mobile](../domains/mobile.md) · Index: [SKILL.md](../SKILL.md)

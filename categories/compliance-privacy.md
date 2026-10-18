@@ -6,10 +6,8 @@ Privacy operations and data protection in code.
 
 - [audit-log-chain-of-custody](../issues/audit-log-chain-of-custody.md)
 - [audit-logs](../issues/audit-logs.md)
-- [bot-protection](../issues/bot-protection.md)
 - [breach-notification-clocks](../issues/breach-notification-clocks.md)
 - [ccpa-cpra](../issues/ccpa-cpra.md)
-- [chargebacks](../issues/chargebacks.md)
 - [children-privacy-age-assurance](../issues/children-privacy-age-assurance.md)
 - [china-pipl](../issues/china-pipl.md)
 - [cookie-consent](../issues/cookie-consent.md)
@@ -22,7 +20,6 @@ Privacy operations and data protection in code.
 - [erasure-propagation-secondary-stores](../issues/erasure-propagation-secondary-stores.md)
 - [excessive-data-exposure](../issues/excessive-data-exposure.md)
 - [gdpr](../issues/gdpr.md)
-- [gdpr-regime](../issues/gdpr-regime.md)
 - [harvest-now-decrypt-later](../issues/harvest-now-decrypt-later.md)
 - [hipaa](../issues/hipaa.md)
 - [india-dpdp-act](../issues/india-dpdp-act.md)

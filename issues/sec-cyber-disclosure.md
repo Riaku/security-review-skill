@@ -1,6 +1,6 @@
 ---
-categories: [regulatory-frameworks, sre-incidents]
-domains: [government-compliance, reliability]
+categories: [regulatory-frameworks]
+domains: [government-compliance]
 ---
 
 # SEC cybersecurity disclosure rules (public-company material incident reporting)
@@ -15,4 +15,4 @@ domains: [government-compliance, reliability]
 
 ---
 
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

@@ -5,7 +5,7 @@ domains: [governance]
 
 # Email Bounce Handling
 
-**MUST** Hard bounces and spam complaints be consumed programmatically and fed into a suppression list so invalid addresses are never mailed again.
+**MUST** consume hard bounces and spam complaints programmatically and feed them into a suppression list so invalid addresses are never mailed again.
 
 **Why:** Mailing dead addresses tanks sender reputation; Gmail and Outlook then divert the whole domain's legitimate mail to spam, and ignored abuse complaints can get the sending IP delisted for weeks.
 

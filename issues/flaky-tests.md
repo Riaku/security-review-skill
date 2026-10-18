@@ -11,7 +11,7 @@ domains: [backend]
 
 **Detect:** `retry=True`, `@flaky`, `pytest-rerunfailures` on security-tagged tests; CI configs with `continue-on-error` around auth suites.
 
-**References:** OWASP ASVS V4.1.2, CWE-364 (Signal Fault), NIST SP 800-218 PW.7a
+**References:** OWASP ASVS V4.1.2, CWE-364 (Signal Fault), NIST SP 800-218 (SSDF)a
 
 ---
 
