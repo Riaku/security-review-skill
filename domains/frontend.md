@@ -10,3 +10,4 @@ Browser/client-side code: SPAs, SSR apps, browser-exposed surface.
 ## Stack quick-map
 
 - React/Vue/Angular SPA or SSR → web-client-security (+ backend categories if a server is in the same repo)
+- Marketing or SEO surface (sitemaps, meta tags, canonical URLs, Core Web Vitals) → seo-web-quality

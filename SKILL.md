@@ -55,6 +55,9 @@ with:
 - `{issues_dir}` — absolute path to this skill's [`issues/`](issues/) directory
 - `{repo_path}` — absolute path to the target repo
 
+The items for a category are the ones whose frontmatter `categories:` names it;
+the manifest file holds only the category's title and overview.
+
 Launch all categories concurrently where the harness allows.
 
 ### Phase 3 — Merge
@@ -166,12 +169,14 @@ in a category's bundle.
   line or nothing declares it. Nothing else in the repo is generated.
 
 Documents cross-link each other with relative markdown links: this file's
-Category Index points at every category, and [`references/`](references/) is
-linked from the file layout above. Nothing links *into* [`issues/`](issues/),
-[`categories/`](categories/) or [`domains/`](domains/): an item carries no nav
-footer, a category carries no item list, and a domain's stack quick-map names
-its categories in plain text. The only generated artifact is
-[`bundles/`](bundles/), which carries the items themselves.
+Category Index points at every category, [`references/`](references/) is linked
+from the file layout above, and some references
+([`references/mitre-attack.md`](references/mitre-attack.md)) link straight to the
+items they map. What the *generator* writes no links into is
+[`issues/`](issues/), [`categories/`](categories/) and [`domains/`](domains/):
+an item carries no nav footer, a category carries no item list, and a domain's
+stack quick-map names its categories in plain text. The only generated artifact
+is [`bundles/`](bundles/), which carries the items themselves.
 
 Do not mix granularities for the same review: pick per-item or per-bundle, so
 findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation).
@@ -189,8 +194,10 @@ findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation
 
 ## Verification
 
-[`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) must exit 0 and
-[`python3 scripts/check_generated.py`](scripts/check_generated.py) must print
-`bundles-in-sync:` — that is the whole gate. The generator's own line names how
-many bundles it wrote and how many items, categories and domains it saw; read
-that line for the numbers, never a figure remembered from a previous session.
+Run [`python3 scripts/check_generated.py`](scripts/check_generated.py) first — it
+snapshots the committed bundles and then runs the generator itself, so it is the
+leg that catches a bundle which no longer matches its items — and
+[`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) to write them.
+Together those two are the whole gate. The generator's line names how many
+bundles it wrote and how many items, categories and domains it saw; read that
+line for the numbers, never a figure remembered from a previous session.

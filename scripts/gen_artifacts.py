@@ -23,13 +23,19 @@ This script is also the format gate. It refuses to write anything, exiting 1
 with the offending file named, when:
 
   - an item has no frontmatter, or one that does not parse, or that is missing
-    ``categories:`` or ``domains:``
+    ``categories:`` or ``domains:``, declares either list twice, or contains a
+    line that is neither
   - a frontmatter list is empty, repeats a name, or is not sorted
   - an item names a category or domain with no file in ``categories/`` or
     ``domains/``
   - an item body does not open with an H1 title
   - a category manifest has no overview line, or no item declares it
+  - ``bundles/`` holds a file with no ``categories/<name>.md`` to regenerate it
+    from — a bundle left behind by a renamed or deleted category
   - ``SKILL.md`` is missing
+
+Nothing is written until every bundle has been rendered in memory, so a problem
+found late cannot leave an earlier bundle half-updated.
 
 Generation is deterministic: a second run rewrites byte-identical files.
 """
@@ -66,7 +72,10 @@ def _md_files(directory: pathlib.Path) -> list[pathlib.Path]:
 
 def read_item(path: pathlib.Path) -> tuple[dict[str, list[str]], str]:
     """``(frontmatter, body)`` for one item file; raises BuildError if malformed."""
-    text = path.read_text(encoding="utf-8")
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as exc:
+        raise BuildError(f"{_rel(path)}: cannot be read as UTF-8 ({exc})") from exc
     match = META_BLOCK_RE.match(text)
     if match is None:
         raise BuildError(
@@ -82,6 +91,9 @@ def read_item(path: pathlib.Path) -> tuple[dict[str, list[str]], str]:
                 f"{_rel(path)}: frontmatter line {line.strip()!r} is neither "
                 f"'categories: [...]' nor 'domains: [...]'")
         key = line_match.group(1)
+        if key in meta:
+            raise BuildError(
+                f"{_rel(path)}: '{key}:' appears twice — one declaration per list")
         names = [n.strip() for n in line_match.group("names").split(",") if n.strip()]
         if not names:
             raise BuildError(f"{_rel(path)}: '{key}:' lists nothing")
@@ -140,7 +152,9 @@ def main() -> int:
         for cat in meta["categories"]:
             by_cat[cat].append(slug)
 
-    BUNDLES_DIR.mkdir(exist_ok=True)
+    # Render every bundle before writing any of them, so a problem found in a
+    # later category cannot leave an earlier bundle half-updated.
+    rendered: dict[str, str] = {}
     for cat in sorted(manifests):
         slugs = sorted(by_cat[cat])
         if not slugs:
@@ -154,8 +168,18 @@ def main() -> int:
                  f"Index: [SKILL.md](../SKILL.md)", ""]
         for slug in slugs:
             parts += [items[slug][1], ""]
-        (BUNDLES_DIR / f"{cat}.md").write_text("\n".join(parts) + "\n",
-                                              encoding="utf-8")
+        rendered[cat] = "\n".join(parts) + "\n"
+
+    BUNDLES_DIR.mkdir(exist_ok=True)
+    orphans = sorted(p.name for p in _md_files(BUNDLES_DIR)
+                     if p.stem not in manifests)
+    if orphans:
+        raise BuildError(
+            "bundles/ holds file(s) no category regenerates — a renamed or "
+            f"deleted category left them behind; delete them: {', '.join(orphans)}")
+
+    for cat, text in rendered.items():
+        (BUNDLES_DIR / f"{cat}.md").write_text(text, encoding="utf-8")
 
     print(f"wrote {len(manifests)} bundles from {len(items)} items "
           f"({len(manifests)} categories, {len(known_doms)} domains)")

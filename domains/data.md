@@ -15,3 +15,4 @@ Databases, replication, distributed data, queues, async pipelines, and data/ETL 
 - Any SQL-backed service → database
 - Queues/workers present → messaging-async
 - Multiple datastores or replication/sharding configured → distributed-systems
+- ETL/ELT jobs, dbt models or a warehouse load → data-pipelines
