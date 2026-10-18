@@ -30,6 +30,11 @@ the target's stack — a Rust backend is never shown frontend rules.
 
 ## Workflow
 
+Execute the phases below as an autonomous tree traversal — see
+`references/tree-traversal.md` for the frontier/rounds mental model
+(same tree-walking shape as the `grilling` skill, minus the interview:
+the frontier is evaluated against the code, not asked to a human).
+
 ### Phase 1 — Triage
 
 Inspect the target repo (manifests, frameworks, IaC, migrations, queue/LLM/payment
@@ -105,6 +110,8 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
   hand-edit bundles; edit `issues/<slug>.md` and re-run
   `python3 scripts/gen_manifests.py`.
 - `references/tooling.md` — human-readable scanner/tool catalog by class.
+- `references/tree-traversal.md` — frontier/rounds evaluation model
+  (adapted from the `grilling` skill) for Phases 1–3.
 - `references/severity-rubric.md` — severity definition (exploitability ×
   blast radius × modifiers); sub-agents MUST rate findings against it.
 - `scripts/tool-issues.json` — machine-readable tool→issues mapping (the
