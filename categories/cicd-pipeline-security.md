@@ -19,16 +19,12 @@ Issues:
 - `iac-untrusted-pr-plan-injection`
 - `ai-generated-code-review`
 - `patch-management-sla`
-- `push-protection`
 - `sarif-standardization`
-- `shift-left-security`
 - `hermetic-builds`
-- `branch-protection-required-reviews`
-- `pinned-ci-actions`
 - `policy-as-code-enforcement`
-- `lighthouse-ci-performance-budgets`
 - `breaking-change-linting-ci`
 - `review-bot-neutral-status-trap`
 - `review-config-immutable-to-reviewee`
 - `advisory-vs-enforced-agent-checks`
 - `unattended-agent-automation-governance`
+- `argocd-default-credentials`

@@ -29,7 +29,6 @@ Issues:
 - `log-pipeline-backpressure`
 - `synthetic-external-monitoring`
 - `deploy-markers-on-metrics`
-- `pii-in-logs`
 - `sarif-standardization`
 - `threat-hunting`
 - `masquerading-detection`

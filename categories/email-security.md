@@ -7,3 +7,5 @@ Issues:
 - `mta-sts-tls-reporting`
 - `lookalike-domain-monitoring`
 - `email-template-injection`
+- `spf-dkim-dmarc`
+- `email-bounce-handling`

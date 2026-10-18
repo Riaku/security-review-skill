@@ -2,9 +2,9 @@
 
 **MUST** trace every newly granted cloud permission for escalation edges before merge: actions that let a principal widen its own access.
 
-**Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover.
+**Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover. Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action), so the diff must be judged against what the principal already holds.
 
-**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards. Tools: Cloudsplaining, PMapper, IAM Access Analyzer.
+**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change.
 
 **Bad:**
 ```json
@@ -18,4 +18,4 @@
  "Condition": {"StringEquals": {"iam:PassedToService": "lambda.amazonaws.com"}}}
 ```
 
-**References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices
+**References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
