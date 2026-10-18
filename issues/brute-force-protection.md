@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Brute Force Protection
 
 **MUST** rate-limit and lock out repeated failed authentication attempts per account and per source IP.

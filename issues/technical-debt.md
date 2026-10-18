@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Technical Debt
 
 **MAY** accumulate shortcuts deliberately, but each one must be tracked with an owner and a repayment plan.

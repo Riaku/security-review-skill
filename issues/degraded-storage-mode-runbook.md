@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity, sre-incidents]
+domains: [reliability]
+---
+
 # Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
 **MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.

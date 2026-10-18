@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Test Determinism & Isolation
 
 **MUST** make tests deterministic: fixed seeds for randomized tests, no shared mutable state between tests, order-independent execution.

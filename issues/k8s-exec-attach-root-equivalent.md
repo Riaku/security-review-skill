@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
 **MUST NOT** grant `pods/exec`, `pods/attach`, or `pods/debug` broadly; restrict them to named break-glass groups with audit.

@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Non-Functional Requirements Traceability
 
 **SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.

@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Ephemeral port / TIME_WAIT exhaustion on busy clients
 
 **SHOULD** pool and reuse outbound connections on high-fan-out clients so the ephemeral port range and TIME_WAIT backlog never become the bottleneck.

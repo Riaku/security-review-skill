@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
 **MUST** require a caller-specific `sts:ExternalId` (or equivalent source-account/source-ARN conditions) in the trust policy of every cross-account role, so third parties cannot trick the role into acting on another customer's behalf.

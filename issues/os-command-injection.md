@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, web-api-security]
+domains: [backend]
+---
+
 # OS Command Injection (CWE-78)
 
 **MUST NOT** Pass user input into shell commands; invoke programs with argument arrays, no shell interpolation.

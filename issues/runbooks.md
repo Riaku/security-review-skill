@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Runbooks
 
 **MUST** keep remediation steps for every paged alert in a version-controlled runbook a non-author can execute.

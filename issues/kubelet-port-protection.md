@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # Kubelet Port Protection (10250 AuthN/AuthZ, Anonymous Access)
 
 **MUST NOT** allow anonymous authentication on kubelet port 10250; enable Webhook authorization and firewall the port to control-plane only.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

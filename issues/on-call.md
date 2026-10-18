@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # On-Call
 
 **SHOULD** rotate on-call across a staffed team with bounded hours and backup responders, not one heroic engineer.

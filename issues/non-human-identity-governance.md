@@ -1,3 +1,8 @@
+---
+categories: [authentication, authorization-access-control]
+domains: [backend]
+---
+
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
 **MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.

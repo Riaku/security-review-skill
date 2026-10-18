@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, observability]
+domains: [infrastructure, reliability]
+---
+
 # Manual kubectl apply Drift Not Detected Against Git
 
 **SHOULD** run periodic drift detection (Flux `diff`/`check`, ArgoCD health) that alerts when live cluster state diverges from the reconciled Git revision.

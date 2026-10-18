@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, sre-incidents]
+domains: [infrastructure, reliability]
+---
+
 # Load balancer health-check flapping detected and damped
 
 **SHOULD** configure hysteresis on health checks — separate healthy/unhealthy thresholds, realistic timeouts, and jittered intervals — and alert on state-transition rate, not just current state.

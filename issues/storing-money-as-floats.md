@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Storing Money as Floats
 
 **MUST** represent currency as integers in minor units or an exact decimal type, never as binary floating point.

@@ -4,6 +4,34 @@ Fault-tolerance patterns under dependency failure.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [resilience](../categories/resilience.md) · index: [SKILL.md](../SKILL.md)
 
+# Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
+
+**SHOULD** set `failurePolicy: Fail` only where the webhook is highly available, with valid TLS certs and namespace exclusions for its own namespace.
+
+**Why:** A failing fail-closed webhook blocks all API writes cluster-wide; bad TLS makes every admission request error the same way.
+
+**Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
+
+**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Backlog Catch-Up Throttling
+
+**SHOULD** throttle post-outage backlog replay below full consumer capacity so catch-up traffic does not overwhelm downstream services still recovering.
+
+**Why:** Releasing a queued storm at full speed after an outage can knock over the very dependency that just came back, restarting the failure cycle.
+
+**Detect:** grep recovery/runbook configs for missing `rate_limit`, `throttle`, `max_concurrency` on replay; consumers configured to drain queues unbounded on startup.
+
+**References:** AWS SQS long polling backpressure, NIST SP 800-61 incident containment, Google SRE overload handling
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Backpressure
 
 **MUST** reject or delay requests once queues pass a high-water mark, signaling overload upstream instead of absorbing unbounded inflow.
@@ -13,20 +41,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** grep `queue_size`, `max_concurrent_requests`, `high_watermark`, `429 Too Many Requests`, unbounded `Queue()`.
 
 **References:** RFC 6585, Netflix Hystrix concurrency limits, CWE-770, AWS REL11-BP04
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Load Shedding
-
-**SHOULD** drop low-priority traffic under saturation so core transactions keep latency and availability targets.
-
-**Why:** Undifferentiated processing lets bulk or abusive requests starve revenue-critical paths, so the worst case hurts everyone equally.
-
-**Detect:** grep `shed`, `admission_control`, `priority_queue`, feature-flag gating of non-critical endpoints.
-
-**References:** AWS Architecture Center load shedding, Google SRE Book SLO shedding, CWE-400, REL11-BP05
 
 ---
 
@@ -46,34 +60,6 @@ Fault-tolerance patterns under dependency failure.
 
 **Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Jitter
-
-**MUST NOT** schedule retries, refreshes, or polling on exact fixed intervals; randomize timing so replica timers never align.
-
-**Why:** Identical timers synchronize into spikes that repeatedly knock over a recovering service.
-
-**Detect:** grep `sleep(2 ** n)` without `random`, fixed `retryInterval`, round-time cron shared by replicas, missing `jitter`.
-
-**References:** AWS exponential backoff and jitter, Google SRE retry guidance, CWE-400, REL11-BP06
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Retry Storms
-
-**MUST NOT** retry without a hard budget shared across the call graph; nested retries multiply one failure into dozens.
-
-**Why:** Three layers each retrying twice turns one blip into eight requests per caller.
-
-**Detect:** count nested `@Retryable`, `max_retries`, `retry_times` per path; flag retry-on-timeout with no `retry_budget`.
-
-**References:** Google SRE Book retry storms, AWS retry budget guidance, CWE-400, REL11-BP06
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Cascading Failures
 
 **MUST** contain each failure at its origin with isolation, timeouts, and limits so faults cannot propagate downstream as overload.
@@ -88,19 +74,47 @@ Fault-tolerance patterns under dependency failure.
 
 **Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Thundering Herd
+# Circuit Breakers
 
-**SHOULD** stop many waiters waking at once on one cache expiry via single-flight refresh, stale-while-revalidate, or randomized TTLs.
+**MUST** open the circuit to a failing dependency after an error threshold, fail through a cool-off, then half-open probe before closing.
 
-**Why:** A hot key expiring sends thousands of requests straight to the database.
+**Why:** Endless calls into a dying service waste caller threads and prolong its recovery.
 
-**Detect:** grep identical `ttl` on hot keys, fixed `expireAt`, missing `singleflight` or `stale-while-revalidate`, notify-all locks.
+**Detect:** grep `CircuitBreaker`, `resilience4j.circuitbreaker`, `failure_threshold`, `open_duration`; absence on outbound calls is the finding.
 
-**References:** Thundering herd problem, Cloudflare stale-while-revalidate, nginx cache lock, CWE-1340, REL11-BP04
+**References:** Fowler CircuitBreaker, resilience4j docs, AWS Well-Architected REL11-BP04, CWE-1098
 
 ---
 
 **Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Decompression Bombs & XML Entity Expansion
+
+**MUST** Cap compressed size, decompressed output, and entity expansion depth before and during parsing of untrusted input.
+
+**Why:** A kilobyte zip-bomb or "billion laughs" XML expands to gigabytes, exhausting memory in seconds.
+
+**Detect:** `zipfile.extractall`, `zlib.decompress` without size caps; XML parsers without entity-expansion limits.
+
+**References:** CWE-409, CWE-776, CWE-789
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Fail-Secure Configuration
+
+**MUST** design components to fail in a secure state: auth failures deny access, TLS verification failures abort the connection, policy engine outages block rather than allow, and partial initialization never exposes privileged surfaces.
+
+**Why:** Fail-open is the silent killer — an auth service timeout that defaults to "allowed" or a verifier that skips on error turns an outage into a breach window.
+
+**Detect:** grep for `except: pass` / default-allow branches around authz and TLS verify calls; check `failOpen: false` on admission webhooks, `ssl_verify` defaults, circuit-breaker fallback behavior on security checks.
+
+**References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Graceful Degradation
 
@@ -128,35 +142,63 @@ Fault-tolerance patterns under dependency failure.
 
 ---
 
-**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Circuit Breakers
+# Jitter
 
-**MUST** open the circuit to a failing dependency after an error threshold, fail through a cool-off, then half-open probe before closing.
+**MUST NOT** schedule retries, refreshes, or polling on exact fixed intervals; randomize timing so replica timers never align.
 
-**Why:** Endless calls into a dying service waste caller threads and prolong its recovery.
+**Why:** Identical timers synchronize into spikes that repeatedly knock over a recovering service.
 
-**Detect:** grep `CircuitBreaker`, `resilience4j.circuitbreaker`, `failure_threshold`, `open_duration`; absence on outbound calls is the finding.
+**Detect:** grep `sleep(2 ** n)` without `random`, fixed `retryInterval`, round-time cron shared by replicas, missing `jitter`.
 
-**References:** Fowler CircuitBreaker, resilience4j docs, AWS Well-Architected REL11-BP04, CWE-1098
+**References:** AWS exponential backoff and jitter, Google SRE retry guidance, CWE-400, REL11-BP06
 
 ---
 
 **Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Timeout Budgets / Deadline Propagation
+# Kill-Switch Verification
 
-**MUST** propagate an end-to-end deadline through every downstream hop, each consuming from the remaining budget.
+**SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
 
-**Why:** Without a shared deadline, work continues on abandoned requests, burning capacity on results nobody reads.
+**Why:** An untested kill-switch is a rumor: the flag path may be dead code, the config may not propagate, or the dependency may be the very thing that's failing.
 
-**Detect:** check `context.WithTimeout` propagation, `grpc-timeout` / `X-Request-Deadline` headers, per-hop timeouts exceeding entry timeout.
+**Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
 
-**References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
+**References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
 
 ---
 
-**Part of:** [api-design](../categories/api-design.md) · [resilience](../categories/resilience.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Load Shedding
+
+**SHOULD** drop low-priority traffic under saturation so core transactions keep latency and availability targets.
+
+**Why:** Undifferentiated processing lets bulk or abusive requests starve revenue-critical paths, so the worst case hurts everyone equally.
+
+**Detect:** grep `shed`, `admission_control`, `priority_queue`, feature-flag gating of non-critical endpoints.
+
+**References:** AWS Architecture Center load shedding, Google SRE Book SLO shedding, CWE-400, REL11-BP05
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Retry Storms
+
+**MUST NOT** retry without a hard budget shared across the call graph; nested retries multiply one failure into dozens.
+
+**Why:** Three layers each retrying twice turns one blip into eight requests per caller.
+
+**Detect:** count nested `@Retryable`, `max_retries`, `retry_times` per path; flag retry-on-timeout with no `retry_budget`.
+
+**References:** Google SRE Book retry storms, AWS retry budget guidance, CWE-400, REL11-BP06
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Retry with Backoff (explicit policy: bounded retries, exponential + jitter)
 
@@ -186,48 +228,6 @@ Fault-tolerance patterns under dependency failure.
 
 **Part of:** [resilience](../categories/resilience.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Decompression Bombs & XML Entity Expansion
-
-**MUST** Cap compressed size, decompressed output, and entity expansion depth before and during parsing of untrusted input.
-
-**Why:** A kilobyte zip-bomb or "billion laughs" XML expands to gigabytes, exhausting memory in seconds.
-
-**Detect:** `zipfile.extractall`, `zlib.decompress` without size caps; XML parsers without entity-expansion limits.
-
-**References:** CWE-409, CWE-776, CWE-789
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
-
-**SHOULD** set `failurePolicy: Fail` only where the webhook is highly available, with valid TLS certs and namespace exclusions for its own namespace.
-
-**Why:** A failing fail-closed webhook blocks all API writes cluster-wide; bad TLS makes every admission request error the same way.
-
-**Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
-
-**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Backlog Catch-Up Throttling
-
-**SHOULD** throttle post-outage backlog replay below full consumer capacity so catch-up traffic does not overwhelm downstream services still recovering.
-
-**Why:** Releasing a queued storm at full speed after an outage can knock over the very dependency that just came back, restarting the failure cycle.
-
-**Detect:** grep recovery/runbook configs for missing `rate_limit`, `throttle`, `max_concurrency` on replay; consumers configured to drain queues unbounded on startup.
-
-**References:** AWS SQS long polling backpressure, NIST SP 800-61 incident containment, Google SRE overload handling
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Startup Dependency Ordering
 
 **MUST** have services retry with backoff until backends (DB, cache, queues) are reachable, rather than crash-on-first-failure at boot.
@@ -242,31 +242,31 @@ Fault-tolerance patterns under dependency failure.
 
 **Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Fail-Secure Configuration
+# Thundering Herd
 
-**MUST** design components to fail in a secure state: auth failures deny access, TLS verification failures abort the connection, policy engine outages block rather than allow, and partial initialization never exposes privileged surfaces.
+**SHOULD** stop many waiters waking at once on one cache expiry via single-flight refresh, stale-while-revalidate, or randomized TTLs.
 
-**Why:** Fail-open is the silent killer — an auth service timeout that defaults to "allowed" or a verifier that skips on error turns an outage into a breach window.
+**Why:** A hot key expiring sends thousands of requests straight to the database.
 
-**Detect:** grep for `except: pass` / default-allow branches around authz and TLS verify calls; check `failOpen: false` on admission webhooks, `ssl_verify` defaults, circuit-breaker fallback behavior on security checks.
+**Detect:** grep identical `ttl` on hot keys, fixed `expireAt`, missing `singleflight` or `stale-while-revalidate`, notify-all locks.
 
-**References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Kill-Switch Verification
-
-**SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
-
-**Why:** An untested kill-switch is a rumor: the flag path may be dead code, the config may not propagate, or the dependency may be the very thing that's failing.
-
-**Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
-
-**References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
+**References:** Thundering herd problem, Cloudflare stale-while-revalidate, nginx cache lock, CWE-1340, REL11-BP04
 
 ---
 
-**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Timeout Budgets / Deadline Propagation
+
+**MUST** propagate an end-to-end deadline through every downstream hop, each consuming from the remaining budget.
+
+**Why:** Without a shared deadline, work continues on abandoned requests, burning capacity on results nobody reads.
+
+**Detect:** check `context.WithTimeout` propagation, `grpc-timeout` / `X-Request-Deadline` headers, per-hop timeouts exceeding entry timeout.
+
+**References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [resilience](../categories/resilience.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

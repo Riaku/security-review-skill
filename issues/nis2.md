@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # EU NIS2 Directive
 
 **MUST** implement risk management, incident reporting within 24/72-hour milestones, and supply-chain security for entities in essential/important sectors.

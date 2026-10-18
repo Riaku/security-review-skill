@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, payments-fraud]
+domains: [data, governance]
+---
+
 # Payment Webhook Reconciliation
 
 **SHOULD NOT** treat webhook payloads as authoritative until the signature is verified and the event is matched against a ledger entry.

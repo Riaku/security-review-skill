@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Terraform State
 
 **MUST NOT** commit Terraform state files to repositories or store them on unencrypted disks; use a remote backend with encryption and state locking.

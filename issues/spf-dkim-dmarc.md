@@ -1,3 +1,8 @@
+---
+categories: [email-security]
+domains: [governance]
+---
+
 # SPF, DKIM & DMARC
 
 **MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.

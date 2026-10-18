@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, documentation-quality]
+domains: [backend, governance]
+---
+
 # Agent Instruction-File Review Surface
 
 **MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.

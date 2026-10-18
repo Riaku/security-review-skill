@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Database Migrations
 
 **MUST** manage schema changes through versioned, reviewable migration files applied by tooling — never by ad-hoc SQL run against production.

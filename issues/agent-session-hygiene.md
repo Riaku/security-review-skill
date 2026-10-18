@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Agent Session Hygiene
 
 **SHOULD** run one session per task, clear context after two failed corrections, and push broad exploration to subagents — mixed-task or polluted sessions degrade output and retain stale secrets/instructions.

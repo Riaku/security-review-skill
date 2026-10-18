@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # File Upload Validation
 
 **MUST** Check uploads by magic bytes, enforce extension/size limits, store outside the web root with randomized names.

@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # SOC 2 as Audit Regime (CCs, evidence collection)
 
 **SHOULD** collect continuous, timestamped evidence for Trust Services Criteria (security, availability, confidentiality) rather than assembling artifacts only at audit time.

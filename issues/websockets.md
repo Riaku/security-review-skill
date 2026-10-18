@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # WebSockets
 
 **MUST** authenticate the upgrade handshake and validate the Origin header on every WebSocket connection.

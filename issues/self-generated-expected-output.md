@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Self-Generated Expected Output
 
 **MUST NOT** derive a test's expected output from the code under test (golden files generated from current implementation, assertions copied from actual run).

@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, secrets-crypto]
+domains: [backend, governance]
+---
+
 # Agent Context-Exclusion Files
 
 **SHOULD** maintain agent exclusion files (.cursorignore, .aiexclude, equivalent) covering secrets, credentials, and sensitive modules so they never enter agent context or indexes.

@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Big O Notation
 
 **SHOULD** know the complexity of hot paths against realistic input sizes before shipping, not just correctness.

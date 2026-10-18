@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # IPv6
 
 **MUST NOT** IPv6 be enabled on an interface or load balancer without the same firewall coverage applied to IPv4; every rule set needs a `::/0` exposure review.

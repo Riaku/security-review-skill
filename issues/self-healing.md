@@ -1,3 +1,8 @@
+---
+categories: [resilience, sre-incidents]
+domains: [reliability]
+---
+
 # Self-Healing Systems (auto-restart, auto-failover, self-repair loops)
 
 **MAY** automate restart and failover for known failure modes, but each repair loop MUST be bounded, observable, and rate-limited.

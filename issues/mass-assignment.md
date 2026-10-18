@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Mass Assignment
 
 **MUST** Whitelist assignable fields when binding request bodies to models.

@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Quorums
 
 **MUST** configure read and write sets that intersect (R + W > N) for any data where lost updates are unacceptable, and verify overlap under node loss.

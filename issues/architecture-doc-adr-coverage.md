@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality, security-practices]
+domains: [backend]
+---
+
 # Architecture Doc & ADR Coverage
 
 **SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.

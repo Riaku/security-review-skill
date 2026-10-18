@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Public S3 Buckets
 
 **MUST NOT** Any bucket holding application data, backups, or user content be publicly readable or writable; Block Public Access must be on at account and bucket level.

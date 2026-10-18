@@ -1,3 +1,8 @@
+---
+categories: [api-design, testing-strategy]
+domains: [backend]
+---
+
 # OpenAPI–Implementation Drift Check
 
 **SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.

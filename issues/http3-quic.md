@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # HTTP/3 / QUIC
 
 **SHOULD** validate that UDP 443 QUIC traffic passes the same authn/authz and rate limits as TCP TLS, since connection semantics differ.

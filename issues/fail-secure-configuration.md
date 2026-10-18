@@ -1,3 +1,8 @@
+---
+categories: [resilience, security-practices]
+domains: [backend, reliability]
+---
+
 # Fail-Secure Configuration
 
 **MUST** design components to fail in a secure state: auth failures deny access, TLS verification failures abort the connection, policy engine outages block rather than allow, and partial initialization never exposes privileged surfaces.

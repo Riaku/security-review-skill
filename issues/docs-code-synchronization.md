@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Docs-Code Synchronization
 
 **MUST** update documentation in the same change that alters the behavior it describes; stale docs are treated as a bug, not a backlog item.

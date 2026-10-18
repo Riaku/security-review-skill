@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Daylight Saving Time
 
 **SHOULD NOT** compute elapsed time or cron schedules by naive clock arithmetic across DST transitions.

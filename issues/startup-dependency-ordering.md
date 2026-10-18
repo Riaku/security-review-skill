@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, resilience]
+domains: [infrastructure, reliability]
+---
+
 # Startup Dependency Ordering
 
 **MUST** have services retry with backoff until backends (DB, cache, queues) are reachable, rather than crash-on-first-failure at boot.

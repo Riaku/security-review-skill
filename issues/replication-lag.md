@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Replication Lag
 
 **SHOULD** monitor replication lag as a first-class SLO and make the application degrade explicitly when lag exceeds the tolerated threshold.

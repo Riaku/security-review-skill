@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, observability]
+domains: [governance, reliability]
+---
+
 # Agent Session-Log Traceability
 
 **MUST** link every agent-authored commit to its session transcript and the human who initiated it (co-author trailer, session-log URL in commit message, verified signature).
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

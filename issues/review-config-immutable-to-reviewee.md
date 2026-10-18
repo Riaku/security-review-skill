@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security]
+domains: [infrastructure]
+---
+
 # Review-Config Immutable to the Reviewee
 
 **MUST** read review-automation config from the base branch (or otherwise protect it) so a PR cannot change how it is reviewed, and place CODEOWNERS on all review config.

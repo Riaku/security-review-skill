@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Load Testing
 
 **SHOULD** load-test at or above expected peak with realistic traffic mix, including failure injection, before committing to a capacity number.

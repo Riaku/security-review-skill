@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Distributed Locks
 
 **MUST** attach a fencing token to every lock grant and have the resource reject operations carrying a stale token, never trusting lock-held-alone.

@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # AU ISM / IRAP (Australia)
 
 **MUST** control and monitor the hosting environment per IRAP assessment scope against the Australian ISM baseline for the relevant classification level.

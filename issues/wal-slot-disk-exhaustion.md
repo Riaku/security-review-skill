@@ -1,3 +1,8 @@
+---
+categories: [database, scaling-capacity]
+domains: [data, reliability]
+---
+
 # Stalled replication slots accumulating WAL until disk fills
 
 **MUST** monitor replication slot retention (`restart_lag`, slot activity) with alerts well below free-disk headroom, since an inactive slot pins WAL the primary cannot recycle.

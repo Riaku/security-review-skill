@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Merge Conflicts
 
 **MUST NOT** commit unresolved conflict markers or blindly pick one side when merging security-sensitive code.

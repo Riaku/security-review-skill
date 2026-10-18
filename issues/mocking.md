@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Mocking
 
 **SHOULD NOT** mock the component under test's own security logic (auth middleware, validators); mock only external dependencies at their network boundary.

@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Refresh Tokens
 
 **SHOULD** store refresh tokens server-side with rotation on every use, invalidating the previous token after exchange.

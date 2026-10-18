@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, secrets-crypto]
+domains: [backend, governance]
+---
+
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
 **MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with quantum-resistant or frequently re-keyed encryption, since today's ciphertext can be stored and decrypted later.

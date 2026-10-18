@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Backups
 
 **MUST** back up every stateful datastore on a defined schedule with a documented recovery point objective (RPO) agreed with the data owner.

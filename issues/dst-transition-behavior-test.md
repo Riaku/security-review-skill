@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, sre-incidents]
+domains: [backend, reliability]
+---
+
 # DST-Transition Behavior Test
 
 **SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.

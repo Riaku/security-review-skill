@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, security-practices]
+domains: [backend]
+---
+
 # Memory Safety: Buffer Overflow & Use-After-Free
 
 **MUST** bound every buffer write and never dereference freed or dangling memory in unsafe languages.

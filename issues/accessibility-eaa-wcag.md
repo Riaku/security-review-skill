@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # Accessibility compliance as regulatory regime (EAA, ADA/WCAG enforcement)
 
 **SHOULD** meet WCAG 2.1 AA conformance for digital products, since the EU's EAA and US ADA litigation treat accessibility as a legal floor, not a courtesy.

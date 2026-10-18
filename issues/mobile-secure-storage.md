@@ -1,3 +1,8 @@
+---
+categories: [mobile]
+domains: [mobile]
+---
+
 # Mobile Secure Storage (Keychain/Keystore)
 
 **MUST NOT** store tokens, credentials, or PII in SharedPreferences, UserDefaults, plaintext files, or web localStorage; use Keychain (iOS) or EncryptedSharedPreferences backed by the Keystore (Android).

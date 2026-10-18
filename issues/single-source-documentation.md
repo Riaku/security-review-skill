@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Single-Source Documentation
 
 **SHOULD** document each fact once with links pointing at the canonical location, rather than repeating it across files.

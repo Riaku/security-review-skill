@@ -1,3 +1,8 @@
+---
+categories: [data-pipelines, secrets-crypto]
+domains: [backend, data]
+---
+
 # Pipeline-Orchestrator Credential Sprawl
 
 **MUST** centralize credentials used by data orchestrators (Airflow connections, dbt profiles, Spark configs) in a secrets backend — not in DAG files, connections tables in plaintext, or CI env dumps.

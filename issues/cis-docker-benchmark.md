@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, hardening-benchmarks]
+domains: [government-compliance, infrastructure]
+---
+
 # CIS Docker Benchmark
 
 **MUST** align container host and daemon configuration with the current CIS Docker Benchmark sections 2 (daemon), 5 (runtime), and 18 (daemon.json) before production deployment.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Threat Hunting Practice
 
 **SHOULD** run scheduled, hypothesis-driven hunts over retained telemetry instead of waiting for alerts to fire.

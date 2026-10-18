@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
 **MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.

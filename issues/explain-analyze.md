@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # EXPLAIN ANALYZE
 
 **SHOULD** review `EXPLAIN ANALYZE` plans for every new hot query before merging, rather than trusting that an index exists in theory.

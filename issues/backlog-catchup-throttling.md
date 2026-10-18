@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, resilience]
+domains: [data, reliability]
+---
+
 # Backlog Catch-Up Throttling
 
 **SHOULD** throttle post-outage backlog replay below full consumer capacity so catch-up traffic does not overwhelm downstream services still recovering.

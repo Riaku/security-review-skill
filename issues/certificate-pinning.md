@@ -1,3 +1,8 @@
+---
+categories: [mobile]
+domains: [mobile]
+---
+
 # Mobile Certificate Pinning
 
 **MUST** pin the server's certificate or public key (SPKI hash) for API traffic, with a documented rotation plan and backup pins.

@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
 **MUST NOT** grant `impersonate`, `bind`, or `escalate` verbs to non-admin subjects; each is a direct path to cluster-admin.

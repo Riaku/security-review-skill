@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, web-client-security]
+domains: [frontend, governance]
+---
+
 # Cookie Consent
 
 **SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.

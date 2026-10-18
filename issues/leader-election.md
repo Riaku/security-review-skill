@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Leader Election
 
 **MUST** fence stale leaders with a monotonically increasing epoch term before they may serve writes or issue commands.

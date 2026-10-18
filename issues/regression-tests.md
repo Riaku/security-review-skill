@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Regression Tests
 
 **MUST** add a permanent test for every fixed security bug before merging the fix, reproducing the exact exploit condition.

@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, secrets-crypto]
+domains: [backend]
+---
+
 # Least Privilege
 
 **MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.

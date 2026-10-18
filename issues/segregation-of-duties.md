@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, regulatory-frameworks]
+domains: [backend, government-compliance]
+---
+
 # Segregation of duties in deploy and production operations
 
 **MAY** allow self-merge of production deploys only where compensating controls (automated policy checks, mandatory review bots) exist; otherwise require an independent approver.

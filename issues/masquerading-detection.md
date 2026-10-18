@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Masquerading & Homoglyph Detection
 
 **SHOULD** detect lookalike process, service, and domain names built from homoglyphs or misspellings of trusted names (e.g. `crond` vs `cron`, `paypa1`).

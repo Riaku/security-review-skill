@@ -1,3 +1,8 @@
+---
+categories: [web-client-security]
+domains: [frontend]
+---
+
 # window.postMessage Origin Validation
 
 **MUST** verify `event.origin` against an expected allowlist and use a target-origin argument on every `postMessage` call.

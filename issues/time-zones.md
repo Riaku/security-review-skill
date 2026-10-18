@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Time Zones
 
 **MUST** store and compare timestamps in UTC, converting to local time only at the display layer.

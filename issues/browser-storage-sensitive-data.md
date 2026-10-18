@@ -1,3 +1,8 @@
+---
+categories: [web-client-security]
+domains: [frontend]
+---
+
 # Sensitive Data in Browser Storage (localStorage/sessionStorage)
 
 **MUST NOT** store session tokens, refresh tokens, PII, or cryptographic keys in localStorage or sessionStorage.

@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Incident Response
 
 **MUST** maintain a written incident response process with defined roles, escalation paths, and comms cadence, exercised annually.

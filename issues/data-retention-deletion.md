@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, database]
+domains: [data, governance]
+---
+
 # Data Retention & Deletion Pipelines
 
 **MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and prove deletion propagated to replicas, caches, and backups.

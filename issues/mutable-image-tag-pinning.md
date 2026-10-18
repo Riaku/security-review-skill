@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, supply-chain]
+domains: [infrastructure]
+---
+
 # Mutable Image Tags (latest) Instead of Digest Pinning
 
 **SHOULD** reference images by immutable digest (`@sha256:`) rather than floating tags like `latest` in production manifests.

@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # ACID
 
 **MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity.

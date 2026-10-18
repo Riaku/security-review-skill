@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
 **MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.

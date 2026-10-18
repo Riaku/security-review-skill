@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Two-Phase Commit
 
 **MUST** ensure the coordinator's commit/abort decision is write-ahead logged so participants can resolve in-doubt transactions after a crash.

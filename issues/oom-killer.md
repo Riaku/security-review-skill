@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # OOM Killer
 
 **SHOULD** set explicit memory requests/limits and OOM-score priorities so the kernel evicts disposable workers before critical stateful processes.

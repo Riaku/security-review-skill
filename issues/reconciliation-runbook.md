@@ -1,3 +1,8 @@
+---
+categories: [payments-fraud, sre-incidents]
+domains: [governance, reliability]
+---
+
 # Reconciliation Runbook
 
 **SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [sre-incidents](../categories/sre-incidents.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

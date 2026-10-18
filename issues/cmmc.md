@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # CMMC (defense supply chain)
 
 **MUST** achieve the CMMC maturity level required by contract for each enclave processing FCI or CUI, with an assessed scope covering all connected vendor systems.

@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Dead Code
 
 **SHOULD NOT** ship code paths that are never reached or never exercised by tests.

@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Memory Leaks
 
 **MUST NOT** ship long-running services without leak detection (heap trend monitoring or periodic profiling) wired into alerting.

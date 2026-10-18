@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, supply-chain]
+domains: [infrastructure]
+---
+
 # Registry Outage Tolerated via Cached/Pinned Images
 
 **SHOULD** keep images cached on nodes and pinned by digest so a registry outage does not block scheduling or restarts.

@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Software Licenses
 
 **MUST** track third-party dependency licenses and enforce policy against incompatible or copyleft terms in proprietary distributions.

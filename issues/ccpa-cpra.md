@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # CCPA/CPRA
 
 **MUST** honor California consumer rights—access, deletion, opt-out of sale/sharing—within statutory deadlines across all systems holding personal information.

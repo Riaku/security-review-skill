@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Split Brain
 
 **MUST NOT** allow two nodes to both believe they are primary; enforce quorum-based fencing or STONITH before accepting dual-master state.

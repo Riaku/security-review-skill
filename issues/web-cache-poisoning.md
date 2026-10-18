@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # Web Cache Poisoning & Cache Deception
 
 **SHOULD NOT** cache responses that vary on unkeyed inputs like headers, query params, or cookies without declaring `Vary` or normalizing them.

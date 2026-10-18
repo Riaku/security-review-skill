@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, cicd-pipeline-security]
+domains: [governance, infrastructure]
+---
+
 # AI-generated code review gate before merge
 
 **SHOULD** require human security review of AI-generated code before merge; Copilot-style output is not self-certifying.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

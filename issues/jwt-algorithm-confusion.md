@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # JWT Algorithm Confusion / alg=none / Unverified Signatures
 
 **MUST NOT** accept `alg: none` or allow the token header to select the verification algorithm; pin the expected algorithm server-side.

@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Rollbacks
 
 **MUST** be rehearsed, one-command operations whose database migrations are backward-compatible or paired with tested down-migrations.

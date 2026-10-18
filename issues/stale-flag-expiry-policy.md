@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Stale-Flag Expiry Policy
 
 **SHOULD** give every feature flag an owner and expiry; flags past expiry trigger cleanup tickets, and long-lived flags are treated as config debt.

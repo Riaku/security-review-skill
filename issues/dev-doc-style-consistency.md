@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Developer-Doc Style Consistency
 
 **SHOULD** follow a single documented style guide (e.g. Google developer documentation style) across project docs: present tense, second person ("you"), active voice, sentence-case headings, consistent terminology per glossary.

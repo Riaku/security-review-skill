@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # Ingress Host-Header / vHost Routing Collisions and TLS Passthrough Misrouting
 
 **MUST** define explicit host matching on every Ingress rule and a catch-all default backend that returns 404/421, so an unexpected `Host` header cannot route traffic to the wrong service.

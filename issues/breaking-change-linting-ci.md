@@ -1,3 +1,8 @@
+---
+categories: [api-design, cicd-pipeline-security]
+domains: [backend, infrastructure]
+---
+
 # Breaking-Change Linting in CI
 
 **SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.

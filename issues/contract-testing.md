@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Contract Testing
 
 **MUST** verify service-to-service API contracts (request/response schemas, auth headers) so a producer change cannot silently break consumer security assumptions.

@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, testing-strategy]
+domains: [backend, infrastructure]
+---
+
 # Linting & Static Analysis Enforced in CI (linter, type checker, SAST)
 
 **MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.

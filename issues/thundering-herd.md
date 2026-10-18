@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Thundering Herd
 
 **SHOULD** stop many waiters waking at once on one cache expiry via single-flight refresh, stale-while-revalidate, or randomized TTLs.

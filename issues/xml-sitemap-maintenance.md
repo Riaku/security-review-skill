@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # XML Sitemap Maintenance
 
 **SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.

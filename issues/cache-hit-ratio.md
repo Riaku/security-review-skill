@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # Cache Hit Ratio
 
 **SHOULD** monitor cache hit ratio per key namespace and alert when it collapses, since a miss storm pushes every request to the backing store.

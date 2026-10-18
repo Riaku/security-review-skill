@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, observability]
+domains: [infrastructure, reliability]
+---
+
 # Management-Plane Activity Alerting
 
 **MUST** route cloud control-plane audit streams (CloudTrail, Azure Activity Log, GCP Cloud Audit Logs) into real-time metric filters and alarms so privileged API activity — root/console usage, security-group and firewall changes, IAM policy modifications, key deletion — pages a human within minutes instead of waiting for a periodic log review.

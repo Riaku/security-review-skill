@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # OpenID Connect
 
 **MUST** validate the ID token's signature, `iss`, `aud`, and `nonce` before trusting any identity claim.

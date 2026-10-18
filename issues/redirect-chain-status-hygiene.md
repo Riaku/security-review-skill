@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Redirect Chain & Status Hygiene
 
 **MUST NOT** chain redirects (>1 hop) on indexable URLs, and MUST serve 410/404 (not soft-404) for removed content.

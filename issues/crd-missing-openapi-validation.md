@@ -1,3 +1,8 @@
+---
+categories: [api-design, containers-k8s]
+domains: [backend, infrastructure]
+---
+
 # CRDs Without OpenAPI Validation Schemas
 
 **MUST** define an OpenAPI v3 validation schema for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.

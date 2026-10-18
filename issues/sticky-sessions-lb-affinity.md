@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity, web-api-security]
+domains: [backend, reliability]
+---
+
 # Sticky Sessions & Load-Balancer Affinity
 
 **SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.

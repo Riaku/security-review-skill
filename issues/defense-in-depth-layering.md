@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Defense-in-Depth Layering
 
 **SHOULD** protect each asset with multiple independent control layers (network, app, data, runtime) so no single failure exposes it; layers must be independent, not correlated.

@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Crawler-Renderable Content (SSR/Prerender for JS Apps)
 
 **SHOULD** server-render or prerender content that must rank when the site is a client-side JS app; verify Googlebot sees the same DOM as users.

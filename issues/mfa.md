@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # MFA
 
 **SHOULD** require a second factor for all administrative and remote-access accounts, enforced server-side after primary auth.

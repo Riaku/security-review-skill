@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Egress Fees
 
 **SHOULD** Cross-AZ and internet-bound data paths be designed with egress cost in mind, and high-volume cross-zone chatter be treated as an architecture smell.

@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
 
 **MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.

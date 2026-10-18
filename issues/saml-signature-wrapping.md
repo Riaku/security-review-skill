@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # SAML assertion validation and XML signature wrapping
 
 **MUST** validate the SAML assertion's signature against a pinned IdP certificate and verify the signed element is the one consumed, rejecting wrapping attacks.

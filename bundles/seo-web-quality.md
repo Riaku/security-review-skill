@@ -4,61 +4,19 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [seo-web-quality](../categories/seo-web-quality.md) · index: [SKILL.md](../SKILL.md)
 
-# Core Web Vitals Budgets
+# Automated A11y Gate in CI
 
-**MUST** define and enforce Core Web Vitals budgets — LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 at the 75th percentile of real users.
+**SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
 
-**Why:** CWV is Google's published ranking and UX signal; unmeasured pages drift past thresholds silently and lose both search visibility and conversions.
+**Why:** One-line accessibility checklist items change nothing; a CI gate on actual scans makes regressions visible at the PR and compounds into real WCAG compliance over time.
 
-**Detect:** check for CrUX/RUM data, `web-vitals` library instrumentation, Lighthouse CI assertions on `largest-contentful-paint`, `interaction-to-next-paint`, `cumulative-layout-shift`.
+**Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
 
-**References:** web.dev/vitals, Google Search Central CWV docs, Lighthouse performance category
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# Google Search Central Compliance
-
-**SHOULD** follow Google Search Central spam-and-quality policies: no cloaking, doorway pages, keyword stuffing, or hidden text; crawlable without login walls where indexability is intended.
-
-**Why:** Violations trigger manual actions or algorithmic demotion — traffic loss that looks like a "technical" problem but is a policy problem.
-
-**Detect:** diff HTML served to Googlebot UA vs normal UA (cloaking check); review Search Console coverage + manual-action reports; audit templated landing-page generation.
-
-**References:** Google Search Essentials (spam policies), Google Search Central docs, Schema.org
+**References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
 
 ---
 
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# Structured Data (Schema.org) Validation
-
-**SHOULD** emit valid JSON-LD structured data (Organization, Product, Article, FAQ, BreadcrumbList) and validate it before deploy.
-
-**Why:** Invalid or misleading structured data forfeits rich results and can trigger a structured-data manual action; valid markup is free SERP real estate.
-
-**Detect:** grep templates for `application/ld+json`; run Rich Results Test / Schema validator in CI; diff required vs emitted properties per type.
-
-**References:** Google Search Central structured data docs, schema.org validators, Rich Results Test
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# Robots.txt & noindex Governance
-
-**MUST** treat robots.txt as a crawl-traffic control, never a security control, and keep `noindex` meta/X-Robots-Tag policy deliberate per environment (staging MUST be noindex).
-
-**Why:** robots.txt does not hide URLs (crawlers still see linked URLs), and a missing staging `noindex` leaks pre-release content into the index.
-
-**Detect:** fetch `/robots.txt` on every environment; grep responses for `X-Robots-Tag`; check staging for `noindex, nofollow`; verify admin/internal paths are noindex not just disallowed.
-
-**References:** Google Search Central robots.txt docs, robots.txt Exclusion Standard RFC 9309, CWE-538
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Canonical URL Handling
 
@@ -74,15 +32,15 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Hreflang & Internationalization Signals
+# Core Web Vitals Budgets
 
-**SHOULD** emit correct `hreflang` annotations for multi-language/regional sites, with reciprocal links and a self-reference on each variant.
+**MUST** define and enforce Core Web Vitals budgets — LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 at the 75th percentile of real users.
 
-**Why:** Missing or non-reciprocal hreflang makes Google serve the wrong language version to users and wastes crawl budget on unserved variants.
+**Why:** CWV is Google's published ranking and UX signal; unmeasured pages drift past thresholds silently and lose both search visibility and conversions.
 
-**Detect:** validate hreflang sets (HTML link tags, HTTP header, or sitemap — one mechanism), check reciprocity and x-default presence with an hreflang audit tool.
+**Detect:** check for CrUX/RUM data, `web-vitals` library instrumentation, Lighthouse CI assertions on `largest-contentful-paint`, `interaction-to-next-paint`, `cumulative-layout-shift`.
 
-**References:** Google Search Central localized results docs, hreflang validation checklists
+**References:** web.dev/vitals, Google Search Central CWV docs, Lighthouse performance category
 
 ---
 
@@ -102,15 +60,29 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Lighthouse CI Performance Budgets
+# Google Search Central Compliance
 
-**SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
+**SHOULD** follow Google Search Central spam-and-quality policies: no cloaking, doorway pages, keyword stuffing, or hidden text; crawlable without login walls where indexability is intended.
 
-**Why:** Untracked Lighthouse scores decay one merge at a time; a CI gate makes regression visible at the commit that caused it.
+**Why:** Violations trigger manual actions or algorithmic demotion — traffic loss that looks like a "technical" problem but is a policy problem.
 
-**Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
+**Detect:** diff HTML served to Googlebot UA vs normal UA (cloaking check); review Search Console coverage + manual-action reports; audit templated landing-page generation.
 
-**References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
+**References:** Google Search Essentials (spam policies), Google Search Central docs, Schema.org
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Hreflang & Internationalization Signals
+
+**SHOULD** emit correct `hreflang` annotations for multi-language/regional sites, with reciprocal links and a self-reference on each variant.
+
+**Why:** Missing or non-reciprocal hreflang makes Google serve the wrong language version to users and wastes crawl budget on unserved variants.
+
+**Detect:** validate hreflang sets (HTML link tags, HTTP header, or sitemap — one mechanism), check reciprocity and x-default presence with an hreflang audit tool.
+
+**References:** Google Search Central localized results docs, hreflang validation checklists
 
 ---
 
@@ -130,34 +102,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Redirect Chain & Status Hygiene
-
-**MUST NOT** chain redirects (>1 hop) on indexable URLs, and MUST serve 410/404 (not soft-404) for removed content.
-
-**Why:** Chains waste crawl budget, slow users, and break link equity; soft-404s (200 on missing pages) pollute the index and mask real removals.
-
-**Detect:** crawl and flag redirect_count > 1; check removed-content routes return 200 with "not found" body (soft-404) via Search Console coverage report.
-
-**References:** Google Search Central redirect docs, RFC 7231 status semantics, soft-404 guidance
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
-# XML Sitemap Maintenance
-
-**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.
-
-**Why:** A stale sitemap (listing removed, noindex, or redirected URLs) wastes crawl budget and delays discovery of real content.
-
-**Detect:** validate sitemap against URL statuses (all 200 + indexable); check lastmod reflects real changes; confirm robots.txt references the sitemap.
-
-**References:** Google Search Central sitemap docs, sitemap.org protocol
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Index Bloat & Faceted-URL Control
 
 **SHOULD NOT** allow faceted navigation, session IDs, sort/filter params, and internal search results to be indexed at scale.
@@ -167,6 +111,20 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** `site:domain` count vs actual page count; crawl for `?sort=`, `?filter=`, `?session=` variants returning 200 indexable; check robots/canonical/noindex on facet routes.
 
 **References:** Google Search Central faceted-navigation guidance, crawl-budget optimization docs
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Lighthouse CI Performance Budgets
+
+**SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
+
+**Why:** Untracked Lighthouse scores decay one merge at a time; a CI gate makes regression visible at the commit that caused it.
+
+**Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
+
+**References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
 
 ---
 
@@ -186,17 +144,59 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
-# Automated A11y Gate in CI
+# Redirect Chain & Status Hygiene
 
-**SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
+**MUST NOT** chain redirects (>1 hop) on indexable URLs, and MUST serve 410/404 (not soft-404) for removed content.
 
-**Why:** One-line accessibility checklist items change nothing; a CI gate on actual scans makes regressions visible at the PR and compounds into real WCAG compliance over time.
+**Why:** Chains waste crawl budget, slow users, and break link equity; soft-404s (200 on missing pages) pollute the index and mask real removals.
 
-**Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
+**Detect:** crawl and flag redirect_count > 1; check removed-content routes return 200 with "not found" body (soft-404) via Search Console coverage report.
 
-**References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
+**References:** Google Search Central redirect docs, RFC 7231 status semantics, soft-404 guidance
 
 ---
 
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Robots.txt & noindex Governance
+
+**MUST** treat robots.txt as a crawl-traffic control, never a security control, and keep `noindex` meta/X-Robots-Tag policy deliberate per environment (staging MUST be noindex).
+
+**Why:** robots.txt does not hide URLs (crawlers still see linked URLs), and a missing staging `noindex` leaks pre-release content into the index.
+
+**Detect:** fetch `/robots.txt` on every environment; grep responses for `X-Robots-Tag`; check staging for `noindex, nofollow`; verify admin/internal paths are noindex not just disallowed.
+
+**References:** Google Search Central robots.txt docs, robots.txt Exclusion Standard RFC 9309, CWE-538
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# Structured Data (Schema.org) Validation
+
+**SHOULD** emit valid JSON-LD structured data (Organization, Product, Article, FAQ, BreadcrumbList) and validate it before deploy.
+
+**Why:** Invalid or misleading structured data forfeits rich results and can trigger a structured-data manual action; valid markup is free SERP real estate.
+
+**Detect:** grep templates for `application/ld+json`; run Rich Results Test / Schema validator in CI; diff required vs emitted properties per type.
+
+**References:** Google Search Central structured data docs, schema.org validators, Rich Results Test
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
+# XML Sitemap Maintenance
+
+**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.
+
+**Why:** A stale sitemap (listing removed, noindex, or redirected URLs) wastes crawl budget and delays discovery of real content.
+
+**Detect:** validate sitemap against URL statuses (all 200 + indexable); check lastmod reflects real changes; confirm robots.txt references the sitemap.
+
+**References:** Google Search Central sitemap docs, sitemap.org protocol
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

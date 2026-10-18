@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, containers-k8s]
+domains: [infrastructure]
+---
+
 # File descriptor and conntrack table limits sized for peak
 
 **SHOULD** size file-descriptor limits and conntrack tables above measured peak concurrency with headroom, and alert before the ceiling is hit rather than after.

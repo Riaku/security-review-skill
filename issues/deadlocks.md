@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Deadlocks
 
 **MUST** acquire locks on multiple resources in a consistent global order across all code paths, and retry deadlock aborts.

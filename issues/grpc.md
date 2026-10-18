@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # gRPC
 
 **SHOULD** terminate gRPC behind a proxy that enforces TLS, message-size limits, and method-level authz rather than trusting plaintext backends.

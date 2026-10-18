@@ -1,3 +1,8 @@
+---
+categories: [email-security]
+domains: [governance]
+---
+
 # BIMI & VMC Certificates
 
 **SHOULD** publish BIMI records with a Verified Mark Certificate (VMC) and aligned DMARC policy to authenticate brand-mark display in inboxes.

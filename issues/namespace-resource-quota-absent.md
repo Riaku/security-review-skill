@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, scaling-capacity]
+domains: [infrastructure, reliability]
+---
+
 # Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
 
 **SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.

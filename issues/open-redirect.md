@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Open Redirect
 
 **SHOULD NOT** Redirect from query params (`next`, `returnTo`) without an allowlist or relative-path restriction.

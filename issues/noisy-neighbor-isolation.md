@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, scaling-capacity]
+domains: [infrastructure, reliability]
+---
+
 # Noisy-neighbor isolation between tenants/workloads
 
 **MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.

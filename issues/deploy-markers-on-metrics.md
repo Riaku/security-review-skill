@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, observability]
+domains: [infrastructure, reliability]
+---
+
 # Deploy Markers on Metrics
 
 **MUST** annotate dashboards and traces with deploy events (version, timestamp, actor) so regressions and incidents can be correlated to releases.

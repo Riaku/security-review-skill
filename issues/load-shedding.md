@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Load Shedding
 
 **SHOULD** drop low-priority traffic under saturation so core transactions keep latency and availability targets.

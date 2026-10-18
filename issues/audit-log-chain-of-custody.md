@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, observability]
+domains: [governance, reliability]
+---
+
 # Audit-Log Chain of Custody
 
 **SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

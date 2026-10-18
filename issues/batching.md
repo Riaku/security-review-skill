@@ -1,3 +1,8 @@
+---
+categories: [api-design, database]
+domains: [backend, data]
+---
+
 # Batching (many writes/calls, one trip)
 
 **SHOULD** coalesce many small writes or downstream calls into batches sized to the workload instead of one network round trip per record.

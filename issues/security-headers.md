@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # Security Headers
 
 **MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.

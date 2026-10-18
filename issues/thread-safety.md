@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Thread Safety
 
 **MUST** protect shared mutable state with locks, atomics, or immutability; never assume single-threaded execution.

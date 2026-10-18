@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # OAuth 2.0
 
 **MUST** validate the `state` parameter on every authorization callback and use PKCE for public clients.

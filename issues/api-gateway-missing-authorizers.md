@@ -1,3 +1,8 @@
+---
+categories: [authentication, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # API Gateway / Edge Endpoints Deployed Without Authorizers
 
 **MUST** attach an authorizer (IAM, JWT, Lambda/Cognito, or mTLS) to every deployed API route, with authorization denied by default rather than per-route opt-in.

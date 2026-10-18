@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # .env in .gitignore
 
 **MUST** list `.env`, `.env.*` (except committed `.env.example` templates) in `.gitignore` so local configuration never enters version control.

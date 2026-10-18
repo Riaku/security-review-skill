@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control]
+domains: [backend]
+---
+
 # RBAC
 
 **SHOULD NOT** grant permissions directly to individual users; assign roles and bind users to roles only.

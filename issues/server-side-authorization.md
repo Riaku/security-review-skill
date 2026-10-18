@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Server-Side Authorization
 
 **MUST NOT** Rely on UI hiding or client route guards; enforce permissions in server code per request.

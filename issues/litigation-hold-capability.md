@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Litigation Hold Capability
 
 **SHOULD** be able to suspend retention/deletion policies on demand for legal preservation (litigation hold) across all data stores and logs.

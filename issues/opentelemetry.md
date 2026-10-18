@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # OpenTelemetry
 
 **SHOULD** standardize instrumentation on OpenTelemetry SDKs and the OTLP protocol instead of one-off vendor agents.

@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, supply-chain]
+domains: [infrastructure]
+---
+
 # IaC Plan/Apply Triggered from Untrusted Pull Requests
 
 **MUST NOT** run `terraform apply` (or equivalent) directly from fork or untrusted PR content; apply only from a reviewed, trusted branch after human approval.

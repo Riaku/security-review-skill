@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Artifact Signing & Provenance (cosign/Sigstore/SBOM)
 
 **MUST** sign released images and attach provenance attestations plus an SBOM generated inside the trusted build pipeline.

@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Secure by Design (architectural input, not a patch)
 
 **MUST** treat security requirements as architectural inputs at design time — least privilege, defense in depth, secure defaults — not bolt-ons retrofitted after review.

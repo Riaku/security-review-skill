@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Consistent Hashing
 
 **SHOULD** use virtual nodes (replicas per physical node) so key distribution stays balanced and node churn moves only a fraction of keys.

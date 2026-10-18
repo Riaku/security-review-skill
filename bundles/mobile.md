@@ -18,20 +18,6 @@ Mobile client security.
 
 **Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
-# Mobile Secure Storage (Keychain/Keystore)
-
-**MUST NOT** store tokens, credentials, or PII in SharedPreferences, UserDefaults, plaintext files, or web localStorage; use Keychain (iOS) or EncryptedSharedPreferences backed by the Keystore (Android).
-
-**Why:** Rooted or backed-up devices expose world-readable storage, handing attackers live session tokens and personal data.
-
-**Detect:** grep `SharedPreferences`, `UserDefaults`, `localStorage` near `token`, `password`, `api_key`; check for `kSecAttrAccessible` / `EncryptedSharedPreferences` usage.
-
-**References:** OWASP MASVS-STORAGE-1, CWE-922, CWE-312, NIST SP 800-63B
-
----
-
-**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
-
 # Deep Link / Universal Link Validation
 
 **SHOULD** validate scheme, host, and parameters of every incoming deep link server-side, treating link-supplied identifiers as untrusted input.
@@ -46,20 +32,6 @@ Mobile client security.
 
 **Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
-# Hardcoded API keys and secrets in mobile app binaries
-
-**MUST NOT** embed API keys, tokens, or symmetric secrets in app source, assets, or compiled binaries; ship them via short-lived server-issued credentials instead.
-
-**Why:** Anyone can decompile the shipped IPA/APK and extract embedded secrets, since client code is fully inspectable.
-
-**Detect:** run `strings`/mobSF scan on the binary; grep repo for `apiKey =`, `secret`, `BEGIN PRIVATE KEY`, hardcoded `AIza`/`sk-` prefixes in source and Info.plist/assets.
-
-**References:** OWASP MASVS-STORAGE-2, CWE-798, CWE-321, MAS Testing Guide Reverse Engineering
-
----
-
-**Part of:** [mobile](../categories/mobile.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
-
 # Mobile Reverse-Engineering & Tamper Protection
 
 **SHOULD** detect rooted/jailbroken devices, debuggers, and repackaged builds, and gate high-risk features accordingly rather than trusting the client.
@@ -69,6 +41,34 @@ Mobile client security.
 **Detect:** grep `SafetyNet`/`Play Integrity`, `jailbreak`/`rootbeer`, `isDebuggerConnected`, `ptrace`, `frida`; verify Play Integrity / App Attest server-side validation exists.
 
 **References:** OWASP MASVS-RESILIENCE-1..4, CWE-919, MAS Testing Guide Tampering and Reverse Engineering
+
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
+# Mobile Secure Storage (Keychain/Keystore)
+
+**MUST NOT** store tokens, credentials, or PII in SharedPreferences, UserDefaults, plaintext files, or web localStorage; use Keychain (iOS) or EncryptedSharedPreferences backed by the Keystore (Android).
+
+**Why:** Rooted or backed-up devices expose world-readable storage, handing attackers live session tokens and personal data.
+
+**Detect:** grep `SharedPreferences`, `UserDefaults`, `localStorage` near `token`, `password`, `api_key`; check for `kSecAttrAccessible` / `EncryptedSharedPreferences` usage.
+
+**References:** OWASP MASVS-STORAGE-1, CWE-922, CWE-312, NIST SP 800-63B
+
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
+# Push-Payload Sensitivity
+
+**MUST NOT** put secrets, tokens, full PII, or account-identifying detail in push notification payloads (they are stored/transmitted by third-party OS infrastructure and shown on lock screens).
+
+**Why:** Push bodies pass through Apple/Google infrastructure and render on unlocked screens; a notification with a magic-login link or full card number is a shoulder-surf and relay attack.
+
+**Detect:** grep push payload construction for tokens, codes, amounts, addresses; verify payloads are content-neutral ("You have a new message — open the app") with sensitive detail fetched in-app.
+
+**References:** OWASP MASVS-STORAGE, APNs payload security guidance, lock-screen disclosure studies
 
 ---
 
@@ -88,17 +88,17 @@ Mobile client security.
 
 **Part of:** [authentication](../categories/authentication.md) · [mobile](../categories/mobile.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
-# Push-Payload Sensitivity
+# Hardcoded API keys and secrets in mobile app binaries
 
-**MUST NOT** put secrets, tokens, full PII, or account-identifying detail in push notification payloads (they are stored/transmitted by third-party OS infrastructure and shown on lock screens).
+**MUST NOT** embed API keys, tokens, or symmetric secrets in app source, assets, or compiled binaries; ship them via short-lived server-issued credentials instead.
 
-**Why:** Push bodies pass through Apple/Google infrastructure and render on unlocked screens; a notification with a magic-login link or full card number is a shoulder-surf and relay attack.
+**Why:** Anyone can decompile the shipped IPA/APK and extract embedded secrets, since client code is fully inspectable.
 
-**Detect:** grep push payload construction for tokens, codes, amounts, addresses; verify payloads are content-neutral ("You have a new message — open the app") with sensitive detail fetched in-app.
+**Detect:** run `strings`/mobSF scan on the binary; grep repo for `apiKey =`, `secret`, `BEGIN PRIVATE KEY`, hardcoded `AIza`/`sk-` prefixes in source and Info.plist/assets.
 
-**References:** OWASP MASVS-STORAGE, APNs payload security guidance, lock-screen disclosure studies
+**References:** OWASP MASVS-STORAGE-2, CWE-798, CWE-321, MAS Testing Guide Reverse Engineering
 
 ---
 
-**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+**Part of:** [mobile](../categories/mobile.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 

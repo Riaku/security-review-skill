@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # DNSSEC
 
 **SHOULD** Authoritative zones sign their records with DNSSEC, security-sensitive lookups use validating resolvers, and key rollover be automated and monitored.

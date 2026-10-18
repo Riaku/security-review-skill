@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # HIPAA (health data)
 
 **MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.

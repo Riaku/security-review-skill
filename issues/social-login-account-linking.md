@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Social Login Account-Linking Takeover
 
 **SHOULD NOT** auto-link a social identity (Google/GitHub) to an existing local account by matching email alone without verifying the user controls that account.

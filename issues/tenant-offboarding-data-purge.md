@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, multi-tenancy]
+domains: [backend, governance]
+---
+
 # Tenant Offboarding Data Purge
 
 **MUST** provide a verified, complete tenant purge: primary stores, replicas, caches, search indexes, backups policy, analytics, and third-party processors — with attestation evidence.

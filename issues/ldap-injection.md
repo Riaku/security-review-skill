@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # LDAP Injection
 
 **MUST** Escape `* ( ) \` and NUL in values interpolated into LDAP filters; prefer parameterized libraries or strict allowlists.

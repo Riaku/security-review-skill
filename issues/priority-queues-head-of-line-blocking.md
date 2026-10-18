@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Priority Queues & Head-of-Line Blocking
 
 **MUST NOT** let large or slow jobs block small/urgent ones on a shared queue; separate queues (or priority classes) for high-priority, fast, and bulk work.

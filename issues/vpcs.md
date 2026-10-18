@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # VPCs
 
 **MUST** Workloads of different trust levels live in separate VPCs or equivalent network boundaries, with explicit, audited peering rather than one flat network.

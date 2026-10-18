@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-api-security]
+domains: [backend, infrastructure]
+---
+
 # Open Directory Listing
 
 **SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.

@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Background Jobs
 
 **MUST** enforce timeouts and retry limits on background jobs; a hung job holding a lock or connection pool slot can cascade into outage.

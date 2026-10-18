@@ -1,3 +1,8 @@
+---
+categories: [mobile]
+domains: [mobile]
+---
+
 # Push-Payload Sensitivity
 
 **MUST NOT** put secrets, tokens, full PII, or account-identifying detail in push notification payloads (they are stored/transmitted by third-party OS infrastructure and shown on lock screens).

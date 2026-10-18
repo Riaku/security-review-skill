@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Statement and lock timeouts set explicitly per workload
 
 **SHOULD** configure `statement_timeout` and `lock_timeout` deliberately per role or connection profile instead of leaving unlimited defaults everywhere.

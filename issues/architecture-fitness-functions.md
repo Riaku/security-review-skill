@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # Architecture Fitness Functions in CI
 
 **SHOULD** encode architectural constraints (dependency direction and depth, layering rules, latency budgets, secrets-only-via-secrets-layer) as executable checks that run in CI on every change, not as documentation reviewed once.

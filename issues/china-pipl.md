@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # China PIPL (cross-border security assessment, separate consent, localization)
 
 **MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.

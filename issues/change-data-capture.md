@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Change Data Capture
 
 **MUST** authenticate and encrypt every CDC connector stream (debezium, binlog, WAL slot) with least-privilege read-only database credentials.

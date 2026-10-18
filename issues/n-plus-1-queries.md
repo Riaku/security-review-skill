@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # N+1 Queries
 
 **MUST NOT** issue one query per row inside an application loop when a single batched query can fetch the same data.

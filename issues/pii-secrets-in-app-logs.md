@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, observability]
+domains: [governance, reliability]
+---
+
 # PII & Secrets Leakage into Application Logs
 
 **MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # JWT Expiry
 
 **MUST** set short-lived access tokens (15 minutes or less) with an explicit `exp` claim that the verifier rejects when past.

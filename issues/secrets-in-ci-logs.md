@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # Secrets in CI Logs
 
 **MUST NOT** echo, print, or interpolate secrets into CI output; mask values via CI secret masking and avoid commands that dump environment variables.

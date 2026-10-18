@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # XML External Entity (XXE) Injection
 
 **MUST** Disable external entities and DTD processing in every XML parser (`resolve_entities=False`, secure processing features).

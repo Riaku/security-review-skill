@@ -4,61 +4,19 @@ Who may do what: RBAC, RLS, least privilege.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [authorization-access-control](../categories/authorization-access-control.md) · index: [SKILL.md](../SKILL.md)
 
-# Row-Level Security
+# Human-in-the-loop approval for destructive agent tool calls
 
-**MUST** enforce row-level security (RLS) or equivalent tenant scoping in the database layer for every multi-tenant table, not only in application queries.
+**MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).
 
-**Why:** A single missed WHERE clause in one code path leaks every tenant's rows; database-enforced policies fail closed instead.
+**Why:** A hijacked or hallucinating agent with unguarded write access can cause irreversible damage in a single automated chain.
 
-**Detect:** grep for `ENABLE ROW LEVEL SECURITY`, `CREATE POLICY`, tenant_id filters in ORM raw queries; flag tables lacking policies.
+**Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
 
-**References:** OWASP A01:2021 Broken Access Control, CWE-285, PostgreSQL RLS docs, NIST SP 800-53 AC-3
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# Least Privilege
-
-**MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.
-
-**Why:** Over-broad credentials turn any single compromise into a cluster-wide or account-wide breach.
-
-**Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
-
-**References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
+**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
 
 ---
 
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# RBAC
-
-**SHOULD NOT** grant permissions directly to individual users; assign roles and bind users to roles only.
-
-**Why:** Direct grants become invisible during audits and are routinely missed at offboarding, leaving orphaned access nobody owns.
-
-**Detect:** grep for user-level GRANT statements (`GRANT ... TO <user>` not `TO ROLE`), IAM policies attached to usernames, `subjects: [User/...]` in K8s RoleBindings.
-
-**References:** OWASP A01:2021, CWE-266 Incorrect Privilege Assignment, NIST SP 800-53 AC-2, RBAC NIST SP 800-162
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
-# Vertical Privilege Escalation / Function-Level Authorization
-
-**MUST** check authorization on every admin or elevated endpoint server-side; never rely on hiding buttons or menus in the UI.
-
-**Why:** Attackers call hidden endpoints directly (IDOR-style), and client-side gating stops no one with curl or a proxy.
-
-**Detect:** grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators/middleware; compare UI-hidden actions to unprotected API paths.
-
-**References:** OWASP A01:2021, CWE-269 Improper Privilege Management, CWE-862 Missing Authorization, OWASP ASVS V4.2
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Cloud IAM Privilege Escalation Paths
 
@@ -86,47 +44,19 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# K8s RBAC Escalation via impersonate/bind/escalate Verbs
+# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
 
-**MUST NOT** grant `impersonate`, `bind`, or `escalate` verbs to non-admin subjects; each is a direct path to cluster-admin.
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
 
-**Why:** `bind` lets a user attach cluster-admin to themselves, `impersonate` borrows any identity, `escalate` upgrades any role — self-grant with no audit trail of intent.
+**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
 
-**Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
+**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
 
-**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# GitOps Repo Write Access Equals Cluster Write Access
-
-**MUST** treat write access to a GitOps repo as production cluster admin and restrict it accordingly with review, CODEOWNERS, and separation of duties.
-
-**Why:** Anyone who can commit manifests can create privileged workloads or read cluster secrets without ever touching the cluster API.
-
-**Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
-
-**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
 
 ---
 
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# GitOps Controller Running as cluster-admin
-
-**SHOULD** scope GitOps controllers (Flux, ArgoCD) to least-privilege per-namespace roles instead of the blanket `cluster-admin` ClusterRoleBinding.
-
-**Why:** A compromised repo, PR, or controller CVE becomes instant full-cluster takeover when the sync engine holds cluster-admin.
-
-**Detect:** grep deploy manifests for `cluster-admin` bound to `system:serviceaccount:flux-system` / `argocd`; check ClusterRoleBinding subjects and reconciliation scopes.
-
-**References:** OWASP A05 Security Misconfiguration, CWE-250 Execution with Unnecessary Privileges, ArgoCD security docs, NIST SP 800-190
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -155,33 +85,47 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
+# Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
-**MUST NOT** grant `pods/exec`, `pods/attach`, or `pods/debug` broadly; restrict them to named break-glass groups with audit.
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** exec into a pod bypasses every app-layer control — anyone with the verb reads secrets, env vars, and tokens as the workload's user.
+**Why:** Over-broad grants turn one leaked credential into full account takeover; IaC makes the blast radius reproducible across every environment the module touches, and PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
+**Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
-**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# GitOps Controller Running as cluster-admin
+
+**SHOULD** scope GitOps controllers (Flux, ArgoCD) to least-privilege per-namespace roles instead of the blanket `cluster-admin` ClusterRoleBinding.
+
+**Why:** A compromised repo, PR, or controller CVE becomes instant full-cluster takeover when the sync engine holds cluster-admin.
+
+**Detect:** grep deploy manifests for `cluster-admin` bound to `system:serviceaccount:flux-system` / `argocd`; check ClusterRoleBinding subjects and reconciliation scopes.
+
+**References:** OWASP A05 Security Misconfiguration, CWE-250 Execution with Unnecessary Privileges, ArgoCD security docs, NIST SP 800-190
 
 ---
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Human-in-the-loop approval for destructive agent tool calls
+# GitOps Repo Write Access Equals Cluster Write Access
 
-**MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).
+**MUST** treat write access to a GitOps repo as production cluster admin and restrict it accordingly with review, CODEOWNERS, and separation of duties.
 
-**Why:** A hijacked or hallucinating agent with unguarded write access can cause irreversible damage in a single automated chain.
+**Why:** Anyone who can commit manifests can create privileged workloads or read cluster secrets without ever touching the cluster API.
 
-**Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
+**Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
-**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
+**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -197,61 +141,61 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Privileged access management: JIT access, break-glass, session recording
+# exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
-**SHOULD** issue privileged access just-in-time with expiry and approval, and record break-glass sessions for review.
+**MUST NOT** grant `pods/exec`, `pods/attach`, or `pods/debug` broadly; restrict them to named break-glass groups with audit.
 
-**Why:** Standing admin credentials are always in an attacker's blast radius; JIT shrinks the window and recordings make misuse provable.
+**Why:** exec into a pod bypasses every app-layer control — anyone with the verb reads secrets, env vars, and tokens as the workload's user.
 
-**Detect:** grep for long-lived admin API keys, shared root SSH access, `sudo` without logging; check PAM tool coverage, session-recording config, break-glass runbook existence.
+**Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
-**References:** NIST SP 800-53 AC-6(1)(2)(9) least privilege + JIT, CWE-250, OWASP A07:2021 Identification and Authentication Failures
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Segregation of duties in deploy and production operations
-
-**MAY** allow self-merge of production deploys only where compensating controls (automated policy checks, mandatory review bots) exist; otherwise require an independent approver.
-
-**Why:** A single engineer pushing unreviewed changes to production removes the last human check before a mistake or malicious change ships.
-
-**Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
-
-**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
 
 ---
 
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
+# K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
-**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
+**MUST NOT** grant `impersonate`, `bind`, or `escalate` verbs to non-admin subjects; each is a direct path to cluster-admin.
 
-**Why:** Over-broad grants turn one leaked credential into full account takeover; IaC makes the blast radius reproducible across every environment the module touches, and PassRole hides escalation inside "read-only" roles.
+**Why:** `bind` lets a user attach cluster-admin to themselves, `impersonate` borrows any identity, `escalate` upgrades any role — self-grant with no audit trail of intent.
 
-**Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
+**Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
 
-**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
-# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
-
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
-
-**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
-
-**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
-
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
+**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
 
 ---
 
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# Least Privilege
+
+**MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.
+
+**Why:** Over-broad credentials turn any single compromise into a cluster-wide or account-wide breach.
+
+**Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
+
+**References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
+# Least-Frequently-Used Permission Review (periodic entitlement pruning)
+
+**SHOULD** periodically revoke entitlements unused over a defined window (e.g. 90 days), starting with the broadest grants.
+
+**Why:** Unused permissions are pure attack surface: they never help legitimate work yet sit ready for any compromised account.
+
+**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor reports.
+
+**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
@@ -267,15 +211,71 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Part of:** [authentication](../categories/authentication.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
-# Least-Frequently-Used Permission Review (periodic entitlement pruning)
+# Privileged access management: JIT access, break-glass, session recording
 
-**SHOULD** periodically revoke entitlements unused over a defined window (e.g. 90 days), starting with the broadest grants.
+**SHOULD** issue privileged access just-in-time with expiry and approval, and record break-glass sessions for review.
 
-**Why:** Unused permissions are pure attack surface: they never help legitimate work yet sit ready for any compromised account.
+**Why:** Standing admin credentials are always in an attacker's blast radius; JIT shrinks the window and recordings make misuse provable.
 
-**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor reports.
+**Detect:** grep for long-lived admin API keys, shared root SSH access, `sudo` without logging; check PAM tool coverage, session-recording config, break-glass runbook existence.
 
-**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
+**References:** NIST SP 800-53 AC-6(1)(2)(9) least privilege + JIT, CWE-250, OWASP A07:2021 Identification and Authentication Failures
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# RBAC
+
+**SHOULD NOT** grant permissions directly to individual users; assign roles and bind users to roles only.
+
+**Why:** Direct grants become invisible during audits and are routinely missed at offboarding, leaving orphaned access nobody owns.
+
+**Detect:** grep for user-level GRANT statements (`GRANT ... TO <user>` not `TO ROLE`), IAM policies attached to usernames, `subjects: [User/...]` in K8s RoleBindings.
+
+**References:** OWASP A01:2021, CWE-266 Incorrect Privilege Assignment, NIST SP 800-53 AC-2, RBAC NIST SP 800-162
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
+# Row-Level Security
+
+**MUST** enforce row-level security (RLS) or equivalent tenant scoping in the database layer for every multi-tenant table, not only in application queries.
+
+**Why:** A single missed WHERE clause in one code path leaks every tenant's rows; database-enforced policies fail closed instead.
+
+**Detect:** grep for `ENABLE ROW LEVEL SECURITY`, `CREATE POLICY`, tenant_id filters in ORM raw queries; flag tables lacking policies.
+
+**References:** OWASP A01:2021 Broken Access Control, CWE-285, PostgreSQL RLS docs, NIST SP 800-53 AC-3
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
+# Segregation of duties in deploy and production operations
+
+**MAY** allow self-merge of production deploys only where compensating controls (automated policy checks, mandatory review bots) exist; otherwise require an independent approver.
+
+**Why:** A single engineer pushing unreviewed changes to production removes the last human check before a mistake or malicious change ships.
+
+**Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
+
+**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Vertical Privilege Escalation / Function-Level Authorization
+
+**MUST** check authorization on every admin or elevated endpoint server-side; never rely on hiding buttons or menus in the UI.
+
+**Why:** Attackers call hidden endpoints directly (IDOR-style), and client-side gating stops no one with curl or a proxy.
+
+**Detect:** grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators/middleware; compare UI-hidden actions to unprotected API paths.
+
+**References:** OWASP A01:2021, CWE-269 Improper Privilege Management, CWE-862 Missing Authorization, OWASP ASVS V4.2
 
 ---
 

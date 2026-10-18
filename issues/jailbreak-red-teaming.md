@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Jailbreak Red-Teaming
 
 **SHOULD** run recurring adversarial jailbreak testing against production prompts, logging and feeding results into the eval suite.

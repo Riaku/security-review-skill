@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, supply-chain]
+domains: [governance, infrastructure]
+---
+
 # Model Artifact Integrity (pickle-format models)
 
 **MUST NOT** load pickle-format model artifacts (.pkl, .pt via torch.load default) from untrusted sources; prefer safetensors or verified signed formats.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

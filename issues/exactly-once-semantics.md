@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Exactly-Once Semantics
 
 **MUST NOT** claim exactly-once delivery unless transactional produce/consume (or equivalent dedup store) is actually configured end to end.

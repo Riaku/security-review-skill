@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Timing Attacks
 
 **MUST** compare secrets (password hashes, tokens, API keys) using constant-time comparison functions.

@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Secrets Management
 
 **MUST** source all secrets from a dedicated store (Vault, 1Password Connect, SOPS, cloud secret manager) rather than embedding them in images, repos, or plain ConfigMaps.

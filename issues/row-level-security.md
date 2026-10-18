@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control]
+domains: [backend]
+---
+
 # Row-Level Security
 
 **MUST** enforce row-level security (RLS) or equivalent tenant scoping in the database layer for every multi-tenant table, not only in application queries.

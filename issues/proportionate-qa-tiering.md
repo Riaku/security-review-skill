@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Proportionate QA Tiering
 
 **SHOULD** match review/QA rigor to the risk tier of what's being changed: critical-path and high-impact components get deep review, dual verification, and testing; throwaway work gets proportionate scrutiny.

@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Password Reset Flow Security
 
 **MUST** issue single-use, high-entropy reset tokens with short expiry (≤15 min) over HTTPS, invalidated on use or password change.

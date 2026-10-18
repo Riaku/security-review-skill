@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # Client-Side TLS Verification Disabled
 
 **MUST NOT** disable server certificate or hostname verification in outbound TLS clients; every "works in dev" toggle like `verify=False` is a production man-in-the-middle hole.

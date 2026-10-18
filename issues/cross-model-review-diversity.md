@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Cross-Model Review Diversity
 
 **SHOULD** run the AI reviewer/critic on a different model family than the producer for security-sensitive changes — same-model review shares blind spots.

@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, sre-incidents]
+domains: [government-compliance, reliability]
+---
+
 # SEC cybersecurity disclosure rules (public-company material incident reporting)
 
 **MUST** disclose material cybersecurity incidents within four business days of a materiality determination via Form 8-K Item 1.05, with board-level oversight documented.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

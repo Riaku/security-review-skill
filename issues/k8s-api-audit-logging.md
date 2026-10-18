@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, observability]
+domains: [infrastructure, reliability]
+---
+
 # Kubernetes API Audit Logging Not Enabled
 
 **MUST** enable the kube-apiserver audit policy with persistent, tamper-resistant shipping of audit events.

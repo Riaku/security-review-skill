@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Isolation Levels
 
 **SHOULD** set the transaction isolation level deliberately per workload instead of inheriting the driver or framework default blindly.

@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Logs as Event Streams
 
 **SHOULD** write the log stream unbuffered to stdout/stderr and leave routing, aggregation, and retention to the execution environment; **SHOULD NOT** write or manage logfiles from inside a container.

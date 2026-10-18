@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Alert Fatigue
 
 **MUST NOT** page humans for alerts that are routinely ignored or auto-resolved without action.

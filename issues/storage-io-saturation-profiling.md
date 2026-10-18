@@ -1,3 +1,8 @@
+---
+categories: [database, scaling-capacity]
+domains: [data, reliability]
+---
+
 # Volume IOPS/throughput ceilings profiled before launch
 
 **SHOULD** benchmark the storage volume's IOPS and throughput ceilings under a realistic workload before launch, and size expected database load against them with headroom.

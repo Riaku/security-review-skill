@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Optimistic Locking
 
 **SHOULD** use optimistic concurrency control (version or ETag column) for user-facing edits where concurrent modification is possible but rare.

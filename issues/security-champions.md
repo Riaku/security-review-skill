@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Security Champions Program (embedded advocates per team)
 
 **SHOULD** embed a trained security champion in each engineering team, with paid time allocated, a refresh cadence, and a direct escalation line to the security group.

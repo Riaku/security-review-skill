@@ -1,3 +1,8 @@
+---
+categories: [testing-strategy]
+domains: [backend]
+---
+
 # End-to-End Tests
 
 **SHOULD** drive the full user journey through a real browser or client, including login, session expiry, and privilege escalation attempts.

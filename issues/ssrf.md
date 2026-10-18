@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # SSRF
 
 **MUST** Restrict user-supplied URLs to an allowlist of hosts/schemes, blocking internal ranges after DNS resolution.

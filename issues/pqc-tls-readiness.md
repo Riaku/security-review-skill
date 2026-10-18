@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, secrets-crypto]
+domains: [backend, infrastructure]
+---
+
 # PQC readiness of TLS/VPN termination (hybrid KEM deployment)
 
 **SHOULD** inventory every TLS and VPN termination point today and plan hybrid post-quantum key agreement (X25519 + ML-KEM) for long-lived, harvest-now-decrypt-later traffic before the client ecosystem forces a rushed rollout.

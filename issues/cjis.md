@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # CJIS (criminal justice data)
 
 **MUST** apply CJIS Security Policy controls—advanced authentication, audit logging, and personnel screening—to every system touching Criminal Justice Information.

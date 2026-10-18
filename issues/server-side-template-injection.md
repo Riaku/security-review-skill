@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Server-Side Template Injection (SSTI)
 
 **MUST NOT** Render user input as a template; pass it only as context variables, never into dynamic template compilation.

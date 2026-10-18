@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Eventual Consistency
 
 **SHOULD NOT** use eventually consistent reads for authorization, balance, or inventory decisions that gate money or access.

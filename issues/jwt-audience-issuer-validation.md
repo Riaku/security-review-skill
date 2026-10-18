@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # JWT Audience/Issuer Validation & kid/JWKS Abuse
 
 **MUST** verify `iss` and `aud` claims against an explicit allowlist and pin `kid` to a trusted JWKS entry before accepting a token.

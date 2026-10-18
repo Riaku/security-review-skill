@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Cursor-Based Pagination
 
 **SHOULD** paginate large or frequently mutated collections with opaque cursors instead of OFFSET, which degrades and skips rows under concurrent inserts.

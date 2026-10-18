@@ -1,3 +1,8 @@
+---
+categories: [email-security]
+domains: [governance]
+---
+
 # Lookalike-Domain Monitoring
 
 **SHOULD** continuously monitor for typosquat/lookalike registrations of your brand domains and take takedown action.

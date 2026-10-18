@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, security-practices]
+domains: [backend, infrastructure]
+---
+
 # Attack-Path Analysis (reachable chains from exposure to crown jewels)
 
 **SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, cutting shortest chains first.

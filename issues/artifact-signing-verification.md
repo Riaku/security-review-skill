@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, supply-chain]
+domains: [infrastructure]
+---
+
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
 **MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.

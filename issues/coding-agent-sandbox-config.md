@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, security-practices]
+domains: [backend, governance]
+---
+
 # Coding-Agent Sandbox & Permission-Mode Review
 
 **MUST** review how coding agents are configured: OS-level sandbox on, writes workspace-scoped, network off by default, approval policy enforced — and flag bypass flags (`--yolo`, `dangerously-*`, `bypassPermissions`, `approval=never`).

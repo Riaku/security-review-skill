@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Database Selection by Workload (CAP Class Fit)
 
 **SHOULD** choose each datastore deliberately for its workload's CAP class and access pattern — CP for transactions/permissions/inventory, AP for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale.

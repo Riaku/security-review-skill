@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Down Migrations
 
 **MUST** provide a tested `downgrade` (rollback) path for every schema migration that touches production data.

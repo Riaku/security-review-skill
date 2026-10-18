@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # CDNs
 
 **MUST NOT** allow CDNs to cache authenticated or per-user responses unless the origin marks them `private` and cache rules exclude them.

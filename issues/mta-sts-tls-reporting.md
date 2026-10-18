@@ -1,3 +1,8 @@
+---
+categories: [email-security]
+domains: [governance]
+---
+
 # MTA-STS & TLS Reporting
 
 **SHOULD** publish MTA-STS policy (or DANE) requiring TLS for inbound mail, with TLS-RPT monitoring for downgrade attempts.

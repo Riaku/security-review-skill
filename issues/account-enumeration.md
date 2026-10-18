@@ -1,3 +1,8 @@
+---
+categories: [authentication]
+domains: [backend]
+---
+
 # Account Enumeration
 
 **SHOULD NOT** reveal whether an account exists through differing responses, timing, or error messages on login, registration, and password-reset endpoints.

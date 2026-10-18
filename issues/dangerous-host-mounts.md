@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Dangerous Host Mounts: docker.sock, hostPath, Privileged Pods
 
 **MUST NOT** mount host paths such as `/`, `/etc`, or the container runtime socket into untrusted workloads, and MUST NOT mark pods privileged without documented justification.

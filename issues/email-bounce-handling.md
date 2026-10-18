@@ -1,3 +1,8 @@
+---
+categories: [email-security]
+domains: [governance]
+---
+
 # Email Bounce Handling
 
 **MUST** Hard bounces and spam complaints be consumed programmatically and fed into a suppression list so invalid addresses are never mailed again.

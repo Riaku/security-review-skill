@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Pessimistic Locking
 
 **MAY** hold explicit row locks (`SELECT ... FOR UPDATE`) for hot contended resources, but only inside short transactions with a lock timeout configured.

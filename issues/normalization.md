@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Normalization
 
 **SHOULD** normalize transactional schemas to at least 3NF so each fact is stored once and updates cannot leave copies inconsistent.

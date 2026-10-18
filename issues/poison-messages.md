@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Poison Messages
 
 **MUST NOT** let a single malformed message crash or stall a consumer loop indefinitely; bound retries and eject it to quarantine.

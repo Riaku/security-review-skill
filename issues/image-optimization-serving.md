@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Image Optimization & Modern Serving
 
 **MUST** serve images in modern formats (WebP/AVIF) with explicit dimensions, responsive `srcset`, and lazy-loading below the fold.

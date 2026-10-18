@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # UK GDPR + Cyber Essentials / Cyber Essentials Plus
 
 **SHOULD** pair UK GDPR data controls with Cyber Essentials' four technical controls (secure config, boundary firewalls, access control, patching), verified externally for CE+.

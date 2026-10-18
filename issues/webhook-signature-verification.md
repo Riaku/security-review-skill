@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, web-api-security]
+domains: [backend, data]
+---
+
 # Webhook Signature Verification
 
 **MUST** Verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.

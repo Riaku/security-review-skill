@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # Lockfiles
 
 **MUST** commit and honor dependency lockfiles so every install resolves to identical, audited versions.

@@ -1,3 +1,8 @@
+---
+categories: [deployment-release]
+domains: [infrastructure]
+---
+
 # Semantic Versioning
 
 **MUST** bump major versions for breaking API changes rather than shipping them under a minor tag that consumers assume is safe to auto-upgrade.

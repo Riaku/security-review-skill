@@ -1,3 +1,8 @@
+---
+categories: [third-party-integrations]
+domains: [backend]
+---
+
 # Backing Services as Attached Resources
 
 **SHOULD** access every backing service (database, queue, cache, SMTP) through an environment-supplied location and credential so the specific provider or instance can be swapped without code changes.

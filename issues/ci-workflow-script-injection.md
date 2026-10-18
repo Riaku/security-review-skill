@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security]
+domains: [infrastructure]
+---
+
 # CI Workflow Injection via Untrusted PR Content (pull_request_target)
 
 **MUST NOT** check out or execute pull request code inside a `pull_request_target` or other privileged-trigger job that holds write tokens or secrets.

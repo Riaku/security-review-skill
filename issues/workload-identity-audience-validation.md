@@ -1,3 +1,8 @@
+---
+categories: [authentication, cloud-network]
+domains: [backend, infrastructure]
+---
+
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
 **MUST** validate the audience (`aud`) and issuer (`iss`) claims on every federated workload token and scope each identity to the single service it is meant to reach.

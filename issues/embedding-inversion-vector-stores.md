@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, secrets-crypto]
+domains: [backend, governance]
+---
+
 # Embedding inversion and sensitive data in vector stores
 
 **SHOULD NOT** embed raw sensitive documents in vector stores without assessment; embeddings can leak near-verbatim source text under inversion attacks.

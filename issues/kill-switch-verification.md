@@ -1,3 +1,8 @@
+---
+categories: [deployment-release, resilience]
+domains: [infrastructure, reliability]
+---
+
 # Kill-Switch Verification
 
 **SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.

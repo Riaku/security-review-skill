@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, regulatory-frameworks]
+domains: [governance, government-compliance]
+---
+
 # GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
 
 **MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.

@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Multi-Stage Builds
 
 **MUST** build images with multi-stage Dockerfiles so compilers, headers, and build caches never ship in the final stage.

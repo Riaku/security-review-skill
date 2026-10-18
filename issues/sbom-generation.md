@@ -1,3 +1,8 @@
+---
+categories: [supply-chain]
+domains: [infrastructure]
+---
+
 # SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)
 
 **MUST** generate a CycloneDX or SPDX SBOM per build and retain it long enough to answer "were we affected?" in incidents.

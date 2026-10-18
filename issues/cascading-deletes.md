@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Cascading Deletes
 
 **SHOULD NOT** use `ON DELETE CASCADE` on chains of tables holding financial, audit, or otherwise irreplaceable data.

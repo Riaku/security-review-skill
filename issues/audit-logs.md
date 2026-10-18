@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Audit Logs
 
 **MUST** record security-relevant events (auth, access, privilege changes) with tamper-evident integrity and retention aligned to policy.

@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, data-pipelines]
+domains: [data, governance]
+---
+
 # Interactive-Session Artifact Leakage
 
 **MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.

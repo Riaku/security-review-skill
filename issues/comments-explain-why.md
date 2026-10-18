@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Comments Explain Why, Not What
 
 **SHOULD** write comments that explain intent, rationale, and constraints — not restate what the code already says.

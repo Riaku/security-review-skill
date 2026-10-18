@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # mTLS / Service-to-Service Authentication
 
 **SHOULD** Internal service-to-service calls authenticate with short-lived client certificates rather than shared API keys or network-location trust.

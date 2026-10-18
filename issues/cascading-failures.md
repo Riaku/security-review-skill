@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Cascading Failures
 
 **MUST** contain each failure at its origin with isolation, timeouts, and limits so faults cannot propagate downstream as overload.

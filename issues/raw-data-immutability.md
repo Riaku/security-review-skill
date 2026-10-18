@@ -1,3 +1,8 @@
+---
+categories: [data-pipelines]
+domains: [data]
+---
+
 # Raw-Data Immutability
 
 **MUST NOT** modify raw source data in place; transformations operate on copies, preserving the raw layer for re-derivation and audit.

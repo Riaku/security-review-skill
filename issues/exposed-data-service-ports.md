@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, database]
+domains: [data, infrastructure]
+---
+
 # Exposed Data-Service Ports
 
 **MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.

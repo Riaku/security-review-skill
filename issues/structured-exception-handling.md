@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)
 
 **MUST** raise typed errors and catch them narrowly at defined boundaries; never blanket-catch and continue as if nothing failed.

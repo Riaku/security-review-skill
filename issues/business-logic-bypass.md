@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls, web-api-security]
+domains: [backend]
+---
+
 # Business Logic Workflow Bypass & Abuse
 
 **MUST** enforce step ordering, state transitions, and per-user limits server-side rather than trusting the client's flow.

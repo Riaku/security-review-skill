@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Subnets
 
 **MUST NOT** Stateful application servers or databases sit in subnets that auto-assign public IPs; only load balancers, NAT gateways, and bastions belong in public subnets.

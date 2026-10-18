@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Secrets Rotation Automation (scheduled/triggered rotation without downtime)
 
 **MUST** rotate secrets automatically on schedule and immediately on suspected exposure, without manual steps or downtime.

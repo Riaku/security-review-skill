@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, database]
+domains: [data, governance]
+---
+
 # Erasure Propagation to Secondary Stores
 
 **MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.

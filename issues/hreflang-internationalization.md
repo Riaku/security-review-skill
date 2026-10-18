@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Hreflang & Internationalization Signals
 
 **SHOULD** emit correct `hreflang` annotations for multi-language/regional sites, with reciprocal links and a self-reference on each variant.

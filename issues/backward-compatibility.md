@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Backward Compatibility
 
 **MUST NOT** remove or rename fields, endpoints, or enum values in a live API without a deprecation window and consumer migration path.

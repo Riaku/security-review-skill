@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, observability]
+domains: [infrastructure, reliability]
+---
+
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.

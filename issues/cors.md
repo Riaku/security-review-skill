@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # CORS
 
 **MUST NOT** Pair wildcard or reflected `Access-Control-Allow-Origin` with `Allow-Credentials: true`; whitelist trusted origins.

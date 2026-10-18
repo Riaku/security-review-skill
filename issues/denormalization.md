@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Denormalization
 
 **SHOULD NOT** denormalize for read speed unless the write path maintaining the copies is explicitly designed, tested, and reconciled.

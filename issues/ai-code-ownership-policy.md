@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # AI-Code Ownership Policy
 
 **MUST** hold a named human accountable for every merged AI-generated change — no unreviewed AI output — and maintain team skill on owned code rather than letting understanding decay.

@@ -1,3 +1,8 @@
+---
+categories: [authorization-access-control, compliance-privacy]
+domains: [backend, governance]
+---
+
 # Privileged access management: JIT access, break-glass, session recording
 
 **SHOULD** issue privileged access just-in-time with expiry and approval, and record break-glass sessions for review.

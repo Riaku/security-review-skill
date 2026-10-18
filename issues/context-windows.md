@@ -1,3 +1,8 @@
+---
+categories: [ai-llm]
+domains: [governance]
+---
+
 # Context Windows
 
 **SHOULD** bound and trim conversation context explicitly so sensitive earlier turns are evicted rather than silently retained or truncated unpredictably.

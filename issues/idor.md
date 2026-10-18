@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # IDOR
 
 **MUST** Verify the authenticated principal may access every object referenced by a request identifier.

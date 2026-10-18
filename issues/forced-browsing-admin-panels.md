@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Forced Browsing & Unprotected Admin Panels
 
 **MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).

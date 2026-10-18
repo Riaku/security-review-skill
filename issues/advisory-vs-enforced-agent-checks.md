@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, cicd-pipeline-security]
+domains: [governance, infrastructure]
+---
+
 # Advisory-vs-Enforced Agent Checks
 
 **MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

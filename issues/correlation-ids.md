@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Correlation IDs
 
 **MUST** attach a unique correlation ID to every inbound request and carry it through all downstream calls, logs, and error reports.

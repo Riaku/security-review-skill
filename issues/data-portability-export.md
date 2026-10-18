@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # Data Portability Export Mechanics
 
 **SHOULD** provide a complete, machine-readable export of a user's data (JSON/CSV) covering all stores where they appear, generated within the regulatory SLA.

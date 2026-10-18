@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, web-api-security]
+domains: [backend, data]
+---
+
 # Webhook Replay Protection
 
 **MUST NOT** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.

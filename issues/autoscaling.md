@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Autoscaling
 
 **SHOULD NOT** scale on metrics an attacker can inflate cheaply (raw request count, queue depth) without a max-replica ceiling and scale-up stabilization window.

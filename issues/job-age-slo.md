@@ -1,3 +1,8 @@
+---
+categories: [messaging-async, observability]
+domains: [data, reliability]
+---
+
 # Job Age SLO
 
 **MUST** track age of the oldest pending job as a first-class SLO with alerting, not merely queue count or throughput.

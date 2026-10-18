@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, security-practices]
+domains: [backend, governance]
+---
+
 # Independent penetration testing cadence and finding remediation tracking
 
 **SHOULD** commission an external penetration test at least annually and after major architectural changes, with every finding tracked to closure in a ticketing system.

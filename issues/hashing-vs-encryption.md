@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Hashing vs Encryption
 
 **MUST NOT** store passwords with reversible encryption; use one-way password hashing, and reserve encryption only for data that legitimately needs recovery.

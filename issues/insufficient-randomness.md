@@ -1,3 +1,8 @@
+---
+categories: [authentication, secrets-crypto]
+domains: [backend]
+---
+
 # Insufficient Randomness for Tokens and IDs
 
 **MUST** generate session tokens, password resets, API keys, and invite codes from a cryptographically secure RNG (`secrets`, `crypto.randomBytes`, `SecureRandom`), never `random`/`Math.random`/sequential IDs.

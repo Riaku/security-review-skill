@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, deployment-release]
+domains: [infrastructure]
+---
+
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
 **SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.

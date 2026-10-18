@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Keep-Alive
 
 **SHOULD** cap keep-alive idle timeouts and max requests per connection to bound resource hold per client.

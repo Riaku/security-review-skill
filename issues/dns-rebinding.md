@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, web-client-security]
+domains: [frontend, infrastructure]
+---
+
 # DNS Rebinding Against Internal Services
 
 **SHOULD** validate `Host`/`Origin` headers and pin DNS resolution at connect time, so a fetch cannot be re-pointed from a public name to a private IP between lookups.

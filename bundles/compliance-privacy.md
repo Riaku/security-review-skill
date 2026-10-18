@@ -4,33 +4,19 @@ Privacy operations and data protection in code.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [compliance-privacy](../categories/compliance-privacy.md) · index: [SKILL.md](../SKILL.md)
 
-# GDPR
+# Audit-Log Chain of Custody
 
-**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection.
+**SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
 
-**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83.
+**Why:** Audit findings you can't prove weren't altered are worthless in court or a regulator's hands; tampering by an insider must be detectable.
 
-**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models.
+**Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
 
-**References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# PII Handling
-
-**SHOULD NOT** transmit or store unencrypted personally identifiable information outside designated secure stores.
-
-**Why:** Unencrypted PII in transit or at rest enables mass identity theft and triggers mandatory breach disclosure obligations.
-
-**Detect:** grep for SSN, email, phone fields serialized without encryption; check TLS enforcement, `encrypt_pii`, field-level encryption config keys.
-
-**References:** CWE-311, CWE-312, NIST SP 800-122, GDPR Art. 32
+**References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Audit Logs
 
@@ -41,76 +27,6 @@ Privacy operations and data protection in code.
 **Detect:** grep for auth/access handlers missing audit calls; check `audit_log`, `log_event`, HMAC signing, retention config absent.
 
 **References:** CWE-778, NIST SP 800-92, SOC 2 CC7.2, PCI DSS 10.2
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Data Residency
-
-**MUST** store and process data within the geographic boundaries mandated by applicable regulation or customer contract.
-
-**Why:** Storing data in unauthorized jurisdictions violates sovereignty laws and can trigger regulatory enforcement or contract breach.
-
-**Detect:** grep for region/zone config in storage, compute, CDN settings; check `data_residency`, `region_constraint`, `geo_fence` keys absent or misconfigured.
-
-**References:** GDPR Ch. V, Russian 152-FZ, China PIPL Art. 40, ISO 27018
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# PCI DSS
-
-**MUST NOT** store sensitive authentication data (full track, CVV, PIN block) after authorization completes.
-
-**Why:** Retaining cardholder authentication data massively expands breach impact and violates contractual obligations with card brands.
-
-**Detect:** grep for `cvv`, `track_data`, `pin_block` persisted post-auth; check database schemas, logs, and backups for prohibited fields.
-
-**References:** PCI DSS 3.2.1 Req 3.2, PCI DSS 4.0 Req 3.3.1, CWE-312
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Cookie Consent
-
-**SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.
-
-**Why:** Setting tracking cookies before consent violates ePrivacy Directive and GDPR, exposing sites to regulatory fines and user distrust.
-
-**Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
-
-**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Software Licenses
-
-**MUST** track third-party dependency licenses and enforce policy against incompatible or copyleft terms in proprietary distributions.
-
-**Why:** Unlicensed or GPL-contaminated code in shipped products creates legal liability, forced open-sourcing, and distribution injunctions.
-
-**Detect:** grep dependency manifests for `GPL`, `AGPL`, `UNLICENSED`; check license scanner config, `allowed_licenses`, `license_policy` files absent.
-
-**References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Chargebacks
-
-**SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
-
-**Why:** Excessive chargebacks trigger card brand fines, higher processing rates, or termination of merchant privileges.
-
-**Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
-
-**References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
 
 ---
 
@@ -130,15 +46,141 @@ Privacy operations and data protection in code.
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# DSAR Fulfillment (GDPR access/deletion requests)
+# Breach notification clocks across jurisdictions
 
-**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within 30 days of request.
+**MUST** detect and triage breaches fast enough to meet the strictest applicable notification deadline (72h GDPR, state laws).
 
-**Why:** Inability to fulfill DSARs violates GDPR Articles 15/17 and invites regulatory enforcement and subject complaints.
+**Why:** Missing statutory notification windows compounds breach penalties and destroys regulatory trust after an incident.
 
-**Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
+**Detect:** grep for incident response SLA timers, `notification_deadline`, `breach_clock` config; check monitoring-to-notification pipeline latency absent.
 
-**References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
+**References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# CCPA/CPRA
+
+**MUST** honor California consumer rights—access, deletion, opt-out of sale/sharing—within statutory deadlines across all systems holding personal information.
+
+**Why:** The CPPA actively enforces via consumer requests and audits; a "Do Not Sell" link without backend enforcement invites per-record penalties.
+
+**Detect:** grep for "CCPA", "Do Not Sell", "opt_out", "deletion request" handlers; missing request routing, service-provider contract clauses, GPC signal support.
+
+**References:** CCPA/CPRA Cal. Civ. Code 1798.100+, CPPA regulations, IAPP CCPA guidance
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Chargebacks
+
+**SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
+
+**Why:** Excessive chargebacks trigger card brand fines, higher processing rates, or termination of merchant privileges.
+
+**Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
+
+**References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Children's online privacy and age assurance (COPPA, UK Online Safety Act)
+
+**MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
+
+**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC and OfSan fines and forced redesigns.
+
+**Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
+
+**References:** COPPA 16 CFR 312, UK Online Safety Act 2023, Age Appropriate Design Code
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# China PIPL (cross-border security assessment, separate consent, localization)
+
+**MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
+
+**Why:** Transferring Chinese user data abroad without CAC approval halts operations and triggers fines up to 5% of revenue plus criminal exposure.
+
+**Detect:** grep for data flows from CN regions to overseas endpoints; missing "separate consent", CAC filing, localization config for CN deployments.
+
+**References:** PIPL (2021), CAC Cross-Border Data Transfer Rules, GB/T 35273
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Cookie Consent
+
+**SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.
+
+**Why:** Setting tracking cookies before consent violates ePrivacy Directive and GDPR, exposing sites to regulatory fines and user distrust.
+
+**Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
+
+**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Cross-border data transfer mechanisms post-Schrems II
+
+**SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
+
+**Why:** Transferring EU data without valid safeguards violates GDPR Chapter V post-Schrems II, risking transfer bans and fines.
+
+**Detect:** grep for EU data flows to non-adequate regions without SCC/TIA references; check `transfer_impact_assessment`, `scc_modules`, `adequacy` config absent.
+
+**References:** GDPR Ch. V, Schrems II (C-311/18), EU SCC 2021/914, EDPB Recommendations 01/2020
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Data Classification & Labeling (PII/confidential tagged at rest and in pipelines)
+
+**SHOULD** tag PII and confidential data at creation and carry labels through storage and ETL so downstream controls act on them.
+
+**Why:** Ungoverned data spreads into logs, analytics, and backups unnoticed, turning a small leak into a regulatory breach.
+
+**Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
+
+**References:** NIST SP 800-122, GDPR Art. 4/32
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Data Portability Export Mechanics
+
+**SHOULD** provide a complete, machine-readable export of a user's data (JSON/CSV) covering all stores where they appear, generated within the regulatory SLA.
+
+**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under a 30-day clock without pre-built tooling fails.
+
+**Detect:** review export tooling coverage vs datastore inventory; check export includes activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
+
+**References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Data Residency
+
+**MUST** store and process data within the geographic boundaries mandated by applicable regulation or customer contract.
+
+**Why:** Storing data in unauthorized jurisdictions violates sovereignty laws and can trigger regulatory enforcement or contract breach.
+
+**Detect:** grep for region/zone config in storage, compute, CDN settings; check `data_residency`, `region_constraint`, `geo_fence` keys absent or misconfigured.
+
+**References:** GDPR Ch. V, Russian 152-FZ, China PIPL Art. 40, ISO 27018
 
 ---
 
@@ -171,75 +213,33 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# HIPAA (health data)
+# DSAR Fulfillment (GDPR access/deletion requests)
 
-**MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.
+**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within 30 days of request.
 
-**Why:** Unlogged PHI access and plaintext transmissions drive the largest class of healthcare breaches and OCR enforcement actions.
+**Why:** Inability to fulfill DSARs violates GDPR Articles 15/17 and invites regulatory enforcement and subject complaints.
 
-**Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
+**Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
 
-**References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
-
-**MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.
-
-**Why:** Regulators act on data subject complaints and breach notifications; undocumented processing decisions become the fine's evidence.
-
-**Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
-
-**References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
+**References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# CCPA/CPRA
+# Erasure Propagation to Secondary Stores
 
-**MUST** honor California consumer rights—access, deletion, opt-out of sale/sharing—within statutory deadlines across all systems holding personal information.
+**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
 
-**Why:** The CPPA actively enforces via consumer requests and audits; a "Do Not Sell" link without backend enforcement invites per-record penalties.
+**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
 
-**Detect:** grep for "CCPA", "Do Not Sell", "opt_out", "deletion request" handlers; missing request routing, service-provider contract clauses, GPC signal support.
+**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
 
-**References:** CCPA/CPRA Cal. Civ. Code 1798.100+, CPPA regulations, IAPP CCPA guidance
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# SOC 2 as Audit Regime (CCs, evidence collection)
-
-**SHOULD** collect continuous, timestamped evidence for Trust Services Criteria (security, availability, confidentiality) rather than assembling artifacts only at audit time.
-
-**Why:** Point-in-time evidence gathering misses control gaps during the period; auditors sample exceptions the team never noticed.
-
-**Detect:** grep for "TSC", "CC6", "CC7" mappings; missing access review logs, change tickets, monitoring alerts as evidence; manual-only evidence folders.
-
-**References:** AICPA TSC 2017, SOC 2 Type II, Trust Services Criteria
+**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# PII & Secrets Leakage into Application Logs
-
-**MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
-
-**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data; unredacted request bodies, headers, and stack traces spread PII into traces and error-reporters as secondary sinks.
-
-**Detect:** Grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; grep for `log.*request`, `log.*body`, `console.log(err)` without redaction and missing `redact_fields`/`mask_pii` filter config. Test by logging a known secret and checking it never appears in logs, traces, or error-reporter payloads.
-
-**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Excessive Data Exposure in API Serialization
 
@@ -255,129 +255,29 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Part of:** [api-design](../categories/api-design.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Serverless Execution Environment Reuse Leaking Data Across Invocations
+# GDPR
 
-**MUST NOT** cache per-request data — customer records, tokens, decrypted keys — in module-level or global mutable state of a serverless function, because warm containers are shared by later, possibly different, invocations.
+**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection.
 
-**Why:** Lambda and friends reuse a warmed container across tenants' requests when concurrency allows; a global populated during request A can be read during request B, producing cross-customer data disclosure that only appears under load.
+**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83.
 
-**Detect:** In Lambda/Cloud Function/Cloud Run code, flag module-scope dicts, lists, or connection objects that store request-derived values (`current_user = None` at top level then assigned inside the handler), memoized decryption caches keyed loosely, and background threads outliving the handler. Contrast with connection pools (acceptable) versus data caches (not).
+**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models.
 
-**Bad:**
-```python
-cached_profile = None          # module scope, survives invocations
-def handler(event, ctx):
-    global cached_profile
-    cached_profile = fetch_profile(event["user_id"])
-    return {"sso": cached_profile["email"]}
-```
-
-**Good:**
-```python
-def handler(event, ctx):
-    profile = fetch_profile(event["user_id"])   # request-local only
-    return {"sso": profile["email"]}
-```
-
-**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+**References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
 
 ---
 
-**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Cross-border data transfer mechanisms post-Schrems II
+# GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
 
-**SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
+**MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.
 
-**Why:** Transferring EU data without valid safeguards violates GDPR Chapter V post-Schrems II, risking transfer bans and fines.
+**Why:** Regulators act on data subject complaints and breach notifications; undocumented processing decisions become the fine's evidence.
 
-**Detect:** grep for EU data flows to non-adequate regions without SCC/TIA references; check `transfer_impact_assessment`, `scc_modules`, `adequacy` config absent.
+**Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
 
-**References:** GDPR Ch. V, Schrems II (C-311/18), EU SCC 2021/914, EDPB Recommendations 01/2020
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# Brazil LGPD compliance
-
-**SHOULD** establish a legal basis for each processing activity, appoint a data protection officer (encarregado), and honor data subject rights under LGPD timelines.
-
-**Why:** Brazil's ANPD has moved to active enforcement; processing personal data without a stated legal basis is now directly sanctionable.
-
-**Detect:** grep for "LGPD", "encarregado", "base legal", rights-request endpoints; missing privacy notices in pt-BR, no DPO contact published.
-
-**References:** LGPD Lei 13.709/2018, ANPD guidelines, ANPD DSR rules
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# China PIPL (cross-border security assessment, separate consent, localization)
-
-**MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
-
-**Why:** Transferring Chinese user data abroad without CAC approval halts operations and triggers fines up to 5% of revenue plus criminal exposure.
-
-**Detect:** grep for data flows from CN regions to overseas endpoints; missing "separate consent", CAC filing, localization config for CN deployments.
-
-**References:** PIPL (2021), CAC Cross-Border Data Transfer Rules, GB/T 35273
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# India DPDP Act 2023 (consent managers, data fiduciary duties)
-
-**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
-
-**Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
-
-**Detect:** grep for "DPDP", "consent manager", "data fiduciary", grievance officer; consent captured without registered manager, no breach notification process.
-
-**References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# Children's online privacy and age assurance (COPPA, UK Online Safety Act)
-
-**MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
-
-**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC and OfSan fines and forced redesigns.
-
-**Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
-
-**References:** COPPA 16 CFR 312, UK Online Safety Act 2023, Age Appropriate Design Code
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# Breach notification clocks across jurisdictions
-
-**MUST** detect and triage breaches fast enough to meet the strictest applicable notification deadline (72h GDPR, state laws).
-
-**Why:** Missing statutory notification windows compounds breach penalties and destroys regulatory trust after an incident.
-
-**Detect:** grep for incident response SLA timers, `notification_deadline`, `breach_clock` config; check monitoring-to-notification pipeline latency absent.
-
-**References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
-# NYDFS 23 NYCRR 500 (financial services cyber requirements)
-
-**MUST** maintain a CISO program, MFA on all externally accessed systems, and report covered cyber events to DFS within 72 hours under the amended rule.
-
-**Why:** DFS audits NY-regulated firms directly; missing MFA or late 72-hour reports produce consent orders with personal officer accountability.
-
-**Detect:** grep for "NYDFS", "500.17", "72 hours", CISO designation; MFA gaps on VPN/admin access, no DFS reporting runbook.
-
-**References:** 23 NYCRR 500 (amended 2023), NYDFS guidance, Part 500 FAQ
+**References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
 
 ---
 
@@ -397,33 +297,33 @@ def handler(event, ctx):
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# PII redaction and DPAs before sending data to third-party LLM APIs
+# HIPAA (health data)
 
-**MUST** redact or tokenize PII and execute a DPA with the provider before payloads leave the trust boundary.
+**MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.
 
-**Why:** Personal data reaching an external model API may be logged, retained, or trained on beyond compliance scope.
+**Why:** Unlogged PHI access and plaintext transmissions drive the largest class of healthcare breaches and OCR enforcement actions.
 
-**Detect:** outbound LLM calls without redaction middleware; missing DPA or zero-retention agreement in vendor records.
+**Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
 
-**References:** GDPR Art. 28, OWASP LLM02:2025, NIST Privacy Framework
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
-
-**MUST** inventory and govern AI features in third-party software and employee-adopted AI SaaS, since unsanctioned tools move data outside policy.
-
-**Why:** Copilots and AI-enabled vendors quietly move code, tickets, and documents to unvetted providers.
-
-**Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
-
-**References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+**References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# India DPDP Act 2023 (consent managers, data fiduciary duties)
+
+**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
+
+**Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
+
+**Detect:** grep for "DPDP", "consent manager", "data fiduciary", grievance officer; consent captured without registered manager, no breach notification process.
+
+**References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -439,6 +339,160 @@ def handler(event, ctx):
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
+# Brazil LGPD compliance
+
+**SHOULD** establish a legal basis for each processing activity, appoint a data protection officer (encarregado), and honor data subject rights under LGPD timelines.
+
+**Why:** Brazil's ANPD has moved to active enforcement; processing personal data without a stated legal basis is now directly sanctionable.
+
+**Detect:** grep for "LGPD", "encarregado", "base legal", rights-request endpoints; missing privacy notices in pt-BR, no DPO contact published.
+
+**References:** LGPD Lei 13.709/2018, ANPD guidelines, ANPD DSR rules
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Litigation Hold Capability
+
+**SHOULD** be able to suspend retention/deletion policies on demand for legal preservation (litigation hold) across all data stores and logs.
+
+**Why:** Automated retention deletion that can't be paused becomes spoliation of evidence; legal needs a kill-switch on the shredder.
+
+**Detect:** review retention jobs for a hold flag respected at deletion time; check backup lifecycle, log rotation, and SaaS retention can be frozen per custodian/case; verify hold procedure is documented and tested.
+
+**References:** EDRR model (NIST SP 800-221), FRCP 37(e), legal hold vendor docs (Exterro, Relativity)
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# PII redaction and DPAs before sending data to third-party LLM APIs
+
+**MUST** redact or tokenize PII and execute a DPA with the provider before payloads leave the trust boundary.
+
+**Why:** Personal data reaching an external model API may be logged, retained, or trained on beyond compliance scope.
+
+**Detect:** outbound LLM calls without redaction middleware; missing DPA or zero-retention agreement in vendor records.
+
+**References:** GDPR Art. 28, OWASP LLM02:2025, NIST Privacy Framework
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Interactive-Session Artifact Leakage
+
+**MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.
+
+**Why:** Executed notebooks persist every row/chart they touched inside the committed file — sensitive data ships silently with code review, forks, and clones, invisible to diff tools that show only code.
+
+**Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
+
+**References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# NYDFS 23 NYCRR 500 (financial services cyber requirements)
+
+**MUST** maintain a CISO program, MFA on all externally accessed systems, and report covered cyber events to DFS within 72 hours under the amended rule.
+
+**Why:** DFS audits NY-regulated firms directly; missing MFA or late 72-hour reports produce consent orders with personal officer accountability.
+
+**Detect:** grep for "NYDFS", "500.17", "72 hours", CISO designation; MFA gaps on VPN/admin access, no DFS reporting runbook.
+
+**References:** 23 NYCRR 500 (amended 2023), NYDFS guidance, Part 500 FAQ
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Object-Level Data Access Logging
+
+**SHOULD** enable data-plane (object/bucket-level) read and write logging on object storage holding sensitive data, not just control-plane API logging — management-plane logs record who created the bucket, but never who read the objects inside it.
+
+**Why:** Object stores default to control-plane-only logging; a bulk exfiltration of customer records via thousands of `GetObject` calls is invisible until data-plane logging is turned on — after the incident. Compliance regimes (PCI, HIPAA, GDPR access-record duties) and forensic timelines both hinge on per-object access records that control-plane logs simply do not contain.
+
+**Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
+
+**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# PCI DSS
+
+**MUST NOT** store sensitive authentication data (full track, CVV, PIN block) after authorization completes.
+
+**Why:** Retaining cardholder authentication data massively expands breach impact and violates contractual obligations with card brands.
+
+**Detect:** grep for `cvv`, `track_data`, `pin_block` persisted post-auth; check database schemas, logs, and backups for prohibited fields.
+
+**References:** PCI DSS 3.2.1 Req 3.2, PCI DSS 4.0 Req 3.3.1, CWE-312
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# Independent penetration testing cadence and finding remediation tracking
+
+**SHOULD** commission an external penetration test at least annually and after major architectural changes, with every finding tracked to closure in a ticketing system.
+
+**Why:** Self-assessment shares the builder's blind spots; untracked findings recur across engagements.
+
+**Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
+
+**References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# PII Handling
+
+**SHOULD NOT** transmit or store unencrypted personally identifiable information outside designated secure stores.
+
+**Why:** Unencrypted PII in transit or at rest enables mass identity theft and triggers mandatory breach disclosure obligations.
+
+**Detect:** grep for SSN, email, phone fields serialized without encryption; check TLS enforcement, `encrypt_pii`, field-level encryption config keys.
+
+**References:** CWE-311, CWE-312, NIST SP 800-122, GDPR Art. 32
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# PII Propagation & Warehouse Lineage
+
+**SHOULD** track where PII flows through warehouse layers (raw→staging→marts→exports) with lineage, and enforce classification at each hop.
+
+**Why:** PII copied into analytics tables, temp datasets, and BI exports silently multiplies copies beyond the retention and access controls that protect the source.
+
+**Detect:** review lineage tooling (OpenLineage, dbt lineage, DataHub/Collibra) for PII-tagged datasets; sample staging/mart tables for unclassified columns containing emails/ids; check export destinations inherit classification.
+
+**References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# PII & Secrets Leakage into Application Logs
+
+**MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
+
+**Why:** Logs are widely readable and long-retained, making them the easiest place for attackers — and auditors — to harvest credentials and personal data; unredacted request bodies, headers, and stack traces spread PII into traces and error-reporters as secondary sinks.
+
+**Detect:** Grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; grep for `log.*request`, `log.*body`, `console.log(err)` without redaction and missing `redact_fields`/`mask_pii` filter config. Test by logging a known secret and checking it never appears in logs, traces, or error-reporter payloads.
+
+**References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Privileged access management: JIT access, break-glass, session recording
 
 **SHOULD** issue privileged access just-in-time with expiry and approval, and record break-glass sessions for review.
@@ -453,29 +507,15 @@ def handler(event, ctx):
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Vendor/third-party risk management and subprocessor registers
+# Privileged-Action Attribution
 
-**SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
+**MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.
 
-**Why:** Breaches frequently originate downstream; without a register you cannot assess exposure or notify affected parties when a vendor falls.
+**Why:** Shared root/admin credentials destroy non-repudiation; when an incident happens, "admin did it" is not an answer.
 
-**Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses.
+**Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
 
-**References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Independent penetration testing cadence and finding remediation tracking
-
-**SHOULD** commission an external penetration test at least annually and after major architectural changes, with every finding tracked to closure in a ticketing system.
-
-**Why:** Self-assessment shares the builder's blind spots; untracked findings recur across engagements.
-
-**Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
-
-**References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
+**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
 
 ---
 
@@ -508,15 +548,73 @@ export = anonymize(df, k=20,
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Data Classification & Labeling (PII/confidential tagged at rest and in pipelines)
+# Serverless Execution Environment Reuse Leaking Data Across Invocations
 
-**SHOULD** tag PII and confidential data at creation and carry labels through storage and ETL so downstream controls act on them.
+**MUST NOT** cache per-request data — customer records, tokens, decrypted keys — in module-level or global mutable state of a serverless function, because warm containers are shared by later, possibly different, invocations.
 
-**Why:** Ungoverned data spreads into logs, analytics, and backups unnoticed, turning a small leak into a regulatory breach.
+**Why:** Lambda and friends reuse a warmed container across tenants' requests when concurrency allows; a global populated during request A can be read during request B, producing cross-customer data disclosure that only appears under load.
 
-**Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
+**Detect:** In Lambda/Cloud Function/Cloud Run code, flag module-scope dicts, lists, or connection objects that store request-derived values (`current_user = None` at top level then assigned inside the handler), memoized decryption caches keyed loosely, and background threads outliving the handler. Contrast with connection pools (acceptable) versus data caches (not).
 
-**References:** NIST SP 800-122, GDPR Art. 4/32
+**Bad:**
+```python
+cached_profile = None          # module scope, survives invocations
+def handler(event, ctx):
+    global cached_profile
+    cached_profile = fetch_profile(event["user_id"])
+    return {"sso": cached_profile["email"]}
+```
+
+**Good:**
+```python
+def handler(event, ctx):
+    profile = fetch_profile(event["user_id"])   # request-local only
+    return {"sso": profile["email"]}
+```
+
+**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
+# Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
+
+**MUST** inventory and govern AI features in third-party software and employee-adopted AI SaaS, since unsanctioned tools move data outside policy.
+
+**Why:** Copilots and AI-enabled vendors quietly move code, tickets, and documents to unvetted providers.
+
+**Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
+
+**References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
+# SOC 2 as Audit Regime (CCs, evidence collection)
+
+**SHOULD** collect continuous, timestamped evidence for Trust Services Criteria (security, availability, confidentiality) rather than assembling artifacts only at audit time.
+
+**Why:** Point-in-time evidence gathering misses control gaps during the period; auditors sample exceptions the team never noticed.
+
+**Detect:** grep for "TSC", "CC6", "CC7" mappings; missing access review logs, change tickets, monitoring alerts as evidence; manual-only evidence folders.
+
+**References:** AICPA TSC 2017, SOC 2 Type II, Trust Services Criteria
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
+# Software Licenses
+
+**MUST** track third-party dependency licenses and enforce policy against incompatible or copyleft terms in proprietary distributions.
+
+**Why:** Unlicensed or GPL-contaminated code in shipped products creates legal liability, forced open-sourcing, and distribution injunctions.
+
+**Detect:** grep dependency manifests for `GPL`, `AGPL`, `UNLICENSED`; check license scanner config, `allowed_licenses`, `license_policy` files absent.
+
+**References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
 
 ---
 
@@ -536,115 +634,17 @@ export = anonymize(df, k=20,
 
 **Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
-# Privileged-Action Attribution
+# Vendor/third-party risk management and subprocessor registers
 
-**MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.
+**SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
 
-**Why:** Shared root/admin credentials destroy non-repudiation; when an incident happens, "admin did it" is not an answer.
+**Why:** Breaches frequently originate downstream; without a register you cannot assess exposure or notify affected parties when a vendor falls.
 
-**Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
+**Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses.
 
-**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Litigation Hold Capability
-
-**SHOULD** be able to suspend retention/deletion policies on demand for legal preservation (litigation hold) across all data stores and logs.
-
-**Why:** Automated retention deletion that can't be paused becomes spoliation of evidence; legal needs a kill-switch on the shredder.
-
-**Detect:** review retention jobs for a hold flag respected at deletion time; check backup lifecycle, log rotation, and SaaS retention can be frozen per custodian/case; verify hold procedure is documented and tested.
-
-**References:** EDRR model (NIST SP 800-221), FRCP 37(e), legal hold vendor docs (Exterro, Relativity)
+**References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
 
 ---
 
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Audit-Log Chain of Custody
-
-**SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
-
-**Why:** Audit findings you can't prove weren't altered are worthless in court or a regulator's hands; tampering by an insider must be detectable.
-
-**Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
-
-**References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# PII Propagation & Warehouse Lineage
-
-**SHOULD** track where PII flows through warehouse layers (raw→staging→marts→exports) with lineage, and enforce classification at each hop.
-
-**Why:** PII copied into analytics tables, temp datasets, and BI exports silently multiplies copies beyond the retention and access controls that protect the source.
-
-**Detect:** review lineage tooling (OpenLineage, dbt lineage, DataHub/Collibra) for PII-tagged datasets; sample staging/mart tables for unclassified columns containing emails/ids; check export destinations inherit classification.
-
-**References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Erasure Propagation to Secondary Stores
-
-**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
-
-**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
-
-**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
-
-**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Data Portability Export Mechanics
-
-**SHOULD** provide a complete, machine-readable export of a user's data (JSON/CSV) covering all stores where they appear, generated within the regulatory SLA.
-
-**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under a 30-day clock without pre-built tooling fails.
-
-**Detect:** review export tooling coverage vs datastore inventory; check export includes activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
-
-**References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Interactive-Session Artifact Leakage
-
-**MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.
-
-**Why:** Executed notebooks persist every row/chart they touched inside the committed file — sensitive data ships silently with code review, forks, and clones, invisible to diff tools that show only code.
-
-**Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
-
-**References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
-# Object-Level Data Access Logging
-
-**SHOULD** enable data-plane (object/bucket-level) read and write logging on object storage holding sensitive data, not just control-plane API logging — management-plane logs record who created the bucket, but never who read the objects inside it.
-
-**Why:** Object stores default to control-plane-only logging; a bulk exfiltration of customer records via thousands of `GetObject` calls is invisible until data-plane logging is turned on — after the incident. Compliance regimes (PCI, HIPAA, GDPR access-record duties) and forensic timelines both hinge on per-object access records that control-plane logs simply do not contain.
-
-**Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
-
-**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

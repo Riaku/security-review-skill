@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Structured Logging
 
 **MUST** emit application logs as structured JSON with consistent field names (timestamp, level, event, actor, request_id) rather than free-form text.

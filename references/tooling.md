@@ -1,10 +1,9 @@
 # Tooling Reference — Scanners & Security Tools
 
 Curated map of widely used tools referenced by checklist items. Tool names in
-`Detect:` lines point here. The machine-readable tool→issues mapping lives in
-`scripts/tool-issues.json`; the generated reverse index (each tool → its
-related `issues/*.md`) is `references/tool-index.md` — regenerate both with
-`python3 scripts/gen_manifests.py`. This list is advisory, not exhaustive;
+`Detect:` lines point here: the tools an item is checked with are named in that
+item's own `Detect:` line, so there is no central tool→issue index to keep in
+step. This list is advisory, not exhaustive;
 presence of a tool does not imply endorsement, and any tool may be
 substituted with an equivalent from the same class.
 

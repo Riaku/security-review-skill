@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # ITAR / EAR Export Controls
 
 **MUST NOT** allow foreign persons or overseas infrastructure access to export-controlled technical data without a license or applicable exemption.

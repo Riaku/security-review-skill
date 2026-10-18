@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, containers-k8s]
+domains: [infrastructure]
+---
+
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
 **SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.

@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Weak Crypto Primitives in Application Code
 
 **MUST NOT** use DES, RC4, MD5, SHA-1, ECB mode, or hand-rolled ciphers in application code; standardize on AES-GCM or ChaCha20-Poly1305 via maintained libraries.

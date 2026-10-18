@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy, data-pipelines]
+domains: [data, governance]
+---
+
 # PII Propagation & Warehouse Lineage
 
 **SHOULD** track where PII flows through warehouse layers (raw→staging→marts→exports) with lineage, and enforce classification at each hop.

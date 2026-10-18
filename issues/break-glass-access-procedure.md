@@ -1,3 +1,8 @@
+---
+categories: [security-practices, sre-incidents]
+domains: [backend, reliability]
+---
+
 # Break-Glass Access Procedure
 
 **SHOULD** define a monitored break-glass path for emergency privileged access: pre-authorized, logged, alerting on use, and reviewed within 24h.

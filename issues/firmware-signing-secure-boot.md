@@ -1,3 +1,8 @@
+---
+categories: [iot-embedded, supply-chain]
+domains: [infrastructure, iot-embedded]
+---
+
 # Firmware Signing & Secure Boot
 
 **MUST** sign firmware images and enforce signature verification at boot (secure boot chain) so unsigned or tampered images cannot run on devices.

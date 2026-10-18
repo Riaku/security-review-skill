@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Point-in-Time Recovery
 
 **SHOULD** configure continuous archiving (WAL archiving, binlog retention) so the database recovers to an arbitrary instant, not just the last nightly dump.

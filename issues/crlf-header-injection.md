@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # CRLF / HTTP Header Injection & Response Splitting
 
 **SHOULD NOT** Put user input into headers or redirect targets without rejecting CR/LF and `%0d%0a`.

@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Structure validation (issues ↔ manifests ↔ topics.json)
+      - name: Structure validation (frontmatter ↔ manifests)
         run: python3 scripts/validate_skill.py
 
       - name: Generated artifacts in sync

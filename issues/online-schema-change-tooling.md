@@ -1,3 +1,8 @@
+---
+categories: [database, deployment-release]
+domains: [data, infrastructure]
+---
+
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
 **MUST** use a live-migration tool (gh-ost, `pt-online-schema-change`, or a non-blocking Postgres equivalent) for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`.

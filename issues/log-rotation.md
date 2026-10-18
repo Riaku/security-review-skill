@@ -1,3 +1,8 @@
+---
+categories: [observability]
+domains: [reliability]
+---
+
 # Log Rotation
 
 **MUST** configure rotation and retention for every locally written log file so disks never fill and evidence survives long enough to investigate.

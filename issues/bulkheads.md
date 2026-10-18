@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Bulkheads
 
 **MUST** partition threads, connections, and pools per dependency or tenant so one saturated component cannot drain shared capacity.

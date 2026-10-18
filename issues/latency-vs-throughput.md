@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Latency vs Throughput
 
 **MUST** define separate SLOs for latency (p95/p99) and throughput, and scale on the metric that breaches first rather than a single aggregate.

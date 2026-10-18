@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, scaling-capacity]
+domains: [governance, reliability]
+---
+
 # Denial-of-wallet: unbounded LLM token spend per user/tenant
 
 **MUST** enforce per-user and per-tenant token budgets, rate limits, and alerting on LLM API spend.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

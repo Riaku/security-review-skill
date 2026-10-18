@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, observability]
+domains: [infrastructure, reliability]
+---
+
 # Certificate-Issuance Monitoring
 
 **SHOULD** alert on any certificate issued for your domains (CT-log monitoring via Certstream/CRT.sh) to detect unauthorized issuance fast.

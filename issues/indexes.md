@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Indexes
 
 **MUST** add supporting indexes for every column used in WHERE, JOIN, and ORDER BY clauses on tables expected to grow beyond a few thousand rows.

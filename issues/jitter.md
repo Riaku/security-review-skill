@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Jitter
 
 **MUST NOT** schedule retries, refreshes, or polling on exact fixed intervals; randomize timing so replica timers never align.

@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # TLS Certificate Expiry
 
 **MUST** Every TLS certificate serving traffic be renewed automatically before expiry, with alerting firing at least 30 days ahead of the notAfter date.

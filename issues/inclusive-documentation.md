@@ -1,3 +1,8 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
 # Inclusive & Accessible Documentation
 
 **SHOULD** use inclusive, jargon-free language in docs (Google style: avoid master/slave, blacklist/whitelist, gendered defaults) and meet doc accessibility basics (heading hierarchy, alt text, readable tables).

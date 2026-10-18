@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks]
+domains: [government-compliance]
+---
+
 # Common Criteria
 
 **MAY** pursue Common Criteria evaluation (EAL level) when procuring into government or defense markets that mandate certified product assurance.

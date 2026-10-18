@@ -1,3 +1,8 @@
+---
+categories: [cicd-pipeline-security, supply-chain]
+domains: [infrastructure]
+---
+
 # Hermetic Builds (no undeclared network/env deps during build)
 
 **SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.

@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # OpenAPI Specs
 
 **MUST** validate incoming requests against the OpenAPI schema at the edge; the spec is enforcement, not just documentation.

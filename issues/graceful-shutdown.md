@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Graceful Shutdown
 
 **MUST** trap SIGTERM, stop accepting new work, finish in-flight requests, then exit before the kill deadline.

@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # ETags
 
 **SHOULD NOT** generate ETags from data that leaks across users or tenants, and strong validators must change whenever the underlying resource changes.

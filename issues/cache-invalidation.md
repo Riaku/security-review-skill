@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # Cache Invalidation
 
 **MUST** invalidate every cached entry that holds data changed by a write, privilege change, or credential rotation before the response returns.

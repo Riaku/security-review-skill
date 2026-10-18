@@ -1,3 +1,8 @@
+---
+categories: [payments-fraud]
+domains: [governance]
+---
+
 # 3D Secure / SCA
 
 **MUST** trigger 3DS2 challenge flows for high-risk transactions and honor the issuer's authentication result before capturing funds.

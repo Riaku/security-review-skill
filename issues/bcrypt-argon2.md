@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # bcrypt & Argon2
 
 **SHOULD** use Argon2id (preferred) or bcrypt with cost ≥12 for password hashing; MD5, SHA-1, and bare SHA-256 are unacceptable for credentials.

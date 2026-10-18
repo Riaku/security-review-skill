@@ -1,3 +1,8 @@
+---
+categories: [seo-web-quality]
+domains: [frontend]
+---
+
 # Lighthouse CI Performance Budgets
 
 **SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.

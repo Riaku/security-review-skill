@@ -1,3 +1,8 @@
+---
+categories: [database, sre-incidents]
+domains: [data, reliability]
+---
+
 # Crash-consistent volume snapshots vs logical dumps distinguished
 
 **SHOULD** document, per datastore, whether each backup is crash-consistent (volume snapshot) or logically consistent (`pg_dump`, `mysqldump`), and use the right one per recovery scenario.

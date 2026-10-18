@@ -1,3 +1,8 @@
+---
+categories: [web-api-security, web-client-security]
+domains: [backend, frontend]
+---
+
 # Content Security Policy
 
 **SHOULD** Deliver CSP with nonce/hash-based `script-src`; avoid `unsafe-inline` and `unsafe-eval`.

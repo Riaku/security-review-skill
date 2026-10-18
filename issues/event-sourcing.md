@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Event Sourcing
 
 **MUST** make stored events immutable and append-only, with schema-versioned payloads and cryptographic integrity checks on the event log.

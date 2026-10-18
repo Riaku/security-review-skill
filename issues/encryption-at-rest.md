@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto]
+domains: [backend]
+---
+
 # Encryption at Rest
 
 **MUST** enable encryption at rest for databases, object storage, backups, and node disks holding sensitive data, with keys managed in a KMS rather than locally.

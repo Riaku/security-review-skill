@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Schema Validation
 
 **MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.

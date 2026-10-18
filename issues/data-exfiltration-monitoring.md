@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, observability]
+domains: [infrastructure, reliability]
+---
+
 # Data Exfiltration Monitoring
 
 **SHOULD** baseline per-host and per-account egress volume and alert on anomalous outbound transfers, especially off-hours and to untrusted destinations.

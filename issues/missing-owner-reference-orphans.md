@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, correctness-pitfalls]
+domains: [backend, infrastructure]
+---
+
 # Missing ownerReferences Causing Orphaned Managed Resources
 
 **SHOULD** set `ownerReferences` on every resource a controller creates so cascading deletion reclaims them automatically.

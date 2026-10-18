@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # Write-Through vs Write-Back
 
 **MUST** use write-through persistence for security-relevant records (audit logs, ACLs, tokens); write-back caching is prohibited where a crash must not lose the write.

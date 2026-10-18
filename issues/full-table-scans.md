@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Full Table Scans
 
 **SHOULD NOT** ship list endpoints whose queries degrade to sequential scans once the table exceeds working-set size.

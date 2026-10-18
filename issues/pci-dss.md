@@ -1,3 +1,8 @@
+---
+categories: [compliance-privacy]
+domains: [governance]
+---
+
 # PCI DSS
 
 **MUST NOT** store sensitive authentication data (full track, CVV, PIN block) after authorization completes.

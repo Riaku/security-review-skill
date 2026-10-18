@@ -1,3 +1,8 @@
+---
+categories: [correctness-pitfalls]
+domains: [backend]
+---
+
 # Unicode
 
 **MUST NOT** assume one character equals one byte or one code point when measuring, truncating, or comparing user text.

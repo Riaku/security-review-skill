@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, authorization-access-control]
+domains: [backend, governance]
+---
+
 # Human-in-the-loop approval for destructive agent tool calls
 
 **MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).

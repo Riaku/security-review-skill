@@ -1,3 +1,8 @@
+---
+categories: [messaging-async]
+domains: [data]
+---
+
 # Message Ordering
 
 **SHOULD** preserve ordering only where required (per-key, not global) and document where reordering is tolerated; never assume FIFO across partitions.

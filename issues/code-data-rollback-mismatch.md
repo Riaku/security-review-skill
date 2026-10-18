@@ -1,3 +1,8 @@
+---
+categories: [database, deployment-release]
+domains: [data, infrastructure]
+---
+
 # Code rollback without data rollback causes schema mismatch
 
 **MUST NOT** roll application code back past a schema migration unless that migration is backward-compatible with the old code or a tested compensating migration exists.

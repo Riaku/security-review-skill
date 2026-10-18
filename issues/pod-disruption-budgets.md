@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s]
+domains: [infrastructure]
+---
+
 # Pod Disruption Budgets
 
 **SHOULD** define a PodDisruptionBudget for every highly-available workload so voluntary drains never take down all replicas at once.

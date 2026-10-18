@@ -4,20 +4,6 @@ Scaling behavior and capacity limits.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [scaling-capacity](../categories/scaling-capacity.md) · index: [SKILL.md](../SKILL.md)
 
-# Latency vs Throughput
-
-**MUST** define separate SLOs for latency (p95/p99) and throughput, and scale on the metric that breaches first rather than a single aggregate.
-
-**Why:** Optimizing only average throughput hides tail-latency spikes that time out clients and cascade into retry storms during peak load.
-
-**Detect:** grep for `p99`, `histogram_quantile`, `latency_slo`, `throughput_slo` in dashboards and alert rules; absence of percentile thresholds in prometheus rules or load-test reports.
-
-**References:** Google SRE Book SLO chapter, CWE-400, NIST SP 800-184
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Autoscaling
 
 **SHOULD NOT** scale on metrics an attacker can inflate cheaply (raw request count, queue depth) without a max-replica ceiling and scale-up stabilization window.
@@ -32,15 +18,15 @@ Scaling behavior and capacity limits.
 
 **Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Horizontal vs Vertical Scaling
+# Capacity Planning
 
-**SHOULD** prefer horizontal scaling for stateless tiers and reserve vertical scaling for stateful components, documenting each datastore's single-node ceiling.
+**MUST** forecast capacity against projected peak (not average) load with explicit headroom, reviewed on a recurring cadence tied to growth data.
 
-**Why:** Vertical-only growth creates a single point of failure and a hard wall that arrives mid-incident with no headroom to add replicas.
+**Why:** Planning to average utilization guarantees saturation at the first promotional spike or seasonal peak, turning a predictable event into an outage.
 
-**Detect:** grep manifests for `replicas: 1`, `resources.limits` near node capacity, `nodeSelector` pinning; check stateful services for a documented max-node-size plan.
+**Detect:** grep runbooks/planning docs for `headroom`, `peak_utilization`, `capacity_forecast`, growth-rate assumptions; check dashboards for peak-vs-average reporting and review-date stamps.
 
-**References:** NIST SP 800-184, AWS Well-Architected REL05-BP02, CWE-400
+**References:** Google SRE Book capacity planning, NIST SP 800-184, ITIL Capacity Management
 
 ---
 
@@ -60,19 +46,89 @@ Scaling behavior and capacity limits.
 
 **Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Capacity Planning
+# Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
-**MUST** forecast capacity against projected peak (not average) load with explicit headroom, reviewed on a recurring cadence tied to growth data.
+**MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.
 
-**Why:** Planning to average utilization guarantees saturation at the first promotional spike or seasonal peak, turning a predictable event into an outage.
+**Why:** A degraded mirror silently loses redundancy; the next disk failure becomes an unrecoverable array collapse.
 
-**Detect:** grep runbooks/planning docs for `headroom`, `peak_utilization`, `capacity_forecast`, growth-rate assumptions; check dashboards for peak-vs-average reporting and review-date stamps.
+**Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
-**References:** Google SRE Book capacity planning, NIST SP 800-184, ITIL Capacity Management
+**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Disk and inode exhaustion forecasted with lead time
+
+**MUST** forecast disk and inode consumption from historical growth rates and alert early enough (days, not hours) to act before full.
+
+**Why:** A full disk or exhausted inode table corrupts writes and takes down every workload on the volume simultaneously, with no graceful degradation path.
+
+**Detect:** grep monitoring for `disk_free_percent`, `inodes_free`, `predict_linear`/forecast queries in alert rules, log-rotation and cleanup cron jobs; flag alerts that fire only at >95% with no trend projection.
+
+**References:** CWE-400, NIST SP 800-184, Google SRE monitoring four golden signals
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Garbage Collection
+
+**MAY** tune GC pause targets and heap sizing per workload, but only after measuring pause distributions rather than defaulting to aggressive tuning.
+
+**Why:** Untuned GC causes latency spikes at high allocation rates; blindly tuned GC causes thrashing and CPU starvation — both hurt tail latency under load.
+
+**Detect:** grep for `GOGC`, `-Xmx`, `-XX:MaxGCPauseMillis`, `gc_pause_seconds` histograms in dashboards; check GC logs for pause p99 vs SLO and full-GC frequency.
+
+**References:** CWE-400, Google SRE tail latency chapter, Java GC tuning guide (Oracle), Go runtime metrics docs
 
 ---
 
 **Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Horizontal vs Vertical Scaling
+
+**SHOULD** prefer horizontal scaling for stateless tiers and reserve vertical scaling for stateful components, documenting each datastore's single-node ceiling.
+
+**Why:** Vertical-only growth creates a single point of failure and a hard wall that arrives mid-incident with no headroom to add replicas.
+
+**Detect:** grep manifests for `replicas: 1`, `resources.limits` near node capacity, `nodeSelector` pinning; check stateful services for a documented max-node-size plan.
+
+**References:** NIST SP 800-184, AWS Well-Architected REL05-BP02, CWE-400
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Latency vs Throughput
+
+**MUST** define separate SLOs for latency (p95/p99) and throughput, and scale on the metric that breaches first rather than a single aggregate.
+
+**Why:** Optimizing only average throughput hides tail-latency spikes that time out clients and cascade into retry storms during peak load.
+
+**Detect:** grep for `p99`, `histogram_quantile`, `latency_slo`, `throughput_slo` in dashboards and alert rules; absence of percentile thresholds in prometheus rules or load-test reports.
+
+**References:** Google SRE Book SLO chapter, CWE-400, NIST SP 800-184
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Denial-of-wallet: unbounded LLM token spend per user/tenant
+
+**MUST** enforce per-user and per-tenant token budgets, rate limits, and alerting on LLM API spend.
+
+**Why:** A scripted attacker or runaway agent loop can burn thousands of dollars in tokens within hours on a metered API.
+
+**Detect:** no rate_limit, max_tokens, or budget keys on LLM gateway routes; provider usage alerts not configured.
+
+**References:** OWASP LLM10:2025, CWE-770, CWE-400
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Load Testing
 
@@ -102,6 +158,48 @@ Scaling behavior and capacity limits.
 
 **Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
+# Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
+
+**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
+
+**Why:** Without quotas, a runaway or malicious workload exhausts shared CPU/memory, degrading every other namespace on the cluster.
+
+**Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
+
+**References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Non-Functional Requirements Traceability
+
+**SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.
+
+**Why:** Untestable "should be fast" requirements hide their violation until production; hard constraints (10M DAU, <200ms p95, 99.99% uptime) make every design choice auditable and every gap visible before launch.
+
+**Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
+
+**References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
+# Noisy-neighbor isolation between tenants/workloads
+
+**MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
+
+**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located.
+
+**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
+
+**References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # OOM Killer
 
 **SHOULD** set explicit memory requests/limits and OOM-score priorities so the kernel evicts disposable workers before critical stateful processes.
@@ -115,34 +213,6 @@ Scaling behavior and capacity limits.
 ---
 
 **Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Garbage Collection
-
-**MAY** tune GC pause targets and heap sizing per workload, but only after measuring pause distributions rather than defaulting to aggressive tuning.
-
-**Why:** Untuned GC causes latency spikes at high allocation rates; blindly tuned GC causes thrashing and CPU starvation — both hurt tail latency under load.
-
-**Detect:** grep for `GOGC`, `-Xmx`, `-XX:MaxGCPauseMillis`, `gc_pause_seconds` histograms in dashboards; check GC logs for pause p99 vs SLO and full-GC frequency.
-
-**References:** CWE-400, Google SRE tail latency chapter, Java GC tuning guide (Oracle), Go runtime metrics docs
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Worker Pools
-
-**SHOULD** size worker pools against queue arrival rates and set autoscaling bounds with starvation detection; undersized pools silently age jobs.
-
-**Why:** A pool too small for peak load creates growing latency invisible until customers complain, while an oversized one wastes capacity and hides throughput regressions.
-
-**Detect:** grep for `concurrency`, `pool_size`, `num_workers` without autoscaling policy; metrics showing queue depth rising while workers idle or saturated.
-
-**References:** CWE-400, NIST SP 800-53 SC-5, Kubernetes HPA guidance
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
 
@@ -158,61 +228,19 @@ Scaling behavior and capacity limits.
 
 **Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [scaling-capacity](../categories/scaling-capacity.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
+# Sticky Sessions & Load-Balancer Affinity
 
-**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
+**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
 
-**Why:** Without quotas, a runaway or malicious workload exhausts shared CPU/memory, degrading every other namespace on the cluster.
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
 
-**Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
 
-**References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Stalled replication slots accumulating WAL until disk fills
-
-**MUST** monitor replication slot retention (`restart_lag`, slot activity) with alerts well below free-disk headroom, since an inactive slot pins WAL the primary cannot recycle.
-
-**Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
-
-**Detect:** Check monitoring on `pg_replication_slots.restart_lag`, inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
-
-**Bad:**
-```sql
--- replica decommissioned; slot never dropped
-SELECT * FROM pg_replication_slots;  -- inactive, lag growing daily
-```
-
-**Good:**
-```sql
--- alert when restart_lag > 5GB or inactive > 15min
-SELECT slot_name, active,
-  pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS lag
-FROM pg_replication_slots;
-```
-
-**References:** PostgreSQL replication slots & WAL retention docs, pgBackRest/WAL-G slot management, CWE-400 disk exhaustion
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
 
 ---
 
-**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Disk and inode exhaustion forecasted with lead time
-
-**MUST** forecast disk and inode consumption from historical growth rates and alert early enough (days, not hours) to act before full.
-
-**Why:** A full disk or exhausted inode table corrupts writes and takes down every workload on the volume simultaneously, with no graceful degradation path.
-
-**Detect:** grep monitoring for `disk_free_percent`, `inodes_free`, `predict_linear`/forecast queries in alert rules, log-rotation and cleanup cron jobs; flag alerts that fire only at >95% with no trend projection.
-
-**References:** CWE-400, NIST SP 800-184, Google SRE monitoring four golden signals
-
----
-
-**Part of:** [observability](../categories/observability.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Volume IOPS/throughput ceilings profiled before launch
 
@@ -243,73 +271,45 @@ resource "aws_ebs_volume" "pg" {
 
 **Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Storage Operating Degraded (Degraded RAID/Mirror) Runbook
+# Stalled replication slots accumulating WAL until disk fills
 
-**MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.
+**MUST** monitor replication slot retention (`restart_lag`, slot activity) with alerts well below free-disk headroom, since an inactive slot pins WAL the primary cannot recycle.
 
-**Why:** A degraded mirror silently loses redundancy; the next disk failure becomes an unrecoverable array collapse.
+**Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
 
-**Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
+**Detect:** Check monitoring on `pg_replication_slots.restart_lag`, inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
 
-**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+**Bad:**
+```sql
+-- replica decommissioned; slot never dropped
+SELECT * FROM pg_replication_slots;  -- inactive, lag growing daily
+```
 
----
+**Good:**
+```sql
+-- alert when restart_lag > 5GB or inactive > 15min
+SELECT slot_name, active,
+  pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS lag
+FROM pg_replication_slots;
+```
 
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Noisy-neighbor isolation between tenants/workloads
-
-**MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
-
-**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located.
-
-**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
-
-**References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Denial-of-wallet: unbounded LLM token spend per user/tenant
-
-**MUST** enforce per-user and per-tenant token budgets, rate limits, and alerting on LLM API spend.
-
-**Why:** A scripted attacker or runaway agent loop can burn thousands of dollars in tokens within hours on a metered API.
-
-**Detect:** no rate_limit, max_tokens, or budget keys on LLM gateway routes; provider usage alerts not configured.
-
-**References:** OWASP LLM10:2025, CWE-770, CWE-400
+**References:** PostgreSQL replication slots & WAL retention docs, pgBackRest/WAL-G slot management, CWE-400 disk exhaustion
 
 ---
 
-**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Sticky Sessions & Load-Balancer Affinity
+# Worker Pools
 
-**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+**SHOULD** size worker pools against queue arrival rates and set autoscaling bounds with starvation detection; undersized pools silently age jobs.
 
-**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+**Why:** A pool too small for peak load creates growing latency invisible until customers complain, while an oversized one wastes capacity and hides throughput regressions.
 
-**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+**Detect:** grep for `concurrency`, `pool_size`, `num_workers` without autoscaling policy; metrics showing queue depth rising while workers idle or saturated.
 
-**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
-# Non-Functional Requirements Traceability
-
-**SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.
-
-**Why:** Untestable "should be fast" requirements hide their violation until production; hard constraints (10M DAU, <200ms p95, 99.99% uptime) make every design choice auditable and every gap visible before launch.
-
-**Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
-
-**References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
+**References:** CWE-400, NIST SP 800-53 SC-5, Kubernetes HPA guidance
 
 ---
 
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+**Part of:** [messaging-async](../categories/messaging-async.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

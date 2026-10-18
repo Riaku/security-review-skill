@@ -1,3 +1,8 @@
+---
+categories: [database]
+domains: [data]
+---
+
 # Full-Text Search
 
 **MUST NOT** implement user-facing search with `LIKE '%term%'` on large tables; use the database's full-text engine or a dedicated search service.

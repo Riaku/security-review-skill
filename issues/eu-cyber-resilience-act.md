@@ -1,3 +1,8 @@
+---
+categories: [regulatory-frameworks, supply-chain]
+domains: [government-compliance, infrastructure]
+---
+
 # EU Cyber Resilience Act (product security lifecycle, SBOM and vulnerability handling duties)
 
 **MUST** ship products with digital elements under a secure development lifecycle, provide an SBOM, and actively handle reported vulnerabilities for the support period.
@@ -10,4 +15,4 @@
 
 ---
 
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [supply-chain](../categories/supply-chain.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

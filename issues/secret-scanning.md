@@ -1,3 +1,8 @@
+---
+categories: [secrets-crypto, supply-chain]
+domains: [backend, infrastructure]
+---
+
 # Secret Scanning
 
 **MUST** run automated secret scanning (gitleaks, trufflehog, GitHub push protection) on every commit and full-history scans before publishing any repository.

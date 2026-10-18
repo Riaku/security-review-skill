@@ -1,3 +1,8 @@
+---
+categories: [observability, sre-incidents]
+domains: [reliability]
+---
+
 # Dead-man's-switch Heartbeat for Scheduled Jobs
 
 **SHOULD** give every scheduled job a heartbeat that pages when the expected ping is missing, rather than alerting only on failure.

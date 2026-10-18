@@ -1,3 +1,8 @@
+---
+categories: [cloud-network, observability]
+domains: [infrastructure, reliability]
+---
+
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
 **SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.

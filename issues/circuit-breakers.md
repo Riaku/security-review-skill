@@ -1,3 +1,8 @@
+---
+categories: [resilience]
+domains: [reliability]
+---
+
 # Circuit Breakers
 
 **MUST** open the circuit to a failing dependency after an error threshold, fail through a cool-off, then half-open probe before closing.

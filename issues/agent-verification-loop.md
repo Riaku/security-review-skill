@@ -1,3 +1,8 @@
+---
+categories: [ai-llm, testing-strategy]
+domains: [backend, governance]
+---
+
 # Agent Verification Loop (Executable Done-When)
 
 **MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.

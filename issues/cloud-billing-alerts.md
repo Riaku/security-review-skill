@@ -1,3 +1,8 @@
+---
+categories: [cloud-network]
+domains: [infrastructure]
+---
+
 # Cloud Billing Alerts
 
 **MUST** Budget alarms exist at account and per-project level, wired to a channel someone actually reads, with thresholds low enough to catch a runaway resource before it becomes a five-figure month.

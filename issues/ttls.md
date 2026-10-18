@@ -1,3 +1,8 @@
+---
+categories: [caching]
+domains: [reliability]
+---
+
 # TTLs
 
 **MUST NOT** cache authentication tokens, session identifiers, or password hashes with TTLs longer than the underlying credential's validity window.

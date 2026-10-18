@@ -1,3 +1,8 @@
+---
+categories: [containers-k8s, correctness-pitfalls]
+domains: [backend, infrastructure]
+---
+
 # ConfigMap Hot-Reload Assumption for Environment Variables
 
 **MUST NOT** rely on environment-variable-injected ConfigMaps updating at runtime; env vars are fixed at container start, so mount files or restart the pod.

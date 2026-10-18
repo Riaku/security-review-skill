@@ -1,3 +1,8 @@
+---
+categories: [web-api-security]
+domains: [backend]
+---
+
 # Rate Limiting / Throttling
 
 **SHOULD** Throttle auth, reset, and expensive endpoints per identity and IP, returning 429 with `Retry-After`.

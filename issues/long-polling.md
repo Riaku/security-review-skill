@@ -1,3 +1,8 @@
+---
+categories: [api-design]
+domains: [backend]
+---
+
 # Long Polling
 
 **MAY** use long polling where SSE or WebSockets are unavailable, but each held request MUST have a server-side timeout and per-client connection cap.

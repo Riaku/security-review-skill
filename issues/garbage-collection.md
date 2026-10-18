@@ -1,3 +1,8 @@
+---
+categories: [scaling-capacity]
+domains: [reliability]
+---
+
 # Garbage Collection
 
 **MAY** tune GC pause targets and heap sizing per workload, but only after measuring pause distributions rather than defaulting to aggressive tuning.

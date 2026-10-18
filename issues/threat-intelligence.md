@@ -1,3 +1,8 @@
+---
+categories: [sre-incidents]
+domains: [reliability]
+---
+
 # Threat Intelligence Integration
 
 **MUST** ingest threat feeds, IOCs, and vendor advisories into ops tooling with automated matching against the estate.

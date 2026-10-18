@@ -1,3 +1,8 @@
+---
+categories: [security-practices]
+domains: [backend]
+---
+
 # Breach & Attack Simulation (adversary emulation vs controls)
 
 **MAY** automate adversary emulation (BAS) to continuously replay known TTPs against controls, but only in environments with tested rollback and blast-radius limits.

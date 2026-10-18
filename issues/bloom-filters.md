@@ -1,3 +1,8 @@
+---
+categories: [distributed-systems]
+domains: [data]
+---
+
 # Bloom Filters
 
 **MAY** use Bloom filters as a fast pre-check, but MUST NOT treat a positive match as authoritative since false positives are inherent.

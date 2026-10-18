@@ -1,3 +1,8 @@
+---
+categories: [authentication, web-client-security]
+domains: [backend, frontend]
+---
+
 # Cookie Flags: Secure, HttpOnly, SameSite
 
 **MUST** set `Secure`, `HttpOnly`, and `SameSite=Lax` (or `Strict`) on every session cookie issued by the application.

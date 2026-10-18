@@ -1,3 +1,8 @@
+---
+categories: [mobile]
+domains: [mobile]
+---
+
 # Mobile Reverse-Engineering & Tamper Protection
 
 **SHOULD** detect rooted/jailbroken devices, debuggers, and repackaged builds, and gate high-risk features accordingly rather than trusting the client.
