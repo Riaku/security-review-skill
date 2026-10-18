@@ -22,3 +22,4 @@ Issues:
 - `security-champions`
 - `verification-level-tiers`
 - `attack-path-analysis`
+- `nfr-traceability`

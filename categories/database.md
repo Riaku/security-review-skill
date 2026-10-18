@@ -57,3 +57,5 @@ Issues:
 - `reidentification-risk`
 - `backup-verification-drills`
 - `exposed-data-service-ports`
+- `database-selection-workload-fit`
+- `durability-acknowledgment-policy`

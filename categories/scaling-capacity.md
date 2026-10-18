@@ -21,3 +21,5 @@ Issues:
 - `degraded-storage-mode-runbook`
 - `noisy-neighbor-isolation`
 - `llm-denial-of-wallet`
+- `sticky-sessions-lb-affinity`
+- `nfr-traceability`

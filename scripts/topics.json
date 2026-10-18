@@ -4591,5 +4591,48 @@
     "categories": [
       "seo-web-quality"
     ]
+  },
+  {
+    "num": 549,
+    "title": "Database Selection by Workload (CAP class fit per workload)",
+    "slug": "database-selection-workload-fit",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 550,
+    "title": "Sticky Sessions & Load-Balancer Affinity",
+    "slug": "sticky-sessions-lb-affinity",
+    "categories": [
+      "scaling-capacity",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 551,
+    "title": "Priority Queues & Head-of-Line Blocking",
+    "slug": "priority-queues-head-of-line-blocking",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 552,
+    "title": "Durability Acknowledgment Policy (ack only after durable persist)",
+    "slug": "durability-acknowledgment-policy",
+    "categories": [
+      "database",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 553,
+    "title": "Non-Functional Requirements Traceability",
+    "slug": "nfr-traceability",
+    "categories": [
+      "security-practices",
+      "scaling-capacity"
+    ]
   }
 ]

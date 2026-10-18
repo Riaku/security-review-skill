@@ -51,3 +51,4 @@ Issues:
 - `exposed-debug-actuator-endpoints`
 - `forced-browsing-admin-panels`
 - `open-directory-listing`
+- `sticky-sessions-lb-affinity`

@@ -1,4 +1,4 @@
-# messaging-async — full checklist (22 items)
+# messaging-async — full checklist (23 items)
 
 Queues, delivery semantics, workers, jobs.
 
@@ -260,4 +260,14 @@ for r in db.rows.gt(cur).limit(1000):
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
+
+# Priority Queues & Head-of-Line Blocking
+
+**MUST NOT** let large or slow jobs block small/urgent ones on a shared queue; separate queues (or priority classes) for high-priority, fast, and bulk work.
+
+**Why:** One huge job on a shared queue starves thousands of small requests — the classic unbounded-queue failure where latency grows without end until consumers never catch up.
+
+**Detect:** grep for a single queue serving mixed job sizes; check for priority queue config (SQS FIFO priorities, Celery queues, RabbitMQ x-max-priority); review job-duration vs SLA mismatch.
+
+**References:** AWS SQS priority patterns, RabbitMQ priority queues, DDIA queueing chapter
 

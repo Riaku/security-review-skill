@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (30 items)
+# correctness-pitfalls — full checklist (31 items)
 
 Language-agnostic code-level failure modes.
 
@@ -303,4 +303,14 @@ Language-agnostic code-level failure modes.
 **Detect:** Container PID 1 is a shell or app without `--reaping`; `docker top`/`ps` shows defunct `<defunct>` entries; no tini/dumb-init in image.
 
 **References:** CIS Docker 5.x, CWE-459, tini/dumb-init docs, Kubernetes init container patterns
+
+# Durability Acknowledgment Policy
+
+**MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
+
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries.
+
+**Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
+
+**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
 

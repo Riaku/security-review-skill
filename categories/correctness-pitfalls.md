@@ -33,3 +33,4 @@ Issues:
 - `missing-owner-reference-orphans`
 - `configmap-env-no-hot-reload`
 - `zombie-process-reaping`
+- `durability-acknowledgment-policy`

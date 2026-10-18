@@ -1,4 +1,4 @@
-# database — full checklist (54 items)
+# database — full checklist (56 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -1216,4 +1216,24 @@ export = anonymize(df, k=20,
 **Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
+
+# Database Selection by Workload (CAP Class Fit)
+
+**SHOULD** choose each datastore deliberately for its workload's CAP class and access pattern — CP for transactions/permissions/inventory, AP for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale.
+
+**Why:** A wrong datastore choice surfaces years later as a forced migration ("the worst pain imaginable"): an AP store backing balances, or a CP store blocking feeds during partitions.
+
+**Detect:** review architecture docs/ADRs for datastore-per-workload rationale; grep for one store serving contradictory workloads (e.g. Redis as system-of-record, Postgres for firehose telemetry).
+
+**References:** CAP theorem, DDIA ch. 4–9, AWS/Google datastore selection guides
+
+# Durability Acknowledgment Policy
+
+**MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
+
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries.
+
+**Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
+
+**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
 
