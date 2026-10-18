@@ -26,3 +26,4 @@ Issues:
 - `branch-protection-required-reviews`
 - `pinned-ci-actions`
 - `policy-as-code-enforcement`
+- `lighthouse-ci-performance-budgets`

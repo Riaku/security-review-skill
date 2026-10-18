@@ -471,21 +471,21 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
 
-**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines, resist reproduction, and can't be trusted during incidents.
+**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines and can't be trusted or reproduced during incidents.
 
-**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate` deployments.
+**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
 
-**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2, AWS Well-Architected, immutable-infrastructure pattern
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
 
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
 
-**Why:** Scanners only see what you built; attackers operate in what's running, working unnoticed inside otherwise "secure" images.
+**Why:** Scanners only see what you built; attackers operate in what's running, unnoticed inside otherwise "secure" images.
 
-**Detect:** grep for `falco`, `tracee`, `tetragon`, `sysdig`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
+**Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
-**References:** MITRE ATT&CK container matrix T1610, CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
+**References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
 
 # Service Mesh / Service-to-Service mTLS (identity for internal traffic)
 
@@ -501,11 +501,11 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
 
-**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary endpoints.
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all reach arbitrary endpoints.
 
-**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound firewall rules, `egress_filter` configs.
+**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
 
-**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011 (Exfiltration), CIS Kubernetes Benchmark 5.3
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
 
 # Container Escape Hardening
 

@@ -258,19 +258,19 @@ Dependencies, artifacts, build provenance.
 
 **MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
 
-**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens — the tj-actions incident proved it.
+**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
 
-**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate `pin` configs, dependabot pin settings.
+**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
 
 **References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
-**MUST** verify signatures (cosign/sigstore) on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
+**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
 
 **Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
 
-**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, `--verification-policy` in deploy pipelines.
+**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
 **References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
 

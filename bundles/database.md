@@ -1201,7 +1201,7 @@ export = anonymize(df, k=20,
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
 
-**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too, so only tested restores count.
+**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too.
 
 **Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
 

@@ -391,9 +391,9 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
 
-**Why:** Scanners only see what you built; attackers operate in what's running, working unnoticed inside otherwise "secure" images.
+**Why:** Scanners only see what you built; attackers operate in what's running, unnoticed inside otherwise "secure" images.
 
-**Detect:** grep for `falco`, `tracee`, `tetragon`, `sysdig`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
+**Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
-**References:** MITRE ATT&CK container matrix T1610, CIS Docker/Kubernetes Benchmarks 5.x, NIST SP 800-190, Falco docs
+**References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
 

@@ -1,9 +1,12 @@
 # Tooling Reference — Scanners & Security Tools
 
 Curated map of widely used tools referenced by checklist items. Tool names in
-`Detect:` lines point here. This list is advisory, not exhaustive; presence of a
-tool does not imply endorsement, and any tool may be substituted with an
-equivalent from the same class.
+`Detect:` lines point here. The machine-readable tool→issues mapping lives in
+`scripts/tool-issues.json`; the generated reverse index (each tool → its
+related `issues/*.md`) is `references/tool-index.md` — regenerate both with
+`python3 scripts/gen_manifests.py`. This list is advisory, not exhaustive;
+presence of a tool does not imply endorsement, and any tool may be
+substituted with an equivalent from the same class.
 
 ## Static analysis (SAST)
 

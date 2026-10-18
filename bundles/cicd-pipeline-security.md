@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (23 items)
+# cicd-pipeline-security — full checklist (24 items)
 
 CI/CD system as an attack surface.
 
@@ -218,19 +218,29 @@ CI/CD system as an attack surface.
 
 **MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
 
-**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens — the tj-actions incident proved it.
+**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
 
-**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate `pin` configs, dependabot pin settings.
+**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
 
 **References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
-**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and at admission, not in wikis.
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
 
 **Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
 
-**Detect:** grep for `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
+**Detect:** grep `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
 
-**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2, Policy-as-Code patterns
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
+
+# Lighthouse CI Performance Budgets
+
+**SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
+
+**Why:** Untracked Lighthouse scores decay one merge at a time; a CI gate makes regression visible at the commit that caused it.
+
+**Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
+
+**References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
 

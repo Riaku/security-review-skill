@@ -145,6 +145,7 @@ def cat_scope(cat: str) -> str:
         "mobile": "Mobile client security.",
         "hardening-benchmarks": "CIS/STIG-style configuration baselines.",
         "regulatory-frameworks": "Audit and regulatory regimes.",
+        "seo-web-quality": "Search visibility, crawl/index hygiene, and page experience (Google Search Central, CWV, Lighthouse).",
     }[cat]
 
 
@@ -155,7 +156,7 @@ def main() -> int:
         "backend": ["web-api-security", "authentication", "authorization-access-control",
                     "secrets-crypto", "api-design", "correctness-pitfalls",
                     "testing-strategy", "security-practices"],
-        "frontend": ["web-client-security"],
+        "frontend": ["web-client-security", "seo-web-quality"],
         "data": ["database", "distributed-systems", "messaging-async"],
         "infrastructure": ["supply-chain", "cloud-network", "deployment-release",
                           "containers-k8s", "cicd-pipeline-security"],
@@ -200,8 +201,25 @@ def main() -> int:
             parts += [body, ""]
         (ROOT / "bundles" / f"{cat}.md").write_text("\n".join(parts) + "\n")
 
+    # Tool -> issues reverse index from scripts/tool-issues.json (standard
+    # machine-readable mapping; single source for tool cross-references).
+    mapping = json.loads((ROOT / "scripts" / "tool-issues.json").read_text())
+    slug_set = {t["slug"] for t in TOPICS}
+    for tool, slugs in mapping.items():
+        missing = [s for s in slugs if s not in slug_set]
+        assert not missing, f"tool {tool} references unknown issues: {missing}"
+    (ROOT / "references").mkdir(exist_ok=True)
+    lines = ["# Tool → Issues Index", "",
+             "Generated from `scripts/tool-issues.json`. Do not hand-edit.", ""]
+    for tool in sorted(mapping):
+        lines.append(f"## {tool}")
+        lines += [f"- `issues/{s}.md`" for s in mapping[tool]]
+        lines.append("")
+    (ROOT / "references" / "tool-index.md").write_text("\n".join(lines) + "\n")
+
     print(f"Wrote {len(DOMAINS)} domains, {len(all_cats)} categories "
-          f"(+ {len(all_cats)} bundles) covering {len(TOPICS)} topics")
+          f"(+ {len(all_cats)} bundles, {len(mapping)} tool mappings) "
+          f"covering {len(TOPICS)} topics")
     return 0
 
 

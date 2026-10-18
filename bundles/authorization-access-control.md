@@ -230,9 +230,9 @@ resource "aws_iam_policy" "ci" {
 
 **MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants turn one leaked credential into full account takeover, and PassRole hides escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover; PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`; run cloudsplaining, tfsec.
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`.
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
 
@@ -252,17 +252,17 @@ resource "aws_iam_policy" "ci" {
 
 **Why:** Machine identities outnumber humans 50:1 and are rarely reviewed; orphaned service accounts become attackers' favorite door.
 
-**Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs, IAM user-vs-role audits.
+**Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
 
-**References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, Cloud Security Alliance NHI guidance
+**References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
 
 # Least-Frequently-Used Permission Review (periodic entitlement pruning)
 
-**MAY** begin with quick wins, but SHOULD periodically revoke entitlements unused over a defined window (e.g. 90 days).
+**SHOULD** periodically revoke entitlements unused over a defined window (e.g. 90 days), starting with the broadest grants.
 
 **Why:** Unused permissions are pure attack surface: they never help legitimate work yet sit ready for any compromised account.
 
-**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor / GCP unused-service reports, entitlement-review jobs.
+**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor reports.
 
-**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor, ISO 27001 A.5.18 review cadence
+**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
 

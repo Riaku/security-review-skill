@@ -386,7 +386,7 @@ health_check: {interval: 10s, timeout: 5s,
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
 
-**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too, so only tested restores count.
+**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too.
 
 **Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
 
@@ -396,9 +396,9 @@ health_check: {interval: 10s, timeout: 5s,
 
 **MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.
 
-**Why:** Without structured learning the same failure repeats, and blame-driven cultures hide information precisely when it's most needed.
+**Why:** Without structured learning the same failure repeats; blame-driven cultures hide information when it's needed most.
 
-**Detect:** grep for `postmortem`, `RCA`, `blameless`, review templates, action-item tickets linked to incident IDs in trackers.
+**Detect:** grep `postmortem`, `RCA`, `blameless`, review templates, action tickets linked to incident IDs.
 
-**References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17, ISO/IEC 27035
+**References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17
 

@@ -2,7 +2,7 @@
 name: security-review-skill
 description: >-
   Systematic security, deployment, and reliability review of a codebase using 535
-  checklist items across 28 categories and 8 domains, fanned out to parallel
+  checklist items across 29 categories and 8 domains, fanned out to parallel
   sub-agents. Use when asked to review a project for security issues, production
   readiness, deployment concerns, compliance posture, or a security audit.
 license: MIT
@@ -70,6 +70,7 @@ Include the needs-human section verbatim — never silently drop findings.
 | testing-strategy | backend |
 | security-practices | backend |
 | web-client-security | frontend |
+| seo-web-quality | frontend |
 | database | data |
 | distributed-systems | data |
 | messaging-async | data |
@@ -104,6 +105,11 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
   categories at once (few large reads instead of many small ones). Never
   hand-edit bundles; edit `issues/<slug>.md` and re-run
   `python3 scripts/gen_manifests.py`.
+- `references/tooling.md` — human-readable scanner/tool catalog by class.
+- `scripts/tool-issues.json` — machine-readable tool→issues mapping (the
+  standard format; edit here to link tools to issues).
+- `references/tool-index.md` — **generated** reverse index: each tool →
+  the `issues/*.md` files it detects.
 
 Do not mix granularities for the same review: pick per-item or per-bundle, so
 findings cite consistently (`issues/<slug>.md` is always the citation).
@@ -122,4 +128,4 @@ findings cite consistently (`issues/<slug>.md` is always the citation).
 ## Verification
 
 `python3 scripts/validate_skill.py` exits 0 with
-`OK: 535 issues, 28 categories, 8 domains`.
+`OK: 535 issues, 29 categories, 8 domains`.

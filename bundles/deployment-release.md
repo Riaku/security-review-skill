@@ -265,39 +265,39 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
 
-**Why:** Console-clicked changes bypass review and become invisible holes — an open security group nobody wrote down never gets fixed.
+**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
 
-**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f` scheduled checks.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs, AWS Config conformance packs
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
 **SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
 
-**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines, resist reproduction, and can't be trusted during incidents.
+**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines and can't be trusted or reproduced during incidents.
 
-**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate` deployments.
+**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
 
-**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2, AWS Well-Architected, immutable-infrastructure pattern
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
-**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and at admission, not in wikis.
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
 
 **Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
 
-**Detect:** grep for `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
+**Detect:** grep `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
 
-**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2, Policy-as-Code patterns
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
-**MUST** verify signatures (cosign/sigstore) on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
+**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
 
 **Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
 
-**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, `--verification-policy` in deploy pipelines.
+**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
 **References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
 

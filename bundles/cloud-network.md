@@ -1176,9 +1176,9 @@ resource "aws_iam_policy" "ci" {
 
 **MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
 
-**Why:** Over-broad grants turn one leaked credential into full account takeover, and PassRole hides escalation inside "read-only" roles.
+**Why:** Over-broad grants turn one leaked credential into full account takeover; PassRole hides escalation inside "read-only" roles.
 
-**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`; run cloudsplaining, tfsec.
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`.
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
 
@@ -1216,11 +1216,11 @@ resource "aws_iam_policy" "ci" {
 
 **MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
 
-**Why:** Console-clicked changes bypass review and become invisible holes — an open security group nobody wrote down never gets fixed.
+**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
 
-**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f` scheduled checks.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs, AWS Config conformance packs
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # Service Mesh / Service-to-Service mTLS (identity for internal traffic)
 
@@ -1238,19 +1238,19 @@ resource "aws_iam_policy" "ci" {
 
 **Why:** Findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
 
-**Detect:** grep for `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports, CSEM attack-path tooling output.
+**Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
 
-**References:** MITRE ATT&CK, NIST SP 800-30 (risk assessment), BloodHound docs, CSEM attack-path analysis
+**References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
 
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
 **SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
 
-**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all depend on reaching arbitrary endpoints.
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all reach arbitrary endpoints.
 
-**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound firewall rules, `egress_filter` configs.
+**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
 
-**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011 (Exfiltration), CIS Kubernetes Benchmark 5.3
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
 
 # Open Directory Listing
 

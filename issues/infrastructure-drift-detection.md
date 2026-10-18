@@ -2,8 +2,8 @@
 
 **MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
 
-**Why:** Console-clicked changes bypass review and become invisible holes — an open security group nobody wrote down never gets fixed.
+**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
 
-**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f` scheduled checks.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs, AWS Config conformance packs
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs

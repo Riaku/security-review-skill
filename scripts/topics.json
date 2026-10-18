@@ -4486,5 +4486,110 @@
       "cloud-network",
       "database"
     ]
+  },
+  {
+    "num": 536,
+    "title": "Core Web Vitals Budgets (LCP/INP/CLS at p75)",
+    "slug": "core-web-vitals-budgets",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 537,
+    "title": "Google Search Central Compliance (spam policies, no cloaking)",
+    "slug": "google-search-central-compliance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 538,
+    "title": "Structured Data Schema.org Validation (JSON-LD, rich results)",
+    "slug": "structured-data-schema-validation",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 539,
+    "title": "Robots.txt & noindex Governance (staging must be noindex)",
+    "slug": "robots-txt-noindex-governance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 540,
+    "title": "Canonical URL Handling (one URL per resource)",
+    "slug": "canonical-url-handling",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 541,
+    "title": "Hreflang & Internationalization Signals",
+    "slug": "hreflang-internationalization",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 542,
+    "title": "Crawler-Renderable Content (SSR/prerender for JS apps)",
+    "slug": "crawler-renderable-content",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 543,
+    "title": "Lighthouse CI Performance Budgets (PR-gated)",
+    "slug": "lighthouse-ci-performance-budgets",
+    "categories": [
+      "seo-web-quality",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 544,
+    "title": "Image Optimization & Modern Serving (WebP/AVIF, srcset, lazy)",
+    "slug": "image-optimization-serving",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 545,
+    "title": "Redirect Chain & Status Hygiene (no chains, no soft-404)",
+    "slug": "redirect-chain-status-hygiene",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 546,
+    "title": "XML Sitemap Maintenance (canonical-only, accurate lastmod)",
+    "slug": "xml-sitemap-maintenance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 547,
+    "title": "Index Bloat & Faceted-URL Control",
+    "slug": "index-bloat-faceted-urls",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 548,
+    "title": "Meta & OG Tag Completeness (unique titles, social previews)",
+    "slug": "meta-og-tag-completeness",
+    "categories": [
+      "seo-web-quality"
+    ]
   }
 ]
