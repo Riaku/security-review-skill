@@ -1,0 +1,2563 @@
+[
+  {
+    "num": 1,
+    "title": "SQL Injection",
+    "slug": "sql-injection",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 2,
+    "title": "XSS",
+    "slug": "xss",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 3,
+    "title": "CSRF",
+    "slug": "csrf",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 4,
+    "title": "CORS",
+    "slug": "cors",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 5,
+    "title": "SSRF",
+    "slug": "ssrf",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 6,
+    "title": "IDOR",
+    "slug": "idor",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 7,
+    "title": "Path Traversal",
+    "slug": "path-traversal",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 8,
+    "title": "Mass Assignment",
+    "slug": "mass-assignment",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 9,
+    "title": "Clickjacking",
+    "slug": "clickjacking",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 10,
+    "title": "Content Security Policy",
+    "slug": "content-security-policy",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 11,
+    "title": "Security Headers",
+    "slug": "security-headers",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 12,
+    "title": "Input Validation",
+    "slug": "input-validation",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 13,
+    "title": "Server-Side Authorization",
+    "slug": "server-side-authorization",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 14,
+    "title": "Row-Level Security",
+    "slug": "row-level-security",
+    "categories": [
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 15,
+    "title": "Least Privilege",
+    "slug": "least-privilege",
+    "categories": [
+      "secrets-crypto",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 16,
+    "title": "RBAC",
+    "slug": "rbac",
+    "categories": [
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 17,
+    "title": "Secrets Management",
+    "slug": "secrets-management",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 18,
+    "title": ".env in .gitignore",
+    "slug": "env-in-gitignore",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 19,
+    "title": "API Key Rotation",
+    "slug": "api-key-rotation",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 20,
+    "title": "Secret Scanning",
+    "slug": "secret-scanning",
+    "categories": [
+      "secrets-crypto",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 21,
+    "title": "Hashing vs Encryption",
+    "slug": "hashing-vs-encryption",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 22,
+    "title": "Password Salting",
+    "slug": "password-salting",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 23,
+    "title": "bcrypt & Argon2",
+    "slug": "bcrypt-argon2",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 24,
+    "title": "JWT Expiry",
+    "slug": "jwt-expiry",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 25,
+    "title": "Refresh Tokens",
+    "slug": "refresh-tokens",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 26,
+    "title": "OAuth 2.0",
+    "slug": "oauth-2",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 27,
+    "title": "OpenID Connect",
+    "slug": "openid-connect",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 28,
+    "title": "Session Fixation",
+    "slug": "session-fixation",
+    "categories": [
+      "authentication",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 29,
+    "title": "MFA",
+    "slug": "mfa",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 30,
+    "title": "Brute Force Protection",
+    "slug": "brute-force-protection",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 31,
+    "title": "Account Enumeration",
+    "slug": "account-enumeration",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 32,
+    "title": "Timing Attacks",
+    "slug": "timing-attacks",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 33,
+    "title": "File Upload Validation",
+    "slug": "file-upload-validation",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 34,
+    "title": "Webhook Signature Verification",
+    "slug": "webhook-signature-verification",
+    "categories": [
+      "web-api-security",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 35,
+    "title": "TLS Certificate Expiry",
+    "slug": "tls-certificate-expiry",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 36,
+    "title": "HSTS",
+    "slug": "hsts",
+    "categories": [
+      "cloud-network",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 37,
+    "title": "Encryption at Rest",
+    "slug": "encryption-at-rest",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 38,
+    "title": "Dependency Vulnerabilities",
+    "slug": "dependency-vulnerabilities",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 39,
+    "title": "Supply Chain Attacks",
+    "slug": "supply-chain-attacks",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 40,
+    "title": "Threat Modeling",
+    "slug": "threat-modeling",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 41,
+    "title": "Indexes",
+    "slug": "indexes",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 42,
+    "title": "EXPLAIN ANALYZE",
+    "slug": "explain-analyze",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 43,
+    "title": "N+1 Queries",
+    "slug": "n-plus-1-queries",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 44,
+    "title": "Full Table Scans",
+    "slug": "full-table-scans",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 45,
+    "title": "Connection Pooling",
+    "slug": "connection-pooling",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 46,
+    "title": "Database Migrations",
+    "slug": "database-migrations",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 47,
+    "title": "Down Migrations",
+    "slug": "down-migrations",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 48,
+    "title": "Transactions",
+    "slug": "transactions",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 49,
+    "title": "ACID",
+    "slug": "acid",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 50,
+    "title": "Isolation Levels",
+    "slug": "isolation-levels",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 51,
+    "title": "Deadlocks",
+    "slug": "deadlocks",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 52,
+    "title": "Optimistic Locking",
+    "slug": "optimistic-locking",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 53,
+    "title": "Pessimistic Locking",
+    "slug": "pessimistic-locking",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 54,
+    "title": "Normalization",
+    "slug": "normalization",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 55,
+    "title": "Denormalization",
+    "slug": "denormalization",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 56,
+    "title": "Foreign Keys",
+    "slug": "foreign-keys",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 57,
+    "title": "Unique Constraints",
+    "slug": "unique-constraints",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 58,
+    "title": "Cascading Deletes",
+    "slug": "cascading-deletes",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 59,
+    "title": "Soft Deletes",
+    "slug": "soft-deletes",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 60,
+    "title": "UUIDs vs Auto-Increment",
+    "slug": "uuids-vs-auto-increment",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 61,
+    "title": "Cursor-Based Pagination",
+    "slug": "cursor-based-pagination",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 62,
+    "title": "Full-Text Search",
+    "slug": "full-text-search",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 63,
+    "title": "Read Replicas",
+    "slug": "read-replicas",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 64,
+    "title": "Replication Lag",
+    "slug": "replication-lag",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 65,
+    "title": "Sharding",
+    "slug": "sharding",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 66,
+    "title": "Partitioning",
+    "slug": "partitioning",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 67,
+    "title": "Hot Partitions",
+    "slug": "hot-partitions",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 68,
+    "title": "Postgres VACUUM",
+    "slug": "postgres-vacuum",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 69,
+    "title": "Materialized Views",
+    "slug": "materialized-views",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 70,
+    "title": "Backups",
+    "slug": "backups",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 71,
+    "title": "Testing Your Restores",
+    "slug": "testing-restores",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 72,
+    "title": "Point-in-Time Recovery",
+    "slug": "point-in-time-recovery",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 73,
+    "title": "Change Data Capture",
+    "slug": "change-data-capture",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 74,
+    "title": "Outbox Pattern",
+    "slug": "outbox-pattern",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 75,
+    "title": "ORM Lazy Loading",
+    "slug": "orm-lazy-loading",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 76,
+    "title": "CAP Theorem",
+    "slug": "cap-theorem",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 77,
+    "title": "Eventual Consistency",
+    "slug": "eventual-consistency",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 78,
+    "title": "Strong Consistency",
+    "slug": "strong-consistency",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 79,
+    "title": "Raft Consensus",
+    "slug": "raft-consensus",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 80,
+    "title": "Leader Election",
+    "slug": "leader-election",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 81,
+    "title": "Split Brain",
+    "slug": "split-brain",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 82,
+    "title": "Quorums",
+    "slug": "quorums",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 83,
+    "title": "Clock Skew",
+    "slug": "clock-skew",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 84,
+    "title": "Distributed Locks",
+    "slug": "distributed-locks",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 85,
+    "title": "Consistent Hashing",
+    "slug": "consistent-hashing",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 86,
+    "title": "Bloom Filters",
+    "slug": "bloom-filters",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 87,
+    "title": "Two-Phase Commit",
+    "slug": "two-phase-commit",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 88,
+    "title": "CQRS",
+    "slug": "cqrs",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 89,
+    "title": "Event Sourcing",
+    "slug": "event-sourcing",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 90,
+    "title": "Race Conditions",
+    "slug": "race-conditions",
+    "categories": [
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 91,
+    "title": "Backpressure",
+    "slug": "backpressure",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 92,
+    "title": "Load Shedding",
+    "slug": "load-shedding",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 93,
+    "title": "Bulkheads",
+    "slug": "bulkheads",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 94,
+    "title": "Jitter",
+    "slug": "jitter",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 95,
+    "title": "Retry Storms",
+    "slug": "retry-storms",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 96,
+    "title": "Cascading Failures",
+    "slug": "cascading-failures",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 97,
+    "title": "Thundering Herd",
+    "slug": "thundering-herd",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 98,
+    "title": "Cache Invalidation",
+    "slug": "cache-invalidation",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 99,
+    "title": "Cache Hit Ratio",
+    "slug": "cache-hit-ratio",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 100,
+    "title": "TTLs",
+    "slug": "ttls",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 101,
+    "title": "Cache Warming",
+    "slug": "cache-warming",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 102,
+    "title": "Write-Through vs Write-Back",
+    "slug": "write-through-vs-write-back",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 103,
+    "title": "Redis Eviction Policies",
+    "slug": "redis-eviction-policies",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 104,
+    "title": "CDNs",
+    "slug": "cdns",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 105,
+    "title": "Cache-Control Headers",
+    "slug": "cache-control-headers",
+    "categories": [
+      "caching",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 106,
+    "title": "ETags",
+    "slug": "etags",
+    "categories": [
+      "caching"
+    ]
+  },
+  {
+    "num": 107,
+    "title": "Dead Letter Queues",
+    "slug": "dead-letter-queues",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 108,
+    "title": "Poison Messages",
+    "slug": "poison-messages",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 109,
+    "title": "At-Least-Once Delivery",
+    "slug": "at-least-once-delivery",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 110,
+    "title": "Exactly-Once Semantics",
+    "slug": "exactly-once-semantics",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 111,
+    "title": "Message Ordering",
+    "slug": "message-ordering",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 112,
+    "title": "Kafka Consumer Groups",
+    "slug": "kafka-consumer-groups",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 113,
+    "title": "Partition Keys",
+    "slug": "partition-keys",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 114,
+    "title": "Background Jobs",
+    "slug": "background-jobs",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 115,
+    "title": "Webhook Retries",
+    "slug": "webhook-retries",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 116,
+    "title": "DNS",
+    "slug": "dns",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 117,
+    "title": "DNS Propagation",
+    "slug": "dns-propagation",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 118,
+    "title": "HTTP Status Codes",
+    "slug": "http-status-codes",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 119,
+    "title": "HTTP Method Semantics",
+    "slug": "http-method-semantics",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 120,
+    "title": "Keep-Alive",
+    "slug": "keep-alive",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 121,
+    "title": "HTTP/2",
+    "slug": "http2",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 122,
+    "title": "WebSockets",
+    "slug": "websockets",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 123,
+    "title": "Server-Sent Events",
+    "slug": "server-sent-events",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 124,
+    "title": "Long Polling",
+    "slug": "long-polling",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 125,
+    "title": "gRPC",
+    "slug": "grpc",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 126,
+    "title": "Protocol Buffers",
+    "slug": "protocol-buffers",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 127,
+    "title": "API Versioning",
+    "slug": "api-versioning",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 128,
+    "title": "OpenAPI Specs",
+    "slug": "openapi-specs",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 129,
+    "title": "Backward Compatibility",
+    "slug": "backward-compatibility",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 130,
+    "title": "Request Size Limits",
+    "slug": "request-size-limits",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 131,
+    "title": "Compression",
+    "slug": "compression",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 132,
+    "title": "Latency vs Throughput",
+    "slug": "latency-vs-throughput",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 133,
+    "title": "Egress Fees",
+    "slug": "egress-fees",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 134,
+    "title": "VPCs",
+    "slug": "vpcs",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 135,
+    "title": "Subnets",
+    "slug": "subnets",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 136,
+    "title": "NAT Gateways",
+    "slug": "nat-gateways",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 137,
+    "title": "Firewalls",
+    "slug": "firewalls",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 138,
+    "title": "Security Groups",
+    "slug": "security-groups",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 139,
+    "title": "Service Mesh",
+    "slug": "service-mesh",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 140,
+    "title": "Ingress Controllers",
+    "slug": "ingress-controllers",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 141,
+    "title": "Health Checks",
+    "slug": "health-checks",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 142,
+    "title": "Liveness vs Readiness Probes",
+    "slug": "liveness-vs-readiness-probes",
+    "categories": [
+      "sre-incidents",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 143,
+    "title": "Graceful Shutdown",
+    "slug": "graceful-shutdown",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 144,
+    "title": "Connection Draining",
+    "slug": "connection-draining",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 145,
+    "title": "Stateless Services",
+    "slug": "stateless-services",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 146,
+    "title": "Failover",
+    "slug": "failover",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 147,
+    "title": "Multi-Region",
+    "slug": "multi-region",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 148,
+    "title": "Availability Zones",
+    "slug": "availability-zones",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 149,
+    "title": "Single Points of Failure",
+    "slug": "single-points-of-failure",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 150,
+    "title": "Disaster Recovery",
+    "slug": "disaster-recovery",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 151,
+    "title": "RTO & RPO",
+    "slug": "rto-rpo",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 152,
+    "title": "SLAs",
+    "slug": "slas",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 153,
+    "title": "SLOs",
+    "slug": "slos",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 154,
+    "title": "Error Budgets",
+    "slug": "error-budgets",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 155,
+    "title": "Incident Response",
+    "slug": "incident-response",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 156,
+    "title": "On-Call",
+    "slug": "on-call",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 157,
+    "title": "Runbooks",
+    "slug": "runbooks",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 158,
+    "title": "Postmortems",
+    "slug": "postmortems",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 159,
+    "title": "Chaos Engineering",
+    "slug": "chaos-engineering",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 160,
+    "title": "Graceful Degradation",
+    "slug": "graceful-degradation",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 161,
+    "title": "Autoscaling",
+    "slug": "autoscaling",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 162,
+    "title": "Horizontal vs Vertical Scaling",
+    "slug": "horizontal-vs-vertical-scaling",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 163,
+    "title": "Cold Starts",
+    "slug": "cold-starts",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 164,
+    "title": "Capacity Planning",
+    "slug": "capacity-planning",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 165,
+    "title": "Load Testing",
+    "slug": "load-testing",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 166,
+    "title": "Memory Leaks",
+    "slug": "memory-leaks",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 167,
+    "title": "OOM Killer",
+    "slug": "oom-killer",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 168,
+    "title": "Structured Logging",
+    "slug": "structured-logging",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 169,
+    "title": "Log Levels",
+    "slug": "log-levels",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 170,
+    "title": "Log Rotation",
+    "slug": "log-rotation",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 171,
+    "title": "Distributed Tracing",
+    "slug": "distributed-tracing",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 172,
+    "title": "OpenTelemetry",
+    "slug": "opentelemetry",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 173,
+    "title": "Correlation IDs",
+    "slug": "correlation-ids",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 174,
+    "title": "Metrics Cardinality",
+    "slug": "metrics-cardinality",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 175,
+    "title": "p99 Latency",
+    "slug": "p99-latency",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 176,
+    "title": "Alert Fatigue",
+    "slug": "alert-fatigue",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 177,
+    "title": "Error Tracking",
+    "slug": "error-tracking",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 178,
+    "title": "Profiling",
+    "slug": "profiling",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 179,
+    "title": "Flame Graphs",
+    "slug": "flame-graphs",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 180,
+    "title": "Infrastructure as Code",
+    "slug": "infrastructure-as-code",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 181,
+    "title": "Terraform State",
+    "slug": "terraform-state",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 182,
+    "title": "GitOps",
+    "slug": "gitops",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 183,
+    "title": "Blue-Green Deployments",
+    "slug": "blue-green-deployments",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 184,
+    "title": "Canary Releases",
+    "slug": "canary-releases",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 185,
+    "title": "Rollbacks",
+    "slug": "rollbacks",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 186,
+    "title": "Feature Flags",
+    "slug": "feature-flags",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 187,
+    "title": "Environment Parity",
+    "slug": "environment-parity",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 188,
+    "title": "Staging Environments",
+    "slug": "staging-environments",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 189,
+    "title": "12-Factor Apps",
+    "slug": "twelve-factor-apps",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 190,
+    "title": "Multi-Stage Builds",
+    "slug": "multi-stage-builds",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 191,
+    "title": "Non-Root Containers",
+    "slug": "non-root-containers",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 192,
+    "title": "Image Scanning",
+    "slug": "image-scanning",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 193,
+    "title": "Resource Requests & Limits",
+    "slug": "resource-requests-limits",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 194,
+    "title": "Pod Disruption Budgets",
+    "slug": "pod-disruption-budgets",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 195,
+    "title": "Semantic Versioning",
+    "slug": "semantic-versioning",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 196,
+    "title": "Lockfiles",
+    "slug": "lockfiles",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 197,
+    "title": "Reproducible Builds",
+    "slug": "reproducible-builds",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 198,
+    "title": "Branch Protection",
+    "slug": "branch-protection",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 199,
+    "title": "Public S3 Buckets",
+    "slug": "public-s3-buckets",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 200,
+    "title": "Presigned URLs",
+    "slug": "presigned-urls",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 201,
+    "title": "Cloud Billing Alerts",
+    "slug": "cloud-billing-alerts",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 202,
+    "title": "Unit Tests",
+    "slug": "unit-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 203,
+    "title": "Integration Tests",
+    "slug": "integration-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 204,
+    "title": "End-to-End Tests",
+    "slug": "end-to-end-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 205,
+    "title": "Contract Testing",
+    "slug": "contract-testing",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 206,
+    "title": "Flaky Tests",
+    "slug": "flaky-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 207,
+    "title": "Mocking",
+    "slug": "mocking",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 208,
+    "title": "Regression Tests",
+    "slug": "regression-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 209,
+    "title": "Smoke Tests",
+    "slug": "smoke-tests",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 210,
+    "title": "Property-Based Testing",
+    "slug": "property-based-testing",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 211,
+    "title": "Fuzzing",
+    "slug": "fuzzing",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 212,
+    "title": "Error Handling",
+    "slug": "error-handling",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 213,
+    "title": "Edge Cases",
+    "slug": "edge-cases",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 214,
+    "title": "Off-by-One Errors",
+    "slug": "off-by-one-errors",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 215,
+    "title": "Floating Point Math",
+    "slug": "floating-point-math",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 216,
+    "title": "Storing Money as Floats",
+    "slug": "storing-money-as-floats",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 217,
+    "title": "Time Zones",
+    "slug": "time-zones",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 218,
+    "title": "Daylight Saving Time",
+    "slug": "daylight-saving-time",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 219,
+    "title": "Unicode",
+    "slug": "unicode",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 220,
+    "title": "Character Encoding",
+    "slug": "character-encoding",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 221,
+    "title": "Thread Safety",
+    "slug": "thread-safety",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 222,
+    "title": "Event Loop Blocking",
+    "slug": "event-loop-blocking",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 223,
+    "title": "Unhandled Promise Rejections",
+    "slug": "unhandled-promise-rejections",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 224,
+    "title": "Integer Overflow",
+    "slug": "integer-overflow",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 225,
+    "title": "Garbage Collection",
+    "slug": "garbage-collection",
+    "categories": [
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 226,
+    "title": "Schema Validation",
+    "slug": "schema-validation",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 227,
+    "title": "Debouncing",
+    "slug": "debouncing",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 228,
+    "title": "Big O Notation",
+    "slug": "big-o-notation",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 229,
+    "title": "Technical Debt",
+    "slug": "technical-debt",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 230,
+    "title": "Dead Code",
+    "slug": "dead-code",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 231,
+    "title": "Merge Conflicts",
+    "slug": "merge-conflicts",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 232,
+    "title": "GDPR",
+    "slug": "gdpr",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 233,
+    "title": "PII Handling",
+    "slug": "pii-handling",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 234,
+    "title": "Audit Logs",
+    "slug": "audit-logs",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 235,
+    "title": "Data Residency",
+    "slug": "data-residency",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 236,
+    "title": "SOC 2",
+    "slug": "soc-2",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 237,
+    "title": "PCI DSS",
+    "slug": "pci-dss",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 238,
+    "title": "Cookie Consent",
+    "slug": "cookie-consent",
+    "categories": [
+      "compliance-privacy",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 239,
+    "title": "Software Licenses",
+    "slug": "software-licenses",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 240,
+    "title": "SPF, DKIM & DMARC",
+    "slug": "spf-dkim-dmarc",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 241,
+    "title": "Email Bounce Handling",
+    "slug": "email-bounce-handling",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 242,
+    "title": "Chargebacks",
+    "slug": "chargebacks",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 243,
+    "title": "Bot Protection",
+    "slug": "bot-protection",
+    "categories": [
+      "compliance-privacy",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 244,
+    "title": "Prompt Injection",
+    "slug": "prompt-injection",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 245,
+    "title": "Hallucinated Packages",
+    "slug": "hallucinated-packages",
+    "categories": [
+      "supply-chain",
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 246,
+    "title": "Real-time streaming",
+    "slug": "real-time-streaming",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 247,
+    "title": "Context Windows",
+    "slug": "context-windows",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 248,
+    "title": "Evals",
+    "slug": "evals",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 249,
+    "title": "Model Version Pinning",
+    "slug": "model-version-pinning",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 251,
+    "title": "Idempotency (idempotency keys)",
+    "slug": "idempotency",
+    "categories": [
+      "resilience",
+      "messaging-async",
+      "payments-fraud"
+    ]
+  },
+  {
+    "num": 252,
+    "title": "Circuit Breakers",
+    "slug": "circuit-breakers",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 253,
+    "title": "Timeout Budgets / Deadline Propagation",
+    "slug": "timeout-budgets",
+    "categories": [
+      "resilience",
+      "api-design"
+    ]
+  },
+  {
+    "num": 254,
+    "title": "Rate Limiting / Throttling",
+    "slug": "rate-limiting",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 255,
+    "title": "JWT Algorithm Confusion / alg=none / Unverified Signatures",
+    "slug": "jwt-algorithm-confusion",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 256,
+    "title": "Insecure Deserialization",
+    "slug": "insecure-deserialization",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 257,
+    "title": "Open Redirect",
+    "slug": "open-redirect",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 258,
+    "title": "Debug/Dev Mode in Production",
+    "slug": "debug-mode-in-production",
+    "categories": [
+      "web-api-security",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 259,
+    "title": "Backup Encryption & Immutable/Offsite Copies",
+    "slug": "backup-encryption-immutability",
+    "categories": [
+      "database",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 260,
+    "title": "Prototype Pollution",
+    "slug": "prototype-pollution",
+    "categories": [
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 261,
+    "title": "Subdomain Takeover / Dangling DNS",
+    "slug": "subdomain-takeover",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 262,
+    "title": "Dependency Confusion / Package-Name Squatting",
+    "slug": "dependency-confusion",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 263,
+    "title": "Artifact Signing & Provenance (cosign/Sigstore/SBOM)",
+    "slug": "artifact-signing-provenance",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 264,
+    "title": "Kubernetes RBAC & NetworkPolicies",
+    "slug": "k8s-rbac-networkpolicies",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 265,
+    "title": "mTLS / Service-to-Service Authentication",
+    "slug": "mtls-service-auth",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 266,
+    "title": "3D Secure / SCA",
+    "slug": "3d-secure-sca",
+    "categories": [
+      "payments-fraud"
+    ]
+  },
+  {
+    "num": 267,
+    "title": "Payment Webhook Reconciliation",
+    "slug": "payment-webhook-reconciliation",
+    "categories": [
+      "payments-fraud",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 268,
+    "title": "Double-Charge Prevention",
+    "slug": "double-charge-prevention",
+    "categories": [
+      "payments-fraud"
+    ]
+  },
+  {
+    "num": 269,
+    "title": "RAG / Knowledge-Base Poisoning",
+    "slug": "rag-poisoning",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 270,
+    "title": "Tool / Function-Call Argument Injection",
+    "slug": "tool-argument-injection",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 271,
+    "title": "Jailbreak Red-Teaming",
+    "slug": "jailbreak-red-teaming",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 272,
+    "title": "Model Artifact Integrity (pickle-format models)",
+    "slug": "model-artifact-integrity",
+    "categories": [
+      "ai-llm",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 273,
+    "title": "Secrets in CI Logs",
+    "slug": "secrets-in-ci-logs",
+    "categories": [
+      "secrets-crypto",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 274,
+    "title": "DSAR Fulfillment (GDPR access/deletion requests)",
+    "slug": "dsar-fulfillment",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 275,
+    "title": "Data Retention & Deletion Pipelines",
+    "slug": "data-retention-deletion",
+    "categories": [
+      "compliance-privacy",
+      "database"
+    ]
+  },
+  {
+    "num": 276,
+    "title": "Mobile Certificate Pinning",
+    "slug": "certificate-pinning",
+    "categories": [
+      "mobile"
+    ]
+  },
+  {
+    "num": 277,
+    "title": "Mobile Secure Storage (Keychain/Keystore)",
+    "slug": "mobile-secure-storage",
+    "categories": [
+      "mobile"
+    ]
+  },
+  {
+    "num": 278,
+    "title": "Deep Link / Universal Link Validation",
+    "slug": "deep-link-validation",
+    "categories": [
+      "mobile"
+    ]
+  },
+  {
+    "num": 279,
+    "title": "GraphQL Query Depth & Complexity Limits",
+    "slug": "graphql-depth-limits",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 280,
+    "title": "SSR Hydration XSS",
+    "slug": "ssr-hydration-xss",
+    "categories": [
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 281,
+    "title": "DNSSEC",
+    "slug": "dnssec",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 282,
+    "title": "HTTP/3 / QUIC",
+    "slug": "http3-quic",
+    "categories": [
+      "api-design"
+    ]
+  },
+  {
+    "num": 283,
+    "title": "IPv6",
+    "slug": "ipv6",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 284,
+    "title": "CI Runner Isolation",
+    "slug": "ci-runner-isolation",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 285,
+    "title": "CI Action Pinning (SHA not tag)",
+    "slug": "ci-action-pinning",
+    "categories": [
+      "cicd-pipeline-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 286,
+    "title": "CI Deploy-Credential Scoping",
+    "slug": "ci-deploy-credential-scoping",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 287,
+    "title": "CI Artifact Integrity Handoff",
+    "slug": "ci-artifact-integrity",
+    "categories": [
+      "cicd-pipeline-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 288,
+    "title": "CIS Benchmarks (OS/container/k8s/cloud)",
+    "slug": "cis-benchmarks",
+    "categories": [
+      "hardening-benchmarks",
+      "containers-k8s",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 289,
+    "title": "CIS Docker Benchmark",
+    "slug": "cis-docker-benchmark",
+    "categories": [
+      "hardening-benchmarks",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 290,
+    "title": "DISA STIG Hardening",
+    "slug": "disa-stig",
+    "categories": [
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 291,
+    "title": "CIS Controls (IG1\u2013IG3)",
+    "slug": "cis-controls",
+    "categories": [
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 292,
+    "title": "Kernel/Sysctl Hardening",
+    "slug": "kernel-sysctl-hardening",
+    "categories": [
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 293,
+    "title": "SSH Hardening",
+    "slug": "ssh-hardening",
+    "categories": [
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 294,
+    "title": "TLS/ cipher Suite Hardening (Mozilla profiles, disable legacy)",
+    "slug": "tls-cipher-hardening",
+    "categories": [
+      "hardening-benchmarks",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 295,
+    "title": "Cloud Provider Security Benchmarks (AWS Foundations / Azure / GCP CIS)",
+    "slug": "cloud-provider-benchmarks",
+    "categories": [
+      "hardening-benchmarks",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 296,
+    "title": "Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)",
+    "slug": "benchmark-scanning-ci",
+    "categories": [
+      "hardening-benchmarks",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 297,
+    "title": "FedRAMP (Low/Moderate/High)",
+    "slug": "fedramp",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 298,
+    "title": "NIST SP 800-53 Controls",
+    "slug": "nist-800-53",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 299,
+    "title": "NIST Cybersecurity Framework (CSF)",
+    "slug": "nist-csf",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 300,
+    "title": "NIST SP 800-171 (CUI)",
+    "slug": "nist-800-171",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 301,
+    "title": "CMMC (defense supply chain)",
+    "slug": "cmmc",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 302,
+    "title": "ITAR / EAR Export Controls",
+    "slug": "itar-ear",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 303,
+    "title": "CJIS (criminal justice data)",
+    "slug": "cjis",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 304,
+    "title": "HIPAA (health data)",
+    "slug": "hipaa",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 305,
+    "title": "FIPS 140-3 Validated Crypto",
+    "slug": "fips-140-3",
+    "categories": [
+      "regulatory-frameworks",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 306,
+    "title": "FIPS 186 / Digital Signature Standards",
+    "slug": "fips-186-signatures",
+    "categories": [
+      "regulatory-frameworks",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 307,
+    "title": "Common Criteria",
+    "slug": "common-criteria",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 308,
+    "title": "GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)",
+    "slug": "gdpr-regime",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 309,
+    "title": "CCPA/CPRA",
+    "slug": "ccpa-cpra",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 310,
+    "title": "UK GDPR + Cyber Essentials / Cyber Essentials Plus",
+    "slug": "uk-cyber-essentials",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 311,
+    "title": "EU NIS2 Directive",
+    "slug": "nis2",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 312,
+    "title": "DORA (financial sector resilience)",
+    "slug": "dora",
+    "categories": [
+      "regulatory-frameworks",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 313,
+    "title": "ISO/IEC 27001 ISMS",
+    "slug": "iso-27001",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 314,
+    "title": "SOC 2 as Audit Regime (CCs, evidence collection)",
+    "slug": "soc-2-regime",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 315,
+    "title": "PCI DSS as Audit Regime (SAQ, CDE scoping)",
+    "slug": "pci-dss-regime",
+    "categories": [
+      "regulatory-frameworks",
+      "payments-fraud"
+    ]
+  },
+  {
+    "num": 316,
+    "title": "AU ISM / IRAP (Australia)",
+    "slug": "au-ism-irap",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  }
+]
