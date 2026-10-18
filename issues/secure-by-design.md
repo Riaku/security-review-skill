@@ -7,3 +7,7 @@
 **Detect:** design docs citing `least privilege` / `defense in depth`, ADRs with security sections, default-deny network policies
 
 **References:** NIST SP 800-160, Saltzer & Schroeder principles, OWASP ASVS V1, CISA Secure by Design Pledges
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

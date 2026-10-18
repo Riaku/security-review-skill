@@ -7,3 +7,7 @@
 **Detect:** grep for `user not found`, `email already exists`, `invalid username` strings; differing HTTP status codes (404 vs 401) on auth endpoints.
 
 **References:** OWASP A07:2021, CWE-204, CWE-203, NIST SP 800-63B §5.2.3
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

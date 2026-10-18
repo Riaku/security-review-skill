@@ -7,3 +7,7 @@
 **Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
 
 **References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

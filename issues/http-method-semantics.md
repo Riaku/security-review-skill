@@ -7,3 +7,7 @@
 **Detect:** grep GET route handlers for DB writes, `session.destroy`, token revocation, or side-effect service calls.
 
 **References:** OWASP API3:2023, CWE-650, RFC 9110 §9.2
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -20,3 +20,7 @@ CREATE TABLE orders (
 ```
 
 **References:** SQL:2016 referential integrity, PostgreSQL FOREIGN KEY constraints, CWE-1105
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

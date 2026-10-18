@@ -20,3 +20,7 @@ mtls:
 ```
 
 **References:** Istio security docs (permissive mTLS caveats), OWASP Kubernetes Top 10, CWE-300
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

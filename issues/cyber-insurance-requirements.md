@@ -7,3 +7,7 @@
 **Detect:** grep policy "warranty", "condition precedent" against live config: MFA, EDR/antivirus, offline backups, patch SLA mismatches.
 
 **References:** ISO 27001/27017, CVE-based exclusion clauses, Marsh/Gallagher cyber underwriting guidance
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

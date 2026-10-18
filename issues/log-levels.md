@@ -7,3 +7,7 @@
 **Detect:** grep config for `LOG_LEVEL=debug`, `level: trace`, `logging.DEBUG`, `debug = true` in prod env files, Helm values, or Dockerfiles.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, MASVS-STORAGE-3
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep schedulers for healthcheck pings (`healthchecks.io`, `deadman` checks, `K8s CronJob` success conditions); flag jobs with failure alerts but no liveness deadline.
 
 **References:** Healthchecks.io dead-man pattern, Google SRE Workbook, CWE-778, K8s CronJob docs
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

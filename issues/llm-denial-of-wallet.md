@@ -7,3 +7,7 @@
 **Detect:** no rate_limit, max_tokens, or budget keys on LLM gateway routes; provider usage alerts not configured.
 
 **References:** OWASP LLM10:2025, CWE-770, CWE-400
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** log file paths or rotating file handlers in app config inside containerized deploys; missing stdout logger configuration; container logs empty despite active logging code.
 
 **References:** 12factor.net/logs, OWASP Logging Cheat Sheet, Kubernetes logging best practices
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

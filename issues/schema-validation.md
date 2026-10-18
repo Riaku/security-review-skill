@@ -7,3 +7,7 @@
 **Detect:** Handler reads `request.json[...]` with no validator, missing Pydantic/Zod/JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
 
 **References:** CWE-915, CWE-1289, OWASP ASVS 5.2, OWASP API1:2023
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

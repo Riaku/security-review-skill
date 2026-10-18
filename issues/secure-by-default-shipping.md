@@ -7,3 +7,7 @@
 **Detect:** review default config of the shipped product: are MFA/logging/encrypted transport on by default? Is any baseline security control gated behind paid tiers or manual hardening docs?
 
 **References:** CISA Secure by Design whitepaper & Pledge, OWASP Secure Product Design Cheat Sheet
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

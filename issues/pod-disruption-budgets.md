@@ -7,3 +7,7 @@
 **Detect:** Deployments with `replicas > 1` and no matching `PodDisruptionBudget` kind; `minAvailable`/`maxUnavailable` unset cluster-wide.
 
 **References:** K8s docs poddisruptionbudgets, SRE Workbook availability practices, NIST SP 800-190 5.4
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

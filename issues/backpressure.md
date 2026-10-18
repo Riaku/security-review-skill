@@ -7,3 +7,7 @@
 **Detect:** grep `queue_size`, `max_concurrent_requests`, `high_watermark`, `429 Too Many Requests`, unbounded `Queue()`.
 
 **References:** RFC 6585, Netflix Hystrix concurrency limits, CWE-770, AWS REL11-BP04
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

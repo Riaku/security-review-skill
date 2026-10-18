@@ -21,3 +21,7 @@ for b in books:
 ```
 
 **References:** OWASP ASVS V3.1, Django ORM performance docs, nplusone (N+1 detection library), CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

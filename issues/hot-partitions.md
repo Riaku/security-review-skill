@@ -27,3 +27,7 @@ CREATE TABLE events (
 ```
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

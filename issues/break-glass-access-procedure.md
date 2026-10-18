@@ -7,3 +7,7 @@
 **Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
 
 **References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

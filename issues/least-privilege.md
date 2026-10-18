@@ -7,3 +7,7 @@
 **Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
 
 **References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

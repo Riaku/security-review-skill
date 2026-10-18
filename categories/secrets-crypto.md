@@ -2,36 +2,38 @@
 
 Secrets handling and cryptographic primitives.
 
+Domain: [backend](../domains/backend.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `least-privilege`
-- `secrets-management`
-- `env-in-gitignore`
-- `secret-scanning`
-- `hashing-vs-encryption`
-- `password-salting`
-- `bcrypt-argon2`
-- `encryption-at-rest`
-- `secrets-in-ci-logs`
-- `fips-140-3`
-- `fips-186-signatures`
-- `weak-crypto-primitives`
-- `insufficient-randomness`
-- `client-tls-verification-disabled`
-- `etcd-exposure-encryption`
-- `dockerfile-build-secret-leakage`
-- `helm-values-plaintext-secrets`
-- `terraform-state-plaintext-secrets`
-- `volume-reclaim-nfs-squash`
-- `pqc-migration-crypto-agility`
-- `harvest-now-decrypt-later`
-- `pqc-tls-readiness`
-- `embedding-inversion-vector-stores`
-- `secrets-in-mobile-binaries`
-- `secret-validity-checks`
-- `secrets-rotation-automation`
-- `device-provisioning-identity`
-- `integration-credential-sprawl`
-- `pipeline-orchestrator-credentials`
-- `git-history-secret-remediation`
-- `agent-context-exclusion-file`
-- `secrets-in-launch-payloads`
+- [least-privilege](../issues/least-privilege.md)
+- [secrets-management](../issues/secrets-management.md)
+- [env-in-gitignore](../issues/env-in-gitignore.md)
+- [secret-scanning](../issues/secret-scanning.md)
+- [hashing-vs-encryption](../issues/hashing-vs-encryption.md)
+- [password-salting](../issues/password-salting.md)
+- [bcrypt-argon2](../issues/bcrypt-argon2.md)
+- [encryption-at-rest](../issues/encryption-at-rest.md)
+- [secrets-in-ci-logs](../issues/secrets-in-ci-logs.md)
+- [fips-140-3](../issues/fips-140-3.md)
+- [fips-186-signatures](../issues/fips-186-signatures.md)
+- [weak-crypto-primitives](../issues/weak-crypto-primitives.md)
+- [insufficient-randomness](../issues/insufficient-randomness.md)
+- [client-tls-verification-disabled](../issues/client-tls-verification-disabled.md)
+- [etcd-exposure-encryption](../issues/etcd-exposure-encryption.md)
+- [dockerfile-build-secret-leakage](../issues/dockerfile-build-secret-leakage.md)
+- [helm-values-plaintext-secrets](../issues/helm-values-plaintext-secrets.md)
+- [terraform-state-plaintext-secrets](../issues/terraform-state-plaintext-secrets.md)
+- [volume-reclaim-nfs-squash](../issues/volume-reclaim-nfs-squash.md)
+- [pqc-migration-crypto-agility](../issues/pqc-migration-crypto-agility.md)
+- [harvest-now-decrypt-later](../issues/harvest-now-decrypt-later.md)
+- [pqc-tls-readiness](../issues/pqc-tls-readiness.md)
+- [embedding-inversion-vector-stores](../issues/embedding-inversion-vector-stores.md)
+- [secrets-in-mobile-binaries](../issues/secrets-in-mobile-binaries.md)
+- [secret-validity-checks](../issues/secret-validity-checks.md)
+- [secrets-rotation-automation](../issues/secrets-rotation-automation.md)
+- [device-provisioning-identity](../issues/device-provisioning-identity.md)
+- [integration-credential-sprawl](../issues/integration-credential-sprawl.md)
+- [pipeline-orchestrator-credentials](../issues/pipeline-orchestrator-credentials.md)
+- [git-history-secret-remediation](../issues/git-history-secret-remediation.md)
+- [agent-context-exclusion-file](../issues/agent-context-exclusion-file.md)
+- [secrets-in-launch-payloads](../issues/secrets-in-launch-payloads.md)

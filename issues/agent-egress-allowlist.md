@@ -7,3 +7,7 @@
 **Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
 
 **References:** DeepSeek harness proxy-refusal pattern, OpenAI Codex domain rules, GitHub agent internet firewall, Cursor fixed-destination egress
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

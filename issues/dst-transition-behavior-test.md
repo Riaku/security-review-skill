@@ -7,3 +7,7 @@
 **Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
 
 **References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

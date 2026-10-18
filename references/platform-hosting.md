@@ -52,8 +52,9 @@ config surfaces a review should inspect on each. (All URLs verified live
 - Security pillar (already a mining source):
   https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
 - General security: https://docs.aws.amazon.com/security/
-- **Review surfaces:** covered by `cloud-network`, `dangerous-iam-policies`,
-  `cspm-continuous-scanning` items.
+- **Review surfaces:** covered by the [cloud-network](../categories/cloud-network.md)
+  category plus the [dangerous-iam-policies](../issues/dangerous-iam-policies.md)
+  and [cspm-continuous-scanning](../issues/cspm-continuous-scanning.md) items.
 
 ## Usage in reviews
 When triage detects a platform (CNAME/DNS, `vercel.json`, `fly.toml`,

@@ -7,3 +7,7 @@
 **Detect:** Routes without auth middleware or policy decorators; authorization only in frontend routers.
 
 **References:** OWASP A01:2021, CWE-862, OWASP Authorization Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

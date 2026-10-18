@@ -1,11 +1,25 @@
 #!/usr/bin/env python3
-"""Generate domains/*.md and categories/*.md manifests from scripts/topics.json.
+"""Generate the skill's link-bearing artifacts from scripts/topics.json.
 
-Idempotent: re-run after topics.json changes. Detection signals and stack
-quick-maps are hand-authored here (single source), lists are derived there.
+Writes:
+  domains/*.md              detection signals + quick-map, categories as links
+  categories/*.md           the category's items as links to issues/<slug>.md
+  bundles/*.md              every item of a category inlined (bulk artifact)
+  references/tool-index.md  tool -> issue links
+  issues/*.md               ONLY the trailing "**Part of:**" nav footer
+
+Everything cross-links by relative markdown link (see scripts/manifest_links.py)
+so any document can be clicked through to its neighbours.
+
+Idempotent: re-run after topics.json changes. Detection signals, scopes, and
+stack quick-maps are hand-authored here (single source); the link lists and the
+per-issue nav footers are derived from scripts/topics.json.
 """
 import json
 import pathlib
+import re
+
+import manifest_links as ml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TOPICS = json.loads((ROOT / "scripts" / "topics.json").read_text())
@@ -168,26 +182,24 @@ def cat_scope(cat: str) -> str:
     }[cat]
 
 
+def linkify_cats(text: str, cats) -> str:
+    """Link full-word category names in prose to their manifest.
+
+    One pass over an alternation sorted longest-first, so a name that is a
+    prefix of another (or that appears inside an inserted link target) is never
+    matched twice.
+    """
+    names = sorted(cats, key=len, reverse=True)
+    pattern = re.compile(r"(?<![\w-])(" + "|".join(re.escape(c) for c in names)
+                         + r")(?![\w-])")
+    return pattern.sub(lambda m: ml.category_link(m.group(1)), text)
+
+
 def main() -> int:
-    # Domain->category index (kept in sync with SKILL.md Category Index; the
-    # validator enforces every category is assigned to >=1 domain).
-    INDEX = {
-        "backend": ["web-api-security", "authentication", "authorization-access-control",
-                    "secrets-crypto", "api-design", "correctness-pitfalls",
-                    "testing-strategy", "security-practices", "multi-tenancy",
-                    "third-party-integrations", "documentation-quality"],
-        "frontend": ["web-client-security", "seo-web-quality"],
-        "data": ["database", "distributed-systems", "messaging-async", "data-pipelines"],
-        "infrastructure": ["supply-chain", "cloud-network", "deployment-release",
-                          "containers-k8s", "cicd-pipeline-security"],
-        "reliability": ["resilience", "caching", "observability", "sre-incidents",
-                       "scaling-capacity"],
-        "governance": ["compliance-privacy", "ai-llm", "payments-fraud",
-                      "email-security"],
-        "mobile": ["mobile"],
-        "government-compliance": ["hardening-benchmarks", "regulatory-frameworks"],
-        "iot-embedded": ["iot-embedded"],
-    }
+    # Domain->category index (single source in manifest_links.py; SKILL.md's
+    # Category Index mirrors it and the validator enforces both the assignment
+    # of every category to >=1 domain and the SKILL.md table's agreement).
+    INDEX = ml.DOMAIN_INDEX
     all_cats = sorted({c for t in TOPICS for c in t["categories"]})
     mapped = {c for lst in INDEX.values() for c in lst}
     assert mapped == set(all_cats), f"index mismatch: {set(all_cats) ^ mapped}"
@@ -195,29 +207,50 @@ def main() -> int:
     (ROOT / "domains").mkdir(exist_ok=True)
     (ROOT / "categories").mkdir(exist_ok=True)
 
+    # Per-issue nav footer (category links + their domains + SKILL.md). Written
+    # before bundles so the inlined copies carry the same footer. Only the
+    # trailing footer block is touched; the item body is canonical content.
+    for t in TOPICS:
+        f = ROOT / "issues" / f"{t['slug']}.md"
+        text = f.read_text()
+        updated = ml.with_footer(text, t["categories"])
+        if updated != text:
+            f.write_text(updated)
+
     for dom, spec in DOMAINS.items():
-        lines = [f"# {dom}", "", spec["scope"], "", "Detection signals:",
+        lines = [f"# {dom}", "", spec["scope"], "",
+                 f"Index: {ml.SKILL_LINK}", "",
+                 "Detection signals:",
                  *[f"- {s}" for s in spec["signals"]], "", "Categories:"]
-        lines += [f"- `{c}`" for c in INDEX[dom]]
+        lines += [f"- {ml.category_link(c)}" for c in INDEX[dom]]
         lines += ["", "## Stack quick-map", ""]
-        lines += [f"- {m}" for m in spec["quickmap"]]
+        lines += [f"- {linkify_cats(m, all_cats)}" for m in spec["quickmap"]]
         (ROOT / "domains" / f"{dom}.md").write_text("\n".join(lines) + "\n")
 
     for cat in all_cats:
         slugs = [t["slug"] for t in TOPICS if cat in t["categories"]]
-        lines = [f"# {cat}", "", cat_scope(cat), "", "Issues:"]
-        lines += [f"- `{s}`" for s in slugs]
+        doms = ml.domains_of([cat])
+        dom_label = "Domain:" if len(doms) == 1 else "Domains:"
+        nav = (f"{dom_label} "
+               + " · ".join([*[ml.domain_link(d) for d in doms],
+                             f"Index: {ml.SKILL_LINK}"]))
+        lines = [f"# {cat}", "", cat_scope(cat), "", nav, "", "Issues:"]
+        lines += [f"- {ml.issue_link(s)}" for s in slugs]
         (ROOT / "categories" / f"{cat}.md").write_text("\n".join(lines) + "\n")
 
     # Bulk bundles: one generated file per category with every item inlined.
     # For harnesses that prefer few large reads over many small ones. Generated
     # artifact — never hand-edit; edit issues/<slug>.md and re-run this script.
+    # Each inlined item keeps its nav footer, so a bundle entry clicks through
+    # to its canonical issues/<slug>.md.
     (ROOT / "bundles").mkdir(exist_ok=True)
     for cat in all_cats:
         slugs = [t["slug"] for t in TOPICS if cat in t["categories"]]
         parts = [f"# {cat} — full checklist ({len(slugs)} items)", "",
                  cat_scope(cat), "",
-                 "> Generated artifact. Canonical source: `issues/<slug>.md`.", ""]
+                 "> Generated artifact — edit the issue files, not this one. "
+                 f"Sources: {ml.ISSUES_DIR_LINK} · manifest: "
+                 f"{ml.category_link(cat)} · index: {ml.SKILL_LINK}", ""]
         for s in slugs:
             body = (ROOT / "issues" / f"{s}.md").read_text().rstrip()
             parts += [body, ""]
@@ -232,10 +265,11 @@ def main() -> int:
         assert not missing, f"tool {tool} references unknown issues: {missing}"
     (ROOT / "references").mkdir(exist_ok=True)
     lines = ["# Tool → Issues Index", "",
-             "Generated from `scripts/tool-issues.json`. Do not hand-edit.", ""]
+             "Generated from `scripts/tool-issues.json` (do not hand-edit). "
+             f"Sources: {ml.ISSUES_DIR_LINK} · index: {ml.SKILL_LINK}", ""]
     for tool in sorted(mapping):
         lines.append(f"## {tool}")
-        lines += [f"- `issues/{s}.md`" for s in mapping[tool]]
+        lines += [f"- {ml.issue_link(s)}" for s in mapping[tool]]
         lines.append("")
     (ROOT / "references" / "tool-index.md").write_text("\n".join(lines) + "\n")
 

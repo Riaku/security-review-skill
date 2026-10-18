@@ -7,3 +7,7 @@
 **Detect:** routes lacking `/v1/` prefix, absent `Accept-Version`/`Api-Version` header handling, no deprecation policy doc.
 
 **References:** OWASP API 2023, Microsoft REST API Guidelines §10, Google AIP-180
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

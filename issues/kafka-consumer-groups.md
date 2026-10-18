@@ -7,3 +7,7 @@
 **Detect:** grep configs for duplicated `group.id` values across services, hardcoded shared groups, `group.instance.id` collisions.
 
 **References:** Kafka consumer group docs, CWE-664, OWASP ASVS 6.1
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

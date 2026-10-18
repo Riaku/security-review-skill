@@ -7,3 +7,7 @@
 **Detect:** CI jobs that build separately per environment; `:latest` tags used across environments; config compiled at build time instead of injected at release time; production digests that cannot be traced to the reviewed staging digest.
 
 **References:** 12factor.net/build-release-run, SLSA Build L2+ provenance, OpenSSF artifact promotion guidance
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

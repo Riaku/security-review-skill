@@ -7,3 +7,7 @@
 **Detect:** Shared dict/list mutated without `Lock`/`mutex`/`synchronized`, check-then-act on globals, non-atomic `count += 1`, cached mutable singletons.
 
 **References:** CWE-362, CWE-366, OWASP ASVS 12.3
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep recovery/runbook configs for missing `rate_limit`, `throttle`, `max_concurrency` on replay; consumers configured to drain queues unbounded on startup.
 
 **References:** AWS SQS long polling backpressure, NIST SP 800-61 incident containment, Google SRE overload handling
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

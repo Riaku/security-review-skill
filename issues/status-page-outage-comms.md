@@ -7,3 +7,7 @@
 **Detect:** status page config (`statuspage.io`, `instatus`), `comms_templates` directory, no comms owner in runbook.
 
 **References:** NIST SP 800-61 (communications), Google SRE Workbook, Atlassian status page practices
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

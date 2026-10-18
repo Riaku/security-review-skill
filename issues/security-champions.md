@@ -7,3 +7,7 @@
 **Detect:** `champions` roster doc, training completion records, `office hours` schedule, per-team champion named in CODEOWNERS
 
 **References:** OWASP SAMM Security Champions, BSIMM 11.1, Microsoft Security Champions Program
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

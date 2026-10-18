@@ -24,3 +24,7 @@ with txn:
 ```
 
 **References:** PostgreSQL Deadlock Detection docs, MySQL InnoDB deadlock docs, CWE-833
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

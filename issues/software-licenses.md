@@ -7,3 +7,7 @@
 **Detect:** grep dependency manifests for `GPL`, `AGPL`, `UNLICENSED`; check license scanner config, `allowed_licenses`, `license_policy` files absent.
 
 **References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

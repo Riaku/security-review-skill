@@ -2,7 +2,7 @@
 
 Privacy operations and data protection in code.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [compliance-privacy](../categories/compliance-privacy.md) · index: [SKILL.md](../SKILL.md)
 
 # GDPR
 
@@ -14,6 +14,10 @@ Privacy operations and data protection in code.
 
 **References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # PII Handling
 
 **SHOULD NOT** transmit or store unencrypted personally identifiable information outside designated secure stores.
@@ -23,6 +27,10 @@ Privacy operations and data protection in code.
 **Detect:** grep for SSN, email, phone fields serialized without encryption; check TLS enforcement, `encrypt_pii`, field-level encryption config keys.
 
 **References:** CWE-311, CWE-312, NIST SP 800-122, GDPR Art. 32
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Audit Logs
 
@@ -34,6 +42,10 @@ Privacy operations and data protection in code.
 
 **References:** CWE-778, NIST SP 800-92, SOC 2 CC7.2, PCI DSS 10.2
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Data Residency
 
 **MUST** store and process data within the geographic boundaries mandated by applicable regulation or customer contract.
@@ -43,6 +55,10 @@ Privacy operations and data protection in code.
 **Detect:** grep for region/zone config in storage, compute, CDN settings; check `data_residency`, `region_constraint`, `geo_fence` keys absent or misconfigured.
 
 **References:** GDPR Ch. V, Russian 152-FZ, China PIPL Art. 40, ISO 27018
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # PCI DSS
 
@@ -54,6 +70,10 @@ Privacy operations and data protection in code.
 
 **References:** PCI DSS 3.2.1 Req 3.2, PCI DSS 4.0 Req 3.3.1, CWE-312
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Cookie Consent
 
 **SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.
@@ -63,6 +83,10 @@ Privacy operations and data protection in code.
 **Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
 
 **References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Software Licenses
 
@@ -74,6 +98,10 @@ Privacy operations and data protection in code.
 
 **References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Chargebacks
 
 **SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
@@ -83,6 +111,10 @@ Privacy operations and data protection in code.
 **Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
 
 **References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Bot Protection
 
@@ -94,6 +126,10 @@ Privacy operations and data protection in code.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # DSAR Fulfillment (GDPR access/deletion requests)
 
 **MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within 30 days of request.
@@ -103,6 +139,10 @@ Privacy operations and data protection in code.
 **Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
 
 **References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Data Retention & Deletion Pipelines
 
@@ -127,6 +167,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** GDPR Art. 17 Right to Erasure, CCPA deletion, NIST SP 800-53 MP-6, ISO 27018
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # HIPAA (health data)
 
 **MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.
@@ -136,6 +180,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
 
 **References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
 
@@ -147,6 +195,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # CCPA/CPRA
 
 **MUST** honor California consumer rights—access, deletion, opt-out of sale/sharing—within statutory deadlines across all systems holding personal information.
@@ -156,6 +208,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for "CCPA", "Do Not Sell", "opt_out", "deletion request" handlers; missing request routing, service-provider contract clauses, GPC signal support.
 
 **References:** CCPA/CPRA Cal. Civ. Code 1798.100+, CPPA regulations, IAPP CCPA guidance
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # SOC 2 as Audit Regime (CCs, evidence collection)
 
@@ -167,6 +223,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** AICPA TSC 2017, SOC 2 Type II, Trust Services Criteria
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # PII & Secrets Leakage into Application Logs
 
 **MUST** redact passwords, tokens, API keys, and PII at the logging layer before anything reaches disk or an aggregator.
@@ -177,6 +237,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Excessive Data Exposure in API Serialization
 
 **MUST NOT** serialize whole ORM/model objects to API responses; project an explicit DTO containing only intended fields.
@@ -186,6 +250,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
 **References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Serverless Execution Environment Reuse Leaking Data Across Invocations
 
@@ -213,6 +281,10 @@ def handler(event, ctx):
 
 **References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Cross-border data transfer mechanisms post-Schrems II
 
 **SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
@@ -222,6 +294,10 @@ def handler(event, ctx):
 **Detect:** grep for EU data flows to non-adequate regions without SCC/TIA references; check `transfer_impact_assessment`, `scc_modules`, `adequacy` config absent.
 
 **References:** GDPR Ch. V, Schrems II (C-311/18), EU SCC 2021/914, EDPB Recommendations 01/2020
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Brazil LGPD compliance
 
@@ -233,6 +309,10 @@ def handler(event, ctx):
 
 **References:** LGPD Lei 13.709/2018, ANPD guidelines, ANPD DSR rules
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # China PIPL (cross-border security assessment, separate consent, localization)
 
 **MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
@@ -242,6 +322,10 @@ def handler(event, ctx):
 **Detect:** grep for data flows from CN regions to overseas endpoints; missing "separate consent", CAC filing, localization config for CN deployments.
 
 **References:** PIPL (2021), CAC Cross-Border Data Transfer Rules, GB/T 35273
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
@@ -253,6 +337,10 @@ def handler(event, ctx):
 
 **References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
 **MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
@@ -262,6 +350,10 @@ def handler(event, ctx):
 **Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
 
 **References:** COPPA 16 CFR 312, UK Online Safety Act 2023, Age Appropriate Design Code
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Breach notification clocks across jurisdictions
 
@@ -273,6 +365,10 @@ def handler(event, ctx):
 
 **References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # NYDFS 23 NYCRR 500 (financial services cyber requirements)
 
 **MUST** maintain a CISO program, MFA on all externally accessed systems, and report covered cyber events to DFS within 72 hours under the amended rule.
@@ -282,6 +378,10 @@ def handler(event, ctx):
 **Detect:** grep for "NYDFS", "500.17", "72 hours", CISO designation; MFA gaps on VPN/admin access, no DFS reporting runbook.
 
 **References:** 23 NYCRR 500 (amended 2023), NYDFS guidance, Part 500 FAQ
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
@@ -293,6 +393,10 @@ def handler(event, ctx):
 
 **References:** NIST IR 8547, NSA CNSA 2.0 timeline, HNDL classification guidance
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
 **MUST** redact or tokenize PII and execute a DPA with the provider before payloads leave the trust boundary.
@@ -302,6 +406,10 @@ def handler(event, ctx):
 **Detect:** outbound LLM calls without redaction middleware; missing DPA or zero-retention agreement in vendor records.
 
 **References:** GDPR Art. 28, OWASP LLM02:2025, NIST Privacy Framework
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
 
@@ -313,6 +421,10 @@ def handler(event, ctx):
 
 **References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
 
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
 **MUST** revoke all access within a defined SLA (24h) on termination, and re-evaluate entitlements on every internal transfer — movers are as risky as leavers.
@@ -322,6 +434,10 @@ def handler(event, ctx):
 **Detect:** audit exports comparing HR roster to IdP groups; grep for active accounts with no recent login, local admin accounts outside SSO, orphaned SSH keys and API tokens.
 
 **References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-288, OWASP A07:2021, Cloud Security Alliance JML guidance
+
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Privileged access management: JIT access, break-glass, session recording
 
@@ -333,6 +449,10 @@ def handler(event, ctx):
 
 **References:** NIST SP 800-53 AC-6(1)(2)(9) least privilege + JIT, CWE-250, OWASP A07:2021 Identification and Authentication Failures
 
+---
+
+**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Vendor/third-party risk management and subprocessor registers
 
 **SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
@@ -343,6 +463,10 @@ def handler(event, ctx):
 
 **References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Independent penetration testing cadence and finding remediation tracking
 
 **SHOULD** commission an external penetration test at least annually and after major architectural changes, with every finding tracked to closure in a ticketing system.
@@ -352,6 +476,10 @@ def handler(event, ctx):
 **Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
 
 **References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 
@@ -376,6 +504,10 @@ export = anonymize(df, k=20,
 
 **References:** GDPR Recital 26 (anonymised vs pseudonymised), NIST SP 800-188 De-Identifying Datasets, Narayanan & Shmatikov
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Data Classification & Labeling (PII/confidential tagged at rest and in pipelines)
 
 **SHOULD** tag PII and confidential data at creation and carry labels through storage and ETL so downstream controls act on them.
@@ -385,6 +517,10 @@ export = anonymize(df, k=20,
 **Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
 
 **References:** NIST SP 800-122, GDPR Art. 4/32
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Tenant Offboarding Data Purge
 
@@ -396,6 +532,10 @@ export = anonymize(df, k=20,
 
 **References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Privileged-Action Attribution
 
 **MUST** ensure every privileged action is attributable to a named individual — no shared admin accounts, no service-account interactive use.
@@ -405,6 +545,10 @@ export = anonymize(df, k=20,
 **Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
 
 **References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Litigation Hold Capability
 
@@ -416,6 +560,10 @@ export = anonymize(df, k=20,
 
 **References:** EDRR model (NIST SP 800-221), FRCP 37(e), legal hold vendor docs (Exterro, Relativity)
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Audit-Log Chain of Custody
 
 **SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
@@ -425,6 +573,10 @@ export = anonymize(df, k=20,
 **Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
 
 **References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # PII Propagation & Warehouse Lineage
 
@@ -436,6 +588,10 @@ export = anonymize(df, k=20,
 
 **References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Erasure Propagation to Secondary Stores
 
 **MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
@@ -445,6 +601,10 @@ export = anonymize(df, k=20,
 **Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
 
 **References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Data Portability Export Mechanics
 
@@ -456,6 +616,10 @@ export = anonymize(df, k=20,
 
 **References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Interactive-Session Artifact Leakage
 
 **MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.
@@ -466,6 +630,10 @@ export = anonymize(df, k=20,
 
 **References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Object-Level Data Access Logging
 
 **SHOULD** enable data-plane (object/bucket-level) read and write logging on object storage holding sensitive data, not just control-plane API logging — management-plane logs record who created the bucket, but never who read the objects inside it.
@@ -475,4 +643,8 @@ export = anonymize(df, k=20,
 **Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
 
 **References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

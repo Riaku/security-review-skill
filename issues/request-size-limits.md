@@ -7,3 +7,7 @@
 **Detect:** `client_max_body_size 0`, absent `maxBodySize`/`limit` in Express/Flask/Spring config, no 413 handling.
 
 **References:** CWE-400, OWASP ASVS V5.2, nginx client_max_body_size directive
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

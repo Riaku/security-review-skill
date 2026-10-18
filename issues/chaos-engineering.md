@@ -7,3 +7,7 @@
 **Detect:** `chaos-mesh`, `litmus`, Gremlin config, absence of game-day logs, no abort/steady-state criteria in experiment manifests.
 
 **References:** Principles of Chaos Engineering, Netflix Chaos Monkey, AWS FIS, NIST SP 800-34 drills
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

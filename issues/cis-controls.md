@@ -7,3 +7,7 @@
 **Detect:** Search docs/policies for `CIS Controls`, `IG1`, `safeguard 4.1`-style citations; check whether asset inventory and MFA controls are evidenced.
 
 **References:** CIS Controls v8 IG1-IG3, NIST CSF, ISO 27001 Annex A
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

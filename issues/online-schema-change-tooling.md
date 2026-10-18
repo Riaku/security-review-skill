@@ -19,3 +19,7 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 ```
 
 **References:** GitHub gh-ost docs, Percona pt-online-schema-change docs, PostgreSQL CREATE INDEX CONCURRENTLY docs
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

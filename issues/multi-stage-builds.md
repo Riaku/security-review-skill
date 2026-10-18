@@ -7,3 +7,7 @@
 **Detect:** Dockerfile lacking a second `FROM` line; `gcc`, `make`, `-dev` packages or `/root/.cache` present in final image layers.
 
 **References:** CIS Docker 4.1, OWASP DAST-AI-04, NIST SP 800-190 4.2
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

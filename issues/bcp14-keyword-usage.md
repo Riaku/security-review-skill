@@ -7,3 +7,7 @@
 **Detect:** grep docs for lowercase must/should/may in requirement contexts; check specs include the RFC 2119/8174 keyword-definition boilerplate; flag "must" used as emphasis rather than obligation.
 
 **References:** RFC 2119, RFC 8174 §3, IETF BCP 14
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

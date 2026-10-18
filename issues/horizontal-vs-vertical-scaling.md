@@ -7,3 +7,7 @@
 **Detect:** grep manifests for `replicas: 1`, `resources.limits` near node capacity, `nodeSelector` pinning; check stateful services for a documented max-node-size plan.
 
 **References:** NIST SP 800-184, AWS Well-Architected REL05-BP02, CWE-400
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

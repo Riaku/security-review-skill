@@ -7,3 +7,7 @@
 **Detect:** grep for `XA PREPARE` without `XA RECOVER`/recovery manager, coordinator state not persisted, missing timeout/abort-on-coordinator-loss, blocking `waitForCommit` loops.
 
 **References:** Gray 2PC paper, CWE-662, PostgreSQL XA recovery docs, NIST SP 800-53 CP-9
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

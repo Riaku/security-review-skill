@@ -19,3 +19,7 @@ CREATE UNIQUE INDEX users_email_uniq ON users (email);
 ```
 
 **References:** SQL UNIQUE constraint, OWASP ASVS V3.2, Rails uniqueness-validation index caveat, CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

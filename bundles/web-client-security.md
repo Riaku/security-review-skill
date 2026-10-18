@@ -2,7 +2,7 @@
 
 Browser-side attack surface and defenses.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [web-client-security](../categories/web-client-security.md) · index: [SKILL.md](../SKILL.md)
 
 # XSS
 
@@ -14,6 +14,10 @@ Browser-side attack surface and defenses.
 
 **References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # CSRF
 
 **MUST** Require a per-session token or origin check on every state-changing request.
@@ -23,6 +27,10 @@ Browser-side attack surface and defenses.
 **Detect:** POST/PUT/DELETE routes lacking `csrf_protect`, `X-CSRF-Token`, `SameSite`; `csrf_exempt=True`.
 
 **References:** OWASP A01:2021, CWE-352, OWASP CSRF Prevention Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # CORS
 
@@ -34,6 +42,10 @@ Browser-side attack surface and defenses.
 
 **References:** OWASP A05:2021, CWE-942, MDN CORS credentials
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Clickjacking
 
 **MUST** Send `X-Frame-Options: DENY` or CSP `frame-ancestors 'none'` on authenticated pages.
@@ -43,6 +55,10 @@ Browser-side attack surface and defenses.
 **Detect:** Missing `X-Frame-Options`/`frame-ancestors` in headers or middleware; `ALLOWALL` frame options.
 
 **References:** OWASP A05:2021, CWE-1021, OWASP Clickjacking Defense Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Content Security Policy
 
@@ -54,6 +70,10 @@ Browser-side attack surface and defenses.
 
 **References:** OWASP A05:2021, CWE-1021, Google CSP Evaluator
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Security Headers
 
 **MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.
@@ -63,6 +83,10 @@ Browser-side attack surface and defenses.
 **Detect:** Config lacking `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`; nginx/ingress snippets absent.
 
 **References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Session Fixation
 
@@ -74,6 +98,10 @@ Browser-side attack surface and defenses.
 
 **References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Cache-Control Headers
 
 **MUST** set explicit `Cache-Control` on every HTTP response; responses carrying auth tokens, PII, or CSRF values require `no-store`, never a bare default.
@@ -83,6 +111,10 @@ Browser-side attack surface and defenses.
 **Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
 
 **References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
+
+---
+
+**Part of:** [caching](../categories/caching.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cookie Consent
 
@@ -94,6 +126,10 @@ Browser-side attack surface and defenses.
 
 **References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Unsafe Merge Into Shared Runtime State
 
 **MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.
@@ -103,6 +139,10 @@ Browser-side attack surface and defenses.
 **Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
 
 **References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
+
+---
+
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # SSR Hydration XSS
 
@@ -114,6 +154,10 @@ Browser-side attack surface and defenses.
 
 **References:** CWE-79, OWASP XSS Prevention Cheat Sheet, OWASP A03:2021
 
+---
+
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # CRLF / HTTP Header Injection & Response Splitting
 
 **SHOULD NOT** Put user input into headers or redirect targets without rejecting CR/LF and `%0d%0a`.
@@ -123,6 +167,10 @@ Browser-side attack surface and defenses.
 **Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Cookie Flags: Secure, HttpOnly, SameSite
 
@@ -134,6 +182,10 @@ Browser-side attack surface and defenses.
 
 **References:** RFC 6265bis, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Web Cache Poisoning & Cache Deception
 
 **SHOULD NOT** cache responses that vary on unkeyed inputs like headers, query params, or cookies without declaring `Vary` or normalizing them.
@@ -143,6 +195,10 @@ Browser-side attack surface and defenses.
 **Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
 
 **References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # DNS Rebinding Against Internal Services
 
@@ -167,6 +223,10 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **References:** CWE-350, OWASP SSRF Prevention Cheat Sheet, OWASP A10:2021
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Cross-Site WebSocket Hijacking (CSWSH)
 
 **MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.
@@ -176,6 +236,10 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 **Detect:** grep `ws://`, `wss://`, `upgrade` handlers, `onConnection` without origin checks; nginx `proxy_set_header Origin` passthrough config.
 
 **References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # window.postMessage Origin Validation
 
@@ -187,6 +251,10 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **References:** CWE-346, OWASP A01:2021, MDN postMessage security considerations
 
+---
+
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Sensitive Data in Browser Storage (localStorage/sessionStorage)
 
 **MUST NOT** store session tokens, refresh tokens, PII, or cryptographic keys in localStorage or sessionStorage.
@@ -196,6 +264,10 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 **Detect:** grep `localStorage.setItem`, `sessionStorage.setItem` for `token`, `jwt`, `password`, `secret`, `ssn`; review auth libraries' persistence config.
 
 **References:** CWE-922, OWASP A02:2021, OWASP Authentication Cheat Sheet (token storage)
+
+---
+
+**Part of:** [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Broken Link & Dependency Hijacking
 
@@ -207,6 +279,10 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
 
+---
+
+**Part of:** [supply-chain](../categories/supply-chain.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Third-Party Tag & Script Governance
 
 **MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
@@ -216,4 +292,8 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 **Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
 
 **References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
+
+---
+
+**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

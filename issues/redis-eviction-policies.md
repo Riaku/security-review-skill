@@ -7,3 +7,7 @@
 **Detect:** `redis-cli CONFIG GET maxmemory-policy` returning `noeviction`; sessions and caches sharing one instance with `allkeys-*`.
 
 **References:** OWASP A05:2021, CWE-770, CWE-400, Redis maxmemory docs
+
+---
+
+**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** check for seeded randomness in test fixtures (seed recorded/pinned), test-order randomization enabled with passing results, shared globals/singletons mutated across test files.
 
 **References:** test-isolation practice, flaky-test prevention guidance, property-based testing seed discipline
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -2,7 +2,7 @@
 
 CIS/STIG-style configuration baselines.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [hardening-benchmarks](../categories/hardening-benchmarks.md) · index: [SKILL.md](../SKILL.md)
 
 # CIS Benchmarks (OS/container/k8s/cloud)
 
@@ -26,6 +26,10 @@ CIS/STIG-style configuration baselines.
 
 **References:** CIS Benchmarks (cisecurity.org), CIS Kubernetes Benchmark, CIS Docker Benchmark, DISA STIGs
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # CIS Docker Benchmark
 
 **MUST** align container host and daemon configuration with the current CIS Docker Benchmark sections 2 (daemon), 5 (runtime), and 18 (daemon.json) before production deployment.
@@ -35,6 +39,10 @@ CIS/STIG-style configuration baselines.
 **Detect:** grep daemon.json for `userns-remap`, `log-driver`, `live-restore`; check `/var/run/docker.sock` permissions and `--privileged` in compose files.
 
 **References:** CIS Docker Benchmark v1.6.0, CIS Controls v8, NIST SP 800-190
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # DISA STIG Hardening
 
@@ -46,6 +54,10 @@ CIS/STIG-style configuration baselines.
 
 **References:** DISA STIG, NIST SP 800-70, CIS Controls v8 IG2, SCAP/OSCAL
 
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # CIS Controls (IG1–IG3)
 
 **SHOULD** map security controls to CIS Controls v8 implementation groups, with IG1 as the baseline for every asset and IG2/IG3 layered by risk tier.
@@ -55,6 +67,10 @@ CIS/STIG-style configuration baselines.
 **Detect:** Search docs/policies for `CIS Controls`, `IG1`, `safeguard 4.1`-style citations; check whether asset inventory and MFA controls are evidenced.
 
 **References:** CIS Controls v8 IG1-IG3, NIST CSF, ISO 27001 Annex A
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Kernel/Sysctl Hardening
 
@@ -66,6 +82,10 @@ CIS/STIG-style configuration baselines.
 
 **References:** CIS Distro Benchmark sec. 3, CWE-1188, NIST SP 800-123, CWE-200
 
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # SSH Hardening
 
 **MUST NOT** permit root login or password authentication on internet-facing SSH; keys only, with `PermitRootLogin no`, `PasswordAuthentication no`, and modern MACs/ciphers.
@@ -75,6 +95,10 @@ CIS/STIG-style configuration baselines.
 **Detect:** grep `sshd_config` and `sshd_config.d/*` for `PermitRootLogin yes`, `PasswordAuthentication yes`, `Protocol 1`, weak `Ciphers`/`MACs`.
 
 **References:** CIS Distro Benchmark sec. 5, CWE-287, NIST SP 800-123, Mozilla Open SSH config
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # TLS/ Cipher Suite Hardening (Mozilla profiles, disable legacy)
 
@@ -97,6 +121,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 **References:** Mozilla Server-Side TLS (Intermediate profile), RFC 8446, CWE-326 Inadequate Encryption Strength
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Cloud Provider Security Benchmarks (AWS Foundations / Azure / GCP CIS)
 
 **SHOULD** The provider's own framework — AWS Foundational Security Best Practices, Azure Secure Score, GCP CIS recommendations — be continuously evaluated in the native tool rather than spot-checked by hand.
@@ -118,6 +146,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 **References:** AWS Foundational Security Best Practices standard, CIS AWS Foundations Benchmark, Microsoft Defender for Cloud, GCP Security Command Center
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
 
 **SHOULD** run kube-bench, Lynis, or Trivy misconfig scans in CI on every image and host config change, failing the pipeline on high-severity findings.
@@ -127,6 +159,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 **Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --security-check misconfig` steps and severity gates.
 
 **References:** CIS Benchmarks, NIST SP 800-53 CM-6, DevSecOps, CWE-1188
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Default & Weak Credentials in Shipped Software
 
@@ -138,6 +174,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 **References:** CWE-1188, OWASP A05:2021, CIS Control 5.4, NIST SP 800-118
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Pod Security Standards: seccomp, readOnlyRootFilesystem, allowPrivilegeEscalation
 
 **MUST** apply `RuntimeDefault` seccomp, `readOnlyRootFilesystem: true`, and `allowPrivilegeEscalation: false` on all pod security contexts.
@@ -147,6 +187,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 **Detect:** Pod YAML missing `securityContext.seccompProfile`, `readOnlyRootFilesystem`, or showing `allowPrivilegeEscalation: true`; grep manifests for `unconfined`, `unmasked`, `CAP_SYS_*`; run container escape test suites (e.g. cdve).
 
 **References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611, CIS Docker 5.3
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Privileged Containers and Excess Linux Capabilities
 
@@ -158,6 +202,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 **References:** CIS K8s 5.2.7, CAP(7), MITRE ATT&CK T1611, CWE-250
 
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # No Admission Policy Engine (Pod Security Standards / Gatekeeper / Kyverno)
 
 **MUST** run an admission policy engine enforcing Pod Security Standards or equivalent custom policy at cluster scope.
@@ -167,6 +215,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 **Detect:** No ValidatingWebhookConfiguration for gatekeeper/kyverno; namespaces missing `pod-security.kubernetes.io/enforce` labels.
 
 **References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP K8s PS1, NIST SP 800-190 5.4
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Kubelet Port Protection (10250 AuthN/AuthZ, Anonymous Access)
 
@@ -178,6 +230,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 **References:** CIS K8s 4.2.1-4.2.3, CWE-306, MITRE ATT&CK T1610, K8s kubelet auth docs
 
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Patch cadence and remediation SLAs for known CVEs in production images
 
 **MUST** rebuild and redeploy base images on a fixed cadence (weekly minimum), remediating critical CVEs within 24 hours of disclosure.
@@ -187,6 +243,10 @@ ssl_protocols TLSv1.2 TLSv1.3;
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
 **References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
@@ -214,6 +274,10 @@ spec:
 
 **References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
 **MUST NOT** Expose admin panels, actuator endpoints, `.git`/`.env` files, or dashboards publicly; gate them behind auth.
@@ -223,4 +287,8 @@ spec:
 **Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth.
 
 **References:** OWASP A05:2021, CWE-538, CWE-200, OWASP Testing Guide §12.2
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 

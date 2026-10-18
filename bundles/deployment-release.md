@@ -2,7 +2,7 @@
 
 Release engineering: strategies, environments, versioning.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [deployment-release](../categories/deployment-release.md) · index: [SKILL.md](../SKILL.md)
 
 # Infrastructure as Code
 
@@ -14,6 +14,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** AWS Config drift detection, CIS AWS 5.4, IaC Scanning OWASP, Checkov/tfsec baselines
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Terraform State
 
 **MUST NOT** commit Terraform state files to repositories or store them on unencrypted disks; use a remote backend with encryption and state locking.
@@ -23,6 +27,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep tracked files for `terraform.tfstate`, `*.tfstate.backup`, check backend block for `backend "s3"` with `encrypt = true` and DynamoDB locking.
 
 **References:** CIS Terraform 1.2/1.3, OWASP Secrets Management, CWE-312, HashiCorp backend security docs
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # GitOps
 
@@ -34,6 +42,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** OWASP Kubernetes Top 10 (K8s-2017-0001 unsigned images/policies), NIST SP 800-190, Sigstore/cosign, Git signed commits CVE-2020-5260
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Blue-Green Deployments
 
 **SHOULD** keep the idle environment patched and drained of live secrets, with automated cutover health gates before traffic shifts.
@@ -43,6 +55,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep switch scripts for missing health-check gates before service/ingress selector flips; compare standby image tags against the live CVE-patched baseline.
 
 **References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 insecure default initialization
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Canary Releases
 
@@ -54,6 +70,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** Google SRE Book canarying, NIST SP 800-190, AWS CodeDeploy canary guards, CWE-1095 lifecycle defect
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Rollbacks
 
 **MUST** be rehearsed, one-command operations whose database migrations are backward-compatible or paired with tested down-migrations.
@@ -63,6 +83,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep migration folders for down scripts missing or marked irreversible; check deploy manifests for `revisionHistoryLimit` and `kubectl rollout undo` runbook presence.
 
 **References:** NIST SP 800-34 contingency planning, Fowler Parallel Change, CWE-581 group authorization failure on rollback state
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Feature Flags
 
@@ -74,6 +98,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** OWASP ASVS 4.1 access control, CWE-862 missing authorization, Unleash/LaunchDarkly security guidance
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Environment Parity
 
 **SHOULD** keep dev, staging, and production identical in runtime versions, TLS termination, and network policy so defects surface before prod.
@@ -83,6 +111,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** diff `helm values-*.yaml` across environments for divergent image tags, ingress TLS settings, networkPolicy presence, and connection-pool sizes.
 
 **References:** 12-Factor process parity, NIST SP 800-53 CM-6 configuration settings, Etsy continuous deployment lessons
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Staging Environments
 
@@ -94,6 +126,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** OWASP Top 10 A02 broken authentication, GDPR Art. 32, CWE-201 information exposure through sent data
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # 12-Factor Apps
 
 **SHOULD** externalize config to the environment and treat processes as stateless, so no secret or session state is baked into images or local disk.
@@ -103,6 +139,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep images/repos for hardcoded hosts, ports, and credentials instead of `env`/`ConfigMap`; check for session data written to container filesystem paths.
 
 **References:** 12factor.net config/stateless factors, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Semantic Versioning
 
@@ -114,6 +154,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** semver.org spec items 7-9, OWASP dependency management, CWE-1265 incorrect version semantics
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Debug/Dev Mode in Production
 
 **MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
@@ -123,6 +167,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** `DEBUG = True`, `FLASK_DEBUG=1`, `app.run(debug`, exposed `/debug`, Werkzeug console.
 
 **References:** OWASP A05:2021, CWE-489, CWE-215
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Plaintext Secrets in Helm values Files and Rendered Manifests
 
@@ -134,6 +182,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** OWASP ASVS V2.10, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Helm Hook Ordering and Failed-Hook Release Blocking
 
 **MUST** set `hook-weight` and `hook-delete-policy` explicitly so migrations run before workloads, and treat a failed hook as a release blocker rather than a warning.
@@ -143,6 +195,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--disable-hook-fail` flags in CI deploy steps.
 
 **References:** Helm hooks docs, CWE-664 improper control of resource lifecycle, NIST SP 800-190 change control
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
 
@@ -154,6 +210,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Manual kubectl apply Drift Not Detected Against Git
 
 **SHOULD** run periodic drift detection (Flux `diff`/`check`, ArgoCD health) that alerts when live cluster state diverges from the reconciled Git revision.
@@ -164,6 +224,10 @@ Release engineering: strategies, environments, versioning.
 
 **References:** Flux drift detection docs, ArgoCD selfHeal, OWASP K8s misconfiguration, NIST SP 800-190 integrity monitoring
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Plaintext Secrets Persisted in Terraform State and Outputs
 
 **MUST** mark sensitive Terraform variables and outputs with `sensitive = true` and store state remotely with access controls and encryption; never expose raw state in logs or PRs.
@@ -173,6 +237,10 @@ Release engineering: strategies, environments, versioning.
 **Detect:** `sensitive = false` or absent on secret attributes, `terraform.tfstate` in git, `terraform output` without `-json | jq` masking, unencrypted S3 backend.
 
 **References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
@@ -196,6 +264,10 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 **References:** GitHub gh-ost docs, Percona pt-online-schema-change docs, PostgreSQL CREATE INDEX CONCURRENTLY docs
 
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Deploy Markers on Metrics
 
 **MUST** annotate dashboards and traces with deploy events (version, timestamp, actor) so regressions and incidents can be correlated to releases.
@@ -205,6 +277,10 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 **Detect:** grep CI/CD for annotations pushed to metrics (`deploy_event`, Grafana annotations API, `release` label on series); check dashboards show deploy lines.
 
 **References:** Google SRE Workbook, DORA deploy frequency practices, Grafana annotations docs
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Dual-write plus backfill migration cutover rehearsed
 
@@ -227,6 +303,10 @@ staging: dual-write 48h → backfill → checksum diff = 0
 ```
 
 **References:** AWS DMS dual-run/verification guidance, expand-migrate-contract migration pattern docs, NIST SP 800-34 rehearsal requirements
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Code rollback without data rollback causes schema mismatch
 
@@ -251,6 +331,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **References:** Fowler Evolutionary Database Design (expand/contract), Marten migration docs, DORA rollback practices
 
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Startup Dependency Ordering
 
 **MUST** have services retry with backoff until backends (DB, cache, queues) are reachable, rather than crash-on-first-failure at boot.
@@ -260,6 +344,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** grep readiness/liveness probes and init containers for backend-wait logic; check app boot for missing retry/backoff on connection errors and `initContainers` gating startup.
 
 **References:** Kubernetes init containers & probes docs, AWS retry/backoff patterns, CWE-756 missing custom error handling, resilience4j patterns
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Infrastructure Drift Detection (live state vs IaC diffed and alerted)
 
@@ -271,6 +359,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
 **SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
@@ -280,6 +372,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
 
 **References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 
@@ -291,6 +387,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
 
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
 **MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
@@ -300,6 +400,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
 **References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Stale-Flag Expiry Policy
 
@@ -311,6 +415,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **References:** Feature-Toggle engineering (Fowler), LaunchDarkly stale-flag governance, Unleash flag lifecycle
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Kill-Switch Verification
 
 **SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
@@ -320,6 +428,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
 
 **References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Strict Build / Release / Run Separation
 
@@ -331,6 +443,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 **References:** 12factor.net/build-release-run, SLSA Build L2+ provenance, OpenSSF artifact promotion guidance
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Admin Tasks as One-Off Processes from the Release
 
 **SHOULD** run admin and maintenance tasks (migrations, REPLs, one-time scripts) as one-off processes from the same released code, config, and dependency isolation — committed to the repo — rather than ad-hoc scripts executed against production out-of-band.
@@ -340,4 +456,8 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** runbooks showing manual DB/console access instead of `kubectl job` or release-hook migrations; admin scripts not present in the repo; production mutations with no corresponding committed task definition.
 
 **References:** 12factor.net/admin-processes, OWASP Logging Cheat Sheet (audit of admin actions), Kubernetes Jobs pattern
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

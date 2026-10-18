@@ -7,3 +7,7 @@
 **Detect:** grep for `time.time()`/`Date.now()` in lease/JWT logic, missing `ntp`/`chrony` in host config, `clock_drift` tolerance unset, no `logical clock`/HLC fallback.
 
 **References:** Google Spanner TrueTime, CWE-1009 (Depends on time), NIST SP 800-186 time sync guidance
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

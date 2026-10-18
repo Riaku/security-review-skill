@@ -7,3 +7,7 @@
 **Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses.
 
 **References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

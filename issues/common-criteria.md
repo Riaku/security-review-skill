@@ -7,3 +7,7 @@
 **Detect:** grep product docs for "EAL", "certification ID", "TOE" scope statements; missing evaluation artifacts where tenders require CC.
 
 **References:** Common Criteria ISO/IEC 15408, CCRA, NIAP/CCEVS
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

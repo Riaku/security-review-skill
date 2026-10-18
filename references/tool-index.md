@@ -1,316 +1,316 @@
 # Tool → Issues Index
 
-Generated from `scripts/tool-issues.json`. Do not hand-edit.
+Generated from `scripts/tool-issues.json` (do not hand-edit). Sources: [issues/](../issues/) · index: [SKILL.md](../SKILL.md)
 
 ## afl-plus
-- `issues/fuzzing.md`
-- `issues/memory-safety-buffer-overflow.md`
+- [fuzzing](../issues/fuzzing.md)
+- [memory-safety-buffer-overflow](../issues/memory-safety-buffer-overflow.md)
 
 ## amass
-- `issues/attack-surface-management.md`
-- `issues/subdomain-takeover.md`
+- [attack-surface-management](../issues/attack-surface-management.md)
+- [subdomain-takeover](../issues/subdomain-takeover.md)
 
 ## atheris
-- `issues/fuzzing.md`
-- `issues/redos.md`
+- [fuzzing](../issues/fuzzing.md)
+- [redos](../issues/redos.md)
 
 ## bandit
-- `issues/os-command-injection.md`
+- [os-command-injection](../issues/os-command-injection.md)
 
 ## brakeman
-- `issues/sql-injection.md`
-- `issues/xss.md`
-- `issues/csrf.md`
+- [sql-injection](../issues/sql-injection.md)
+- [xss](../issues/xss.md)
+- [csrf](../issues/csrf.md)
 
 ## burp-suite
-- `issues/xss.md`
-- `issues/sql-injection.md`
-- `issues/business-logic-bypass.md`
-- `issues/idor.md`
-- `issues/http-request-smuggling.md`
+- [xss](../issues/xss.md)
+- [sql-injection](../issues/sql-injection.md)
+- [business-logic-bypass](../issues/business-logic-bypass.md)
+- [idor](../issues/idor.md)
+- [http-request-smuggling](../issues/http-request-smuggling.md)
 
 ## cargo-audit-deny
-- `issues/dependency-vulnerabilities.md`
-- `issues/software-licenses.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [software-licenses](../issues/software-licenses.md)
 
 ## cargo-fuzz
-- `issues/fuzzing.md`
-- `issues/memory-safety-buffer-overflow.md`
+- [fuzzing](../issues/fuzzing.md)
+- [memory-safety-buffer-overflow](../issues/memory-safety-buffer-overflow.md)
 
 ## checkov
-- `issues/infrastructure-as-code.md`
-- `issues/pod-security-standards.md`
-- `issues/cis-benchmarks.md`
-- `issues/policy-as-code-enforcement.md`
+- [infrastructure-as-code](../issues/infrastructure-as-code.md)
+- [pod-security-standards](../issues/pod-security-standards.md)
+- [cis-benchmarks](../issues/cis-benchmarks.md)
+- [policy-as-code-enforcement](../issues/policy-as-code-enforcement.md)
 
 ## chrome-devtools-lighthouse-ci
 
 ## clippy
-- `issues/memory-safety-buffer-overflow.md`
-- `issues/integer-overflow.md`
+- [memory-safety-buffer-overflow](../issues/memory-safety-buffer-overflow.md)
+- [integer-overflow](../issues/integer-overflow.md)
 
 ## cloudbrute
-- `issues/public-s3-buckets.md`
-- `issues/unauthenticated-data-store-exposure.md`
+- [public-s3-buckets](../issues/public-s3-buckets.md)
+- [unauthenticated-data-store-exposure](../issues/unauthenticated-data-store-exposure.md)
 
 ## cloudsploit
-- `issues/cspm-continuous-scanning.md`
+- [cspm-continuous-scanning](../issues/cspm-continuous-scanning.md)
 
 ## codeql
-- `issues/sql-injection.md`
-- `issues/xss.md`
-- `issues/os-command-injection.md`
-- `issues/insecure-deserialization.md`
-- `issues/prototype-pollution.md`
-- `issues/path-traversal.md`
-- `issues/ssrf.md`
+- [sql-injection](../issues/sql-injection.md)
+- [xss](../issues/xss.md)
+- [os-command-injection](../issues/os-command-injection.md)
+- [insecure-deserialization](../issues/insecure-deserialization.md)
+- [prototype-pollution](../issues/prototype-pollution.md)
+- [path-traversal](../issues/path-traversal.md)
+- [ssrf](../issues/ssrf.md)
 
 ## cosign
-- `issues/artifact-signing-verification.md`
-- `issues/signed-image-admission-enforcement.md`
-- `issues/artifact-signing-provenance.md`
+- [artifact-signing-verification](../issues/artifact-signing-verification.md)
+- [signed-image-admission-enforcement](../issues/signed-image-admission-enforcement.md)
+- [artifact-signing-provenance](../issues/artifact-signing-provenance.md)
 
 ## dalfox
-- `issues/xss.md`
-- `issues/ssr-hydration-xss.md`
+- [xss](../issues/xss.md)
+- [ssr-hydration-xss](../issues/ssr-hydration-xss.md)
 
 ## detect-secrets
-- `issues/secret-scanning.md`
-- `issues/env-in-gitignore.md`
+- [secret-scanning](../issues/secret-scanning.md)
+- [env-in-gitignore](../issues/env-in-gitignore.md)
 
 ## docker-bench-security
-- `issues/cis-docker-benchmark.md`
-- `issues/dangerous-host-mounts.md`
-- `issues/privileged-containers-capabilities.md`
+- [cis-docker-benchmark](../issues/cis-docker-benchmark.md)
+- [dangerous-host-mounts](../issues/dangerous-host-mounts.md)
+- [privileged-containers-capabilities](../issues/privileged-containers-capabilities.md)
 
 ## driftctl
-- `issues/infrastructure-drift-detection.md`
-- `issues/gitops-manual-apply-drift.md`
+- [infrastructure-drift-detection](../issues/infrastructure-drift-detection.md)
+- [gitops-manual-apply-drift](../issues/gitops-manual-apply-drift.md)
 
 ## falco
-- `issues/runtime-threat-detection.md`
-- `issues/living-off-the-land.md`
-- `issues/pod-security-standards.md`
+- [runtime-threat-detection](../issues/runtime-threat-detection.md)
+- [living-off-the-land](../issues/living-off-the-land.md)
+- [pod-security-standards](../issues/pod-security-standards.md)
 
 ## ffuf
-- `issues/forced-browsing-admin-panels.md`
-- `issues/path-traversal.md`
+- [forced-browsing-admin-panels](../issues/forced-browsing-admin-panels.md)
+- [path-traversal](../issues/path-traversal.md)
 
 ## github-push-protection
-- `issues/secret-scanning.md`
+- [secret-scanning](../issues/secret-scanning.md)
 
 ## gitleaks
-- `issues/secret-scanning.md`
-- `issues/env-in-gitignore.md`
-- `issues/secrets-in-ci-logs.md`
-- `issues/helm-values-plaintext-secrets.md`
-- `issues/terraform-state-plaintext-secrets.md`
+- [secret-scanning](../issues/secret-scanning.md)
+- [env-in-gitignore](../issues/env-in-gitignore.md)
+- [secrets-in-ci-logs](../issues/secrets-in-ci-logs.md)
+- [helm-values-plaintext-secrets](../issues/helm-values-plaintext-secrets.md)
+- [terraform-state-plaintext-secrets](../issues/terraform-state-plaintext-secrets.md)
 
 ## gosec
-- `issues/os-command-injection.md`
-- `issues/sql-injection.md`
-- `issues/weak-crypto-primitives.md`
+- [os-command-injection](../issues/os-command-injection.md)
+- [sql-injection](../issues/sql-injection.md)
+- [weak-crypto-primitives](../issues/weak-crypto-primitives.md)
 
 ## grype
-- `issues/image-scanning.md`
-- `issues/dependency-vulnerabilities.md`
+- [image-scanning](../issues/image-scanning.md)
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
 
 ## httpx-katana
-- `issues/subdomain-takeover.md`
-- `issues/broken-link-hijacking.md`
+- [subdomain-takeover](../issues/subdomain-takeover.md)
+- [broken-link-hijacking](../issues/broken-link-hijacking.md)
 
 ## iam-access-analyzer
-- `issues/dangerous-iam-policies.md`
-- `issues/cloud-privilege-escalation-paths.md`
-- `issues/non-human-identity-governance.md`
+- [dangerous-iam-policies](../issues/dangerous-iam-policies.md)
+- [cloud-privilege-escalation-paths](../issues/cloud-privilege-escalation-paths.md)
+- [non-human-identity-governance](../issues/non-human-identity-governance.md)
 
 ## in-toto
-- `issues/build-provenance-attestation.md`
-- `issues/supply-chain-risk-management.md`
+- [build-provenance-attestation](../issues/build-provenance-attestation.md)
+- [supply-chain-risk-management](../issues/supply-chain-risk-management.md)
 
 ## jazzer
-- `issues/fuzzing.md`
-- `issues/insecure-deserialization.md`
+- [fuzzing](../issues/fuzzing.md)
+- [insecure-deserialization](../issues/insecure-deserialization.md)
 
 ## kube-bench
-- `issues/cis-benchmarks.md`
-- `issues/kubelet-port-protection.md`
-- `issues/kernel-sysctl-hardening.md`
+- [cis-benchmarks](../issues/cis-benchmarks.md)
+- [kubelet-port-protection](../issues/kubelet-port-protection.md)
+- [kernel-sysctl-hardening](../issues/kernel-sysctl-hardening.md)
 
 ## kube-linter
-- `issues/pod-security-standards.md`
-- `issues/automount-serviceaccount-token.md`
-- `issues/namespace-resource-quota-absent.md`
+- [pod-security-standards](../issues/pod-security-standards.md)
+- [automount-serviceaccount-token](../issues/automount-serviceaccount-token.md)
+- [namespace-resource-quota-absent](../issues/namespace-resource-quota-absent.md)
 
 ## kubesec
-- `issues/pod-security-standards.md`
-- `issues/privileged-containers-capabilities.md`
+- [pod-security-standards](../issues/pod-security-standards.md)
+- [privileged-containers-capabilities](../issues/privileged-containers-capabilities.md)
 
 ## libfuzzer
-- `issues/fuzzing.md`
+- [fuzzing](../issues/fuzzing.md)
 
 ## lighthouse
-- `issues/core-web-vitals-budgets.md`
-- `issues/accessibility-eaa-wcag.md`
-- `issues/meta-og-tag-completeness.md`
-- `issues/image-optimization-serving.md`
+- [core-web-vitals-budgets](../issues/core-web-vitals-budgets.md)
+- [accessibility-eaa-wcag](../issues/accessibility-eaa-wcag.md)
+- [meta-og-tag-completeness](../issues/meta-og-tag-completeness.md)
+- [image-optimization-serving](../issues/image-optimization-serving.md)
 
 ## lighthouse-ci
-- `issues/lighthouse-ci-performance-budgets.md`
-- `issues/core-web-vitals-budgets.md`
+- [lighthouse-ci-performance-budgets](../issues/lighthouse-ci-performance-budgets.md)
+- [core-web-vitals-budgets](../issues/core-web-vitals-budgets.md)
 
 ## lynis
-- `issues/ssh-hardening.md`
-- `issues/kernel-sysctl-hardening.md`
+- [ssh-hardening](../issues/ssh-hardening.md)
+- [kernel-sysctl-hardening](../issues/kernel-sysctl-hardening.md)
 
 ## megalinter
-- `issues/linting-static-analysis.md`
+- [linting-static-analysis](../issues/linting-static-analysis.md)
 
 ## nikto
-- `issues/open-directory-listing.md`
-- `issues/exposed-debug-actuator-endpoints.md`
+- [open-directory-listing](../issues/open-directory-listing.md)
+- [exposed-debug-actuator-endpoints](../issues/exposed-debug-actuator-endpoints.md)
 
 ## npm-audit
-- `issues/dependency-vulnerabilities.md`
-- `issues/dependency-confusion.md`
-- `issues/hallucinated-packages.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [dependency-confusion](../issues/dependency-confusion.md)
+- [hallucinated-packages](../issues/hallucinated-packages.md)
 
 ## nuclei
-- `issues/exposed-debug-actuator-endpoints.md`
-- `issues/forced-browsing-admin-panels.md`
-- `issues/subdomain-takeover.md`
-- `issues/exposed-data-service-ports.md`
-- `issues/open-directory-listing.md`
+- [exposed-debug-actuator-endpoints](../issues/exposed-debug-actuator-endpoints.md)
+- [forced-browsing-admin-panels](../issues/forced-browsing-admin-panels.md)
+- [subdomain-takeover](../issues/subdomain-takeover.md)
+- [exposed-data-service-ports](../issues/exposed-data-service-ports.md)
+- [open-directory-listing](../issues/open-directory-listing.md)
 
 ## osv-scanner
-- `issues/dependency-vulnerabilities.md`
-- `issues/malware-alerts.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [malware-alerts](../issues/malware-alerts.md)
 
 ## owasp-dependency-check
-- `issues/dependency-vulnerabilities.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
 
 ## owasp-zap
-- `issues/sql-injection.md`
-- `issues/xss.md`
-- `issues/csrf.md`
-- `issues/open-redirect.md`
-- `issues/security-headers.md`
-- `issues/forced-browsing-admin-panels.md`
+- [sql-injection](../issues/sql-injection.md)
+- [xss](../issues/xss.md)
+- [csrf](../issues/csrf.md)
+- [open-redirect](../issues/open-redirect.md)
+- [security-headers](../issues/security-headers.md)
+- [forced-browsing-admin-panels](../issues/forced-browsing-admin-panels.md)
 
 ## pagespeed-insights
-- `issues/core-web-vitals-budgets.md`
-- `issues/image-optimization-serving.md`
+- [core-web-vitals-budgets](../issues/core-web-vitals-budgets.md)
+- [image-optimization-serving](../issues/image-optimization-serving.md)
 
 ## pip-audit
-- `issues/dependency-vulnerabilities.md`
-- `issues/dependency-confusion.md`
-- `issues/hallucinated-packages.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [dependency-confusion](../issues/dependency-confusion.md)
+- [hallucinated-packages](../issues/hallucinated-packages.md)
 
 ## policy-sentry
-- `issues/least-privilege.md`
-- `issues/dangerous-iam-policies.md`
-- `issues/cloud-iam-privilege-escalation.md`
+- [least-privilege](../issues/least-privilege.md)
+- [dangerous-iam-policies](../issues/dangerous-iam-policies.md)
+- [cloud-iam-privilege-escalation](../issues/cloud-iam-privilege-escalation.md)
 
 ## pre-commit
-- `issues/linting-static-analysis.md`
+- [linting-static-analysis](../issues/linting-static-analysis.md)
 
 ## projectdiscovery-suite
-- `issues/subdomain-takeover.md`
-- `issues/exposed-debug-actuator-endpoints.md`
-- `issues/forced-browsing-admin-panels.md`
+- [subdomain-takeover](../issues/subdomain-takeover.md)
+- [exposed-debug-actuator-endpoints](../issues/exposed-debug-actuator-endpoints.md)
+- [forced-browsing-admin-panels](../issues/forced-browsing-admin-panels.md)
 
 ## prowler
-- `issues/cis-benchmarks.md`
-- `issues/cspm-continuous-scanning.md`
-- `issues/public-s3-buckets.md`
-- `issues/security-groups.md`
+- [cis-benchmarks](../issues/cis-benchmarks.md)
+- [cspm-continuous-scanning](../issues/cspm-continuous-scanning.md)
+- [public-s3-buckets](../issues/public-s3-buckets.md)
+- [security-groups](../issues/security-groups.md)
 
 ## renovate-dependabot
-- `issues/patch-cadence-remediation-sla.md`
-- `issues/dependency-vulnerabilities.md`
-- `issues/lockfiles.md`
+- [patch-cadence-remediation-sla](../issues/patch-cadence-remediation-sla.md)
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [lockfiles](../issues/lockfiles.md)
 
 ## rich-results-test
-- `issues/structured-data-schema-validation.md`
+- [structured-data-schema-validation](../issues/structured-data-schema-validation.md)
 
 ## scoutsuite
-- `issues/cspm-continuous-scanning.md`
-- `issues/dangerous-iam-policies.md`
+- [cspm-continuous-scanning](../issues/cspm-continuous-scanning.md)
+- [dangerous-iam-policies](../issues/dangerous-iam-policies.md)
 
 ## semgrep
-- `issues/sql-injection.md`
-- `issues/xss.md`
-- `issues/os-command-injection.md`
-- `issues/ldap-injection.md`
-- `issues/server-side-template-injection.md`
-- `issues/insecure-deserialization.md`
+- [sql-injection](../issues/sql-injection.md)
+- [xss](../issues/xss.md)
+- [os-command-injection](../issues/os-command-injection.md)
+- [ldap-injection](../issues/ldap-injection.md)
+- [server-side-template-injection](../issues/server-side-template-injection.md)
+- [insecure-deserialization](../issues/insecure-deserialization.md)
 
 ## shodan-censys
-- `issues/exposed-data-service-ports.md`
-- `issues/attack-surface-management.md`
-- `issues/exposed-debug-actuator-endpoints.md`
+- [exposed-data-service-ports](../issues/exposed-data-service-ports.md)
+- [attack-surface-management](../issues/attack-surface-management.md)
+- [exposed-debug-actuator-endpoints](../issues/exposed-debug-actuator-endpoints.md)
 
 ## sigstore
-- `issues/artifact-signing-verification.md`
-- `issues/build-provenance-attestation.md`
+- [artifact-signing-verification](../issues/artifact-signing-verification.md)
+- [build-provenance-attestation](../issues/build-provenance-attestation.md)
 
 ## slsa-provenance
-- `issues/build-provenance-attestation.md`
-- `issues/hermetic-builds.md`
-- `issues/reproducible-builds.md`
+- [build-provenance-attestation](../issues/build-provenance-attestation.md)
+- [hermetic-builds](../issues/hermetic-builds.md)
+- [reproducible-builds](../issues/reproducible-builds.md)
 
 ## snyk
-- `issues/dependency-vulnerabilities.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
 
 ## sonarqube
-- `issues/linting-static-analysis.md`
-- `issues/dead-code.md`
-- `issues/unit-tests.md`
-- `issues/code-review-practice.md`
+- [linting-static-analysis](../issues/linting-static-analysis.md)
+- [dead-code](../issues/dead-code.md)
+- [unit-tests](../issues/unit-tests.md)
+- [code-review-practice](../issues/code-review-practice.md)
 
 ## spotbugs-find-sec-rules
-- `issues/insecure-deserialization.md`
-- `issues/sql-injection.md`
-- `issues/xxe-injection.md`
+- [insecure-deserialization](../issues/insecure-deserialization.md)
+- [sql-injection](../issues/sql-injection.md)
+- [xxe-injection](../issues/xxe-injection.md)
 
 ## sqlmap
-- `issues/sql-injection.md`
+- [sql-injection](../issues/sql-injection.md)
 
 ## subfinder
-- `issues/attack-surface-management.md`
-- `issues/subdomain-takeover.md`
+- [attack-surface-management](../issues/attack-surface-management.md)
+- [subdomain-takeover](../issues/subdomain-takeover.md)
 
 ## syft
-- `issues/sbom-generation.md`
+- [sbom-generation](../issues/sbom-generation.md)
 
 ## sysdig
-- `issues/runtime-threat-detection.md`
-- `issues/profiling.md`
+- [runtime-threat-detection](../issues/runtime-threat-detection.md)
+- [profiling](../issues/profiling.md)
 
 ## terrascan
-- `issues/infrastructure-as-code.md`
-- `issues/cis-benchmarks.md`
+- [infrastructure-as-code](../issues/infrastructure-as-code.md)
+- [cis-benchmarks](../issues/cis-benchmarks.md)
 
 ## tetragon
-- `issues/runtime-threat-detection.md`
-- `issues/mtls-service-auth.md`
-- `issues/egress-control.md`
+- [runtime-threat-detection](../issues/runtime-threat-detection.md)
+- [mtls-service-auth](../issues/mtls-service-auth.md)
+- [egress-control](../issues/egress-control.md)
 
 ## tfsec
-- `issues/infrastructure-as-code.md`
-- `issues/security-groups.md`
-- `issues/public-s3-buckets.md`
+- [infrastructure-as-code](../issues/infrastructure-as-code.md)
+- [security-groups](../issues/security-groups.md)
+- [public-s3-buckets](../issues/public-s3-buckets.md)
 
 ## tracee
-- `issues/runtime-threat-detection.md`
-- `issues/pod-security-standards.md`
+- [runtime-threat-detection](../issues/runtime-threat-detection.md)
+- [pod-security-standards](../issues/pod-security-standards.md)
 
 ## trivy
-- `issues/dependency-vulnerabilities.md`
-- `issues/image-scanning.md`
-- `issues/secret-scanning.md`
+- [dependency-vulnerabilities](../issues/dependency-vulnerabilities.md)
+- [image-scanning](../issues/image-scanning.md)
+- [secret-scanning](../issues/secret-scanning.md)
 
 ## trufflehog
-- `issues/secret-scanning.md`
-- `issues/secret-validity-checks.md`
+- [secret-scanning](../issues/secret-scanning.md)
+- [secret-validity-checks](../issues/secret-validity-checks.md)
 

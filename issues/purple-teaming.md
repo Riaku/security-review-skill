@@ -7,3 +7,7 @@
 **Detect:** `purple-team` session reports, shared `detection-gap` backlog, ATT&CK coverage matrices with blue annotations
 
 **References:** MITRE ATT&CK Evaluations, NIST SP 800-115, CISA Purple Team guidance
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

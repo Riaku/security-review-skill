@@ -7,3 +7,7 @@
 **Detect:** `in` membership on lists in loops, sort-then-scan per request, nested loops over collections, no complexity note on hot functions.
 
 **References:** CWE-407, CWE-834, OWASP ASVS 5.3
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

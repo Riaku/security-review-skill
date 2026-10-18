@@ -7,3 +7,7 @@
 **Detect:** check for CT-monitoring service/cron (Censys monitor, Certstream consumer, crt.sh search alerts) covering all brand domains and wildcard patterns; verify alert routing to a responder.
 
 **References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

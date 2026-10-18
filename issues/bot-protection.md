@@ -7,3 +7,7 @@
 **Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

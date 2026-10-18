@@ -7,3 +7,7 @@
 **Detect:** `.then(` without `.catch(`, `await` outside try/catch at entry points, tasks spawned without error propagation, missing global hooks (e.g. `process.on('unhandledRejection')`), floating async calls with no awaited/voided result.
 
 **References:** CWE-584, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

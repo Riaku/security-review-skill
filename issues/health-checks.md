@@ -7,3 +7,7 @@
 **Detect:** `GET /healthz`, `/health`, `HEALTHCHECK` in Dockerfiles, `livenessProbe` without DB checks, `readinessProbe` hitting only static 200.
 
 **References:** Kubernetes health checks, K8s docs, CWE-770, SRE Book
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

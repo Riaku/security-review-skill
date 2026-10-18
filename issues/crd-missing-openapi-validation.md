@@ -7,3 +7,7 @@
 **Detect:** `kubectl get crd -o yaml` showing empty `validation.openAPIV3Schema`; CRDs missing `x-kubernetes-*` structural markers.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

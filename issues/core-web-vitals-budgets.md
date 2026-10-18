@@ -7,3 +7,7 @@
 **Detect:** check for CrUX/RUM data, `web-vitals` library instrumentation, Lighthouse CI assertions on `largest-contentful-paint`, `interaction-to-next-paint`, `cumulative-layout-shift`.
 
 **References:** web.dev/vitals, Google Search Central CWV docs, Lighthouse performance category
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

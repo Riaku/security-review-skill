@@ -7,3 +7,7 @@
 **Detect:** Container PID 1 is a shell or app without `--reaping`; `docker top`/`ps` shows defunct `<defunct>` entries; no tini/dumb-init in image.
 
 **References:** CIS Docker 5.x, CWE-459, tini/dumb-init docs, Kubernetes init container patterns
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

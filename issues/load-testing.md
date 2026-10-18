@@ -7,3 +7,7 @@
 **Detect:** grep repo for `k6`, `locust`, `gatling`, `wrk`, `chaos`, test reports with `p99` and error-rate thresholds; flag tests that only check mean latency or run below peak.
 
 **References:** OWASP ASVS 14.2, NIST SP 800-184, AWS Well-Architected REL11-BP04
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

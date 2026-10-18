@@ -7,3 +7,7 @@
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
 **References:** CIS K8s 5.1.5, CWE-522, OWASP K8s PS1, NIST SP 800-190 5.2
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

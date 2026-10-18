@@ -7,3 +7,7 @@
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
 **References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

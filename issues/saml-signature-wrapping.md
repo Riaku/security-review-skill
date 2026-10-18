@@ -7,3 +7,7 @@
 **Detect:** grep SAML consumer for missing `signature` validation, no certificate pinning, parsing `Assertion` without checking `Signature` reference URI, `xmldsig` verification skipped.
 
 **References:** CWE-347, OWASP A02:2021, CVE-2017-11427, SAML Security BCP §4.1.5
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

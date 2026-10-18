@@ -7,3 +7,7 @@
 **Detect:** grep for `concurrency`, `pool_size`, `num_workers` without autoscaling policy; metrics showing queue depth rising while workers idle or saturated.
 
 **References:** CWE-400, NIST SP 800-53 SC-5, Kubernetes HPA guidance
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

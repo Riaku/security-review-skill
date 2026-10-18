@@ -19,3 +19,7 @@ ORDER BY created_at, id LIMIT 50;   -- index seek, stable across inserts
 ```
 
 **References:** PostgreSQL keyset pagination, Stripe API pagination design, CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

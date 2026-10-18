@@ -7,3 +7,7 @@
 **Detect:** tool dispatch calling exec/query with model output unchecked; missing JSON-schema validation on function-call payloads.
 
 **References:** OWASP LLM06:2025, CWE-74, OWASP Top 10 A03
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

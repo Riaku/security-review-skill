@@ -7,3 +7,7 @@
 **Detect:** files `docs/threat-model/`, `threat-model.md`, `stride` keywords in PR templates, `threat_model` CI gate
 
 **References:** OWASP Threat Dragon, NIST SP 800-181, OWASP ASVS V1.2
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -23,3 +23,7 @@ def handler(event, ctx):
 ```
 
 **References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [infrastructure](../domains/infrastructure.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

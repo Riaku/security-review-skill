@@ -2,7 +2,7 @@
 
 Mobile client security.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [mobile](../categories/mobile.md) · index: [SKILL.md](../SKILL.md)
 
 # Mobile Certificate Pinning
 
@@ -14,6 +14,10 @@ Mobile client security.
 
 **References:** OWASP MASVS-NETWORK-4, CWE-295, OWASP MAS Testing Guide Network Interception
 
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
 # Mobile Secure Storage (Keychain/Keystore)
 
 **MUST NOT** store tokens, credentials, or PII in SharedPreferences, UserDefaults, plaintext files, or web localStorage; use Keychain (iOS) or EncryptedSharedPreferences backed by the Keystore (Android).
@@ -23,6 +27,10 @@ Mobile client security.
 **Detect:** grep `SharedPreferences`, `UserDefaults`, `localStorage` near `token`, `password`, `api_key`; check for `kSecAttrAccessible` / `EncryptedSharedPreferences` usage.
 
 **References:** OWASP MASVS-STORAGE-1, CWE-922, CWE-312, NIST SP 800-63B
+
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
 # Deep Link / Universal Link Validation
 
@@ -34,6 +42,10 @@ Mobile client security.
 
 **References:** OWASP MASVS-PLATFORM-6, CWE-20, CWE-639, OWASP MAS Testing Guide Client-Side Attack Surface
 
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
 # Hardcoded API keys and secrets in mobile app binaries
 
 **MUST NOT** embed API keys, tokens, or symmetric secrets in app source, assets, or compiled binaries; ship them via short-lived server-issued credentials instead.
@@ -43,6 +55,10 @@ Mobile client security.
 **Detect:** run `strings`/mobSF scan on the binary; grep repo for `apiKey =`, `secret`, `BEGIN PRIVATE KEY`, hardcoded `AIza`/`sk-` prefixes in source and Info.plist/assets.
 
 **References:** OWASP MASVS-STORAGE-2, CWE-798, CWE-321, MAS Testing Guide Reverse Engineering
+
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 
 # Mobile Reverse-Engineering & Tamper Protection
 
@@ -54,6 +70,10 @@ Mobile client security.
 
 **References:** OWASP MASVS-RESILIENCE-1..4, CWE-919, MAS Testing Guide Tampering and Reverse Engineering
 
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
 # Push-Token Binding & Rotation
 
 **MUST** bind APNs/FCM device tokens to the authenticated user+device and invalidate on logout/account change; never accept a token from an unauthenticated registration.
@@ -64,6 +84,10 @@ Mobile client security.
 
 **References:** OWASP MASVS-AUTH, APNs/FCM security guidance, push-token hijacking CVEs
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [mobile](../categories/mobile.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
+
 # Push-Payload Sensitivity
 
 **MUST NOT** put secrets, tokens, full PII, or account-identifying detail in push notification payloads (they are stored/transmitted by third-party OS infrastructure and shown on lock screens).
@@ -73,4 +97,8 @@ Mobile client security.
 **Detect:** grep push payload construction for tokens, codes, amounts, addresses; verify payloads are content-neutral ("You have a new message — open the app") with sensitive detail fetched in-app.
 
 **References:** OWASP MASVS-STORAGE, APNs payload security guidance, lock-screen disclosure studies
+
+---
+
+**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)
 

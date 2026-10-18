@@ -7,3 +7,7 @@
 **Detect:** check for data-versioning tooling (DVC lock files, dataset manifests with hashes) or recorded input versions in output metadata; flag pipelines reading mutable "latest" datasets without pinning.
 
 **References:** DVC docs, data lineage/provenance practice, reproducible-research data management guidance
+
+---
+
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

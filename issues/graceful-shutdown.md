@@ -7,3 +7,7 @@
 **Detect:** `terminationGracePeriodSeconds`, `SIGTERM` handler absent, `preStop` hook missing, `kill -9` in stop scripts.
 
 **References:** Kubernetes termination docs, CWE-227, Google SRE Book
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

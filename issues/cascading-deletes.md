@@ -19,3 +19,7 @@ REFERENCES users(id) ON DELETE RESTRICT  -- force explicit, reviewed cleanup
 ```
 
 **References:** PostgreSQL ON DELETE actions, OWASP ASVS V6.4 (data retention), CWE-459
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

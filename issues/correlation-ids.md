@@ -7,3 +7,7 @@
 **Detect:** grep middleware for `X-Request-ID` / `request_id` generation and propagation; verify log schema includes the field on every line.
 
 **References:** OWASP Logging Cheat Sheet, AWS Prescriptive Guidance tracing, Google SRE Book Ch.6
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

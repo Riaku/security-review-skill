@@ -7,3 +7,7 @@
 **Detect:** grep command handlers reading from read-store/query-side for authz, missing `expected_version`/optimistic concurrency on command, projection lag unbounded.
 
 **References:** Fowler CQRS, Greg Young CQRS docs, CWE-367 Time-of-Check Time-of-Use
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep for UPDATE/DELETE on events table, missing `event_version`/`schema_version`, no hash/signature chaining (`prev_hash`), events deserialized without version dispatch.
 
 **References:** Fowler Event Sourcing, Greg Young versioning, CWE-393, NIST SP 800-53 AU-9
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep migration folders for down scripts missing or marked irreversible; check deploy manifests for `revisionHistoryLimit` and `kubectl rollout undo` runbook presence.
 
 **References:** NIST SP 800-34 contingency planning, Fowler Parallel Change, CWE-581 group authorization failure on rollback state
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

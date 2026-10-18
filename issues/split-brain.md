@@ -7,3 +7,7 @@
 **Detect:** grep cluster config for `no-quorum-policy=ignore`, missing `stonith`, `skipped` fencing, heartbeat over untrusted network, `replication_mode=async` with dual-writable VIPs.
 
 **References:** PACEMAKER fencing docs, CWE-662, NIST SP 800-34 Contingency Planning
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

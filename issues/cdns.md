@@ -7,3 +7,7 @@
 **Detect:** CDN config caching paths like `/account`, `/api/me`; missing `Cache-Control: private` on authenticated responses at edge rules.
 
 **References:** OWASP A01:2021, CWE-525, RFC 7234 section 3.2, Cloudflare cache rules docs
+
+---
+
+**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

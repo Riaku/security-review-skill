@@ -7,3 +7,7 @@
 **Detect:** grep for `partition_key`, `ordering_key`, `enable.idempotence`, consumers processing multi-partition topics with order-dependent logic.
 
 **References:** Kafka ordering guarantees, CWE-362, AWS SQS FIFO ordering notes
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

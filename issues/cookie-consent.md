@@ -7,3 +7,7 @@
 **Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
 
 **References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
 **References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 PW.5, Kaniko and BuildKit rootless docs, GitLab CI best practices
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

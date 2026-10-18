@@ -7,3 +7,7 @@
 **Detect:** grep docs for the same instructions/config/versions appearing in multiple files; flag copy-pasted blocks; check cross-references use links/includes instead of duplication.
 
 **References:** Write the Docs DRY documentation guidance, docs-as-code single-source practice
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

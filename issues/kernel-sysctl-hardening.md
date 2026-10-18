@@ -7,3 +7,7 @@
 **Detect:** grep `/etc/sysctl.conf` and `/etc/sysctl.d/*.conf` for `kptr_restrict`, `ptrace_scope`, `rp_filter`, `accept_redirects`, `randomize_va_space`.
 
 **References:** CIS Distro Benchmark sec. 3, CWE-1188, NIST SP 800-123, CWE-200
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

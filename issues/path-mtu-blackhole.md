@@ -19,3 +19,7 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
 ```
 
 **References:** RFC 8899 (PMTUD), RFC 1191, AWS VPN MTU docs, Black Hole Router / PMTU blackhole literature
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

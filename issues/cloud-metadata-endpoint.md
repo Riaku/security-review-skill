@@ -22,3 +22,7 @@ metadata_options {
 ```
 
 **References:** AWS Security Bulletin IMPDS-2019-001, AWS Security Best Practices (SCA) SEC2-BP07, CIS AWS 5.6
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

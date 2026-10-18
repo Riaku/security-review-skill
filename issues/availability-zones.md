@@ -7,3 +7,7 @@
 **Detect:** `topologySpreadConstraints`, `podAntiAffinity` on zone topology, ASG `VPCZoneIdentifier` with one subnet.
 
 **References:** AWS Well-Architected reliability pillar, K8s topology docs, NIST SP 800-34
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

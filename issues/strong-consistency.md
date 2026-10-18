@@ -7,3 +7,7 @@
 **Detect:** grep for direct `:2379`/`:8500` single-node endpoints, `consistency=eventual` on critical reads, admin ports exposed without auth in ingress.
 
 **References:** etcd consistency docs, Jepsen test reports, NIST SP 800-53 SC-8
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

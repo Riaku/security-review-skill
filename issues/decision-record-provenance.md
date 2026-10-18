@@ -7,3 +7,7 @@
 **Detect:** judgment on presence of decision/assumption records near consequential logic and outputs (ADRs in docs/adr, assumption logs in analysis projects), with dates and authors.
 
 **References:** ADR practice, decision-record keeping in analysis-code guidance, nfr-traceability companion
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

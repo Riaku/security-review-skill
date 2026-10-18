@@ -7,3 +7,7 @@
 **Detect:** `hashlib.md5`, `sha1(` on password fields, `bcrypt.gensalt(rounds=` below 12, absence of `argon2` in dependencies.
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-916, NIST SP 800-63B §5.1.1.2
+
+---
+
+**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

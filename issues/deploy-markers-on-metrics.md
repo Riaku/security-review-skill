@@ -7,3 +7,7 @@
 **Detect:** grep CI/CD for annotations pushed to metrics (`deploy_event`, Grafana annotations API, `release` label on series); check dashboards show deploy lines.
 
 **References:** Google SRE Workbook, DORA deploy frequency practices, Grafana annotations docs
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

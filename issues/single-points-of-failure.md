@@ -7,3 +7,7 @@
 **Detect:** one-instance StatefulSets, single `CNAME` targets, solo admin accounts, `replicas: 1`, single-node etcd/Redis without sentinel.
 
 **References:** NIST SP 800-34, AWS Well-Architected, Google SRE Book, CWE-1049
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

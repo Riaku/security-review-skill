@@ -7,3 +7,7 @@
 **Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models.
 
 **References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

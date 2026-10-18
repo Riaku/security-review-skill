@@ -7,3 +7,7 @@
 **Detect:** grep push registration endpoints for auth requirement and user+device binding; check logout path unregisters tokens; flag token storage without account association or per-install rotation.
 
 **References:** OWASP MASVS-AUTH, APNs/FCM security guidance, push-token hijacking CVEs
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [mobile](../categories/mobile.md) · [backend](../domains/backend.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)

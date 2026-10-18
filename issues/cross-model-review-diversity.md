@@ -7,3 +7,7 @@
 **Detect:** review pipeline config shows same model for author and critic; no independent-model step for security-sensitive diffs; judgment on independence of the review chain.
 
 **References:** GitHub Copilot rubber-duck cross-model critic, Anthropic fresh-context adversarial subagent review
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

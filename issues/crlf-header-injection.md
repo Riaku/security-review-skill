@@ -7,3 +7,7 @@
 **Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

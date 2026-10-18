@@ -7,3 +7,7 @@
 **Detect:** IOC feeds in SIEM config, `threat_intel` integrations, no advisory-to-asset matching in the scanner.
 
 **References:** NIST SP 800-150, MITRE ATT&CK, MISP threat sharing, CISA KEV catalog
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

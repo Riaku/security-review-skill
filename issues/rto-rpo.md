@@ -7,3 +7,7 @@
 **Detect:** `rto:`/`rpo:` in SLO config, backup interval vs stated RPO mismatch, no restore-time test reports.
 
 **References:** NIST SP 800-34, ISO 22301, Google SRE Workbook
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

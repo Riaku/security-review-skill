@@ -2,7 +2,7 @@
 
 Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [documentation-quality](../categories/documentation-quality.md) · index: [SKILL.md](../SKILL.md)
 
 # BCP 14 Keyword Usage (RFC 2119 + RFC 8174)
 
@@ -14,6 +14,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** RFC 2119, RFC 8174 §3, IETF BCP 14
 
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Developer-Doc Style Consistency
 
 **SHOULD** follow a single documented style guide (e.g. Google developer documentation style) across project docs: present tense, second person ("you"), active voice, sentence-case headings, consistent terminology per glossary.
@@ -23,6 +27,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** spot-check docs for voice/tense/person consistency and terminology drift (same concept under different names); check for a linked style guide and linting (Vale, proselint) enforcing it.
 
 **References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Comments Explain Why, Not What
 
@@ -34,6 +42,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Stack Overflow code-comment best practices, MIT CommKit coding-and-comment style, clean-code comment guidance
 
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Docs-Code Synchronization
 
 **MUST** update documentation in the same change that alters the behavior it describes; stale docs are treated as a bug, not a backlog item.
@@ -43,6 +55,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** review PRs touching public behavior for corresponding doc updates; flag documented commands/config/APIs that no longer match code (run documented examples in CI where possible); check docs last-modified vs code churn on covered surfaces.
 
 **References:** docs-as-code practice, Google style guide (keep docs current), CI doc-example testing (doctest/mddoc patterns)
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Single-Source Documentation
 
@@ -54,6 +70,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Write the Docs DRY documentation guidance, docs-as-code single-source practice
 
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Inclusive & Accessible Documentation
 
 **SHOULD** use inclusive, jargon-free language in docs (Google style: avoid master/slave, blacklist/whitelist, gendered defaults) and meet doc accessibility basics (heading hierarchy, alt text, readable tables).
@@ -63,6 +83,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** grep docs for flagged terms (master/slave, blacklist/whitelist, guys, he/she defaults); check heading hierarchy and alt-text presence on images; lint with inclusive-language checkers (e.g. Vale rules); for procedural docs, check STE-controlled vocabulary adherence.
 
 **References:** Google style guide (inclusive language), ASD-STE100 Simplified Technical English, Write the Docs accessibility guidance
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Runnable README
 
@@ -74,6 +98,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Google style guide (readme content), docs-as-code tested-README practice, twelve-factor dev-environment onboarding
 
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Architecture Doc & ADR Coverage
 
 **SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
@@ -83,6 +111,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
 **References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Simplified Technical English for Procedures
 
@@ -94,6 +126,10 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** ASD-STE100 Simplified Technical English (asd-ste100.org), aerospace/defense doc standards, runbook readability practice
 
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Agent Instruction-File Review Surface
 
 **MUST** code-review and CODEOWN every agent instruction file (CLAUDE.md, AGENTS.md, .cursor/rules/*.mdc, copilot-instructions.md, .gemini/styleguide.md, QWEN.md) and keep it concise — bloated instruction files are silently ignored, making unenforced policy invisible.
@@ -103,4 +139,8 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
 
 **References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

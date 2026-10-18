@@ -7,3 +7,7 @@
 **Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
 
 **References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep for "high-risk", "GPAI", "Annex III", "conformity", "Article 50 transparency"; AI features with no risk tier or labeling.
 
 **References:** EU AI Act 2024/1689, Annex III, GPAI Code of Practice, EU AI Office
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

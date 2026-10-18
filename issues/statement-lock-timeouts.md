@@ -20,3 +20,7 @@ ALTER ROLE reports  SET statement_timeout = '30min';
 ```
 
 **References:** PostgreSQL timeout config docs, PgBouncer per-user pools, CWE-400 Uncontrolled Resource Consumption
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

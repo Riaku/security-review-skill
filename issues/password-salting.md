@@ -7,3 +7,7 @@
 **Detect:** Hardcoded `salt =` constants, `md5(password + SALT)`, bcrypt/argon2 calls without per-user salt handling, same hash for duplicate passwords in DB dumps.
 
 **References:** OWASP Password Storage Cheat Sheet, CWE-759, NIST SP 800-63B §5.1.1.2
+
+---
+
+**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

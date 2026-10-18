@@ -19,3 +19,7 @@ SPF: "v=spf1 include:amazonses.com -all"
 ```
 
 **References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
+
+---
+
+**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

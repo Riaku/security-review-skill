@@ -19,3 +19,7 @@ WHERE id = :id AND version = :expected;
 ```
 
 **References:** Hibernate `@Version` docs, Rails `lock_version`, RFC 7232 If-Match, CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

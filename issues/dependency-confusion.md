@@ -7,3 +7,7 @@
 **Detect:** `.npmrc`/`pip.conf` without scoped `@internal:registry=`; `pip install` without `--index-url`; internal names absent from private registry listings.
 
 **References:** CWE-427, OWASP A06:2021, Alex Birsan 2021 disclosure
+
+---
+
+**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
