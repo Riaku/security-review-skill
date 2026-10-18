@@ -58,6 +58,8 @@ def fetch_ok(url: str) -> tuple[str, str]:
                 return "blocked", str(e.code)
             return "broken", str(e.code)
         except Exception as e:
+            if method == "HEAD":
+                continue  # transient HEAD failure: retry with GET
             return "broken", type(e).__name__
     return "broken", "unreachable"
 
