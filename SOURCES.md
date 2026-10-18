@@ -3,7 +3,7 @@
 Every external source this skill's content was derived from, with what it
 contributed. Kept current as new sources are mined.
 
-## User-provided sources
+## Sources
 
 | Source | Contributed |
 |---|---|
@@ -21,7 +21,7 @@ contributed. Kept current as new sources are mined.
 | MITRE ATT&CK — https://attack.mitre.org/ (Cloud matrix: https://attack.mitre.org/matrices/enterprise/cloud/) | `references/mitre-attack.md`: tactic→issue mapping for detection tagging and coverage review |
 | https://github.com/dronezzzko/software-development-best-practices | Cross-references confirming guide coverage (API/security/language guides cited across SOURCES) |
 
-## Guide/framework sources (proposed by agent, approved by user)
+## Guide/framework sources
 
 | Source | Contributed |
 |---|---|
@@ -67,12 +67,6 @@ contributed. Kept current as new sources are mined.
 | Gemini Code Assist style guide & docs — https://cloud.google.com/gemini/docs/code-review/style-guide | review-category framing; .aiexclude exclusion pattern |
 | OpenAI Codex security docs — https://developers.openai.com/codex/agent-approvals-security.md | v15: sandbox×approval matrix, two-phase secret lifecycle, cached-search injection defense |
 | Amazon Q Developer docs (code reviews / severity / MCP security) — https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/code-reviews.md | six review classes; CVSS×access×effort severity matrix; MCP trust principles |
-
-## User-provided content (not external)
-
-- System-design additions from user's screenshots (reads/writes split, reliability, long-running jobs, real-time, scale-writes)
-- Engineering-practice additions (O(n²)/nested loops, TDD, circuit breakers, rate limiting, idempotency, CI/CD, exception handling, cost/observability alerting)
-- Compliance direction (CIS, STIG, FedRAMP, and related government/regulatory regimes)
 | 12-Factor App — https://12factor.net/ | v16: backing-services-attached-resources, build-release-run-separation, logs-as-event-streams, one-off-admin-processes |
 | Martin Fowler — Microservices (Decentralized Data Management) — https://martinfowler.com/articles/microservices.html | v16: database-per-service |
 | Catio — Architecture as Code — https://www.catio.tech/blog/architecture-as-code | v16: architecture-fitness-functions (per Ford/Parsons/Kua, Building Evolutionary Architectures) |
