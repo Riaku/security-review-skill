@@ -2,11 +2,6 @@ name: validate-skill
 
 on:
   pull_request:
-  push:
-    branches: [main]
-  schedule:
-    # Weekly link re-check (link rot doesn't wait for PRs)
-    - cron: "17 6 * * 1"
   workflow_dispatch:
 
 jobs:
