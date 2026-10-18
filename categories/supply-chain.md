@@ -23,3 +23,4 @@ Issues:
 - `eu-cyber-resilience-act`
 - `mcp-plugin-trust`
 - `vendor-risk-subprocessors`
+- `malware-alerts`

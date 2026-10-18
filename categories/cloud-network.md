@@ -51,3 +51,6 @@ Issues:
 - `imds-metadata-abuse`
 - `unauthenticated-data-store-exposure`
 - `cloud-iam-escalation-paths`
+- `data-exfiltration-monitoring`
+- `attack-surface-management`
+- `attack-surface-reduction`

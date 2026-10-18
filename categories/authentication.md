@@ -30,3 +30,4 @@ Issues:
 - `account-recovery-security`
 - `session-invalidation-on-credential-change`
 - `saml-signature-wrapping`
+- `anomalous-auth-detection`

@@ -35,3 +35,5 @@ Issues:
 - `status-page-outage-comms`
 - `breach-notification-clocks`
 - `sec-cyber-disclosure`
+- `threat-intelligence`
+- `soar-orchestration`

@@ -19,3 +19,6 @@ Issues:
 - `iac-untrusted-pr-plan-injection`
 - `ai-generated-code-review`
 - `patch-management-sla`
+- `push-protection`
+- `sarif-standardization`
+- `shift-left-security`

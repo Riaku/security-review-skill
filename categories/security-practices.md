@@ -12,3 +12,11 @@ Issues:
 - `vulnerability-disclosure-program`
 - `patch-management-sla`
 - `penetration-testing-cadence`
+- `living-off-the-land`
+- `attack-surface-management`
+- `attack-surface-reduction`
+- `purple-teaming`
+- `breach-attack-simulation`
+- `shift-left-security`
+- `secure-by-design`
+- `security-champions`

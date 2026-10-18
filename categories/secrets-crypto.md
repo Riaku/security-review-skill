@@ -28,3 +28,5 @@ Issues:
 - `pqc-tls-readiness`
 - `embedding-inversion-vector-stores`
 - `secrets-in-mobile-binaries`
+- `push-protection`
+- `secret-validity-checks`

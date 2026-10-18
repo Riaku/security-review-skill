@@ -4023,5 +4023,173 @@
       "mobile",
       "secrets-crypto"
     ]
+  },
+  {
+    "num": 482,
+    "title": "Push Protection (block secrets at commit/push time)",
+    "slug": "push-protection",
+    "categories": [
+      "cicd-pipeline-security",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 483,
+    "title": "SARIF-Standardized Scan Results (unified alert pipeline)",
+    "slug": "sarif-standardization",
+    "categories": [
+      "cicd-pipeline-security",
+      "observability"
+    ]
+  },
+  {
+    "num": 484,
+    "title": "Secret Validity Checking (verify leaked keys are live)",
+    "slug": "secret-validity-checks",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 485,
+    "title": "Malware Alerts on Dependencies (registry-side malware detection)",
+    "slug": "malware-alerts",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 486,
+    "title": "Threat Intelligence Integration (feeds, IOCs, advisories into ops)",
+    "slug": "threat-intelligence",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 487,
+    "title": "SOAR / Security Orchestration & Automated Response",
+    "slug": "soar-orchestration",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 488,
+    "title": "Threat Hunting Practice (hypothesis-driven search in telemetry)",
+    "slug": "threat-hunting",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 489,
+    "title": "Masquerading & Homoglyph Detection (name spoofing)",
+    "slug": "masquerading-detection",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 490,
+    "title": "Beaconing Detection (regular-interval C2 patterns)",
+    "slug": "beaconing-detection",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 491,
+    "title": "Data Exfiltration Monitoring (volume/egress anomaly)",
+    "slug": "data-exfiltration-monitoring",
+    "categories": [
+      "observability",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 492,
+    "title": "Living-off-the-Land Abuse (legit binaries weaponized)",
+    "slug": "living-off-the-land",
+    "categories": [
+      "observability",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 493,
+    "title": "Anomalous Authentication Detection (impossible travel, rare UA/IP)",
+    "slug": "anomalous-auth-detection",
+    "categories": [
+      "authentication",
+      "observability"
+    ]
+  },
+  {
+    "num": 494,
+    "title": "Attack Surface Management (continuous exposure discovery)",
+    "slug": "attack-surface-management",
+    "categories": [
+      "cloud-network",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 495,
+    "title": "Attack Surface Reduction (deliberate exposure minimization)",
+    "slug": "attack-surface-reduction",
+    "categories": [
+      "cloud-network",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 496,
+    "title": "Purple Teaming (red+blue collaborative feedback loops)",
+    "slug": "purple-teaming",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 497,
+    "title": "Breach & Attack Simulation (adversary emulation vs controls)",
+    "slug": "breach-attack-simulation",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 498,
+    "title": "Shift-Left Security (security earliest in the lifecycle)",
+    "slug": "shift-left-security",
+    "categories": [
+      "security-practices",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 499,
+    "title": "Secure by Design (architectural input, not a patch)",
+    "slug": "secure-by-design",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 500,
+    "title": "Security Champions Program (embedded advocates per team)",
+    "slug": "security-champions",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 501,
+    "title": "Mobile Reverse-Engineering & Tamper Protection",
+    "slug": "mobile-reversing-tamper-protection",
+    "categories": [
+      "mobile"
+    ]
   }
 ]

@@ -30,3 +30,10 @@ Issues:
 - `synthetic-external-monitoring`
 - `deploy-markers-on-metrics`
 - `pii-in-logs`
+- `sarif-standardization`
+- `threat-hunting`
+- `masquerading-detection`
+- `beaconing-detection`
+- `data-exfiltration-monitoring`
+- `living-off-the-land`
+- `anomalous-auth-detection`
