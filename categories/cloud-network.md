@@ -50,7 +50,6 @@ Issues:
 - `attack-surface-management`
 - `attack-surface-reduction`
 - `dangerous-iam-policies`
-- `cloud-privilege-escalation-paths`
 - `cspm-continuous-scanning`
 - `lateral-movement-detection`
 - `infrastructure-drift-detection`

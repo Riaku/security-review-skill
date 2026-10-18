@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (32 items)
+# secrets-crypto — full checklist (31 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -42,7 +42,7 @@ Secrets handling and cryptographic primitives.
 
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 PS.1, GitHub push protection docs
+**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
 
 # Hashing vs Encryption
 
@@ -112,7 +112,7 @@ Secrets handling and cryptographic primitives.
 
 **Detect:** grep for signature algorithm config: "RSA-1024", "DSA", "secp112", disabled curves; verify "P-256", "P-384", "RSA-2048+" in signing code.
 
-**References:** FIPS 186-5, NIST SP 800-89, RFC 8785
+**References:** FIPS 186-5, NIST SP 800-89
 
 # Weak Crypto Primitives in Application Code
 
@@ -175,7 +175,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 PS.1, BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
 
 # Plaintext Secrets in Helm values Files and Rendered Manifests
 
@@ -197,16 +197,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
 
-# PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
-
-**MUST** set PersistentVolume `persistentReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
-
-**Why:** A careless Delete policy destroys data on release, while NFS without root_squash lets any pod's root read and write the export.
-
-**Detect:** PVs with `persistentVolumeReclaimPolicy: Delete` on stateful data; NFS export options missing `root_squash` in `/etc/exports` or provisioner config.
-
-**References:** CIS K8s 5.2.3, NFS man root_squash, CWE-284, NIST SP 800-190 5.3
-
 # Post-quantum cryptography migration plan and crypto-agility
 
 **SHOULD** maintain a documented PQC migration plan and crypto-agile design (algorithm negotiation, centralized crypto config) so ciphers can be swapped without rewrites.
@@ -225,7 +215,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** Long-retention archives encrypted only with RSA-2048/ECC, TLS sessions without hybrid KEM, backups with no key-rotation schedule.
 
-**References:** NIST IR 8547, NSA CNSA 2.0 timeline, HNDL classification guidance
+**References:** NIST IR 8547, NSA CNSA 2.0 timeline, CISA post-quantum cryptography guidance
 
 # PQC readiness of TLS/VPN termination (hybrid KEM deployment)
 
@@ -233,7 +223,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Why:** Adversaries can record encrypted sessions now and decrypt them years later once quantum computers mature; data with a multi-decade confidentiality lifetime — VPN tunnels, backups, personal data — needs the quantum transition clocked deliberately, not in a panic.
 
-**Detect:** Enumerate termination points (nginx/Apache, Envoy, cloud LBs, WireGuard/IPsec concentrators) and their TLS library versions; check for `ML-KEM`/`X25519MLKEM768` support (OpenSSL 3.5+, BoringSSL, AWS KMS/PQN), client-population coverage, and whether the inventory records each endpoint's data-sensitivity lifetime. Review VPN cipher suites for absence of any KEM upgrade path.
+**Detect:** Enumerate termination points (nginx/Apache, Envoy, cloud LBs, WireGuard/IPsec concentrators) and their TLS library versions; check for `ML-KEM`/`X25519MLKEM768` support (OpenSSL 3.5+, BoringSSL, cloud KMS PQC offerings), client-population coverage, and whether the inventory records each endpoint's data-sensitivity lifetime. Review VPN cipher suites for absence of any KEM upgrade path.
 
 **Bad:**
 ```

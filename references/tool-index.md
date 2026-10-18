@@ -121,7 +121,7 @@ Generated from `scripts/tool-issues.json`. Do not hand-edit.
 
 ## iam-access-analyzer
 - `issues/dangerous-iam-policies.md`
-- `issues/cloud-privilege-escalation-paths.md`
+- `issues/cloud-iam-privilege-escalation.md`
 - `issues/non-human-identity-governance.md`
 
 ## in-toto

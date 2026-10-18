@@ -14,7 +14,6 @@ Issues:
 - `fips-140-3`
 - `fips-186-signatures`
 - `common-criteria`
-- `gdpr-regime`
 - `ccpa-cpra`
 - `uk-cyber-essentials`
 - `nis2`

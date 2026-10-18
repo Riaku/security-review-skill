@@ -6,4 +6,4 @@
 
 **Detect:** judgment on presence of decision/assumption records near consequential logic and outputs (ADRs in docs/adr, assumption logs in analysis projects), with dates and authors.
 
-**References:** ADR practice, decision-record keeping in analysis-code guidance, nfr-traceability companion
+**References:** ADR practice (Nygard)

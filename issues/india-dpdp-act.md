@@ -1,6 +1,6 @@
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 

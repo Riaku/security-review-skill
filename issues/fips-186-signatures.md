@@ -6,4 +6,4 @@
 
 **Detect:** grep for signature algorithm config: "RSA-1024", "DSA", "secp112", disabled curves; verify "P-256", "P-384", "RSA-2048+" in signing code.
 
-**References:** FIPS 186-5, NIST SP 800-89, RFC 8785
+**References:** FIPS 186-5, NIST SP 800-89

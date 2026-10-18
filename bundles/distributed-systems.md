@@ -32,7 +32,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep config for `consistency=`, `read_preference=`, `quorum` vs `ONE`, `r/w` settings; missing partition-tolerance test in CI or runbook.
 
-**References:** NIST SP 800-190, PACELC paper, AWS Well-Architected Reliability Pillar
+**References:** Gilbert and Lynch (CAP theorem), PACELC paper, AWS Well-Architected Reliability Pillar
 
 # Eventual Consistency
 
@@ -58,7 +58,7 @@ Consistency, consensus, coordination across nodes.
 
 **MUST** run Raft clusters with an odd number of voters (3, 5) and mutually authenticated, TLS-encrypted peer transport.
 
-**Why:** An even voter count cannot form a quorum after one failure; unauthenticated peers allow a rogue node to hijack the log.
+**Why:** An even voter count wastes failure budget — with 4 voters quorum is 3, so a single failure leaves no further tolerance; an odd count maximizes fault tolerance per node. Unauthenticated peers allow a rogue node to hijack the log.
 
 **Detect:** grep raft config for `peers=` count, `raft.enable-tls=false`, missing `--peer-urls=https`, single-node `bootstrap` left in production manifests.
 
@@ -90,9 +90,9 @@ Consistency, consensus, coordination across nodes.
 
 **Why:** Non-overlapping quorums let concurrent writes silently overwrite each other, breaking the very consistency the replica count was bought for.
 
-**References:** Dynamo paper quorum model, Cassandra R/W consistency levels, CWE-362 Race Condition
-
 **Detect:** grep for `replication_factor`, `read_consistency=ONE` with `write_consistency=ONE`, R+W<=N arithmetic in client config or driver defaults.
+
+**References:** Dynamo paper quorum model, Cassandra R/W consistency levels, CWE-362 Race Condition
 
 # Clock Skew
 

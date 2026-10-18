@@ -1,4 +1,4 @@
-# database — full checklist (56 items)
+# database — full checklist (54 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -53,7 +53,7 @@ SELECT * FROM users WHERE lower(email) = lower($1);  -- index-only lookup
 
 **Why:** An endpoint that loads 200 parent records and lazily touches a relation per row fires 201 round trips; a modest page view becomes a database meltdown, and attackers deliberately hit such endpoints to exhaust connections.
 
-**Detect:** ORM lazy-access patterns: `for x in items: x.author.name` in Django without `select_related`/`prefetch_related`; `.include()` missing in Parse/GraphQL resolvers; count queries per request in logs (one SELECT repeated N times with varying IDs).
+**Detect:** ORM lazy-access patterns: `for x in items: x.author.name` in Django without `select_related`/`prefetch_related`; SQLAlchemy without `joinedload`/`selectinload`; Hibernate `FetchType.LAZY` traversed in controllers; `.include()` missing in Parse/GraphQL resolvers; count queries per request in logs (one SELECT repeated N times with varying IDs).
 
 **Bad:**
 ```python
@@ -716,30 +716,6 @@ archive_command = 'wal-g wal-push %p'
 
 **References:** PostgreSQL Continuous Archiving & PITR docs, MySQL binlog PITR docs, NIST SP 800-34 RPO guidance
 
-# ORM Lazy Loading
-
-**SHOULD NOT** rely on lazy-loaded relationships inside request handlers or loops; fetch required associations eagerly or via explicit joins.
-
-**Why:** Lazy loading turns one query into N+1: every iteration fires a fresh round trip, multiplying latency and connection pressure. An attacker who controls collection size can make a single request saturate the database — a cheap denial-of-service amplifier.
-
-**Detect:** Grep for SQLAlchemy without `joinedload`/`selectinload`, Hibernate `FetchType.LAZY` traversed in controllers, Django template loops missing `select_related`/`prefetch_related`. Check query logs for repeated identical SELECTs under one request ID.
-
-**Bad:**
-```python
-for order in session.query(Order).all():
-    print(order.customer.email)  # one SELECT per order
-```
-
-**Good:**
-```python
-orders = session.query(Order).options(
-    joinedload(Order.customer)).all()
-for order in orders:
-    print(order.customer.email)  # single joined query
-```
-
-**References:** OWASP ORM cautions in SQLi prevention cheat sheet, CWE-400, Hibernate N+1 docs, SQLAlchemy eager loading docs
-
 # Backup Encryption & Immutable/Offsite Copies
 
 **MUST** encrypt backups at rest and keep copies that are immutable (object-lock/WORM) and offsite, so a compromised production environment cannot destroy or tamper with every copy.
@@ -923,9 +899,9 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
-**MUST** use a live-migration tool (gh-ost, `pt-online-schema-change`, or a non-blocking Postgres equivalent) for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`.
+**MUST** use a non-blocking migration strategy for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`: gh-ost or `pt-online-schema-change` for MySQL, expand-contract/`pgroll` or concurrent-index patterns for Postgres.
 
-**Why:** A naive `ALTER` on a multi-hundred-gigabyte table can hold an exclusive lock for hours, freezing writes and cascading timeouts through dependent services — and retrying it mid-outage doubles the damage.
+**Why:** A naive `ALTER` on a multi-hundred-gigabyte MySQL table can block writes for the whole copy, freezing writes and cascading timeouts through dependent services — and retrying it mid-outage doubles the damage. (gh-ost/pt-osc are MySQL-only; Postgres 11+ makes `ADD COLUMN` with `DEFAULT` metadata-only, but rewrites still need online treatment.)
 
 **Detect:** Scan migration directories for raw `ALTER TABLE` against known-large tables, missing size thresholds in the runbook, and absence of gh-ost/pt-osc in CI/CD. Migrations should declare expected duration and lock behavior.
 
@@ -941,7 +917,7 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
   --execute   # ghost-table copy, seconds-long cutover
 ```
 
-**References:** GitHub gh-ost docs, Percona pt-online-schema-change docs, PostgreSQL CREATE INDEX CONCURRENTLY docs
+**References:** GitHub gh-ost docs (MySQL), Percona pt-online-schema-change docs (MySQL), pgroll docs (Postgres), PostgreSQL CREATE INDEX CONCURRENTLY docs
 
 # Stalled replication slots accumulating WAL until disk fills
 
@@ -1034,29 +1010,6 @@ resource "aws_ebs_volume" "pg" {
 ```
 
 **References:** AWS EBS volume types docs, fio benchmarking guide, Google SRE Book capacity planning
-
-# Long-running jobs checkpoint so restarts resume, not restart
-
-**MUST** persist progress checkpoints in long-running batch jobs so an interrupted run resumes from the last checkpoint instead of reprocessing from the beginning.
-
-**Why:** A six-hour job that restarts from zero after an hour-five crash can never finish — every attempt dies at the same wall, or completes while re-emitting side effects for the replayed range.
-
-**Detect:** Inspect job code for a persisted cursor (last processed ID, offset, timestamp) written at intervals and read on startup. Grep for jobs that recompute `MIN(id)` at start instead of loading the stored watermark.
-
-**Bad:**
-```python
-rows = db.rows.all()          # 6h job, from zero every crash
-for r in rows: process(r)
-```
-
-**Good:**
-```python
-cur = store.get("job_cursor", 0)
-for r in db.rows.gt(cur).limit(1000):
-    process(r); store.put("job_cursor", r.id)
-```
-
-**References:** Arjay McCandless cheat sheet (checkpointing), Kafka consumer offset docs, AWS fault-tolerant batch guidance
 
 # Dual-write plus backfill migration cutover rehearsed
 

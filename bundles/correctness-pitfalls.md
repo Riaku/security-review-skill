@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (35 items)
+# correctness-pitfalls — full checklist (25 items)
 
 Language-agnostic code-level failure modes.
 
@@ -32,7 +32,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `range(len(x)-1)`, `i <= len(`, `arr[n]` where `n == len(arr)`, `LIMIT`/`OFFSET` arithmetic, `pageSize * page` mismatches.
 
-**References:** CWE-193, CWE-119, MISRA-Loop
+**References:** CWE-193, CWE-119
 
 # Floating Point Math
 
@@ -82,7 +82,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `len(s)` as display width, `substr`/`slice` on user text, missing NFC/NFKC normalization, homoglyph or confusable comparisons absent.
 
-**References:** CWE-176, CWE-645, Unicode TR36, OWASP ASVS 5.2
+**References:** CWE-176, Unicode TR36, OWASP ASVS 5.2
 
 # Character Encoding
 
@@ -182,7 +182,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off, coverage reports showing 0 hits.
 
-**References:** CWE-561, CWE-1152, MISRA DEADCODE
+**References:** CWE-561, CWE-1152
 
 # Merge Conflicts
 
@@ -214,36 +214,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-390, CWE-703, OWASP ASVS 7.4
 
-# OS Command Injection (CWE-78)
-
-**MUST NOT** Pass user input into shell commands; invoke programs with argument arrays, no shell interpolation.
-
-**Why:** `;`, `|`, and backticks turn an argument into arbitrary command execution.
-
-**Detect:** `os.system`, `subprocess` with `shell=True`, `Runtime.exec`, `$()`/backticks in built command strings.
-
-**References:** CWE-78, OWASP A03:2021, OWASP Command Injection guidance
-
-# Regular Expression DoS (ReDoS)
-
-**MUST NOT** run user-supplied or unbounded text against regexes containing nested quantifiers or ambiguous alternation.
-
-**Why:** Catastrophic backtracking turns a short malicious string into exponential CPU time, freezing the request thread or worker.
-
-**Detect:** `(a+)+`, `(a|a)*`, `(.*)*` patterns, `re.match`/`RegExp.test` on raw input, no timeout or RE2/DFA engine configured.
-
-**References:** CWE-1333, CWE-400, OWASP ReDoS, RE2 docs
-
-# Dynamic Code Evaluation of User Input (eval/exec)
-
-**MUST NOT** pass any externally influenced string to `eval`, `exec`, `Function`, or template code execution.
-
-**Why:** Evaluating attacker-controlled text is remote code execution — full host compromise, no sandbox assumed.
-
-**Detect:** `eval(`, `exec(`, `new Function(`, `os.system(`, `subprocess` with `shell=True` on input, Jinja `|safe`/`Template(user_str)`.
-
-**References:** CWE-94, CWE-95, OWASP Injection, OWASP ASVS 5.2
-
 # Memory Safety: Buffer Overflow & Use-After-Free
 
 **MUST** bound every buffer write and never dereference freed or dangling memory in unsafe languages.
@@ -263,76 +233,6 @@ Language-agnostic code-level failure modes.
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
 **References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
-
-# Operator Finalizer Leaks Blocking Resource Deletion
-
-**MUST** ensure operators remove their finalizers on owned resources even when reconciliation errors, so deletion never hangs indefinitely.
-
-**Why:** A leaked finalizer leaves resources stuck in Terminating, blocking namespace deletion and cascading cleanup failures across the cluster.
-
-**Detect:** Resources with `metadata.finalizers` referencing an operator whose controller is down; namespace stuck `Terminating` with lingering finalizers.
-
-**References:** K8s docs finalizers, etcd garbage collection, CWE-404, operator-sdk finalizer patterns
-
-# Missing ownerReferences Causing Orphaned Managed Resources
-
-**SHOULD** set `ownerReferences` on every resource a controller creates so cascading deletion reclaims them automatically.
-
-**Why:** Orphaned resources accumulate invisibly, leaking quotas, secrets, and network policies after their parent is gone.
-
-**Detect:** Created resources lacking `metadata.ownerReferences`; garbage collector cannot trace children; orphan count grows over time.
-
-**References:** K8s docs garbage collection, ownerReferences, CWE-404, operator-sdk ownership patterns
-
-# ConfigMap Hot-Reload Assumption for Environment Variables
-
-**MUST NOT** rely on environment-variable-injected ConfigMaps updating at runtime; env vars are fixed at container start, so mount files or restart the pod.
-
-**Why:** Teams assume config changes propagate live, then ship with stale credentials or feature flags after a ConfigMap update.
-
-**Detect:** `envFrom: configMapRef` where the app expects live updates; no checksum annotation or rollout trigger on ConfigMap change.
-
-**References:** K8s docs configmap env immutability, CWE-676, Bitnami/Flux config-reload patterns
-
-# Zombie Process Reaping Handled in Container PID 1
-
-**MUST** ensure the container's PID 1 reaps orphaned child processes, via an init system (tini/dumb-init) or a reaping-aware entrypoint.
-
-**Why:** A non-reaping PID 1 lets zombies accumulate until the PID limit is hit, blocking new process spawns and stalling the container.
-
-**Detect:** Container PID 1 is a shell or app without `--reaping`; `docker top`/`ps` shows defunct `<defunct>` entries; no tini/dumb-init in image.
-
-**References:** CIS Docker 5.x, CWE-459, tini/dumb-init docs, Kubernetes init container patterns
-
-# Durability Acknowledgment Policy
-
-**MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
-
-**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries. Acking before durable persistence is tolerable only when the gap is explicitly backed by a durable queue or WAL (Kafka `acks=all`, Redis AOF `everysec`), never a bare in-memory buffer.
-
-**Detect:** Review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance; trace the ack point relative to persistence — handler returning 2xx before the enqueue is fsynced, flusher threads with no crash-recovery path or backlog alerting.
-
-**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off, Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs
-
-# Backfill Idempotency at Pipeline Scale
-
-**MUST** make pipeline backfills/re-runs idempotent: reprocessing a date range produces the same result, never duplicates or double-counts.
-
-**Why:** Every data team eventually re-runs a week of jobs; non-idempotent backfills double revenue figures or duplicate records that take months to discover and unwind.
-
-**Detect:** check jobs use MERGE/upsert/overwrite-partition semantics vs append; look for run-id dedupe keys; review backfill runbook for "safe to re-run" statement per job.
-
-**References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
-
-# Ledger Invariant Checks
-
-**MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.
-
-**Why:** Silent ledger drift (rounding, partial writes, bugs) compounds into real financial loss; systems without invariant checks discover errors at reconciliation time — too late to cheaply fix.
-
-**Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
-
-**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
 
 # DST-Transition Behavior Test
 

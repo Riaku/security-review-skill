@@ -1,6 +1,6 @@
 # Redis Eviction Policies
 
-**MUST** set an explicit `maxmemory-policy` per Redis instance; default noeviction with unbounded growth, or allkeys-lru on a mixed-purpose instance, is a finding.
+**MUST** set an explicit `maxmemory` cap and `maxmemory-policy` on every Redis instance, matched to the data it holds: an eviction policy (`allkeys-lru`, `volatile-ttl`) for cache data that can be recomputed, and `noeviction` with memory-pressure alerting for session, token, or rate-limit data that must never be silently dropped.
 
 **Why:** Unchecked eviction can drop session or rate-limit keys under memory pressure, silently disabling auth throttling.
 

@@ -6,4 +6,4 @@
 
 **Detect:** `redirect(request.args['next'])`, `location=` from params without allowlist or leading-slash enforcement; grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` headers.
 
-**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide, RFC 6819
+**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide

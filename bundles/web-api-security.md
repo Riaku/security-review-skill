@@ -16,7 +16,7 @@ Server-side API and web application attack surface.
 
 # XSS
 
-**MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
+**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data.
 
 **Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
 
@@ -176,7 +176,7 @@ server {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 ```
 
-**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, OWASP WSTG-401-14
+**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, WSTG-CONF-07
 
 # Bot Protection
 
@@ -216,7 +216,7 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **Detect:** `redirect(request.args['next'])`, `location=` from params without allowlist or leading-slash enforcement; grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` headers.
 
-**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide, RFC 6819
+**References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide
 
 # Debug/Dev Mode in Production
 
@@ -403,7 +403,7 @@ metadata_options {
 }
 ```
 
-**References:** AWS Security Bulletin IMPDS-2019-001, AWS Security Best Practices (SCA) SEC2-BP07, CIS AWS 5.6
+**References:** AWS IMDSv2 announcement (2019), AWS Well-Architected Security Pillar, CIS AWS 5.6
 
 # Web Cache Poisoning & Cache Deception
 
@@ -413,7 +413,7 @@ metadata_options {
 
 **Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
 
-**References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+**References:** PortSwigger Web Cache Poisoning research, OWASP A04:2021
 
 # Cross-Site WebSocket Hijacking (CSWSH)
 

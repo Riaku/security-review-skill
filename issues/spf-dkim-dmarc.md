@@ -1,6 +1,6 @@
 # SPF, DKIM & DMARC
 
-**MUST** Every domain that sends mail publish SPF, DKIM, and a DMARC record ending in a rejecting policy, with alignment verified for each sending service.
+**MUST** publish SPF, DKIM, and a DMARC record ending in a rejecting policy for every domain that sends mail, with alignment verified for each sending service.
 
 **Why:** Without all three, lookalike domains can send convincing spoofed mail from your brand; a record stuck at `p=none` reports the problem but protects nobody against phishing of your customers.
 

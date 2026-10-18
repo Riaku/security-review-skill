@@ -6,4 +6,4 @@
 
 **Detect:** grep ETL/sync jobs for unmasked `SELECT *` from prod tables into staging; check staging ingress for absent auth, disabled audit logging, open security groups.
 
-**References:** OWASP Top 10 A02 broken authentication, GDPR Art. 32, CWE-201 information exposure through sent data
+**References:** OWASP Top 10 A02:2021 Cryptographic Failures, GDPR Art. 32, CWE-201

@@ -6,4 +6,4 @@
 
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
-**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide

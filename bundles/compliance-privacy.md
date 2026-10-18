@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (43 items)
+# compliance-privacy — full checklist (40 items)
 
 Privacy operations and data protection in code.
 
@@ -6,13 +6,13 @@ Privacy operations and data protection in code.
 
 # GDPR
 
-**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection.
+**MUST** process personal data of EU residents only under a documented lawful basis, with data minimization enforced at collection, and maintain the accountability artifacts regulators expect: DPO appointment where required (Art. 37), DPIAs for high-risk processing (Art. 35), and records of processing.
 
-**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83.
+**Why:** Unlawful processing exposes organizations to fines up to 4% of global annual turnover under GDPR Article 83 — and enforcement is complaint- and breach-driven, so undocumented processing decisions become the fine's evidence.
 
-**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models.
+**Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models; missing DPIAs, DPO designation, records of processing, consent logs, cross-border transfer clauses.
 
-**References:** GDPR Art. 5-6, GDPR Art. 83, ISO 27701
+**References:** GDPR Arts. 5, 6, 35, 37, 83; ISO 27701; EDPB guidelines; ICO enforcement register
 
 # PII Handling
 
@@ -74,26 +74,6 @@ Privacy operations and data protection in code.
 
 **References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
 
-# Chargebacks
-
-**SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
-
-**Why:** Excessive chargebacks trigger card brand fines, higher processing rates, or termination of merchant privileges.
-
-**Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
-
-**References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
-
-# Bot Protection
-
-**MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).
-
-**Why:** Unprotected endpoints enable credential stuffing, account enumeration, and resource exhaustion attacks at scale.
-
-**Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
-
-**References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
-
 # DSAR Fulfillment (GDPR access/deletion requests)
 
 **MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within 30 days of request.
@@ -136,16 +116,6 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
 
 **References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
-
-# GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
-
-**MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.
-
-**Why:** Regulators act on data subject complaints and breach notifications; undocumented processing decisions become the fine's evidence.
-
-**Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
-
-**References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
 
 # CCPA/CPRA
 
@@ -245,7 +215,7 @@ def handler(event, ctx):
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 
@@ -257,7 +227,7 @@ def handler(event, ctx):
 
 **MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
 
-**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC and OfSan fines and forced redesigns.
+**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 
 **Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
 
@@ -291,7 +261,7 @@ def handler(event, ctx):
 
 **Detect:** Long-retention archives encrypted only with RSA-2048/ECC, TLS sessions without hybrid KEM, backups with no key-rotation schedule.
 
-**References:** NIST IR 8547, NSA CNSA 2.0 timeline, HNDL classification guidance
+**References:** NIST IR 8547, NSA CNSA 2.0 timeline, CISA post-quantum cryptography guidance
 
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
@@ -464,7 +434,7 @@ export = anonymize(df, k=20,
 
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
-**References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
+**References:** Jupyter notebook security best practices, nbstripout/ClearOutputPreprocessor tooling
 
 # Object-Level Data Access Logging
 

@@ -34,7 +34,6 @@ Issues:
 - `materialized-views`
 - `backups`
 - `point-in-time-recovery`
-- `orm-lazy-loading`
 - `backup-encryption-immutability`
 - `data-retention-deletion`
 - `batching`
@@ -48,7 +47,6 @@ Issues:
 - `crash-consistent-snapshots`
 - `page-checksum-corruption-detection`
 - `storage-io-saturation-profiling`
-- `checkpoint-resumable-jobs`
 - `dual-write-backfill-cutover`
 - `code-data-rollback-mismatch`
 - `unauthenticated-data-store-exposure`

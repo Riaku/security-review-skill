@@ -6,4 +6,4 @@
 
 **Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
 
-**References:** Visa VDMP, Mastercard ECP, PCI DSS 6.4, ECMA-348
+**References:** Visa VDMP, Mastercard ECP

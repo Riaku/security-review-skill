@@ -1,8 +1,18 @@
-# payments-fraud — full checklist (6 items)
+# payments-fraud — full checklist (7 items)
 
 Payment flows, fraud, and money-movement safety.
 
 > Generated artifact. Canonical source: `issues/<slug>.md`.
+
+# Chargebacks
+
+**SHOULD** implement fraud detection and transaction verification to keep chargeback ratios below card brand monitoring thresholds.
+
+**Why:** Excessive chargebacks trigger card brand fines, higher processing rates, or termination of merchant privileges.
+
+**Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
+
+**References:** Visa VDMP, Mastercard ECP
 
 # Idempotency (idempotency keys)
 
@@ -12,7 +22,7 @@ Payment flows, fraud, and money-movement safety.
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
 
 # 3D Secure / SCA
 
@@ -22,7 +32,7 @@ Payment flows, fraud, and money-movement safety.
 
 **Detect:** grep for `three_d_secure`, `sca_required`, `exemption`, `ds.transstatus` in payment service code and gateway config.
 
-**References:** PSD2 Article 97, OWASP WSTG-ATHZ-04, CWE-287, Stripe 3DS2 docs
+**References:** PSD2 Article 97, EMV 3-D Secure 2.x (EMVCo), CWE-287, Stripe 3DS2 docs
 
 # Payment Webhook Reconciliation
 
@@ -32,7 +42,7 @@ Payment flows, fraud, and money-movement safety.
 
 **Detect:** check for `webhook_secret`, `stripe-signature`, `HMAC verify`, idempotency keys in webhook handler config and DB schema.
 
-**References:** OWASP WSTG-ATHN-02, CWE-347, PCI DSS 4.0 Req 6.2, Stripe webhook signing guide
+**References:** CWE-347, Stripe webhook signing guide
 
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
@@ -52,7 +62,7 @@ Payment flows, fraud, and money-movement safety.
 
 **Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
 
-**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks
 
 # Reconciliation Runbook
 
@@ -62,5 +72,5 @@ Payment flows, fraud, and money-movement safety.
 
 **Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
 
-**References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
+**References:** Stripe reconciliation guidance, PCI DSS 4.0 Req 10 (logging and monitoring), payments-engineering practice guides
 

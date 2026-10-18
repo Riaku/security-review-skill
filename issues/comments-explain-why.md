@@ -6,4 +6,4 @@
 
 **Detect:** flag comments that restate the adjacent line (`// increment counter` above `count++`); look for TODO/dead commented-out code left in; positive signal: comments citing constraints, bug IDs, invariants, spec sections.
 
-**References:** Stack Overflow code-comment best practices, MIT CommKit coding-and-comment style, clean-code comment guidance
+**References:** Code Complete (McConnell) on comments, MIT CommKit coding-and-comment style, Clean Code comment guidance

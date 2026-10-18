@@ -6,4 +6,4 @@
 
 **Detect:** oss-fuzz targets, `atheris`/`libFuzzer`/`honggfuzz`/AFL configs, `fuzz_targets` declarations and seed/corpus directories, `cargo-fuzz`, restler or schemathesis fuzz runs in CI; zero fuzz targets on C/C++ or upload handlers.
 
-**References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 PW.8 (fuzzing), Google OSS-Fuzz
+**References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 (SSDF) (fuzzing), Google OSS-Fuzz

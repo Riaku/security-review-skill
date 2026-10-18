@@ -16,9 +16,7 @@ Issues:
 - `timeout-budgets`
 - `retry-with-backoff`
 - `self-healing`
-- `decompression-bombs`
 - `admission-webhook-failure-policy`
 - `backlog-catchup-throttling`
 - `startup-dependency-ordering`
-- `fail-secure-configuration`
 - `kill-switch-verification`

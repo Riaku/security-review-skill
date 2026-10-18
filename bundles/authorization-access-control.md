@@ -1,4 +1,4 @@
-# authorization-access-control — full checklist (18 items)
+# authorization-access-control — full checklist (16 items)
 
 Who may do what: RBAC, RLS, least privilege.
 
@@ -50,7 +50,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Why:** One overlooked `PassRole` or `AttachPolicy` grant turns a low-privilege service account into an administrator-in-waiting — the most common path from foothold to full account takeover. Escalation rarely arrives as one obvious admin grant; it hides in combinations (PassRole plus a role that trusts you, or a wildcard that later resolves to a new powerful action), so the diff must be judged against what the principal already holds.
 
-**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change.
+**Detect:** In IAM JSON and IaC, look for `iam:PassRole`, `iam:AttachUserPolicy`, `iam:CreateAccessKey`, `iam:UpdateLoginProfile`, GCP `setIamPolicy`, and bindings referencing wildcards; check whether managed-policy attachments or GCP folder/organization inheritance silently widen the effective set, and whether any `NotAction` or `Resource: "*"` will be inherited by future service launches. Tools: Cloudsplaining, PMapper, IAM Access Analyzer — diff the reachable-permissions graph before/after the change. Periodically recompute the full role-to-role and cross-account escalation graph and prune every path from low privilege to admin.
 
 **Bad:**
 ```json
@@ -84,7 +84,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
-**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 PO.3, ArgoCD RBAC best practices, Flux multi-tenancy guide
+**References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
 
 # GitOps Controller Running as cluster-admin
 
@@ -117,7 +117,7 @@ Who may do what: RBAC, RLS, least privilege.
   "aws:SourceArn": "arn:aws:events:us-east-1:999988887777:rule/nightly-sync"}}
 ```
 
-**References:** AWS Confused Deputy Prevention Guide, CWE-915, AWS Security Best Practices SEC3-BP05
+**References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
 
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
@@ -128,16 +128,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
 **References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
-
-# Human-in-the-loop approval for destructive agent tool calls
-
-**MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).
-
-**Why:** A hijacked or hallucinating agent with unguarded write access can cause irreversible damage in a single automated chain.
-
-**Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
-
-**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -178,16 +168,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
-
-# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
-
-**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
-
-**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
-
-**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
-
-**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
 
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 

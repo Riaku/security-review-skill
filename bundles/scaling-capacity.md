@@ -191,7 +191,7 @@ resource "aws_ebs_volume" "pg" {
 
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
-**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
 
 # Noisy-neighbor isolation between tenants/workloads
 
@@ -201,7 +201,7 @@ resource "aws_ebs_volume" "pg" {
 
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
-**References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
+**References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
 
 # Denial-of-wallet: unbounded LLM token spend per user/tenant
 

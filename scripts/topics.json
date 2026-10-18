@@ -579,14 +579,6 @@
     ]
   },
   {
-    "num": 75,
-    "title": "ORM Lazy Loading",
-    "slug": "orm-lazy-loading",
-    "categories": [
-      "database"
-    ]
-  },
-  {
     "num": 76,
     "title": "CAP Theorem",
     "slug": "cap-theorem",
@@ -1232,14 +1224,6 @@
     "num": 157,
     "title": "Runbooks",
     "slug": "runbooks",
-    "categories": [
-      "sre-incidents"
-    ]
-  },
-  {
-    "num": 158,
-    "title": "Postmortems",
-    "slug": "postmortems",
     "categories": [
       "sre-incidents"
     ]
@@ -1906,7 +1890,7 @@
     "title": "Chargebacks",
     "slug": "chargebacks",
     "categories": [
-      "compliance-privacy"
+      "payments-fraud"
     ]
   },
   {
@@ -1914,7 +1898,6 @@
     "title": "Bot Protection",
     "slug": "bot-protection",
     "categories": [
-      "compliance-privacy",
       "web-api-security"
     ]
   },
@@ -2436,15 +2419,6 @@
     ]
   },
   {
-    "num": 308,
-    "title": "GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)",
-    "slug": "gdpr-regime",
-    "categories": [
-      "regulatory-frameworks",
-      "compliance-privacy"
-    ]
-  },
-  {
     "num": 309,
     "title": "CCPA/CPRA",
     "slug": "ccpa-cpra",
@@ -2621,8 +2595,7 @@
     "title": "OS Command Injection (CWE-78)",
     "slug": "os-command-injection",
     "categories": [
-      "web-api-security",
-      "correctness-pitfalls"
+      "web-api-security"
     ]
   },
   {
@@ -2681,7 +2654,6 @@
     "title": "Regular Expression DoS (ReDoS)",
     "slug": "redos",
     "categories": [
-      "correctness-pitfalls",
       "web-api-security"
     ]
   },
@@ -2690,8 +2662,7 @@
     "title": "Decompression Bombs & XML Entity Expansion",
     "slug": "decompression-bombs",
     "categories": [
-      "web-api-security",
-      "resilience"
+      "web-api-security"
     ]
   },
   {
@@ -2699,7 +2670,6 @@
     "title": "Dynamic Code Evaluation of User Input (eval/exec)",
     "slug": "dynamic-code-evaluation",
     "categories": [
-      "correctness-pitfalls",
       "web-api-security"
     ]
   },
@@ -3093,8 +3063,7 @@
     "title": "Operator Finalizer Leaks Blocking Resource Deletion",
     "slug": "operator-finalizer-leak",
     "categories": [
-      "containers-k8s",
-      "correctness-pitfalls"
+      "containers-k8s"
     ]
   },
   {
@@ -3102,8 +3071,7 @@
     "title": "Missing ownerReferences Causing Orphaned Managed Resources",
     "slug": "missing-owner-reference-orphans",
     "categories": [
-      "containers-k8s",
-      "correctness-pitfalls"
+      "containers-k8s"
     ]
   },
   {
@@ -3211,8 +3179,7 @@
     "title": "PersistentVolume Reclaim Policy and NFS root_squash Data Exposure",
     "slug": "volume-reclaim-nfs-squash",
     "categories": [
-      "containers-k8s",
-      "secrets-crypto"
+      "containers-k8s"
     ]
   },
   {
@@ -3247,8 +3214,7 @@
     "title": "ConfigMap Hot-Reload Assumption for Environment Variables",
     "slug": "configmap-env-no-hot-reload",
     "categories": [
-      "containers-k8s",
-      "correctness-pitfalls"
+      "containers-k8s"
     ]
   },
   {
@@ -3457,8 +3423,7 @@
     "title": "Zombie process reaping handled in container PID 1",
     "slug": "zombie-process-reaping",
     "categories": [
-      "containers-k8s",
-      "correctness-pitfalls"
+      "containers-k8s"
     ]
   },
   {
@@ -3517,8 +3482,7 @@
     "title": "Long-running jobs checkpoint so restarts resume, not restart",
     "slug": "checkpoint-resumable-jobs",
     "categories": [
-      "messaging-async",
-      "database"
+      "messaging-async"
     ]
   },
   {
@@ -3635,8 +3599,7 @@
     "slug": "breach-notification-clocks",
     "categories": [
       "compliance-privacy",
-      "regulatory-frameworks",
-      "sre-incidents"
+      "regulatory-frameworks"
     ]
   },
   {
@@ -3644,8 +3607,7 @@
     "title": "SEC cybersecurity disclosure rules (public-company material incident reporting)",
     "slug": "sec-cyber-disclosure",
     "categories": [
-      "regulatory-frameworks",
-      "sre-incidents"
+      "regulatory-frameworks"
     ]
   },
   {
@@ -3742,8 +3704,7 @@
     "title": "Human-in-the-loop approval for destructive agent tool calls",
     "slug": "agent-hitl-approval",
     "categories": [
-      "ai-llm",
-      "authorization-access-control"
+      "ai-llm"
     ]
   },
   {
@@ -4124,15 +4085,6 @@
     ]
   },
   {
-    "num": 511,
-    "title": "Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)",
-    "slug": "cloud-privilege-escalation-paths",
-    "categories": [
-      "cloud-network",
-      "authorization-access-control"
-    ]
-  },
-  {
     "num": 512,
     "title": "CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)",
     "slug": "cspm-continuous-scanning",
@@ -4448,8 +4400,7 @@
     "title": "Durability Acknowledgment Policy (ack only after durable persist)",
     "slug": "durability-acknowledgment-policy",
     "categories": [
-      "database",
-      "correctness-pitfalls"
+      "database"
     ]
   },
   {
@@ -4465,8 +4416,7 @@
     "title": "Fail-Secure Configuration (fail closed, never fail open)",
     "slug": "fail-secure-configuration",
     "categories": [
-      "security-practices",
-      "resilience"
+      "security-practices"
     ]
   },
   {
@@ -4744,8 +4694,7 @@
     "title": "Backfill Idempotency at Pipeline Scale",
     "slug": "backfill-idempotency",
     "categories": [
-      "data-pipelines",
-      "correctness-pitfalls"
+      "data-pipelines"
     ]
   },
   {
@@ -4770,7 +4719,6 @@
     "title": "Automated A11y Gate in CI",
     "slug": "automated-a11y-gate-in-ci",
     "categories": [
-      "seo-web-quality",
       "testing-strategy"
     ]
   },
@@ -4796,8 +4744,7 @@
     "title": "Ledger Invariant Checks",
     "slug": "ledger-invariant-checks",
     "categories": [
-      "payments-fraud",
-      "correctness-pitfalls"
+      "payments-fraud"
     ]
   },
   {
@@ -4805,8 +4752,7 @@
     "title": "Reconciliation Runbook",
     "slug": "reconciliation-runbook",
     "categories": [
-      "payments-fraud",
-      "sre-incidents"
+      "payments-fraud"
     ]
   },
   {

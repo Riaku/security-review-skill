@@ -1,4 +1,4 @@
-# sre-incidents — full checklist (39 items)
+# sre-incidents — full checklist (35 items)
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
@@ -42,7 +42,7 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **Detect:** `drain_timeout`, `idle_timeout` on Envoy/HAProxy, `notReadyBeforeDrainDelay`, missing `connectionDraining` in cloud LB config.
 
-**References:** AWS ELB draining, Envoy drain documentation, CWE-582, NIST SP 800-178
+**References:** AWS ELB connection draining, Envoy drain documentation
 
 # Stateless Services
 
@@ -52,7 +52,7 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **Detect:** `session.save_path` on local disk, `JSESSIONID` sticky sessions, writes to `/tmp` or pod-local volumes, `sessionAffinity: ClientIP`.
 
-**References:** The Twelve-Factor App (processes), NIST SP 800-178, CWE-384
+**References:** The Twelve-Factor App (processes)
 
 # Failover
 
@@ -102,7 +102,7 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **Detect:** `dr_plan.md`, `backup_schedule` cron, absence of restore-test logs, `wal_level`/PITR disabled, offsite sync jobs without checksums.
 
-**References:** NIST SP 800-34, ISO 22301, CWE-190 (backup integrity gaps)
+**References:** NIST SP 800-34, ISO 22301
 
 # RTO & RPO
 
@@ -174,16 +174,6 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Google SRE Workbook (running incidents), NIST SP 800-61, PagerDuty runbook practices
 
-# Postmortems
-
-**SHOULD** write a blameless postmortem for every significant incident within days, with action items tracked to closure.
-
-**Why:** Incidents without written analysis repeat; the fix lived in the responder's head and never reached the backlog.
-
-**Detect:** `postmortems/` directory, `action_items` with owners and due dates, unresolved items past deadline.
-
-**References:** Google SRE Book (postmortem culture), Blameless postmortem practice, NIST SP 800-61
-
 # Chaos Engineering
 
 **MAY** run controlled failure injection in production-like environments, scoped by blast radius and abort criteria.
@@ -230,13 +220,13 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 # Self-Healing Systems (auto-restart, auto-failover, self-repair loops)
 
-**MAY** automate restart and failover for known failure modes, but each repair loop MUST be bounded, observable, and rate-limited.
+**SHOULD** automate restart and failover only for known failure modes, keeping each repair loop bounded, observable, and rate-limited.
 
 **Why:** Unmonitored auto-repair oscillates between nodes and masks root causes until capacity is silently exhausted.
 
 **Detect:** review `restartPolicy`, `livenessProbe`, `auto_failover`, `recovery_loop`; check max-restart backoff and remediation alerting.
 
-**References:** Kubernetes restartPolicy/livenessProbe, AWS REL11-BP10, NIST SP 800-34 auto-recovery, CWE-251
+**References:** Kubernetes restartPolicy/livenessProbe, NIST SP 800-34 auto-recovery
 
 # Dead-man's-switch Heartbeat for Scheduled Jobs
 
@@ -278,7 +268,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
-**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+**References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
 
 # Load balancer health-check flapping detected and damped
 
@@ -342,26 +332,6 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61 (communications), Google SRE Workbook, Atlassian status page practices
 
-# Breach notification clocks across jurisdictions
-
-**MUST** detect and triage breaches fast enough to meet the strictest applicable notification deadline (72h GDPR, state laws).
-
-**Why:** Missing statutory notification windows compounds breach penalties and destroys regulatory trust after an incident.
-
-**Detect:** grep for incident response SLA timers, `notification_deadline`, `breach_clock` config; check monitoring-to-notification pipeline latency absent.
-
-**References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
-
-# SEC cybersecurity disclosure rules (public-company material incident reporting)
-
-**MUST** disclose material cybersecurity incidents within four business days of a materiality determination via Form 8-K Item 1.05, with board-level oversight documented.
-
-**Why:** Delayed or vague disclosure after a breach invites SEC enforcement, shareholder suits, and restatements of prior risk statements.
-
-**Detect:** grep for "8-K", "Item 1.05", materiality assessment process; no incident-to-disclosure workflow, missing disclosure committee charter.
-
-**References:** SEC 8-K Item 1.05 (2023), Reg S-K Item 106, SEC cyber disclosure guidance
-
 # Threat Intelligence Integration
 
 **MUST** ingest threat feeds, IOCs, and vendor advisories into ops tooling with automated matching against the estate.
@@ -394,7 +364,7 @@ health_check: {interval: 10s, timeout: 5s,
 
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
-**MUST** hold a blameless post-incident review for every significant incident, with corrective actions assigned, tracked, and verified closed.
+**MUST** hold a blameless post-incident review for every significant incident within days, with corrective actions assigned, tracked, and verified closed.
 
 **Why:** Without structured learning the same failure repeats; blame-driven cultures hide information when it's needed most.
 
@@ -411,16 +381,6 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
 
 **References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
-
-# Reconciliation Runbook
-
-**SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
-
-**Why:** Money systems disagree with their counterparties routinely; without a reconciliation runbook, every mismatch becomes a fire-drill, and real losses hide in the "we'll check later" pile.
-
-**Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
-
-**References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
 
 # DST-Transition Behavior Test
 

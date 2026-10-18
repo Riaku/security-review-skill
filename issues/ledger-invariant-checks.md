@@ -6,4 +6,4 @@
 
 **Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
 
-**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks

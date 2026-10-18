@@ -6,4 +6,4 @@
 
 **Detect:** grep config for `consistency=`, `read_preference=`, `quorum` vs `ONE`, `r/w` settings; missing partition-tolerance test in CI or runbook.
 
-**References:** NIST SP 800-190, PACELC paper, AWS Well-Architected Reliability Pillar
+**References:** Gilbert and Lynch (CAP theorem), PACELC paper, AWS Well-Architected Reliability Pillar

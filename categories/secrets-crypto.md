@@ -21,7 +21,6 @@ Issues:
 - `dockerfile-build-secret-leakage`
 - `helm-values-plaintext-secrets`
 - `terraform-state-plaintext-secrets`
-- `volume-reclaim-nfs-squash`
 - `pqc-migration-crypto-agility`
 - `harvest-now-decrypt-later`
 - `pqc-tls-readiness`

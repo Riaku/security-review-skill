@@ -6,4 +6,4 @@
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265bis, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275

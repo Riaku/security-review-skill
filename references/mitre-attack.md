@@ -14,7 +14,7 @@ IDs for SIEM mapping and coverage review.
 | Initial Access (TA0001) | `exposed-data-service-ports`, `dependency-vulnerabilities`, `default-credentials`, `subdomain-takeover` |
 | Execution (TA0002) | `ci-workflow-script-injection`, `os-command-injection`, `dynamic-code-evaluation`, `tool-argument-injection` |
 | Persistence (TA0003) | `k8s-rbac-escalation-verbs`, `automount-serviceaccount-token`, `gitops-controller-cluster-admin-overreach` |
-| Privilege Escalation (TA0004) | `vertical-privilege-escalation`, `container-escape-hardening`, `k8s-exec-attach-root-equivalent`, `cloud-privilege-escalation-paths` |
+| Privilege Escalation (TA0004) | `vertical-privilege-escalation`, `container-escape-hardening`, `k8s-exec-attach-root-equivalent`, `cloud-iam-privilege-escalation` |
 | Defense Evasion (TA0005) | `masquerading-detection`, `living-off-the-land`, `log-levels`, `push-protection` |
 | Credential Access (TA0006) | `credential-access-detection`, `metadata-endpoint-credential-theft`, `imds-metadata-abuse`, `secrets-in-ci-logs`, `brute-force-protection` |
 | Discovery (TA0007) | `sensitive-endpoint-exposure`, `forced-browsing-admin-panels`, `exposed-debug-actuator-endpoints` |

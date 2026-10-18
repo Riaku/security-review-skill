@@ -6,4 +6,4 @@
 
 **Detect:** `range(len(x)-1)`, `i <= len(`, `arr[n]` where `n == len(arr)`, `LIMIT`/`OFFSET` arithmetic, `pageSize * page` mismatches.
 
-**References:** CWE-193, CWE-119, MISRA-Loop
+**References:** CWE-193, CWE-119

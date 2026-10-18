@@ -166,7 +166,7 @@
   ],
   "iam-access-analyzer": [
     "dangerous-iam-policies",
-    "cloud-privilege-escalation-paths",
+    "cloud-iam-privilege-escalation",
     "non-human-identity-governance"
   ],
   "policy-sentry": [

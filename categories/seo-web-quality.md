@@ -16,4 +16,3 @@ Issues:
 - `xml-sitemap-maintenance`
 - `index-bloat-faceted-urls`
 - `meta-og-tag-completeness`
-- `automated-a11y-gate-in-ci`

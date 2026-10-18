@@ -4,7 +4,7 @@
 
 **Why:** An endpoint that loads 200 parent records and lazily touches a relation per row fires 201 round trips; a modest page view becomes a database meltdown, and attackers deliberately hit such endpoints to exhaust connections.
 
-**Detect:** ORM lazy-access patterns: `for x in items: x.author.name` in Django without `select_related`/`prefetch_related`; `.include()` missing in Parse/GraphQL resolvers; count queries per request in logs (one SELECT repeated N times with varying IDs).
+**Detect:** ORM lazy-access patterns: `for x in items: x.author.name` in Django without `select_related`/`prefetch_related`; SQLAlchemy without `joinedload`/`selectinload`; Hibernate `FetchType.LAZY` traversed in controllers; `.include()` missing in Parse/GraphQL resolvers; count queries per request in logs (one SELECT repeated N times with varying IDs).
 
 **Bad:**
 ```python

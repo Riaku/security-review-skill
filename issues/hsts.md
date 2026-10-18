@@ -20,4 +20,4 @@ server {
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 ```
 
-**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, OWASP WSTG-401-14
+**References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, WSTG-CONF-07

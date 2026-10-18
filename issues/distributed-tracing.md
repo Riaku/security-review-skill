@@ -6,4 +6,4 @@
 
 **Detect:** grep for `traceparent` / `tracestate` header propagation in HTTP clients and message producers; check tracer init covers every framework middleware.
 
-**References:** W3C Trace Context, OWASP Testing Guide 4.2, NIST SP 800-187
+**References:** W3C Trace Context, OpenTelemetry documentation

@@ -6,4 +6,4 @@
 
 **Detect:** `ClusterRoleBinding` to `cluster-admin` for app serviceaccounts; no `NetworkPolicy` with `podSelector` matching all ingress in namespace.
 
-**References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP K8s PS1/PS5
+**References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP Kubernetes Top 10 K03/K07

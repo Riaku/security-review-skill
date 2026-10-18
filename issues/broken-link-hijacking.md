@@ -6,4 +6,4 @@
 
 **Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
 
-**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+**References:** OWASP WSTG-BUSL, CWE-427, npm/CDN takeover incidents

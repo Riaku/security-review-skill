@@ -1,6 +1,6 @@
 # Deep Link / Universal Link Validation
 
-**SHOULD** validate scheme, host, and parameters of every incoming deep link server-side, treating link-supplied identifiers as untrusted input.
+**SHOULD** validate scheme, host, and parameters of every incoming deep link on the client, treating link-supplied identifiers as untrusted input, and re-check authorization server-side before acting on them.
 
 **Why:** Unvalidated links enable phishing into authenticated flows, IDOR jumps to other users' resources, and intent hijacking on Android.
 

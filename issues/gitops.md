@@ -6,4 +6,4 @@
 
 **Detect:** check Flux `GitRepository` secretRef/gpgGCM, ArgoCD `signedCrds`/commit verification, and RBAC blocking `kubectl apply` outside the controller service account.
 
-**References:** OWASP Kubernetes Top 10 (K8s-2017-0001 unsigned images/policies), NIST SP 800-190, Sigstore/cosign, Git signed commits CVE-2020-5260
+**References:** OWASP Kubernetes Top 10 K04 (centralized policy enforcement), NIST SP 800-190, Sigstore/cosign, Git signed commits

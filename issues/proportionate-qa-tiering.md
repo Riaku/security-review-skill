@@ -6,4 +6,4 @@
 
 **Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
 
-**References:** Aqua books proportionate assurance, risk-based testing practice, security-tier classification guidance
+**References:** OWASP SAMM, risk-based testing practice

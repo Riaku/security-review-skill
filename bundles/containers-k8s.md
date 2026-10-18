@@ -22,7 +22,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** Dockerfile lacking a second `FROM` line; `gcc`, `make`, `-dev` packages or `/root/.cache` present in final image layers.
 
-**References:** CIS Docker 4.1, OWASP DAST-AI-04, NIST SP 800-190 4.2
+**References:** CIS Docker Benchmark (image build), NIST SP 800-190 4.2
 
 # Non-Root Containers
 
@@ -62,7 +62,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** `ClusterRoleBinding` to `cluster-admin` for app serviceaccounts; no `NetworkPolicy` with `podSelector` matching all ingress in namespace.
 
-**References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP K8s PS1/PS5
+**References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP Kubernetes Top 10 K03/K07
 
 # CIS Benchmarks (OS/container/k8s/cloud)
 
@@ -88,7 +88,7 @@ Container and Kubernetes runtime configuration.
 
 # CIS Docker Benchmark
 
-**MUST** align container host and daemon configuration with the current CIS Docker Benchmark sections 2 (daemon), 5 (runtime), and 18 (daemon.json) before production deployment.
+**MUST** align container host and daemon configuration with the current CIS Docker Benchmark sections 2 (daemon) and 5 (runtime), including `daemon.json` settings, before production deployment.
 
 **Why:** Unhardened Docker defaults expose the socket, permissive logging, and root containers that turn one compromised image into full host takeover.
 
@@ -144,7 +144,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
-**References:** CIS K8s 5.1.5, CWE-522, OWASP K8s PS1, NIST SP 800-190 5.2
+**References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
@@ -188,7 +188,7 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **Detect:** No ValidatingWebhookConfiguration for gatekeeper/kyverno; namespaces missing `pod-security.kubernetes.io/enforce` labels.
 
-**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP K8s PS1, NIST SP 800-190 5.4
+**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04, NIST SP 800-190 5.4
 
 # Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
 
@@ -258,7 +258,7 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
-**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 PW.5, Kaniko and BuildKit rootless docs, GitLab CI best practices
+**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
 
 # Helm Hook Ordering and Failed-Hook Release Blocking
 
@@ -455,7 +455,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
-**References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
+**References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
 
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
@@ -489,7 +489,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 # Dedicated Service Accounts per Workload
 
-**SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload **SHOULD** declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.
+**SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload should declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.
 
 **Why:** The default SA is shared by every pod that doesn't override it, so any IAM or RBAC grant made for one workload silently applies to all of them, and audit logs cannot attribute an API call to the workload that made it. Dedicated identities are the prerequisite for least-privilege cloud IAM (IRSA/workload identity), per-workload RBAC, and meaningful `automountServiceAccountToken` control.
 

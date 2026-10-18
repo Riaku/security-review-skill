@@ -6,4 +6,4 @@
 
 **Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
 
-**References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
+**References:** OWASP A07:2021, CWE-384, OWASP Session Management Cheat Sheet

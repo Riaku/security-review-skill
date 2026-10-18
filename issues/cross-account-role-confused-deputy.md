@@ -19,4 +19,4 @@
   "aws:SourceArn": "arn:aws:events:us-east-1:999988887777:rule/nightly-sync"}}
 ```
 
-**References:** AWS Confused Deputy Prevention Guide, CWE-915, AWS Security Best Practices SEC3-BP05
+**References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05

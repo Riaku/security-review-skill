@@ -12,7 +12,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** grep for `expiresIn`, `exp:` with values like `86400`, `7d`, `never`; missing `exp` claim in token payloads or verifier code.
 
-**References:** OWASP A02:2021, CWE-613, RFC 7519 §4.1.4, NIST SP 800-107
+**References:** OWASP A02:2021, CWE-613, RFC 7519 §4.1.4, NIST SP 800-63B §7.1
 
 # Refresh Tokens
 
@@ -52,7 +52,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** grep login handlers for missing `session.regenerate`, `session_id` unchanged post-auth, `secure`/`httpOnly` cookie flags absent on session cookies.
 
-**References:** OWASP A07:2021, CWE-384, NIST SP 800-53 SC-25, OWASP Session Management Cheat Sheet
+**References:** OWASP A07:2021, CWE-384, OWASP Session Management Cheat Sheet
 
 # MFA
 
@@ -122,7 +122,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265bis, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
 
 # Password Reset Flow Security
 
@@ -140,7 +140,7 @@ Identity, credentials, session lifecycle.
 
 **Why:** Reusing a password exposed in a prior breach means credential-stuffing bots will try it against your service within hours of exposure.
 
-**Detect:** grep password policy code for absent blocklist/pwned-password check, no `k-anonymity`/`pwnedPasswords` call, min-length-only policy with no composition rules.
+**Detect:** grep password policy code for absent blocklist/pwned-password check and no `k-anonymity`/`pwnedPasswords` call; flag policies enforcing character-class composition rules instead of length plus blocklist (NIST SP 800-63B forbids composition rules).
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-521, NCSC Pwned Passwords guidance
 
@@ -202,7 +202,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
-**References:** CIS K8s 5.1.5, CWE-522, OWASP K8s PS1, NIST SP 800-190 5.2
+**References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
@@ -370,7 +370,7 @@ mtls:
 
 # Dedicated Service Accounts per Workload
 
-**SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload **SHOULD** declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.
+**SHOULD NOT** run workloads under the `default` Kubernetes service account; each workload should declare a dedicated `serviceAccountName` scoped to exactly the API access it needs.
 
 **Why:** The default SA is shared by every pod that doesn't override it, so any IAM or RBAC grant made for one workload silently applies to all of them, and audit logs cannot attribute an API call to the workload that made it. Dedicated identities are the prerequisite for least-privilege cloud IAM (IRSA/workload identity), per-workload RBAC, and meaningful `automountServiceAccountToken` control.
 

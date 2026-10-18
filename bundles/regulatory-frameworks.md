@@ -1,4 +1,4 @@
-# regulatory-frameworks — full checklist (34 items)
+# regulatory-frameworks — full checklist (33 items)
 
 Audit and regulatory regimes.
 
@@ -26,11 +26,11 @@ Audit and regulatory regimes.
 
 # NIST Cybersecurity Framework (CSF)
 
-**SHOULD** cover all five functions—Identify, Protect, Detect, Respond, Recover—with at least one measurable activity per category, so governance gaps surface before incidents do.
+**SHOULD** cover all six functions—Govern, Identify, Protect, Detect, Respond, Recover—with at least one measurable activity per category, so governance gaps surface before incidents do.
 
 **Why:** Frameworks applied only as marketing checklists leave detection and response capabilities unbuilt when breaches arrive.
 
-**Detect:** grep docs for "Identify", "Protect", "Detect", "Respond", "Recover" categories; missing SIEM, incident runbook, asset inventory artifacts.
+**Detect:** grep docs for "Govern", "Identify", "Protect", "Detect", "Respond", "Recover" categories; missing SIEM, incident runbook, asset inventory artifacts.
 
 **References:** NIST CSF 2.0, NIST SP 800-53, CIS Controls
 
@@ -102,7 +102,7 @@ Audit and regulatory regimes.
 
 **Detect:** grep for signature algorithm config: "RSA-1024", "DSA", "secp112", disabled curves; verify "P-256", "P-384", "RSA-2048+" in signing code.
 
-**References:** FIPS 186-5, NIST SP 800-89, RFC 8785
+**References:** FIPS 186-5, NIST SP 800-89
 
 # Common Criteria
 
@@ -113,16 +113,6 @@ Audit and regulatory regimes.
 **Detect:** grep product docs for "EAL", "certification ID", "TOE" scope statements; missing evaluation artifacts where tenders require CC.
 
 **References:** Common Criteria ISO/IEC 15408, CCRA, NIAP/CCEVS
-
-# GDPR as Regulatory Regime (enforcement posture, DPO, DPIA)
-
-**MUST** maintain lawful basis, DPO appointment where required, and DPIAs for high-risk processing, since GDPR enforcement is complaint- and breach-driven with fines up to 4% of global turnover.
-
-**Why:** Regulators act on data subject complaints and breach notifications; undocumented processing decisions become the fine's evidence.
-
-**Detect:** grep for "DPIA", "DPO", "lawful basis", "Art. 6/35"; missing records of processing, consent logs, cross-border transfer clauses.
-
-**References:** GDPR Arts. 6, 35, 37; EDPB guidelines; ICO enforcement register
 
 # CCPA/CPRA
 
@@ -136,7 +126,7 @@ Audit and regulatory regimes.
 
 # UK GDPR + Cyber Essentials / Cyber Essentials Plus
 
-**SHOULD** pair UK GDPR data controls with Cyber Essentials' four technical controls (secure config, boundary firewalls, access control, patching), verified externally for CE+.
+**SHOULD** pair UK GDPR data controls with Cyber Essentials' five technical controls (firewalls, secure configuration, security update management, user access control, malware protection), verified externally for CE+.
 
 **Why:** UK insurers and public-sector buyers reject suppliers lacking CE; basic misconfigurations cause most breaches it targets.
 
@@ -246,7 +236,7 @@ Audit and regulatory regimes.
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** register consent through a Data Protection Board-consented consent manager and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 
@@ -258,7 +248,7 @@ Audit and regulatory regimes.
 
 **MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
 
-**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC and OfSan fines and forced redesigns.
+**Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 
 **Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
 

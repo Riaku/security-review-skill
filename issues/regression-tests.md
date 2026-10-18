@@ -6,4 +6,4 @@
 
 **Detect:** security fix PRs lacking a corresponding test case; CVE IDs or advisory references absent from test names/comments (e.g. `test_cve_2024_xxx`).
 
-**References:** OWASP ASVS V4.1.1, CWE-757, NIST SP 800-218 RV.1 (verification after remediation)
+**References:** OWASP ASVS V4.1.1, CWE-757, NIST SP 800-218 (SSDF) (verification after remediation)

@@ -42,7 +42,7 @@ Queues, delivery semantics, workers, jobs.
 
 **Detect:** grep for `ack` after processing, `auto_ack=True`, missing idempotency keys, `at_least_once`, unguarded side effects in consumers.
 
-**References:** CWE-362, AWS SQS delivery semantics, NIST SP 800-171 3.1.1
+**References:** CWE-362, AWS SQS delivery semantics, Designing Data-Intensive Applications (delivery semantics)
 
 # Exactly-Once Semantics
 
@@ -102,7 +102,7 @@ Queues, delivery semantics, workers, jobs.
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
 
 # Payment Webhook Reconciliation
 
@@ -112,7 +112,7 @@ Queues, delivery semantics, workers, jobs.
 
 **Detect:** check for `webhook_secret`, `stripe-signature`, `HMAC verify`, idempotency keys in webhook handler config and DB schema.
 
-**References:** OWASP WSTG-ATHN-02, CWE-347, PCI DSS 4.0 Req 6.2, Stripe webhook signing guide
+**References:** CWE-347, Stripe webhook signing guide
 
 # Message Queues
 
