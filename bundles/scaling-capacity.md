@@ -271,9 +271,9 @@ resource "aws_ebs_volume" "pg" {
 
 **Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Stalled replication slots accumulating WAL until disk fills
+# Stalled replication retention accumulating log segments until disk fills
 
-**MUST** monitor replication slot retention (`restart_lag`, slot activity) with alerts well below free-disk headroom, since an inactive slot pins WAL the primary cannot recycle.
+**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots, and their `restart_lag`, are the classic case).
 
 **Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
 
