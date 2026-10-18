@@ -3,11 +3,11 @@ categories: [database]
 domains: [data]
 ---
 
-# Postgres VACUUM
+# Automatic database maintenance enabled and tuned
 
-**SHOULD** keep autovacuum enabled and tuned per-table rather than disabling it for hand-rolled cron vacuuming.
+**SHOULD** keep the engine's automatic space-reclamation and maintenance enabled and tuned per table rather than disabling it in favour of hand-rolled cron jobs; PostgreSQL `autovacuum` and its scale factors are the common case.
 
-**Why:** MVCC leaves dead tuples behind; without regular vacuuming, tables bloat, plans degrade, and the transaction ID counter can approach wraparound, forcing emergency single-user mode to avoid corruption.
+**Why:** Superseded row versions accumulate; without regular maintenance tables bloat, plans degrade, and in PostgreSQL the transaction ID counter can approach wraparound, forcing emergency single-user mode to avoid corruption.
 
 **Detect:** Grep configs for `autovacuum = off`, oversized `autovacuum_vacuum_scale_factor`, or `VACUUM FULL` in cron. Check `pg_stat_user_tables` for high `n_dead_tup` and missing per-table `reloptions` on high-churn tables.
 

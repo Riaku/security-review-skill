@@ -254,9 +254,9 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Helm Hook Ordering and Failed-Hook Release Blocking
+# Release hook ordering and failed-hook release blocking
 
-**MUST** set `hook-weight` and `hook-delete-policy` explicitly so migrations run before workloads, and treat a failed hook as a release blocker rather than a warning.
+**MUST** order schema-migration hooks ahead of the workload rollout and treat a failed hook as a release blocker rather than a warning; Helm's `hook-weight` and `hook-delete-policy` annotations are one way to express that ordering.
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 

@@ -5,7 +5,7 @@ domains: [data]
 
 # Statement and lock timeouts set explicitly per workload
 
-**SHOULD** configure `statement_timeout` and `lock_timeout` deliberately per role or connection profile instead of leaving unlimited defaults everywhere.
+**SHOULD** configure statement and lock timeouts deliberately per role or connection profile instead of leaving unlimited defaults everywhere; PostgreSQL's `statement_timeout` and `lock_timeout` are the common case.
 
 **Why:** Without a lock timeout, a query queues behind long-running DDL and piles up waiting sessions until the pool collapses. Without a statement timeout, a runaway full-table scan from a bad ORM query pegs CPU and starves latency-sensitive traffic indefinitely.
 

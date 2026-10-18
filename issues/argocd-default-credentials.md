@@ -3,9 +3,9 @@ categories: [authentication, cicd-pipeline-security, deployment-release]
 domains: [backend, infrastructure]
 ---
 
-# ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
+# Default admin password, signing key and webhook auth on control planes
 
-**MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.
+**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
 
 **Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
 

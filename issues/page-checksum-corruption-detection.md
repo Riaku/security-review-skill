@@ -5,7 +5,7 @@ domains: [data]
 
 # Page checksums enabled to catch silent data corruption
 
-**MUST** enable data page checksums (`--data-checksums` at initdb, or vendor equivalent) so bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently.
+**MUST** enable data page checksums, where the engine offers them, at cluster creation so that bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently; PostgreSQL's `--data-checksums` at `initdb` is the common case and cannot be turned on later.
 
 **Why:** Disks and network storage flip bits without complaint. A corrupted index page can return wrong results or stream corruption to replicas. Checksums make the database loud at the first bad read — loud beats wrong.
 

@@ -3,9 +3,9 @@ categories: [messaging-async]
 domains: [data]
 ---
 
-# Kafka Consumer Groups
+# Distinct consumer group per service on partitioned streams
 
-**MUST** assign each application a distinct consumer group ID; sharing one group between services silently splits the message stream.
+**MUST** give each independent service its own consumer group on a partitioned message stream; sharing one group between services silently splits the feed, so neither receives every event (Kafka consumer group IDs are the common case).
 
 **Why:** Two services sharing a group each receive a disjoint partition subset, so neither sees the full event feed — silent data loss.
 

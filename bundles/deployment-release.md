@@ -4,9 +4,9 @@ Release engineering: strategies, environments, versioning.
 
 > Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [deployment-release](../categories/deployment-release.md) · index: [SKILL.md](../SKILL.md)
 
-# ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth
+# Default admin password, signing key and webhook auth on control planes
 
-**MUST** replace ArgoCD's default `admin` password, set a unique `server.signingkey`, and authenticate all webhook receivers before exposing the API.
+**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
 
 **Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
 
@@ -211,9 +211,9 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Helm Hook Ordering and Failed-Hook Release Blocking
+# Release hook ordering and failed-hook release blocking
 
-**MUST** set `hook-weight` and `hook-delete-policy` explicitly so migrations run before workloads, and treat a failed hook as a release blocker rather than a warning.
+**MUST** order schema-migration hooks ahead of the workload rollout and treat a failed hook as a release blocker rather than a warning; Helm's `hook-weight` and `hook-delete-policy` annotations are one way to express that ordering.
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 
@@ -419,9 +419,9 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 **Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Terraform State
+# Infrastructure-as-code state kept out of repositories and encrypted at rest
 
-**MUST NOT** commit Terraform state files to repositories or store them on unencrypted disks; use a remote backend with encryption and state locking.
+**MUST NOT** commit infrastructure-as-code state to a repository or keep it on an unencrypted disk; use a remote backend with encryption at rest and state locking. Terraform's `terraform.tfstate` is the common case; any IaC tool's state artifact is the same class of secret-bearing file.
 
 **Why:** State files embed plaintext secrets, resource IDs, and network topology, handing attackers a complete map plus credentials in one file.
 
@@ -433,9 +433,9 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 **Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
-# Plaintext Secrets Persisted in Terraform State and Outputs
+# Plaintext secrets persisted in infrastructure-as-code state and outputs
 
-**MUST** mark sensitive Terraform variables and outputs with `sensitive = true` and store state remotely with access controls and encryption; never expose raw state in logs or PRs.
+**MUST** mark secret-bearing variables and outputs sensitive and store generated state and plan artifacts encrypted under access control; never expose raw state in logs, CI output or pull requests. Terraform's `sensitive = true` and `terraform output` are the common case.
 
 **Why:** State files record every resource attribute in plaintext, so a leaked backend, backup, or plan output hands over all managed credentials at once.
 
