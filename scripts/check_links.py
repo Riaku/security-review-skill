@@ -43,19 +43,23 @@ def is_placeholder(url: str) -> bool:
     return any(re.search(p, url) for p in SKIP_PATTERNS)
 
 
-def fetch_ok(url: str) -> tuple[bool, str]:
+def fetch_ok(url: str) -> tuple[str, str]:
+    """Returns ('ok'|'blocked'|'broken', status)."""
     for method in ("HEAD", "GET"):
         req = urllib.request.Request(url, method=method, headers=UA)
         try:
             with urllib.request.urlopen(req, timeout=20) as r:
-                return True, str(r.status)
+                return "ok", str(r.status)
         except urllib.error.HTTPError as e:
             if method == "HEAD" and e.code in (403, 405, 501):
                 continue  # try GET
-            return False, str(e.code)
+            # 403/429 from datacenter IPs is WAF bot-blocking, not link rot.
+            if e.code in (403, 429):
+                return "blocked", str(e.code)
+            return "broken", str(e.code)
         except Exception as e:
-            return False, type(e).__name__
-    return False, "unreachable"
+            return "broken", type(e).__name__
+    return "broken", "unreachable"
 
 
 def main() -> int:
@@ -71,17 +75,21 @@ def main() -> int:
     real = {u: v for u, v in urls.items() if not is_placeholder(u)}
     skipped = len(urls) - len(real)
     broken = []
+    blocked = []
     if not offline:
         for u in sorted(real):
-            ok, status = fetch_ok(u)
-            mark = "ok " if ok else "FAIL"
+            state, status = fetch_ok(u)
+            mark = {"ok": "ok ", "blocked": "WARN", "broken": "FAIL"}[state]
             print(f"  {mark} {status:>4}  {u}")
-            if not ok:
+            if state == "broken":
                 broken.append((u, status, sorted(real[u])))
+            elif state == "blocked":
+                blocked.append(u)
     else:
         print(f"offline mode: {len(real)} real URLs would be checked")
 
     print(f"\nlinks: {len(real)} checked, {skipped} placeholders skipped, "
+          f"{len(blocked)} WAF-blocked (not treated as broken), "
           f"{len(broken)} broken")
     for u, status, where in broken:
         print(f"  BROKEN {status}: {u}")
