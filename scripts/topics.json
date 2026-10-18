@@ -2559,5 +2559,118 @@
     "categories": [
       "regulatory-frameworks"
     ]
+  },
+  {
+    "num": 317,
+    "title": "Retry with Backoff (explicit policy: bounded retries, exponential + jitter)",
+    "slug": "retry-with-backoff",
+    "categories": [
+      "resilience"
+    ]
+  },
+  {
+    "num": 318,
+    "title": "Self-Healing Systems (auto-restart, auto-failover, self-repair loops)",
+    "slug": "self-healing",
+    "categories": [
+      "resilience",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 319,
+    "title": "Message Queues (buffering work between services)",
+    "slug": "message-queues",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 320,
+    "title": "Worker Pools (parallel job processors, sizing, starvation)",
+    "slug": "worker-pools",
+    "categories": [
+      "messaging-async",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 321,
+    "title": "Workflow Engines (durable multi-step jobs: Temporal/Step Functions)",
+    "slug": "workflow-engines",
+    "categories": [
+      "messaging-async",
+      "distributed-systems"
+    ]
+  },
+  {
+    "num": 322,
+    "title": "Batching (many writes/calls, one trip)",
+    "slug": "batching",
+    "categories": [
+      "database",
+      "api-design"
+    ]
+  },
+  {
+    "num": 323,
+    "title": "Async Writes (ack now, persist later)",
+    "slug": "async-writes",
+    "categories": [
+      "database",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 324,
+    "title": "Quadratic Complexity & Nested Loops (O(n\u00b2) on unbounded input)",
+    "slug": "quadratic-complexity-nested-loops",
+    "categories": [
+      "correctness-pitfalls",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 325,
+    "title": "Test-Driven Development Discipline (tests written first, red-green-refactor)",
+    "slug": "tdd-discipline",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 326,
+    "title": "Code Review Practice (mandatory review, reviewer checklist, review SLA)",
+    "slug": "code-review-practice",
+    "categories": [
+      "testing-strategy",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 327,
+    "title": "Linting & Static Analysis Enforced in CI (linter, type checker, SAST)",
+    "slug": "linting-static-analysis",
+    "categories": [
+      "cicd-pipeline-security",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 328,
+    "title": "Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)",
+    "slug": "structured-exception-handling",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 329,
+    "title": "Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)",
+    "slug": "cost-optimization-alerting",
+    "categories": [
+      "cloud-network",
+      "observability"
+    ]
   }
 ]
