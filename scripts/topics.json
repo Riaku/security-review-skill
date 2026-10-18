@@ -2672,5 +2672,1356 @@
       "cloud-network",
       "observability"
     ]
+  },
+  {
+    "num": 330,
+    "title": "OS Command Injection (CWE-78)",
+    "slug": "os-command-injection",
+    "categories": [
+      "web-api-security",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 331,
+    "title": "NoSQL Query Injection",
+    "slug": "nosql-injection",
+    "categories": [
+      "web-api-security",
+      "database"
+    ]
+  },
+  {
+    "num": 332,
+    "title": "LDAP Injection",
+    "slug": "ldap-injection",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 333,
+    "title": "XML External Entity (XXE) Injection",
+    "slug": "xxe-injection",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 334,
+    "title": "Server-Side Template Injection (SSTI)",
+    "slug": "server-side-template-injection",
+    "categories": [
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 335,
+    "title": "CRLF / HTTP Header Injection & Response Splitting",
+    "slug": "crlf-header-injection",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 336,
+    "title": "HTTP Request Smuggling (CL.TE / TE.CL Desync)",
+    "slug": "http-request-smuggling",
+    "categories": [
+      "web-api-security",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 337,
+    "title": "Regular Expression DoS (ReDoS)",
+    "slug": "redos",
+    "categories": [
+      "correctness-pitfalls",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 338,
+    "title": "Decompression Bombs & XML Entity Expansion",
+    "slug": "decompression-bombs",
+    "categories": [
+      "web-api-security",
+      "resilience"
+    ]
+  },
+  {
+    "num": 339,
+    "title": "Dynamic Code Evaluation of User Input (eval/exec)",
+    "slug": "dynamic-code-evaluation",
+    "categories": [
+      "correctness-pitfalls",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 340,
+    "title": "Memory Safety: Buffer Overflow & Use-After-Free",
+    "slug": "memory-safety-buffer-overflow",
+    "categories": [
+      "correctness-pitfalls",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 341,
+    "title": "Weak Crypto Primitives in Application Code",
+    "slug": "weak-crypto-primitives",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 342,
+    "title": "Insufficient Randomness for Tokens and IDs",
+    "slug": "insufficient-randomness",
+    "categories": [
+      "secrets-crypto",
+      "authentication"
+    ]
+  },
+  {
+    "num": 343,
+    "title": "Client-Side TLS Verification Disabled",
+    "slug": "client-tls-verification-disabled",
+    "categories": [
+      "secrets-crypto",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 344,
+    "title": "Cookie Flags: Secure, HttpOnly, SameSite",
+    "slug": "cookie-flags",
+    "categories": [
+      "web-client-security",
+      "authentication"
+    ]
+  },
+  {
+    "num": 345,
+    "title": "Password Reset Flow Security",
+    "slug": "password-reset-flow",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 346,
+    "title": "Breached & Common Password Blocklist",
+    "slug": "breached-password-blocklist",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 347,
+    "title": "Token Revocation & Logout Invalidation",
+    "slug": "token-revocation-logout",
+    "categories": [
+      "authentication",
+      "api-design"
+    ]
+  },
+  {
+    "num": 348,
+    "title": "JWT Audience/Issuer Validation & kid/JWKS Abuse",
+    "slug": "jwt-audience-issuer-validation",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 349,
+    "title": "Missing Authentication Middleware / Default-Deny Routing",
+    "slug": "missing-auth-middleware",
+    "categories": [
+      "authentication",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 350,
+    "title": "Vertical Privilege Escalation / Function-Level Authorization",
+    "slug": "vertical-privilege-escalation",
+    "categories": [
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 351,
+    "title": "Social Login Account-Linking Takeover",
+    "slug": "social-login-account-linking",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 352,
+    "title": "Default & Weak Credentials in Shipped Software",
+    "slug": "default-credentials",
+    "categories": [
+      "authentication",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 353,
+    "title": "Cloud Instance Metadata Endpoint Protection (IMDSv2)",
+    "slug": "cloud-metadata-endpoint",
+    "categories": [
+      "cloud-network",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 354,
+    "title": "Cloud IAM Privilege Escalation Paths",
+    "slug": "cloud-iam-privilege-escalation",
+    "categories": [
+      "cloud-network",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 355,
+    "title": "Pod Security Standards: seccomp, readOnlyRootFilesystem, allowPrivilegeEscalation",
+    "slug": "pod-security-standards",
+    "categories": [
+      "containers-k8s",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 356,
+    "title": "Dangerous Host Mounts: docker.sock, hostPath, Privileged Pods",
+    "slug": "dangerous-host-mounts",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 357,
+    "title": "CI Workflow Injection via Untrusted PR Content (pull_request_target)",
+    "slug": "ci-workflow-script-injection",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 358,
+    "title": "Web Cache Poisoning & Cache Deception",
+    "slug": "web-cache-poisoning",
+    "categories": [
+      "web-client-security",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 359,
+    "title": "DNS Rebinding Against Internal Services",
+    "slug": "dns-rebinding",
+    "categories": [
+      "cloud-network",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 360,
+    "title": "Cross-Site WebSocket Hijacking (CSWSH)",
+    "slug": "cross-site-websocket-hijacking",
+    "categories": [
+      "web-client-security",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 361,
+    "title": "window.postMessage Origin Validation",
+    "slug": "postmessage-origin-validation",
+    "categories": [
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 362,
+    "title": "Sensitive Data in Browser Storage (localStorage/sessionStorage)",
+    "slug": "browser-storage-sensitive-data",
+    "categories": [
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 363,
+    "title": "Log Injection & Log Forging",
+    "slug": "log-injection",
+    "categories": [
+      "observability",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 364,
+    "title": "PII & Secrets Leakage into Application Logs",
+    "slug": "pii-secrets-in-app-logs",
+    "categories": [
+      "observability",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 365,
+    "title": "Business Logic Workflow Bypass & Abuse",
+    "slug": "business-logic-bypass",
+    "categories": [
+      "correctness-pitfalls",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 366,
+    "title": "Excessive Data Exposure in API Serialization",
+    "slug": "excessive-data-exposure",
+    "categories": [
+      "api-design",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 367,
+    "title": "Docker Socket Mounted into Containers",
+    "slug": "docker-socket-mount",
+    "categories": [
+      "containers-k8s",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 368,
+    "title": "Privileged Containers and Excess Linux Capabilities",
+    "slug": "privileged-containers-capabilities",
+    "categories": [
+      "containers-k8s",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 369,
+    "title": "Host Namespace Sharing (hostPath/hostPID/hostNetwork/hostIPC)",
+    "slug": "host-namespace-sharing",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 370,
+    "title": "Auto-Mounted Service Account Tokens in Pods That Don't Need the API",
+    "slug": "automount-serviceaccount-token",
+    "categories": [
+      "containers-k8s",
+      "authentication"
+    ]
+  },
+  {
+    "num": 371,
+    "title": "K8s RBAC Escalation via impersonate/bind/escalate Verbs",
+    "slug": "k8s-rbac-escalation-verbs",
+    "categories": [
+      "authorization-access-control",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 372,
+    "title": "Cloud Metadata Endpoint Credential Theft (IMDS / 169.254.169.254)",
+    "slug": "metadata-endpoint-credential-theft",
+    "categories": [
+      "cloud-network",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 373,
+    "title": "Workload Identity / IRSA Audience and Claim Validation Gaps",
+    "slug": "workload-identity-audience-validation",
+    "categories": [
+      "authentication",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 374,
+    "title": "No Admission Policy Engine (Pod Security Standards / Gatekeeper / Kyverno)",
+    "slug": "admission-policy-engine-absent",
+    "categories": [
+      "containers-k8s",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 375,
+    "title": "Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig",
+    "slug": "admission-webhook-failure-policy",
+    "categories": [
+      "containers-k8s",
+      "resilience"
+    ]
+  },
+  {
+    "num": 376,
+    "title": "etcd Exposure and Missing etcd Encryption",
+    "slug": "etcd-exposure-encryption",
+    "categories": [
+      "containers-k8s",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 377,
+    "title": "Kubelet Port Protection (10250 AuthN/AuthZ, Anonymous Access)",
+    "slug": "kubelet-port-protection",
+    "categories": [
+      "containers-k8s",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 378,
+    "title": "Kubernetes API Audit Logging Not Enabled",
+    "slug": "k8s-api-audit-logging",
+    "categories": [
+      "observability",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 379,
+    "title": "Mutable Image Tags (latest) Instead of Digest Pinning",
+    "slug": "mutable-image-tag-pinning",
+    "categories": [
+      "containers-k8s",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 380,
+    "title": "Admission Enforcement of Signed Images (Verify, Not Just Sign)",
+    "slug": "signed-image-admission-enforcement",
+    "categories": [
+      "supply-chain",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 381,
+    "title": "Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers",
+    "slug": "dockerfile-build-secret-leakage",
+    "categories": [
+      "cicd-pipeline-security",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 382,
+    "title": "Docker-in-Docker / Privileged Build Steps in CI",
+    "slug": "dind-privileged-ci-builds",
+    "categories": [
+      "cicd-pipeline-security",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 383,
+    "title": "Plaintext Secrets in Helm values Files and Rendered Manifests",
+    "slug": "helm-values-plaintext-secrets",
+    "categories": [
+      "secrets-crypto",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 384,
+    "title": "Helm Hook Ordering and Failed-Hook Release Blocking",
+    "slug": "helm-hook-ordering-blocking",
+    "categories": [
+      "deployment-release",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 385,
+    "title": "Operator Finalizer Leaks Blocking Resource Deletion",
+    "slug": "operator-finalizer-leak",
+    "categories": [
+      "containers-k8s",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 386,
+    "title": "Missing ownerReferences Causing Orphaned Managed Resources",
+    "slug": "missing-owner-reference-orphans",
+    "categories": [
+      "containers-k8s",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 387,
+    "title": "CRDs Without OpenAPI Validation Schemas",
+    "slug": "crd-missing-openapi-validation",
+    "categories": [
+      "api-design",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 388,
+    "title": "GitOps Repo Write Access Equals Cluster Write Access",
+    "slug": "gitops-repo-cluster-privilege-mapping",
+    "categories": [
+      "cicd-pipeline-security",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 389,
+    "title": "GitOps Controller Running as cluster-admin",
+    "slug": "gitops-controller-cluster-admin-overreach",
+    "categories": [
+      "authorization-access-control",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 390,
+    "title": "ArgoCD-Specific: Default Admin Password, JWT Signing Key, Webhook Auth",
+    "slug": "argocd-default-credentials",
+    "categories": [
+      "authentication",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 391,
+    "title": "Manual kubectl apply Drift Not Detected Against Git",
+    "slug": "gitops-manual-apply-drift",
+    "categories": [
+      "deployment-release",
+      "observability"
+    ]
+  },
+  {
+    "num": 392,
+    "title": "Plaintext Secrets Persisted in Terraform State and Outputs",
+    "slug": "terraform-state-plaintext-secrets",
+    "categories": [
+      "secrets-crypto",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 393,
+    "title": "IaC Plan/Apply Triggered from Untrusted Pull Requests",
+    "slug": "iac-untrusted-pr-plan-injection",
+    "categories": [
+      "cicd-pipeline-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 394,
+    "title": "Wildcard Actions/Resources in Cloud IAM Policies Generated by IaC",
+    "slug": "cloud-iam-wildcard-policies",
+    "categories": [
+      "authorization-access-control",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 395,
+    "title": "Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions",
+    "slug": "cross-account-role-confused-deputy",
+    "categories": [
+      "authorization-access-control",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 396,
+    "title": "API Gateway / Edge Endpoints Deployed Without Authorizers",
+    "slug": "api-gateway-missing-authorizers",
+    "categories": [
+      "cloud-network",
+      "authentication"
+    ]
+  },
+  {
+    "num": 397,
+    "title": "API Gateway Mapping Template / Proxy Passthrough Injection",
+    "slug": "api-gateway-mapping-template-injection",
+    "categories": [
+      "web-api-security",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 398,
+    "title": "Serverless Execution Environment Reuse Leaking Data Across Invocations",
+    "slug": "serverless-env-reuse-leak",
+    "categories": [
+      "cloud-network",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 399,
+    "title": "PersistentVolume Reclaim Policy and NFS root_squash Data Exposure",
+    "slug": "volume-reclaim-nfs-squash",
+    "categories": [
+      "containers-k8s",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 400,
+    "title": "Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion",
+    "slug": "namespace-resource-quota-absent",
+    "categories": [
+      "containers-k8s",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 401,
+    "title": "NodePort / LoadBalancer Accidentally Exposing Internal Services",
+    "slug": "nodeport-lb-internal-exposure",
+    "categories": [
+      "cloud-network",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 402,
+    "title": "Ingress Host-Header / vHost Routing Collisions and TLS Passthrough Misrouting",
+    "slug": "ingress-host-routing-collision",
+    "categories": [
+      "cloud-network",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 403,
+    "title": "ConfigMap Hot-Reload Assumption for Environment Variables",
+    "slug": "configmap-env-no-hot-reload",
+    "categories": [
+      "containers-k8s",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 404,
+    "title": "exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent",
+    "slug": "k8s-exec-attach-root-equivalent",
+    "categories": [
+      "authorization-access-control",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 405,
+    "title": "Service Mesh Permissive mTLS and Direct-Pod-IP Bypass",
+    "slug": "mesh-permissive-mode-bypass",
+    "categories": [
+      "cloud-network",
+      "authentication"
+    ]
+  },
+  {
+    "num": 406,
+    "title": "Queue depth and consumer lag thresholds must trigger paging",
+    "slug": "queue-depth-lag-alerting",
+    "categories": [
+      "observability",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 407,
+    "title": "Age of the oldest pending job tracked as an SLO, not just count",
+    "slug": "job-age-slo",
+    "categories": [
+      "messaging-async",
+      "observability"
+    ]
+  },
+  {
+    "num": 408,
+    "title": "Dead-man's-switch heartbeat for scheduled jobs",
+    "slug": "heartbeat-dead-mans-switch",
+    "categories": [
+      "observability",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 409,
+    "title": "Overlapping cron executions guarded by single-runner locks",
+    "slug": "cron-overlap-guard",
+    "categories": [
+      "messaging-async",
+      "database"
+    ]
+  },
+  {
+    "num": 410,
+    "title": "Idle-in-transaction sessions monitored and killed",
+    "slug": "idle-in-transaction-monitoring",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 411,
+    "title": "Statement and lock timeouts set explicitly per workload",
+    "slug": "statement-lock-timeouts",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 412,
+    "title": "Slow query log captured, reviewed, and regression-tracked",
+    "slug": "slow-query-log-review",
+    "categories": [
+      "database",
+      "observability"
+    ]
+  },
+  {
+    "num": 413,
+    "title": "Online schema-change tooling for large tables (gh-ost, pt-osc)",
+    "slug": "online-schema-change-tooling",
+    "categories": [
+      "database",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 414,
+    "title": "Stalled replication slots accumulating WAL until disk fills",
+    "slug": "wal-slot-disk-exhaustion",
+    "categories": [
+      "database",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 415,
+    "title": "Crash-consistent volume snapshots vs logical dumps distinguished",
+    "slug": "crash-consistent-snapshots",
+    "categories": [
+      "database",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 416,
+    "title": "Page checksums enabled to catch silent data corruption",
+    "slug": "page-checksum-corruption-detection",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 417,
+    "title": "Disk and inode exhaustion forecasted with lead time",
+    "slug": "disk-inode-exhaustion-forecast",
+    "categories": [
+      "scaling-capacity",
+      "observability"
+    ]
+  },
+  {
+    "num": 418,
+    "title": "Volume IOPS/throughput ceilings profiled before launch",
+    "slug": "storage-io-saturation-profiling",
+    "categories": [
+      "scaling-capacity",
+      "database"
+    ]
+  },
+  {
+    "num": 419,
+    "title": "Storage operating degraded (degraded RAID/mirror) runbook",
+    "slug": "degraded-storage-mode-runbook",
+    "categories": [
+      "sre-incidents",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 420,
+    "title": "File descriptor and conntrack table limits sized for peak",
+    "slug": "fd-conntrack-limit-sizing",
+    "categories": [
+      "cloud-network",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 421,
+    "title": "Ephemeral port / TIME_WAIT exhaustion on busy clients",
+    "slug": "ephemeral-port-exhaustion",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 422,
+    "title": "Path MTU blackholes diagnosed on tunnel/VPN paths",
+    "slug": "path-mtu-blackhole",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 423,
+    "title": "Load balancer health-check flapping detected and damped",
+    "slug": "lb-health-check-flapping",
+    "categories": [
+      "cloud-network",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 424,
+    "title": "Node disk/memory pressure eviction behavior understood",
+    "slug": "node-pressure-eviction-behavior",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 425,
+    "title": "Control-plane quorum (etcd) health monitored separately from workloads",
+    "slug": "etcd-control-plane-quorum",
+    "categories": [
+      "containers-k8s",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 426,
+    "title": "Crash-loop restart storms bounded and alarmed",
+    "slug": "crash-loop-restart-storm",
+    "categories": [
+      "containers-k8s",
+      "observability"
+    ]
+  },
+  {
+    "num": 427,
+    "title": "Zombie process reaping handled in container PID 1",
+    "slug": "zombie-process-reaping",
+    "categories": [
+      "containers-k8s",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 428,
+    "title": "Registry outage tolerated via cached/pinned images",
+    "slug": "registry-outage-resilience",
+    "categories": [
+      "containers-k8s",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 429,
+    "title": "Log pipeline backlog and drop rate monitored under load",
+    "slug": "log-pipeline-backpressure",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 430,
+    "title": "Synthetic external probes from outside the network",
+    "slug": "synthetic-external-monitoring",
+    "categories": [
+      "observability",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 431,
+    "title": "Deploy events annotated onto dashboards for correlation",
+    "slug": "deploy-markers-on-metrics",
+    "categories": [
+      "observability",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 432,
+    "title": "Incident severity levels with a designated incident commander",
+    "slug": "incident-severity-commander",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 433,
+    "title": "Customer-facing status page and outage comms templates",
+    "slug": "status-page-outage-comms",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 434,
+    "title": "Long-running jobs checkpoint so restarts resume, not restart",
+    "slug": "checkpoint-resumable-jobs",
+    "categories": [
+      "messaging-async",
+      "database"
+    ]
+  },
+  {
+    "num": 435,
+    "title": "Post-outage backlog replay throttled to avoid catch-up storm",
+    "slug": "backlog-catchup-throttling",
+    "categories": [
+      "messaging-async",
+      "resilience"
+    ]
+  },
+  {
+    "num": 436,
+    "title": "Dual-write plus backfill migration cutover rehearsed",
+    "slug": "dual-write-backfill-cutover",
+    "categories": [
+      "database",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 437,
+    "title": "Code rollback without data rollback causes schema mismatch",
+    "slug": "code-data-rollback-mismatch",
+    "categories": [
+      "deployment-release",
+      "database"
+    ]
+  },
+  {
+    "num": 438,
+    "title": "Noisy-neighbor isolation between tenants/workloads enforced",
+    "slug": "noisy-neighbor-isolation",
+    "categories": [
+      "scaling-capacity",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 439,
+    "title": "Patch cadence and remediation SLAs for known CVEs in production images",
+    "slug": "patch-cadence-remediation-sla",
+    "categories": [
+      "security-practices",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 440,
+    "title": "Startup dependency ordering: services retry until backends are ready",
+    "slug": "startup-dependency-ordering",
+    "categories": [
+      "deployment-release",
+      "resilience"
+    ]
+  },
+  {
+    "num": 441,
+    "title": "EU AI Act conformity (risk tiering, GPAI obligations, transparency and deployment deadlines)",
+    "slug": "eu-ai-act",
+    "categories": [
+      "regulatory-frameworks",
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 442,
+    "title": "Cross-border data transfer mechanisms post-Schrems II (SCCs, transfer impact assessments, adequacy)",
+    "slug": "cross-border-transfer-mechanisms",
+    "categories": [
+      "compliance-privacy",
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 443,
+    "title": "Brazil LGPD compliance",
+    "slug": "lgpd",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 444,
+    "title": "China PIPL (cross-border security assessment, separate consent, localization)",
+    "slug": "china-pipl",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 445,
+    "title": "India DPDP Act 2023 (consent managers, data fiduciary duties)",
+    "slug": "india-dpdp-act",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 446,
+    "title": "Children's online privacy and age assurance (COPPA, UK Online Safety Act)",
+    "slug": "children-privacy-age-assurance",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 447,
+    "title": "Breach notification clocks across jurisdictions (72h GDPR, state laws, sector rules)",
+    "slug": "breach-notification-clocks",
+    "categories": [
+      "compliance-privacy",
+      "regulatory-frameworks",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 448,
+    "title": "SEC cybersecurity disclosure rules (public-company material incident reporting)",
+    "slug": "sec-cyber-disclosure",
+    "categories": [
+      "regulatory-frameworks",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 449,
+    "title": "NYDFS 23 NYCRR 500 (financial services cyber requirements)",
+    "slug": "nydfs-500",
+    "categories": [
+      "regulatory-frameworks",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 450,
+    "title": "EU Cyber Resilience Act (product security lifecycle, SBOM and vulnerability handling duties)",
+    "slug": "eu-cyber-resilience-act",
+    "categories": [
+      "regulatory-frameworks",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 451,
+    "title": "Accessibility compliance as regulatory regime (EAA, ADA/WCAG enforcement)",
+    "slug": "accessibility-eaa-wcag",
+    "categories": [
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 452,
+    "title": "Cyber insurance alignment: coverage preconditions and denial clauses",
+    "slug": "cyber-insurance-requirements",
+    "categories": [
+      "regulatory-frameworks",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 453,
+    "title": "Post-quantum cryptography migration plan and crypto-agility",
+    "slug": "pqc-migration-crypto-agility",
+    "categories": [
+      "secrets-crypto",
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 454,
+    "title": "Harvest-now-decrypt-later exposure of long-lived confidential data",
+    "slug": "harvest-now-decrypt-later",
+    "categories": [
+      "secrets-crypto",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 455,
+    "title": "PQC readiness of TLS/VPN termination (hybrid KEM deployment)",
+    "slug": "pqc-tls-readiness",
+    "categories": [
+      "secrets-crypto",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 456,
+    "title": "Treat LLM output as untrusted input (sanitize before HTML/SQL/shell/URL sinks)",
+    "slug": "llm-output-untrusted",
+    "categories": [
+      "ai-llm",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 457,
+    "title": "PII redaction and DPAs before sending data to third-party LLM APIs",
+    "slug": "llm-api-pii-redaction",
+    "categories": [
+      "ai-llm",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 458,
+    "title": "Denial-of-wallet: unbounded LLM token spend per user/tenant",
+    "slug": "llm-denial-of-wallet",
+    "categories": [
+      "ai-llm",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 459,
+    "title": "Human-in-the-loop approval for destructive agent tool calls",
+    "slug": "agent-hitl-approval",
+    "categories": [
+      "ai-llm",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 460,
+    "title": "System prompt extraction and sensitive config embedded in prompts",
+    "slug": "system-prompt-extraction",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 461,
+    "title": "Third-party MCP/plugin trust and malicious tool-description injection",
+    "slug": "mcp-plugin-trust",
+    "categories": [
+      "ai-llm",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 462,
+    "title": "AI-generated code review gate before merge",
+    "slug": "ai-generated-code-review",
+    "categories": [
+      "ai-llm",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 463,
+    "title": "Embedding inversion and sensitive data in vector stores",
+    "slug": "embedding-inversion-vector-stores",
+    "categories": [
+      "ai-llm",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 464,
+    "title": "Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack",
+    "slug": "shadow-ai-governance",
+    "categories": [
+      "ai-llm",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 465,
+    "title": "Account recovery and password-reset flow security (tokens, helpdesk takeover)",
+    "slug": "account-recovery-security",
+    "categories": [
+      "authentication",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 466,
+    "title": "Session invalidation on credential change and logout",
+    "slug": "session-invalidation-on-credential-change",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 467,
+    "title": "SAML assertion validation and XML signature wrapping",
+    "slug": "saml-signature-wrapping",
+    "categories": [
+      "authentication"
+    ]
+  },
+  {
+    "num": 468,
+    "title": "Cloud metadata service abuse (SSRF to IMDS, IMDSv2 enforcement, metadata blocking)",
+    "slug": "imds-metadata-abuse",
+    "categories": [
+      "cloud-network",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 469,
+    "title": "Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)",
+    "slug": "unauthenticated-data-store-exposure",
+    "categories": [
+      "hardening-benchmarks",
+      "database",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 470,
+    "title": "Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)",
+    "slug": "sensitive-endpoint-exposure",
+    "categories": [
+      "web-api-security",
+      "hardening-benchmarks"
+    ]
+  },
+  {
+    "num": 471,
+    "title": "Cloud IAM privilege escalation path review (PassRole, policy inheritance, wildcards)",
+    "slug": "cloud-iam-escalation-paths",
+    "categories": [
+      "authorization-access-control",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 472,
+    "title": "Joiner-mover-leaver access revocation (offboarding and role change hygiene)",
+    "slug": "joiner-mover-leaver",
+    "categories": [
+      "authorization-access-control",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 473,
+    "title": "Privileged access management: JIT access, break-glass, session recording",
+    "slug": "privileged-access-management",
+    "categories": [
+      "authorization-access-control",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 474,
+    "title": "Segregation of duties in deploy and production operations",
+    "slug": "segregation-of-duties",
+    "categories": [
+      "authorization-access-control",
+      "regulatory-frameworks"
+    ]
+  },
+  {
+    "num": 475,
+    "title": "Vendor/third-party risk management and subprocessor registers",
+    "slug": "vendor-risk-subprocessors",
+    "categories": [
+      "supply-chain",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 476,
+    "title": "Vulnerability disclosure program (SECURITY.md, coordinated disclosure, safe harbor)",
+    "slug": "vulnerability-disclosure-program",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 477,
+    "title": "Patch management SLAs (MTTR targets by severity, exception tracking)",
+    "slug": "patch-management-sla",
+    "categories": [
+      "security-practices",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 478,
+    "title": "Independent penetration testing cadence and finding remediation tracking",
+    "slug": "penetration-testing-cadence",
+    "categories": [
+      "security-practices",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 479,
+    "title": "Webhook replay protection (timestamp windows and nonce dedup beyond signatures)",
+    "slug": "webhook-replay-protection",
+    "categories": [
+      "messaging-async",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 480,
+    "title": "PII leakage into application logs, traces, and error reporters",
+    "slug": "pii-in-logs",
+    "categories": [
+      "compliance-privacy",
+      "observability"
+    ]
+  },
+  {
+    "num": 481,
+    "title": "Anonymization vs pseudonymization and re-identification risk in shared datasets",
+    "slug": "reidentification-risk",
+    "categories": [
+      "compliance-privacy",
+      "database"
+    ]
+  },
+  {
+    "num": 482,
+    "title": "Hardcoded API keys and secrets in mobile app binaries",
+    "slug": "secrets-in-mobile-binaries",
+    "categories": [
+      "mobile",
+      "secrets-crypto"
+    ]
   }
 ]
