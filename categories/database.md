@@ -60,3 +60,4 @@ Issues:
 - `database-selection-workload-fit`
 - `durability-acknowledgment-policy`
 - `erasure-propagation-secondary-stores`
+- `database-per-service`

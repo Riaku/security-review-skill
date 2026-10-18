@@ -1,7 +1,7 @@
 ---
 name: security-review-skill
 description: >-
-  Systematic security, deployment, and reliability review of a codebase using 626
+  Systematic security, deployment, and reliability review of a codebase using 632
   checklist items across 34 categories and 9 domains, fanned out to parallel
   sub-agents. Use when asked to review a project for security issues, production
   readiness, deployment concerns, compliance posture, or a security audit.
@@ -14,7 +14,7 @@ metadata:
 
 # Security Review Skill
 
-Reviews a codebase and its deployment against 626 checklist items. Each item is a
+Reviews a codebase and its deployment against 632 checklist items. Each item is a
 small reference file with a normative statement written in BCP 14 keywords
 (**MUST / MUST NOT / SHOULD / SHOULD NOT / MAY**). Items are grouped into 28
 categories, and categories into 9 domains so a reviewer only loads what matches
@@ -155,7 +155,7 @@ findings cite consistently (`issues/<slug>.md` is always the citation).
 
 ## Pitfalls
 
-- Never load all 626 items into one context — triage first; that is the whole
+- Never load all 632 items into one context — triage first; that is the whole
   point of the domain layer.
 - Triage wrong is recoverable: the user can add/remove domains before dispatch.
 - Findings are advisory. A `pass` verdict means "no violation found in the code
@@ -167,4 +167,4 @@ findings cite consistently (`issues/<slug>.md` is always the citation).
 ## Verification
 
 `python3 scripts/validate_skill.py` exits 0 with
-`OK: 626 issues, 34 categories, 9 domains`.
+`OK: 632 issues, 34 categories, 9 domains`.

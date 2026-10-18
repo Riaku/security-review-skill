@@ -34,3 +34,4 @@ Issues:
 - `decision-record-provenance`
 - `architecture-doc-adr-coverage`
 - `coding-agent-sandbox-config`
+- `one-off-admin-processes`

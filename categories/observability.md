@@ -44,3 +44,4 @@ Issues:
 - `audit-log-chain-of-custody`
 - `cert-issuance-monitoring`
 - `agent-session-traceability`
+- `logs-as-event-streams`

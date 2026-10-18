@@ -5259,5 +5259,55 @@
       "ai-llm",
       "secrets-crypto"
     ]
+  },
+  {
+    "num": 627,
+    "title": "Backing Services as Attached Resources",
+    "slug": "backing-services-attached-resources",
+    "categories": [
+      "third-party-integrations"
+    ]
+  },
+  {
+    "num": 628,
+    "title": "Strict Build / Release / Run Separation",
+    "slug": "build-release-run-separation",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 629,
+    "title": "Database per Service",
+    "slug": "database-per-service",
+    "categories": [
+      "distributed-systems",
+      "database"
+    ]
+  },
+  {
+    "num": 630,
+    "title": "Architecture Fitness Functions in CI",
+    "slug": "architecture-fitness-functions",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 631,
+    "title": "Logs as Event Streams",
+    "slug": "logs-as-event-streams",
+    "categories": [
+      "observability"
+    ]
+  },
+  {
+    "num": 632,
+    "title": "Admin Tasks as One-Off Processes from the Release",
+    "slug": "one-off-admin-processes",
+    "categories": [
+      "deployment-release",
+      "security-practices"
+    ]
   }
 ]

@@ -22,3 +22,4 @@ Issues:
 - `test-determinism-and-isolation`
 - `self-generated-expected-output`
 - `agent-verification-loop`
+- `architecture-fitness-functions`
