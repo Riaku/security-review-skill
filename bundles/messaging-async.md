@@ -155,9 +155,9 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
-# Kafka Consumer Groups
+# Distinct consumer group per service on partitioned streams
 
-**MUST** assign each application a distinct consumer group ID; sharing one group between services silently splits the message stream.
+**MUST** give each independent service its own consumer group on a partitioned message stream; sharing one group between services silently splits the feed, so neither receives every event (Kafka consumer group IDs are the common case).
 
 **Why:** Two services sharing a group each receive a disjoint partition subset, so neither sees the full event feed — silent data loss.
 

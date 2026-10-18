@@ -5,7 +5,7 @@ domains: [data]
 
 # Idle-in-transaction sessions monitored and killed
 
-**MUST** set a bounded `idle_in_transaction_session_timeout` so sessions holding open transactions without activity are terminated automatically.
+**MUST** bound idle open transactions with a timeout, so that a session holding a transaction without activity is terminated automatically rather than pinning resources indefinitely (PostgreSQL's `idle_in_transaction_session_timeout`, unsafe default `0`, is the common case).
 
 **Why:** A stalled transaction — a crashed app, a forgotten `BEGIN`, a debugger breakpoint — pins old row versions, blocks vacuum, and holds row locks against live traffic for hours. One leaked session can degrade the entire database.
 

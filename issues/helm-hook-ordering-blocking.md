@@ -3,9 +3,9 @@ categories: [containers-k8s, deployment-release]
 domains: [infrastructure]
 ---
 
-# Helm Hook Ordering and Failed-Hook Release Blocking
+# Release hook ordering and failed-hook release blocking
 
-**MUST** set `hook-weight` and `hook-delete-policy` explicitly so migrations run before workloads, and treat a failed hook as a release blocker rather than a warning.
+**MUST** order schema-migration hooks ahead of the workload rollout and treat a failed hook as a release blocker rather than a warning; Helm's `hook-weight` and `hook-delete-policy` annotations are one way to express that ordering.
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 

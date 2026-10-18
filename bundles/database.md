@@ -685,7 +685,7 @@ CREATE TABLE events (
 
 # Idle-in-transaction sessions monitored and killed
 
-**MUST** set a bounded `idle_in_transaction_session_timeout` so sessions holding open transactions without activity are terminated automatically.
+**MUST** bound idle open transactions with a timeout, so that a session holding a transaction without activity is terminated automatically rather than pinning resources indefinitely (PostgreSQL's `idle_in_transaction_session_timeout`, unsafe default `0`, is the common case).
 
 **Why:** A stalled transaction — a crashed app, a forgotten `BEGIN`, a debugger breakpoint — pins old row versions, blocks vacuum, and holds row locks against live traffic for hours. One leaked session can degrade the entire database.
 
@@ -952,7 +952,7 @@ for order in orders:
 
 # Page checksums enabled to catch silent data corruption
 
-**MUST** enable data page checksums (`--data-checksums` at initdb, or vendor equivalent) so bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently.
+**MUST** enable data page checksums, where the engine offers them, at cluster creation so that bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently; PostgreSQL's `--data-checksums` at `initdb` is the common case and cannot be turned on later.
 
 **Why:** Disks and network storage flip bits without complaint. A corrupted index page can return wrong results or stream corruption to replicas. Checksums make the database loud at the first bad read — loud beats wrong.
 
@@ -1055,11 +1055,11 @@ archive_command = 'wal-g wal-push %p'
 
 **Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
-# Postgres VACUUM
+# Automatic database maintenance enabled and tuned
 
-**SHOULD** keep autovacuum enabled and tuned per-table rather than disabling it for hand-rolled cron vacuuming.
+**SHOULD** keep the engine's automatic space-reclamation and maintenance enabled and tuned per table rather than disabling it in favour of hand-rolled cron jobs; PostgreSQL `autovacuum` and its scale factors are the common case.
 
-**Why:** MVCC leaves dead tuples behind; without regular vacuuming, tables bloat, plans degrade, and the transaction ID counter can approach wraparound, forcing emergency single-user mode to avoid corruption.
+**Why:** Superseded row versions accumulate; without regular maintenance tables bloat, plans degrade, and in PostgreSQL the transaction ID counter can approach wraparound, forcing emergency single-user mode to avoid corruption.
 
 **Detect:** Grep configs for `autovacuum = off`, oversized `autovacuum_vacuum_scale_factor`, or `VACUUM FULL` in cron. Check `pg_stat_user_tables` for high `n_dead_tup` and missing per-table `reloptions` on high-churn tables.
 
@@ -1244,7 +1244,7 @@ class UserQuery(db.Query):
 
 # Statement and lock timeouts set explicitly per workload
 
-**SHOULD** configure `statement_timeout` and `lock_timeout` deliberately per role or connection profile instead of leaving unlimited defaults everywhere.
+**SHOULD** configure statement and lock timeouts deliberately per role or connection profile instead of leaving unlimited defaults everywhere; PostgreSQL's `statement_timeout` and `lock_timeout` are the common case.
 
 **Why:** Without a lock timeout, a query queues behind long-running DDL and piles up waiting sessions until the pool collapses. Without a statement timeout, a runaway full-table scan from a bad ORM query pegs CPU and starves latency-sensitive traffic indefinitely.
 
@@ -1408,9 +1408,9 @@ GET /invoices/9f2c7a4e-1b3d-4e5f-8a6b-c0d1e2f3a4b5   # UUIDv4, unguessable
 
 **Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
-# Stalled replication slots accumulating WAL until disk fills
+# Stalled replication retention accumulating log segments until disk fills
 
-**MUST** monitor replication slot retention (`restart_lag`, slot activity) with alerts well below free-disk headroom, since an inactive slot pins WAL the primary cannot recycle.
+**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots, and their `restart_lag`, are the classic case).
 
 **Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
 
