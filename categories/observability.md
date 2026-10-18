@@ -37,3 +37,10 @@ Issues:
 - `data-exfiltration-monitoring`
 - `living-off-the-land`
 - `anomalous-auth-detection`
+- `lateral-movement-detection`
+- `credential-access-detection`
+- `runtime-threat-detection`
+- `admin-activity-review`
+- `audit-log-chain-of-custody`
+- `cert-issuance-monitoring`
+- `agent-session-traceability`

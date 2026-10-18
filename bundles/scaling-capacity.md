@@ -1,4 +1,4 @@
-# scaling-capacity — full checklist (18 items)
+# scaling-capacity — full checklist (20 items)
 
 Scaling behavior and capacity limits.
 
@@ -212,4 +212,24 @@ resource "aws_ebs_volume" "pg" {
 **Detect:** no rate_limit, max_tokens, or budget keys on LLM gateway routes; provider usage alerts not configured.
 
 **References:** OWASP LLM10:2025, CWE-770, CWE-400
+
+# Sticky Sessions & Load-Balancer Affinity
+
+**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+
+# Non-Functional Requirements Traceability
+
+**SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.
+
+**Why:** Untestable "should be fast" requirements hide their violation until production; hard constraints (10M DAU, <200ms p95, 99.99% uptime) make every design choice auditable and every gap visible before launch.
+
+**Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
+
+**References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
 

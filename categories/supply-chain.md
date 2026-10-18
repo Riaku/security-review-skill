@@ -24,3 +24,11 @@ Issues:
 - `mcp-plugin-trust`
 - `vendor-risk-subprocessors`
 - `malware-alerts`
+- `supply-chain-risk-management`
+- `sbom-generation`
+- `build-provenance-attestation`
+- `hermetic-builds`
+- `pinned-ci-actions`
+- `artifact-signing-verification`
+- `broken-link-hijacking`
+- `firmware-signing-secure-boot`

@@ -1,9 +1,9 @@
-# Event Loop Blocking
+# Blocking the Shared Concurrency Primitive
 
-**MUST NOT** run CPU-heavy or synchronous blocking calls inside an async event loop handler.
+**MUST NOT** run CPU-heavy or synchronous blocking calls inside a shared event loop / cooperative-scheduling context.
 
-**Why:** One blocking call stalls every concurrent request on the loop, turning a slow endpoint into a full service outage.
+**Why:** One blocking call stalls every concurrent request on that loop or worker pool, turning a slow endpoint into a full service outage.
 
-**Detect:** `time.sleep(` in async code, sync file/DB/HTTP calls in `async def`, `requests.` inside handlers, missing `run_in_executor`/`spawn_blocking`.
+**Detect:** sleep/sync file/DB/HTTP calls inside async handlers (e.g. `time.sleep` in `async def`, sync HTTP client calls in handlers), missing offload mechanisms (`run_in_executor`, `spawn_blocking`, dedicated worker pool) for blocking work.
 
 **References:** CWE-400, CWE-662, OWASP ASVS 5.3

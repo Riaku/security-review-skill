@@ -8,3 +8,5 @@ Issues:
 - `deep-link-validation`
 - `secrets-in-mobile-binaries`
 - `mobile-reversing-tamper-protection`
+- `push-token-binding`
+- `push-payload-sensitivity`

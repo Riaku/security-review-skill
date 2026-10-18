@@ -38,3 +38,12 @@ Issues:
 - `penetration-testing-cadence`
 - `pii-in-logs`
 - `reidentification-risk`
+- `data-classification-labeling`
+- `tenant-offboarding-data-purge`
+- `privileged-action-attribution`
+- `litigation-hold-capability`
+- `audit-log-chain-of-custody`
+- `pii-propagation-warehouse-lineage`
+- `erasure-propagation-secondary-stores`
+- `data-portability-export`
+- `notebook-output-data-leakage`

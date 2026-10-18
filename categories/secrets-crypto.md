@@ -30,3 +30,9 @@ Issues:
 - `secrets-in-mobile-binaries`
 - `push-protection`
 - `secret-validity-checks`
+- `secrets-rotation-automation`
+- `device-provisioning-identity`
+- `integration-credential-sprawl`
+- `pipeline-orchestrator-credentials`
+- `git-history-secret-remediation`
+- `agent-context-exclusion-file`

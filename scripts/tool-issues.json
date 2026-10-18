@@ -1,0 +1,314 @@
+{
+  "semgrep": [
+    "sql-injection",
+    "xss",
+    "os-command-injection",
+    "ldap-injection",
+    "server-side-template-injection",
+    "insecure-deserialization"
+  ],
+  "codeql": [
+    "sql-injection",
+    "xss",
+    "os-command-injection",
+    "insecure-deserialization",
+    "prototype-pollution",
+    "path-traversal",
+    "ssrf"
+  ],
+  "sonarqube": [
+    "linting-static-analysis",
+    "dead-code",
+    "unit-tests",
+    "code-review-practice"
+  ],
+  "bandit": [
+    "os-command-injection"
+  ],
+  "brakeman": [
+    "sql-injection",
+    "xss",
+    "csrf"
+  ],
+  "gosec": [
+    "os-command-injection",
+    "sql-injection",
+    "weak-crypto-primitives"
+  ],
+  "clippy": [
+    "memory-safety-buffer-overflow",
+    "integer-overflow"
+  ],
+  "spotbugs-find-sec-rules": [
+    "insecure-deserialization",
+    "sql-injection",
+    "xxe-injection"
+  ],
+  "megalinter": [
+    "linting-static-analysis"
+  ],
+  "pre-commit": [
+    "linting-static-analysis"
+  ],
+  "gitleaks": [
+    "secret-scanning",
+    "env-in-gitignore",
+    "secrets-in-ci-logs",
+    "helm-values-plaintext-secrets",
+    "terraform-state-plaintext-secrets"
+  ],
+  "trufflehog": [
+    "secret-scanning",
+    "secret-validity-checks"
+  ],
+  "detect-secrets": [
+    "secret-scanning",
+    "env-in-gitignore"
+  ],
+  "github-push-protection": [
+    "push-protection",
+    "secret-scanning"
+  ],
+  "trivy": [
+    "dependency-vulnerabilities",
+    "image-scanning",
+    "secret-scanning"
+  ],
+  "grype": [
+    "image-scanning",
+    "dependency-vulnerabilities"
+  ],
+  "osv-scanner": [
+    "dependency-vulnerabilities",
+    "malware-alerts"
+  ],
+  "owasp-dependency-check": [
+    "dependency-vulnerabilities"
+  ],
+  "npm-audit": [
+    "dependency-vulnerabilities",
+    "dependency-confusion",
+    "hallucinated-packages"
+  ],
+  "pip-audit": [
+    "dependency-vulnerabilities",
+    "dependency-confusion",
+    "hallucinated-packages"
+  ],
+  "cargo-audit-deny": [
+    "dependency-vulnerabilities",
+    "software-licenses"
+  ],
+  "snyk": [
+    "dependency-vulnerabilities"
+  ],
+  "renovate-dependabot": [
+    "patch-cadence-remediation-sla",
+    "dependency-vulnerabilities",
+    "lockfiles"
+  ],
+  "syft": [
+    "sbom-generation"
+  ],
+  "cosign": [
+    "artifact-signing-verification",
+    "signed-image-admission-enforcement",
+    "artifact-signing-provenance"
+  ],
+  "sigstore": [
+    "artifact-signing-verification",
+    "build-provenance-attestation"
+  ],
+  "in-toto": [
+    "build-provenance-attestation",
+    "supply-chain-risk-management"
+  ],
+  "slsa-provenance": [
+    "build-provenance-attestation",
+    "hermetic-builds",
+    "reproducible-builds"
+  ],
+  "checkov": [
+    "infrastructure-as-code",
+    "pod-security-standards",
+    "cis-benchmarks",
+    "policy-as-code-enforcement"
+  ],
+  "tfsec": [
+    "infrastructure-as-code",
+    "security-groups",
+    "public-s3-buckets"
+  ],
+  "terrascan": [
+    "infrastructure-as-code",
+    "cis-benchmarks"
+  ],
+  "kube-linter": [
+    "pod-security-standards",
+    "automount-serviceaccount-token",
+    "namespace-resource-quota-absent"
+  ],
+  "kubesec": [
+    "pod-security-standards",
+    "privileged-containers-capabilities"
+  ],
+  "prowler": [
+    "cis-benchmarks",
+    "cspm-continuous-scanning",
+    "public-s3-buckets",
+    "security-groups"
+  ],
+  "scoutsuite": [
+    "cspm-continuous-scanning",
+    "cloud-iam-wildcard-policies"
+  ],
+  "cloudsploit": [
+    "cspm-continuous-scanning"
+  ],
+  "iam-access-analyzer": [
+    "dangerous-iam-policies",
+    "cloud-privilege-escalation-paths",
+    "non-human-identity-governance"
+  ],
+  "policy-sentry": [
+    "least-privilege",
+    "dangerous-iam-policies",
+    "cloud-iam-escalation-paths"
+  ],
+  "driftctl": [
+    "infrastructure-drift-detection",
+    "gitops-manual-apply-drift"
+  ],
+  "owasp-zap": [
+    "sql-injection",
+    "xss",
+    "csrf",
+    "open-redirect",
+    "security-headers",
+    "forced-browsing-admin-panels"
+  ],
+  "burp-suite": [
+    "xss",
+    "sql-injection",
+    "business-logic-bypass",
+    "idor",
+    "http-request-smuggling"
+  ],
+  "nuclei": [
+    "exposed-debug-actuator-endpoints",
+    "forced-browsing-admin-panels",
+    "subdomain-takeover",
+    "exposed-data-service-ports",
+    "open-directory-listing"
+  ],
+  "nikto": [
+    "open-directory-listing",
+    "exposed-debug-actuator-endpoints"
+  ],
+  "sqlmap": [
+    "sql-injection"
+  ],
+  "dalfox": [
+    "xss",
+    "ssr-hydration-xss"
+  ],
+  "ffuf": [
+    "forced-browsing-admin-panels",
+    "path-traversal"
+  ],
+  "httpx-katana": [
+    "subdomain-takeover",
+    "broken-link-hijacking"
+  ],
+  "falco": [
+    "runtime-threat-detection",
+    "living-off-the-land",
+    "container-escape-hardening"
+  ],
+  "tetragon": [
+    "runtime-threat-detection",
+    "service-mesh-mtls",
+    "egress-control"
+  ],
+  "sysdig": [
+    "runtime-threat-detection",
+    "profiling"
+  ],
+  "tracee": [
+    "runtime-threat-detection",
+    "container-escape-hardening"
+  ],
+  "docker-bench-security": [
+    "cis-docker-benchmark",
+    "docker-socket-mount",
+    "privileged-containers-capabilities"
+  ],
+  "kube-bench": [
+    "cis-benchmarks",
+    "kubelet-port-protection",
+    "kernel-sysctl-hardening"
+  ],
+  "lynis": [
+    "ssh-hardening",
+    "kernel-sysctl-hardening"
+  ],
+  "afl-plus": [
+    "fuzzing",
+    "memory-safety-buffer-overflow"
+  ],
+  "libfuzzer": [
+    "fuzzing"
+  ],
+  "jazzer": [
+    "fuzzing",
+    "insecure-deserialization"
+  ],
+  "cargo-fuzz": [
+    "fuzzing",
+    "memory-safety-buffer-overflow"
+  ],
+  "atheris": [
+    "fuzzing",
+    "redos"
+  ],
+  "amass": [
+    "attack-surface-management",
+    "subdomain-takeover"
+  ],
+  "subfinder": [
+    "attack-surface-management",
+    "subdomain-takeover"
+  ],
+  "shodan-censys": [
+    "exposed-data-service-ports",
+    "attack-surface-management",
+    "exposed-debug-actuator-endpoints"
+  ],
+  "projectdiscovery-suite": [
+    "subdomain-takeover",
+    "exposed-debug-actuator-endpoints",
+    "forced-browsing-admin-panels"
+  ],
+  "cloudbrute": [
+    "public-s3-buckets",
+    "unauthenticated-data-store-exposure"
+  ],
+  "lighthouse": [
+    "core-web-vitals-budgets",
+    "accessibility-eaa-wcag",
+    "meta-og-tag-completeness",
+    "image-optimization-serving"
+  ],
+  "pagespeed-insights": [
+    "core-web-vitals-budgets",
+    "image-optimization-serving"
+  ],
+  "chrome-devtools-lighthouse-ci": [],
+  "lighthouse-ci": [
+    "lighthouse-ci-performance-budgets",
+    "core-web-vitals-budgets"
+  ],
+  "rich-results-test": [
+    "structured-data-schema-validation"
+  ]
+}

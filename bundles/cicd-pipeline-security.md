@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (19 items)
+# cicd-pipeline-security — full checklist (29 items)
 
 CI/CD system as an attack surface.
 
@@ -193,4 +193,104 @@ CI/CD system as an attack surface.
 **Detect:** `.github/workflows` with `sast`/`semgrep`/`gitleaks` steps, `fail-on: high` in scanner config, pre-commit hooks
 
 **References:** OWASP SAMM Security Testing, MS SDL, OWASP DevSecOps Maturity Model
+
+# Hermetic Builds (no undeclared network/env deps during build)
+
+**SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
+
+**Why:** Non-hermetic builds silently pull mutated packages mid-build, leaving artifacts unreproducible and quietly tamperable.
+
+**Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
+
+**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+
+# Branch Protection & Required Reviews (no direct pushes, enforced approval)
+
+**MUST** block direct pushes to protected branches and require reviewed, up-to-date approvals before merge.
+
+**Why:** Unprotected main branches let one bad or malicious commit ship straight to production, bypassing every downstream control.
+
+**Detect:** grep `enforce_admins`, `required_pull_request_reviews`, `required_status_checks` in repo settings-as-code; CODEOWNERS files.
+
+**References:** OWASP SAMM Code Reviews, NIST SP 800-218 PW.7, CWE-1104, GitHub branch protection docs
+
+# Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
+
+**MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
+
+**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
+
+**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
+
+**References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
+
+# Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
+
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
+
+**Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
+
+**Detect:** grep `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
+
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
+
+# Lighthouse CI Performance Budgets
+
+**SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
+
+**Why:** Untracked Lighthouse scores decay one merge at a time; a CI gate makes regression visible at the commit that caused it.
+
+**Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
+
+**References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
+
+# Breaking-Change Linting in CI
+
+**SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
+
+**Why:** Hand-review misses subtle contract breaks; automated diffing (oasdiff/buf breaking) catches them at the PR that introduces them, before consumers discover at runtime.
+
+**Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
+
+**References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
+
+# Review-Bot Neutral-Status Trap
+
+**MUST** verify that AI review gates actually fail on unresolved findings — a required status that reports neutral/success while findings remain open does not block merges.
+
+**Why:** Cursor documents this explicitly (findings default to neutral; you must enable fail-on-unresolved); GitHub Copilot defaults to "Comment" not "Approve" — teams often believe they have an AI gate they don't have.
+
+**Detect:** branch protection requiring a bot check whose conclusion set lacks failure-on-findings; severity thresholds set above real risk; review config where unresolved ≠ failed.
+
+**References:** Cursor Bugbot status semantics, GitHub Copilot review default-Comment behavior, Gemini severity-threshold filtering
+
+# Review-Config Immutable to the Reviewee
+
+**MUST** read review-automation config from the base branch (or otherwise protect it) so a PR cannot change how it is reviewed, and place CODEOWNERS on all review config.
+
+**Why:** Cursor reads bugbot.yaml from the base branch specifically "so a PR cannot change how Bugbot reviews itself" — the general principle: review controls must not be attacker-controlled by the code under review.
+
+**Detect:** review-config files (bot configs, thresholds, CODEOWNERS for review paths) read from PR head instead of base; missing CODEOWNERS on review automation config.
+
+**References:** Cursor Bugbot base-branch config pattern, GitHub "requester cannot approve own agent's PR" rule
+
+# Advisory-vs-Enforced Agent Checks
+
+**MUST** implement every must-happen-every-time agent rule as a deterministic hook (pre-commit, post-edit lint, blocked paths, secret-scan-before-write) — not as instruction text the model may skip.
+
+**Why:** The whole ecosystem converged on this distinction: "hooks are deterministic; CLAUDE.md is advisory" (Anthropic). Policy claimed in instruction files with no hook behind it is unenforced policy wearing a costume.
+
+**Detect:** security rules present only in instruction-file text with no corresponding hook/CI enforcement; hook config (e.g. .claude/settings.json) empty while policy claims enforcement.
+
+**References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
+
+# Unattended-Agent Automation Governance
+
+**MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
+
+**Why:** Unattended agents run with no human per task — GitHub documents a dedicated automations-risk section; DeepSeek's review harness gives inbound webhook auth ZERO outbound authority by design.
+
+**Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
+
+**References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
 

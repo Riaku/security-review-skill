@@ -1,4 +1,4 @@
-# deployment-release — full checklist (22 items)
+# deployment-release — full checklist (28 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -260,4 +260,64 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 **Detect:** grep readiness/liveness probes and init containers for backend-wait logic; check app boot for missing retry/backoff on connection errors and `initContainers` gating startup.
 
 **References:** Kubernetes init containers & probes docs, AWS retry/backoff patterns, CWE-756 missing custom error handling, resilience4j patterns
+
+# Infrastructure Drift Detection (live state vs IaC diffed and alerted)
+
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
+
+**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
+
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
+
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
+
+# Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
+
+**SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
+
+**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines and can't be trusted or reproduced during incidents.
+
+**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
+
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
+
+# Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
+
+**SHOULD** express security requirements as executable policies (OPA/Rego, Sentinel, Cloud Custodian) enforced in CI and admission, not wikis.
+
+**Why:** Documented policies rot and get ignored; code-enforced gates make non-compliant infrastructure physically unable to deploy.
+
+**Detect:** grep `policy.rego`, `opa check`, `sentinel`, `conftest`, Gatekeeper `ConstraintTemplate`, admission webhook policy configs.
+
+**References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
+
+# Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
+
+**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
+
+**Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
+
+**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
+
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+
+# Stale-Flag Expiry Policy
+
+**SHOULD** give every feature flag an owner and expiry; flags past expiry trigger cleanup tickets, and long-lived flags are treated as config debt.
+
+**Why:** Zombie flags accumulate branches that no one understands, each a latent config-drift and dead-code hazard; flag sprawl measurably degrades codebase health.
+
+**Detect:** grep flag definitions for expiry/owner metadata; count flags older than N months without cleanup; check flag service (LaunchDarkly/Unleash) for stale-flag reports and kill dates.
+
+**References:** Feature-Toggle engineering (Fowler), LaunchDarkly stale-flag governance, Unleash flag lifecycle
+
+# Kill-Switch Verification
+
+**SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
+
+**Why:** An untested kill-switch is a rumor: the flag path may be dead code, the config may not propagate, or the dependency may be the very thing that's failing.
+
+**Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
+
+**References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
 

@@ -1,4 +1,4 @@
-# web-client-security — full checklist (18 items)
+# web-client-security — full checklist (23 items)
 
 Browser-side attack surface and defenses.
 
@@ -94,13 +94,13 @@ Browser-side attack surface and defenses.
 
 **References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
 
-# Prototype Pollution
+# Unsafe Merge Into Shared Runtime State
 
-**MUST** validate and reject `__proto__`, `constructor`, and `prototype` keys before recursive merge or deep-set operations on untrusted input.
+**MUST** allow-list keys before recursive merge or deep-set of untrusted input into shared, inherited, or prototype-level objects/registries.
 
-**Why:** Polluted `Object.prototype` leaks attacker-controlled properties app-wide, enabling XSS, auth bypass, and RCE in Node.
+**Why:** Poisoning shared state (JS `Object.prototype` via `__proto__` is the classic case; unsafe map/dict merge into shared config or caches is the same class) leaks attacker-controlled values to every later consumer — enabling XSS, auth bypass, and RCE.
 
-**Detect:** grep `__proto__`, `merge(`, `deepSet`, `set(obj, key` in utils; check lodash versions <4.17.21 and JSON.parse-then-merge flows.
+**Detect:** grep merge/deep-set helpers fed request bodies (`merge(`, `deepSet`, `set(obj, key`); check `__proto__`/`constructor`/`prototype` key filtering; audit known-vulnerable library versions (e.g. lodash <4.17.21) and JSON.parse-then-merge flows.
 
 **References:** CWE-1321, OWASP A08:2021, OWASP Prototype Pollution Prevention Cheat Sheet
 
@@ -196,4 +196,54 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 **Detect:** grep `localStorage.setItem`, `sessionStorage.setItem` for `token`, `jwt`, `password`, `secret`, `ssn`; review auth libraries' persistence config.
 
 **References:** CWE-922, OWASP A02:2021, OWASP Authentication Cheat Sheet (token storage)
+
+# Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
+
+**MUST NOT** route users via unvalidated `redirect`/`returnUrl` parameters; destinations must pass an allow-list check.
+
+**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or OAuth codes externally.
+
+**Detect:** grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` without allow-list validation.
+
+**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Redirects Cheat Sheet, RFC 6819
+
+# Exposed Debug & Actuator Endpoints
+
+**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+
+**Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
+
+**Detect:** grep routes/config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`; DAST-scan prod for `/env`, `/heapdump`, `/debug`, `/server-status`.
+
+**References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
+
+# Forced Browsing & Unprotected Admin Panels
+
+**MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).
+
+**Why:** Scanners (Nuclei, ffuf) find default-open admin UIs constantly; "security by obscure path" fails against wordlist enumeration.
+
+**Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
+
+**References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
+
+# Broken Link & Dependency Hijacking
+
+**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
+
+**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
+
+**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
+
+**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+
+# Third-Party Tag & Script Governance
+
+**MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
+
+**Why:** Marketing tags execute with your page's full privileges — a compromised tag is a Magecart-class supply-chain attack on your users' sessions and payment data.
+
+**Detect:** list `<script src>` third-party hosts in templates; check CSP `script-src` uses nonces/hashes not `unsafe-inline`/wildcards; look for tag-manager sprawl without an approval list.
+
+**References:** OWASP Magecart/Client-side supply chain, CSP script-src guidance, W3C CSP Level 3
 

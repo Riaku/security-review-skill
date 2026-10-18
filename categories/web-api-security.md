@@ -46,3 +46,12 @@ Issues:
 - `imds-metadata-abuse`
 - `sensitive-endpoint-exposure`
 - `webhook-replay-protection`
+- `code-fuzzing`
+- `unvalidated-redirects-forwards`
+- `exposed-debug-actuator-endpoints`
+- `forced-browsing-admin-panels`
+- `open-directory-listing`
+- `sticky-sessions-lb-affinity`
+- `tenant-id-spoofing-api-boundary`
+- `email-template-injection`
+- `saas-webhook-consumer-trust`

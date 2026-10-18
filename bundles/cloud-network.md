@@ -1,4 +1,4 @@
-# cloud-network — full checklist (51 items)
+# cloud-network — full checklist (65 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -1171,4 +1171,144 @@ resource "aws_iam_policy" "ci" {
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
 **References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
+
+# Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
+
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
+
+**Why:** Over-broad grants turn one leaked credential into full account takeover; PassRole hides escalation inside "read-only" roles.
+
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`.
+
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+
+# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
+
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
+
+**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
+
+**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
+
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
+
+# CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)
+
+**MUST** scan cloud configuration continuously for misconfigurations instead of relying on point-in-time audits.
+
+**Why:** Public buckets, open security groups, and disabled logging appear between audits; attackers scan for them constantly.
+
+**Detect:** grep for `prowler`, `scoutsuite`, `cloudsploit`, `checkov --framework cloud`, scheduled posture-scan jobs with alert routing.
+
+**References:** NIST CS2 (SP 800-223), CIS Cloud Benchmarks, NIST SP 800-53 CM-6, CWE-16
+
+# Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
+
+**SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
+
+**Why:** Without motion alerts, dwell time stretches to months while one foothold becomes total compromise of crown jewels.
+
+**Detect:** grep detection rules for `T1021`, `remote_services`, `admin_shares`, `pass-the-hash`, unusual-login Sigma/YARA-L rules.
+
+**References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma rules, GuardDuty UnauthorizedAccess
+
+# Infrastructure Drift Detection (live state vs IaC diffed and alerted)
+
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
+
+**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
+
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
+
+**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
+
+# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
+
+**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
+
+**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
+
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
+
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319
+
+# Attack-Path Analysis (reachable chains from exposure to crown jewels)
+
+**SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, cutting shortest chains first.
+
+**Why:** Findings look minor in isolation; it's the composed chain — public bucket to role trust to database — that actually breaches you.
+
+**Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
+
+**References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
+
+# Egress Control (outbound traffic allow-listed; exfil paths narrowed)
+
+**SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
+
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all reach arbitrary endpoints.
+
+**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
+
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
+
+# Open Directory Listing
+
+**SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
+
+**Why:** `Autoindex on` / bucket list permission turns one known filename pattern into a full inventory of everything ever placed there.
+
+**Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
+
+**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+
+# Exposed Data-Service Ports
+
+**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+
+**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+
+**References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
+
+# Zero Trust Architecture
+
+**SHOULD** verify every request explicitly regardless of network location — no implicit trust for internal networks, device posture checked, per-request authorization, least-privilege service identity.
+
+**Why:** Perimeter-based trust collapses the moment one host is compromised; zero trust contains blast radius by treating every call as coming from an attacker until proven otherwise.
+
+**Detect:** look for mTLS everywhere / service mesh, identity-aware proxies (BeyondCorp-style), absence of "trusted internal network" CIDR allow-lists as sole authz, continuous session validation rather than once-at-connect.
+
+**References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
+
+# CAA Record Policy
+
+**SHOULD** publish CAA records restricting which CAs may issue certificates for the domain, with issuewild and iodef contact configured.
+
+**Why:** Without CAA, any trusted CA can issue for your domain — a compromised or careless CA anywhere is a MITM cert waiting to happen; CAA narrows that to chosen issuers.
+
+**Detect:** `dig CAA <domain>` and check issuewild coverage (missing issuewild = wildcards blocked for all CAs — verify intent); confirm CAA covers all public cert domains including delegated subdomains.
+
+**References:** RFC 8659 CAA, CA/B Forum baseline requirements, letsencrypt CAA documentation
+
+# Certificate-Issuance Monitoring
+
+**SHOULD** alert on any certificate issued for your domains (CT-log monitoring via Certstream/CRT.sh) to detect unauthorized issuance fast.
+
+**Why:** Rogue/mistaken certs for your domain appear in Certificate Transparency logs publicly — if you're not watching, you learn about the fake cert from an outage or a breach report.
+
+**Detect:** check for CT-monitoring service/cron (Censys monitor, Certstream consumer, crt.sh search alerts) covering all brand domains and wildcard patterns; verify alert routing to a responder.
+
+**References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
+
+# Agent Egress Allowlist & Proxy Control
+
+**MUST** route coding-agent egress (model calls, MCP-over-HTTP, web fetch) through an explicit proxy/allowlist — and repo-supplied env must never control where agent traffic goes.
+
+**Why:** DeepSeek's harness refuses to start rather than let a cloned repo set proxy vars; OpenAI uses allowlist-first domain rules where deny always wins — repo-controlled egress is an exfiltration path.
+
+**Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
+
+**References:** DeepSeek harness proxy-refusal pattern, OpenAI Codex domain rules, GitHub agent internet firewall, Cursor fixed-destination egress
 

@@ -34,12 +34,13 @@ DOMAINS = {
         ],
     },
     "data": {
-        "scope": "Databases, replication, distributed data, queues and async pipelines.",
+        "scope": "Databases, replication, distributed data, queues, async pipelines, and data/ETL platforms.",
         "signals": [
             "Migration directories (alembic, flyway, prisma, goose, atlas)",
             "DB clients/drivers in dependencies (postgres, mysql, mongo, redis clients)",
             "Queue clients (kafka, rabbitmq, sqs, celery, sidekiq, bull)",
             "CDC/streaming tooling (debezium, flink)",
+            "Data-pipeline tooling (airflow/ dags/ dir, dbt projects, spark jobs, glue, dataflow)",
         ],
         "quickmap": [
             "Any SQL-backed service → database",
@@ -112,6 +113,18 @@ DOMAINS = {
             "Health data → regulatory-frameworks (HIPAA) + compliance-privacy",
         ],
     },
+    "iot-embedded": {
+        "scope": "Firmware, embedded devices, and device-paired services.",
+        "signals": [
+            "Firmware toolchains: PlatformIO.ini, ESP-IDF, Zephyr, mbed, MCUboot, linker scripts for MCU targets",
+            "C/C++ bare-metal or RTOS code, .bin/.elf firmware artifacts, OTA update services",
+            "Hardware SDKs paired with mobile/cloud apps (BLE/Matter/MQTT device code)",
+        ],
+        "quickmap": [
+            "Any firmware/OTA/device-provisioning code → iot-embedded, supply-chain",
+            "Device + cloud backend → also backend categories for the paired API",
+        ],
+    },
 }
 
 
@@ -145,6 +158,13 @@ def cat_scope(cat: str) -> str:
         "mobile": "Mobile client security.",
         "hardening-benchmarks": "CIS/STIG-style configuration baselines.",
         "regulatory-frameworks": "Audit and regulatory regimes.",
+        "seo-web-quality": "Search visibility, crawl/index hygiene, and page experience (Google Search Central, CWV, Lighthouse).",
+        "multi-tenancy": "Tenant isolation across API, data, cache, queues, and lifecycle.",
+        "email-security": "Mail authentication, brand protection, and email-content trust.",
+        "iot-embedded": "Firmware, OTA, and device-identity security.",
+        "third-party-integrations": "SaaS integration surface: scopes, tags, webhooks, credentials.",
+        "data-pipelines": "ETL/orchestration security: pipeline creds, lineage, backfill safety.",
+        "documentation-quality": "Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.",
     }[cat]
 
 
@@ -154,16 +174,19 @@ def main() -> int:
     INDEX = {
         "backend": ["web-api-security", "authentication", "authorization-access-control",
                     "secrets-crypto", "api-design", "correctness-pitfalls",
-                    "testing-strategy", "security-practices"],
-        "frontend": ["web-client-security"],
-        "data": ["database", "distributed-systems", "messaging-async"],
+                    "testing-strategy", "security-practices", "multi-tenancy",
+                    "third-party-integrations", "documentation-quality"],
+        "frontend": ["web-client-security", "seo-web-quality"],
+        "data": ["database", "distributed-systems", "messaging-async", "data-pipelines"],
         "infrastructure": ["supply-chain", "cloud-network", "deployment-release",
                           "containers-k8s", "cicd-pipeline-security"],
         "reliability": ["resilience", "caching", "observability", "sre-incidents",
                        "scaling-capacity"],
-        "governance": ["compliance-privacy", "ai-llm", "payments-fraud"],
+        "governance": ["compliance-privacy", "ai-llm", "payments-fraud",
+                      "email-security"],
         "mobile": ["mobile"],
         "government-compliance": ["hardening-benchmarks", "regulatory-frameworks"],
+        "iot-embedded": ["iot-embedded"],
     }
     all_cats = sorted({c for t in TOPICS for c in t["categories"]})
     mapped = {c for lst in INDEX.values() for c in lst}
@@ -200,8 +223,25 @@ def main() -> int:
             parts += [body, ""]
         (ROOT / "bundles" / f"{cat}.md").write_text("\n".join(parts) + "\n")
 
+    # Tool -> issues reverse index from scripts/tool-issues.json (standard
+    # machine-readable mapping; single source for tool cross-references).
+    mapping = json.loads((ROOT / "scripts" / "tool-issues.json").read_text())
+    slug_set = {t["slug"] for t in TOPICS}
+    for tool, slugs in mapping.items():
+        missing = [s for s in slugs if s not in slug_set]
+        assert not missing, f"tool {tool} references unknown issues: {missing}"
+    (ROOT / "references").mkdir(exist_ok=True)
+    lines = ["# Tool → Issues Index", "",
+             "Generated from `scripts/tool-issues.json`. Do not hand-edit.", ""]
+    for tool in sorted(mapping):
+        lines.append(f"## {tool}")
+        lines += [f"- `issues/{s}.md`" for s in mapping[tool]]
+        lines.append("")
+    (ROOT / "references" / "tool-index.md").write_text("\n".join(lines) + "\n")
+
     print(f"Wrote {len(DOMAINS)} domains, {len(all_cats)} categories "
-          f"(+ {len(all_cats)} bundles) covering {len(TOPICS)} topics")
+          f"(+ {len(all_cats)} bundles, {len(mapping)} tool mappings) "
+          f"covering {len(TOPICS)} topics")
     return 0
 
 

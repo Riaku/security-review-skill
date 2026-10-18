@@ -25,3 +25,9 @@ Issues:
 - `dual-write-backfill-cutover`
 - `code-data-rollback-mismatch`
 - `startup-dependency-ordering`
+- `infrastructure-drift-detection`
+- `immutable-infrastructure`
+- `policy-as-code-enforcement`
+- `artifact-signing-verification`
+- `stale-flag-expiry-policy`
+- `kill-switch-verification`

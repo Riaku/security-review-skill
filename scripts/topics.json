@@ -1782,7 +1782,7 @@
   },
   {
     "num": 222,
-    "title": "Event Loop Blocking",
+    "title": "Blocking the Shared Concurrency Primitive",
     "slug": "event-loop-blocking",
     "categories": [
       "correctness-pitfalls"
@@ -1790,7 +1790,7 @@
   },
   {
     "num": 223,
-    "title": "Unhandled Promise Rejections",
+    "title": "Unhandled Async Errors",
     "slug": "unhandled-promise-rejections",
     "categories": [
       "correctness-pitfalls"
@@ -2086,7 +2086,7 @@
   },
   {
     "num": 260,
-    "title": "Prototype Pollution",
+    "title": "Unsafe Merge Into Shared Runtime State",
     "slug": "prototype-pollution",
     "categories": [
       "web-client-security"
@@ -4190,6 +4190,1074 @@
     "slug": "mobile-reversing-tamper-protection",
     "categories": [
       "mobile"
+    ]
+  },
+  {
+    "num": 502,
+    "title": "Verification-Level Tiers (ASVS L1/L2/L3: basic / standard / privileged-app requirements)",
+    "slug": "verification-level-tiers",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 503,
+    "title": "Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)",
+    "slug": "supply-chain-risk-management",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 504,
+    "title": "SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)",
+    "slug": "sbom-generation",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 505,
+    "title": "Build Provenance Attestation (SLSA-style signed provenance for artifacts)",
+    "slug": "build-provenance-attestation",
+    "categories": [
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 506,
+    "title": "Hermetic Builds (no undeclared network/env deps during build)",
+    "slug": "hermetic-builds",
+    "categories": [
+      "supply-chain",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 507,
+    "title": "Branch Protection & Required Reviews (no direct pushes, enforced approval)",
+    "slug": "branch-protection-required-reviews",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 508,
+    "title": "Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)",
+    "slug": "pinned-ci-actions",
+    "categories": [
+      "cicd-pipeline-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 509,
+    "title": "Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)",
+    "slug": "code-fuzzing",
+    "categories": [
+      "testing-strategy",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 510,
+    "title": "Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)",
+    "slug": "dangerous-iam-policies",
+    "categories": [
+      "cloud-network",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 511,
+    "title": "Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)",
+    "slug": "cloud-privilege-escalation-paths",
+    "categories": [
+      "cloud-network",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 512,
+    "title": "CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)",
+    "slug": "cspm-continuous-scanning",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 513,
+    "title": "Data Classification & Labeling (PII/confidential tagged at rest and in pipelines)",
+    "slug": "data-classification-labeling",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 514,
+    "title": "Backup Verification Drills (scheduled restore tests, not just backup jobs)",
+    "slug": "backup-verification-drills",
+    "categories": [
+      "sre-incidents",
+      "database"
+    ]
+  },
+  {
+    "num": 515,
+    "title": "Lateral Movement Detection (post-compromise horizontal motion in cloud/host)",
+    "slug": "lateral-movement-detection",
+    "categories": [
+      "observability",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 516,
+    "title": "Credential Access Detection (keylogging, token theft, credential dumping patterns)",
+    "slug": "credential-access-detection",
+    "categories": [
+      "observability",
+      "authentication"
+    ]
+  },
+  {
+    "num": 517,
+    "title": "Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)",
+    "slug": "unvalidated-redirects-forwards",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 520,
+    "title": "Infrastructure Drift Detection (live state vs IaC diffed and alerted)",
+    "slug": "infrastructure-drift-detection",
+    "categories": [
+      "deployment-release",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 521,
+    "title": "Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)",
+    "slug": "immutable-infrastructure",
+    "categories": [
+      "deployment-release",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 522,
+    "title": "Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)",
+    "slug": "runtime-threat-detection",
+    "categories": [
+      "containers-k8s",
+      "observability"
+    ]
+  },
+  {
+    "num": 523,
+    "title": "Service Mesh / Service-to-Service mTLS (identity for internal traffic)",
+    "slug": "service-mesh-mtls",
+    "categories": [
+      "containers-k8s",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 524,
+    "title": "Secrets Rotation Automation (scheduled/triggered rotation without downtime)",
+    "slug": "secrets-rotation-automation",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 525,
+    "title": "Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)",
+    "slug": "non-human-identity-governance",
+    "categories": [
+      "authentication",
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 526,
+    "title": "Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)",
+    "slug": "policy-as-code-enforcement",
+    "categories": [
+      "cicd-pipeline-security",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 527,
+    "title": "Attack-Path Analysis (reachable chains from exposure to crown jewels)",
+    "slug": "attack-path-analysis",
+    "categories": [
+      "cloud-network",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 528,
+    "title": "Post-Incident Review Practice (blameless postmortems with tracked actions)",
+    "slug": "post-incident-review-practice",
+    "categories": [
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 529,
+    "title": "Egress Control (outbound traffic allow-listed; exfil paths narrowed)",
+    "slug": "egress-control",
+    "categories": [
+      "cloud-network",
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 530,
+    "title": "Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)",
+    "slug": "artifact-signing-verification",
+    "categories": [
+      "supply-chain",
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 531,
+    "title": "Least-Frequently-Used Permission Review (periodic entitlement pruning)",
+    "slug": "least-used-permission-review",
+    "categories": [
+      "authorization-access-control"
+    ]
+  },
+  {
+    "num": 530,
+    "title": "Exposed Debug & Actuator Endpoints (Spring /env, Django DEBUG, pprof)",
+    "slug": "exposed-debug-actuator-endpoints",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 531,
+    "title": "Container Escape Hardening (seccomp, read-only rootfs, syscall surface)",
+    "slug": "container-escape-hardening",
+    "categories": [
+      "containers-k8s"
+    ]
+  },
+  {
+    "num": 532,
+    "title": "Forced Browsing & Unprotected Admin Panels",
+    "slug": "forced-browsing-admin-panels",
+    "categories": [
+      "web-api-security",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 533,
+    "title": "Open Directory Listing",
+    "slug": "open-directory-listing",
+    "categories": [
+      "web-api-security",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 534,
+    "title": "Broken Link & Dependency Hijacking",
+    "slug": "broken-link-hijacking",
+    "categories": [
+      "web-client-security",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 535,
+    "title": "Exposed Data-Service Ports (Redis/Elastic/Mongo/Docker API)",
+    "slug": "exposed-data-service-ports",
+    "categories": [
+      "cloud-network",
+      "database"
+    ]
+  },
+  {
+    "num": 536,
+    "title": "Core Web Vitals Budgets (LCP/INP/CLS at p75)",
+    "slug": "core-web-vitals-budgets",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 537,
+    "title": "Google Search Central Compliance (spam policies, no cloaking)",
+    "slug": "google-search-central-compliance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 538,
+    "title": "Structured Data Schema.org Validation (JSON-LD, rich results)",
+    "slug": "structured-data-schema-validation",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 539,
+    "title": "Robots.txt & noindex Governance (staging must be noindex)",
+    "slug": "robots-txt-noindex-governance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 540,
+    "title": "Canonical URL Handling (one URL per resource)",
+    "slug": "canonical-url-handling",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 541,
+    "title": "Hreflang & Internationalization Signals",
+    "slug": "hreflang-internationalization",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 542,
+    "title": "Crawler-Renderable Content (SSR/prerender for JS apps)",
+    "slug": "crawler-renderable-content",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 543,
+    "title": "Lighthouse CI Performance Budgets (PR-gated)",
+    "slug": "lighthouse-ci-performance-budgets",
+    "categories": [
+      "seo-web-quality",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 544,
+    "title": "Image Optimization & Modern Serving (WebP/AVIF, srcset, lazy)",
+    "slug": "image-optimization-serving",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 545,
+    "title": "Redirect Chain & Status Hygiene (no chains, no soft-404)",
+    "slug": "redirect-chain-status-hygiene",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 546,
+    "title": "XML Sitemap Maintenance (canonical-only, accurate lastmod)",
+    "slug": "xml-sitemap-maintenance",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 547,
+    "title": "Index Bloat & Faceted-URL Control",
+    "slug": "index-bloat-faceted-urls",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 548,
+    "title": "Meta & OG Tag Completeness (unique titles, social previews)",
+    "slug": "meta-og-tag-completeness",
+    "categories": [
+      "seo-web-quality"
+    ]
+  },
+  {
+    "num": 549,
+    "title": "Database Selection by Workload (CAP class fit per workload)",
+    "slug": "database-selection-workload-fit",
+    "categories": [
+      "database"
+    ]
+  },
+  {
+    "num": 550,
+    "title": "Sticky Sessions & Load-Balancer Affinity",
+    "slug": "sticky-sessions-lb-affinity",
+    "categories": [
+      "scaling-capacity",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 551,
+    "title": "Priority Queues & Head-of-Line Blocking",
+    "slug": "priority-queues-head-of-line-blocking",
+    "categories": [
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 552,
+    "title": "Durability Acknowledgment Policy (ack only after durable persist)",
+    "slug": "durability-acknowledgment-policy",
+    "categories": [
+      "database",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 553,
+    "title": "Non-Functional Requirements Traceability",
+    "slug": "nfr-traceability",
+    "categories": [
+      "security-practices",
+      "scaling-capacity"
+    ]
+  },
+  {
+    "num": 554,
+    "title": "Fail-Secure Configuration (fail closed, never fail open)",
+    "slug": "fail-secure-configuration",
+    "categories": [
+      "security-practices",
+      "resilience"
+    ]
+  },
+  {
+    "num": 555,
+    "title": "Secure by Default Shipping (MFA/logging/SSO out-of-box, not paywalled)",
+    "slug": "secure-by-default-shipping",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 556,
+    "title": "Zero Trust Architecture (no implicit network trust)",
+    "slug": "zero-trust-architecture",
+    "categories": [
+      "cloud-network",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 557,
+    "title": "Defense-in-Depth Layering (independent control layers per asset)",
+    "slug": "defense-in-depth-layering",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 558,
+    "title": "Tenant-ID Spoofing at API Boundary",
+    "slug": "tenant-id-spoofing-api-boundary",
+    "categories": [
+      "multi-tenancy",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 559,
+    "title": "Cross-Tenant Cache Key Collision",
+    "slug": "cross-tenant-cache-key-collision",
+    "categories": [
+      "multi-tenancy",
+      "caching"
+    ]
+  },
+  {
+    "num": 560,
+    "title": "Tenant Offboarding Data Purge",
+    "slug": "tenant-offboarding-data-purge",
+    "categories": [
+      "multi-tenancy",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 561,
+    "title": "Shared-Queue Tenant Isolation",
+    "slug": "shared-queue-tenant-isolation",
+    "categories": [
+      "multi-tenancy",
+      "messaging-async"
+    ]
+  },
+  {
+    "num": 562,
+    "title": "BIMI & VMC Certificates",
+    "slug": "bimi-vmc-certificates",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 563,
+    "title": "MTA-STS & TLS Reporting",
+    "slug": "mta-sts-tls-reporting",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 564,
+    "title": "Lookalike-Domain Monitoring",
+    "slug": "lookalike-domain-monitoring",
+    "categories": [
+      "email-security"
+    ]
+  },
+  {
+    "num": 565,
+    "title": "Email-Template Injection",
+    "slug": "email-template-injection",
+    "categories": [
+      "email-security",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 566,
+    "title": "Firmware Signing & Secure Boot",
+    "slug": "firmware-signing-secure-boot",
+    "categories": [
+      "iot-embedded",
+      "supply-chain"
+    ]
+  },
+  {
+    "num": 567,
+    "title": "OTA Update Channel Integrity & Rollback Protection",
+    "slug": "ota-update-integrity-rollback-protection",
+    "categories": [
+      "iot-embedded"
+    ]
+  },
+  {
+    "num": 568,
+    "title": "Device Provisioning Identity",
+    "slug": "device-provisioning-identity",
+    "categories": [
+      "iot-embedded",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 569,
+    "title": "OAuth Third-Party Scope Minimization",
+    "slug": "oauth-third-party-scope-minimization",
+    "categories": [
+      "third-party-integrations",
+      "authentication"
+    ]
+  },
+  {
+    "num": 570,
+    "title": "Third-Party Tag & Script Governance",
+    "slug": "third-party-tag-script-governance",
+    "categories": [
+      "third-party-integrations",
+      "web-client-security"
+    ]
+  },
+  {
+    "num": 571,
+    "title": "SaaS Webhook Consumer Trust",
+    "slug": "saas-webhook-consumer-trust",
+    "categories": [
+      "third-party-integrations",
+      "web-api-security"
+    ]
+  },
+  {
+    "num": 572,
+    "title": "Integration Credential Sprawl",
+    "slug": "integration-credential-sprawl",
+    "categories": [
+      "third-party-integrations",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 573,
+    "title": "Privileged-Action Attribution",
+    "slug": "privileged-action-attribution",
+    "categories": [
+      "security-practices",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 574,
+    "title": "Break-Glass Access Procedure",
+    "slug": "break-glass-access-procedure",
+    "categories": [
+      "security-practices",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 575,
+    "title": "Admin Activity Review",
+    "slug": "admin-activity-review",
+    "categories": [
+      "security-practices",
+      "observability"
+    ]
+  },
+  {
+    "num": 576,
+    "title": "Litigation Hold Capability",
+    "slug": "litigation-hold-capability",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 577,
+    "title": "Audit-Log Chain of Custody",
+    "slug": "audit-log-chain-of-custody",
+    "categories": [
+      "compliance-privacy",
+      "observability"
+    ]
+  },
+  {
+    "num": 578,
+    "title": "Push-Token Binding & Rotation",
+    "slug": "push-token-binding",
+    "categories": [
+      "mobile",
+      "authentication"
+    ]
+  },
+  {
+    "num": 579,
+    "title": "Push-Payload Sensitivity",
+    "slug": "push-payload-sensitivity",
+    "categories": [
+      "mobile"
+    ]
+  },
+  {
+    "num": 580,
+    "title": "Stale-Flag Expiry Policy",
+    "slug": "stale-flag-expiry-policy",
+    "categories": [
+      "deployment-release"
+    ]
+  },
+  {
+    "num": 581,
+    "title": "Kill-Switch Verification",
+    "slug": "kill-switch-verification",
+    "categories": [
+      "deployment-release",
+      "resilience"
+    ]
+  },
+  {
+    "num": 582,
+    "title": "OpenAPI\u2013Implementation Drift Check",
+    "slug": "openapi-implementation-drift-check",
+    "categories": [
+      "api-design",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 583,
+    "title": "Breaking-Change Linting in CI",
+    "slug": "breaking-change-linting-ci",
+    "categories": [
+      "api-design",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 584,
+    "title": "Pipeline-Orchestrator Credential Sprawl",
+    "slug": "pipeline-orchestrator-credentials",
+    "categories": [
+      "data-pipelines",
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 585,
+    "title": "PII Propagation & Warehouse Lineage",
+    "slug": "pii-propagation-warehouse-lineage",
+    "categories": [
+      "data-pipelines",
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 586,
+    "title": "Backfill Idempotency at Pipeline Scale",
+    "slug": "backfill-idempotency",
+    "categories": [
+      "data-pipelines",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 587,
+    "title": "Erasure Propagation to Secondary Stores",
+    "slug": "erasure-propagation-secondary-stores",
+    "categories": [
+      "compliance-privacy",
+      "database"
+    ]
+  },
+  {
+    "num": 588,
+    "title": "Data Portability Export Mechanics",
+    "slug": "data-portability-export",
+    "categories": [
+      "compliance-privacy"
+    ]
+  },
+  {
+    "num": 589,
+    "title": "Automated A11y Gate in CI",
+    "slug": "automated-a11y-gate-in-ci",
+    "categories": [
+      "seo-web-quality",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 590,
+    "title": "CAA Record Policy",
+    "slug": "caa-record-policy",
+    "categories": [
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 591,
+    "title": "Certificate-Issuance Monitoring",
+    "slug": "cert-issuance-monitoring",
+    "categories": [
+      "cloud-network",
+      "observability"
+    ]
+  },
+  {
+    "num": 592,
+    "title": "Ledger Invariant Checks",
+    "slug": "ledger-invariant-checks",
+    "categories": [
+      "payments-fraud",
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 593,
+    "title": "Reconciliation Runbook",
+    "slug": "reconciliation-runbook",
+    "categories": [
+      "payments-fraud",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 594,
+    "title": "DST-Transition Behavior Test",
+    "slug": "dst-transition-behavior-test",
+    "categories": [
+      "correctness-pitfalls",
+      "sre-incidents"
+    ]
+  },
+  {
+    "num": 595,
+    "title": "Interactive-Session Artifact Leakage",
+    "slug": "notebook-output-data-leakage",
+    "categories": [
+      "compliance-privacy",
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 596,
+    "title": "Git-History Secret Remediation",
+    "slug": "git-history-secret-remediation",
+    "categories": [
+      "secrets-crypto"
+    ]
+  },
+  {
+    "num": 597,
+    "title": "Data Version Pinning",
+    "slug": "data-version-pinning",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 598,
+    "title": "Raw-Data Immutability",
+    "slug": "raw-data-immutability",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 599,
+    "title": "Config-Example Template Drift",
+    "slug": "config-example-template-drift",
+    "categories": [
+      "correctness-pitfalls"
+    ]
+  },
+  {
+    "num": 600,
+    "title": "Test Determinism & Isolation",
+    "slug": "test-determinism-and-isolation",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 601,
+    "title": "Self-Generated Expected Output",
+    "slug": "self-generated-expected-output",
+    "categories": [
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 602,
+    "title": "Proportionate QA Tiering",
+    "slug": "proportionate-qa-tiering",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 603,
+    "title": "Dual-Run Output Equivalence",
+    "slug": "dual-run-output-equivalence",
+    "categories": [
+      "data-pipelines"
+    ]
+  },
+  {
+    "num": 604,
+    "title": "Decision-Record Provenance",
+    "slug": "decision-record-provenance",
+    "categories": [
+      "security-practices"
+    ]
+  },
+  {
+    "num": 605,
+    "title": "AI-Code Ownership Policy",
+    "slug": "ai-code-ownership-policy",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 606,
+    "title": "BCP 14 Keyword Usage (RFC 2119 + RFC 8174)",
+    "slug": "bcp14-keyword-usage",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 607,
+    "title": "Developer-Doc Style Consistency",
+    "slug": "dev-doc-style-consistency",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 608,
+    "title": "Comments Explain Why, Not What",
+    "slug": "comments-explain-why",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 609,
+    "title": "Docs-Code Synchronization",
+    "slug": "docs-code-synchronization",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 610,
+    "title": "Single-Source Documentation",
+    "slug": "single-source-documentation",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 611,
+    "title": "Inclusive & Accessible Documentation",
+    "slug": "inclusive-documentation",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 612,
+    "title": "Runnable README",
+    "slug": "runnable-readme",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 613,
+    "title": "Architecture Doc & ADR Coverage",
+    "slug": "architecture-doc-adr-coverage",
+    "categories": [
+      "documentation-quality",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 614,
+    "title": "Simplified Technical English for Procedures",
+    "slug": "simplified-technical-english",
+    "categories": [
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 615,
+    "title": "Agent Verification Loop (Executable Done-When)",
+    "slug": "agent-verification-loop",
+    "categories": [
+      "ai-llm",
+      "testing-strategy"
+    ]
+  },
+  {
+    "num": 616,
+    "title": "Coding-Agent Sandbox & Permission-Mode Review",
+    "slug": "coding-agent-sandbox-config",
+    "categories": [
+      "ai-llm",
+      "security-practices"
+    ]
+  },
+  {
+    "num": 617,
+    "title": "Agent Instruction-File Review Surface",
+    "slug": "agent-instruction-file-review",
+    "categories": [
+      "ai-llm",
+      "documentation-quality"
+    ]
+  },
+  {
+    "num": 618,
+    "title": "Agent Session-Log Traceability",
+    "slug": "agent-session-traceability",
+    "categories": [
+      "ai-llm",
+      "observability"
+    ]
+  },
+  {
+    "num": 619,
+    "title": "Review-Bot Neutral-Status Trap",
+    "slug": "review-bot-neutral-status-trap",
+    "categories": [
+      "cicd-pipeline-security",
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 620,
+    "title": "Review-Config Immutable to the Reviewee",
+    "slug": "review-config-immutable-to-reviewee",
+    "categories": [
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 621,
+    "title": "Advisory-vs-Enforced Agent Checks",
+    "slug": "advisory-vs-enforced-agent-checks",
+    "categories": [
+      "ai-llm",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 622,
+    "title": "Agent Egress Allowlist & Proxy Control",
+    "slug": "agent-egress-allowlist",
+    "categories": [
+      "ai-llm",
+      "cloud-network"
+    ]
+  },
+  {
+    "num": 623,
+    "title": "Agent Session Hygiene",
+    "slug": "agent-session-hygiene",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 624,
+    "title": "Cross-Model Review Diversity",
+    "slug": "cross-model-review-diversity",
+    "categories": [
+      "ai-llm"
+    ]
+  },
+  {
+    "num": 625,
+    "title": "Unattended-Agent Automation Governance",
+    "slug": "unattended-agent-automation-governance",
+    "categories": [
+      "ai-llm",
+      "cicd-pipeline-security"
+    ]
+  },
+  {
+    "num": 626,
+    "title": "Agent Context-Exclusion Files",
+    "slug": "agent-context-exclusion-file",
+    "categories": [
+      "ai-llm",
+      "secrets-crypto"
     ]
   }
 ]

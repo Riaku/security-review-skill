@@ -22,3 +22,15 @@ Issues:
 - `ai-generated-code-review`
 - `embedding-inversion-vector-stores`
 - `shadow-ai-governance`
+- `ai-code-ownership-policy`
+- `agent-verification-loop`
+- `coding-agent-sandbox-config`
+- `agent-instruction-file-review`
+- `agent-session-traceability`
+- `review-bot-neutral-status-trap`
+- `advisory-vs-enforced-agent-checks`
+- `agent-egress-allowlist`
+- `agent-session-hygiene`
+- `cross-model-review-diversity`
+- `unattended-agent-automation-governance`
+- `agent-context-exclusion-file`

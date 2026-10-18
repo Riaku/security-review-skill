@@ -1,4 +1,4 @@
-# mobile — full checklist (5 items)
+# mobile — full checklist (7 items)
 
 Mobile client security.
 
@@ -53,4 +53,24 @@ Mobile client security.
 **Detect:** grep `SafetyNet`/`Play Integrity`, `jailbreak`/`rootbeer`, `isDebuggerConnected`, `ptrace`, `frida`; verify Play Integrity / App Attest server-side validation exists.
 
 **References:** OWASP MASVS-RESILIENCE-1..4, CWE-919, MAS Testing Guide Tampering and Reverse Engineering
+
+# Push-Token Binding & Rotation
+
+**MUST** bind APNs/FCM device tokens to the authenticated user+device and invalidate on logout/account change; never accept a token from an unauthenticated registration.
+
+**Why:** Unbound push tokens let an attacker register their device against someone's account (token swap) and receive their notifications — 2FA codes, account alerts, private messages.
+
+**Detect:** grep push registration endpoints for auth requirement and user+device binding; check logout path unregisters tokens; flag token storage without account association or per-install rotation.
+
+**References:** OWASP MASVS-AUTH, APNs/FCM security guidance, push-token hijacking CVEs
+
+# Push-Payload Sensitivity
+
+**MUST NOT** put secrets, tokens, full PII, or account-identifying detail in push notification payloads (they are stored/transmitted by third-party OS infrastructure and shown on lock screens).
+
+**Why:** Push bodies pass through Apple/Google infrastructure and render on unlocked screens; a notification with a magic-login link or full card number is a shoulder-surf and relay attack.
+
+**Detect:** grep push payload construction for tokens, codes, amounts, addresses; verify payloads are content-neutral ("You have a new message — open the app") with sensitive detail fetched in-app.
+
+**References:** OWASP MASVS-STORAGE, APNs payload security guidance, lock-screen disclosure studies
 

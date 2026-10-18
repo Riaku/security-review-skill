@@ -54,3 +54,17 @@ Issues:
 - `data-exfiltration-monitoring`
 - `attack-surface-management`
 - `attack-surface-reduction`
+- `dangerous-iam-policies`
+- `cloud-privilege-escalation-paths`
+- `cspm-continuous-scanning`
+- `lateral-movement-detection`
+- `infrastructure-drift-detection`
+- `service-mesh-mtls`
+- `attack-path-analysis`
+- `egress-control`
+- `open-directory-listing`
+- `exposed-data-service-ports`
+- `zero-trust-architecture`
+- `caa-record-policy`
+- `cert-issuance-monitoring`
+- `agent-egress-allowlist`

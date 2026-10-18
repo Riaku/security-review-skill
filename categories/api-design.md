@@ -24,3 +24,5 @@ Issues:
 - `token-revocation-logout`
 - `excessive-data-exposure`
 - `crd-missing-openapi-validation`
+- `openapi-implementation-drift-check`
+- `breaking-change-linting-ci`

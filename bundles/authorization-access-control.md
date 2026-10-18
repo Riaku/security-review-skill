@@ -1,4 +1,4 @@
-# authorization-access-control — full checklist (16 items)
+# authorization-access-control — full checklist (20 items)
 
 Who may do what: RBAC, RLS, least privilege.
 
@@ -225,4 +225,44 @@ resource "aws_iam_policy" "ci" {
 **Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
 
 **References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+
+# Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
+
+**MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
+
+**Why:** Over-broad grants turn one leaked credential into full account takeover; PassRole hides escalation inside "read-only" roles.
+
+**Detect:** grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`.
+
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence
+
+# Cloud Privilege-Escalation Paths (cross-role/cross-account escalation graph reviewed)
+
+**SHOULD** periodically compute the role-to-role and cross-account escalation graph, pruning every path from low privilege to admin.
+
+**Why:** Individually reasonable grants compose into escalation ladders (create-role, assume-role, modify-trust) no single-policy review catches.
+
+**Detect:** run pmapper `analyze`, cloudsplaining cross-account reports; grep trust policies for `"AWS": "*"`.
+
+**References:** AWS IAM Access Analyzer, NIST SP 800-53 AC-3/AC-6, CWE-269, Cloudsplaining, Azure AD escalation analysis
+
+# Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
+
+**MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.
+
+**Why:** Machine identities outnumber humans 50:1 and are rarely reviewed; orphaned service accounts become attackers' favorite door.
+
+**Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
+
+**References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
+
+# Least-Frequently-Used Permission Review (periodic entitlement pruning)
+
+**SHOULD** periodically revoke entitlements unused over a defined window (e.g. 90 days), starting with the broadest grants.
+
+**Why:** Unused permissions are pure attack surface: they never help legitimate work yet sit ready for any compromised account.
+
+**Detect:** grep access-review exports for `unused_permissions`, `last_used_timestamp`, IAM Access Advisor reports.
+
+**References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
 

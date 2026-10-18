@@ -1,4 +1,4 @@
-# supply-chain — full checklist (21 items)
+# supply-chain — full checklist (29 items)
 
 Dependencies, artifacts, build provenance.
 
@@ -213,4 +213,84 @@ Dependencies, artifacts, build provenance.
 **Detect:** Dependabot/Renovate security alerts enabled in repo settings; `npm audit --audit-level=moderate`; subscribed to GitHub security advisories for owned packages.
 
 **References:** OWASP A06:2021, npm malware policy, GitHub Advisory Database, CWE-506
+
+# Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
+
+**MUST** vet critical suppliers at onboarding and re-review their security posture on a fixed cadence.
+
+**Why:** One compromised or negligent vendor becomes your breach; SolarWinds showed a single upstream can poison thousands of downstream users.
+
+**Detect:** grep `vendor_risk`, `supplier_assessment`, `C-SCRM` in third-party inventories, due-diligence records, SBOM ingestion configs.
+
+**References:** NIST SP 800-161, NIST SSDF (SP 800-218), ISO/IEC 27036
+
+# SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)
+
+**MUST** generate a CycloneDX or SPDX SBOM per build and retain it long enough to answer "were we affected?" in incidents.
+
+**Why:** Without per-build inventories, Log4Shell-style emergencies become weeks of guesswork instead of minutes of lookup.
+
+**Detect:** grep `bom-*.json`, `cyclonedx`, `spdx`, `syft`, `cdxgen` in CI pipelines and artifact repos.
+
+**References:** NTIA SBOM minimum elements, NIST SP 800-161, OWASP CycloneDX, CWE-1357
+
+# Build Provenance Attestation (SLSA-style signed provenance for artifacts)
+
+**MUST** attach signed provenance (source, builder, inputs) to every published artifact so consumers can verify its origin.
+
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream.
+
+**Detect:** grep `slsa`, `provenance`, `cosign attest`, `sigstore`, `in-toto` in CI configs and release steps.
+
+**References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 PW.4, CWE-494
+
+# Hermetic Builds (no undeclared network/env deps during build)
+
+**SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
+
+**Why:** Non-hermetic builds silently pull mutated packages mid-build, leaving artifacts unreproducible and quietly tamperable.
+
+**Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
+
+**References:** SLSA build isolation, NIST SP 800-218 PW.4, Reproducible Builds project, CWE-494
+
+# Pinned CI Actions & Third-Party Pinned Dependencies (SHA-pinned, not floating tags)
+
+**MUST** reference third-party CI actions by immutable commit SHA, never mutable tags like `@v1`.
+
+**Why:** A floating tag can be retagged overnight to attacker code running with your CI's tokens, as tj-actions proved.
+
+**Detect:** grep workflow YAML for `uses: owner/repo@v` vs `@<40-hex-sha>`; renovate and dependabot pin settings.
+
+**References:** OWASP CI/CD Top 10 CICD-SEC-4, GitHub Actions hardening, SLSA provenance, CWE-829
+
+# Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
+
+**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
+
+**Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
+
+**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
+
+**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 PW.6, CWE-347
+
+# Broken Link & Dependency Hijacking
+
+**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
+
+**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
+
+**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
+
+**References:** OWASP WSTG-BUSLOGIC broken-link hijacking, CWE-427, npm/CDN takeover incidents
+
+# Firmware Signing & Secure Boot
+
+**MUST** sign firmware images and enforce signature verification at boot (secure boot chain) so unsigned or tampered images cannot run on devices.
+
+**Why:** Unsigned firmware is the ultimate persistence layer — an attacker who flashes once owns the device permanently and it survives every software remediation.
+
+**Detect:** grep build pipeline for signing steps (`osslsigncode`, `imgtool`, HSM calls); check bootloader verify-enforce (not just verify-log) mode; look for dev/test keys shipped in production images.
+
+**References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 (IOT ASSET), Arm TrustZone/UEFI Secure Boot docs
 

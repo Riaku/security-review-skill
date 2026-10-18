@@ -1,4 +1,4 @@
-# database — full checklist (52 items)
+# database — full checklist (57 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -1196,4 +1196,54 @@ export = anonymize(df, k=20,
 ```
 
 **References:** GDPR Recital 26 (anonymised vs pseudonymised), NIST SP 800-188 De-Identifying Datasets, Narayanan & Shmatikov
+
+# Backup Verification Drills (scheduled restore tests, not just backup jobs)
+
+**MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
+
+**Why:** Backups never restored are unverified guesses; ransomware crews routinely destroy backup targets too.
+
+**Detect:** grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks.
+
+**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+
+# Exposed Data-Service Ports
+
+**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+
+**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+
+**References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
+
+# Database Selection by Workload (CAP Class Fit)
+
+**SHOULD** choose each datastore deliberately for its workload's CAP class and access pattern — CP for transactions/permissions/inventory, AP for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale.
+
+**Why:** A wrong datastore choice surfaces years later as a forced migration ("the worst pain imaginable"): an AP store backing balances, or a CP store blocking feeds during partitions.
+
+**Detect:** review architecture docs/ADRs for datastore-per-workload rationale; grep for one store serving contradictory workloads (e.g. Redis as system-of-record, Postgres for firehose telemetry).
+
+**References:** CAP theorem, DDIA ch. 4–9, AWS/Google datastore selection guides
+
+# Durability Acknowledgment Policy
+
+**MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
+
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries.
+
+**Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
+
+**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
+
+# Erasure Propagation to Secondary Stores
+
+**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
+
+**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
+
+**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
+
+**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 

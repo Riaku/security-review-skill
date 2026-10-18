@@ -19,3 +19,7 @@ Issues:
 - `joiner-mover-leaver`
 - `privileged-access-management`
 - `segregation-of-duties`
+- `dangerous-iam-policies`
+- `cloud-privilege-escalation-paths`
+- `non-human-identity-governance`
+- `least-used-permission-review`

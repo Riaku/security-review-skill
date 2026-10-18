@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (13 items)
+# testing-strategy — full checklist (19 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -133,4 +133,64 @@ Test pyramid, practices, and quality gates.
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely.
 
 **References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs
+
+# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
+
+**SHOULD** continuously fuzz parsers, decoders, and untrusted-input handlers with AFL/libFuzzer-style harnesses.
+
+**Why:** Hand-written tests miss edge cases; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
+
+**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
+
+**References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+
+# OpenAPI–Implementation Drift Check
+
+**SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.
+
+**Why:** A spec that lies is worse than no spec: consumers code against documented behavior the implementation quietly diverged from, and breaking changes ship "documented as safe."
+
+**Detect:** check CI for contract tests (Dredd, Schemathesis, Prism, schemathesis fuzz mode), response-middleware spec validation, or oasdiff between released spec versions.
+
+**References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
+
+# Automated A11y Gate in CI
+
+**SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
+
+**Why:** One-line accessibility checklist items change nothing; a CI gate on actual scans makes regressions visible at the PR and compounds into real WCAG compliance over time.
+
+**Detect:** check CI for `@axe-core/playwright`, `jest-axe`, pa11y-ci configs with violation thresholds; verify scans cover key routes, not just the homepage; check manual a11y review for what automation misses (keyboard flows, screen-reader semantics).
+
+**References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
+
+# Test Determinism & Isolation
+
+**MUST** make tests deterministic: fixed seeds for randomized tests, no shared mutable state between tests, order-independent execution.
+
+**Why:** Nondeterministic tests silently under-verify — a security assertion that passes only in certain orders or seeds gives false confidence, and intermittent failures train teams to re-run rather than investigate.
+
+**Detect:** check for seeded randomness in test fixtures (seed recorded/pinned), test-order randomization enabled with passing results, shared globals/singletons mutated across test files.
+
+**References:** test-isolation practice, flaky-test prevention guidance, property-based testing seed discipline
+
+# Self-Generated Expected Output
+
+**MUST NOT** derive a test's expected output from the code under test (golden files generated from current implementation, assertions copied from actual run).
+
+**Why:** A test whose expectation came from the implementation can never catch the implementation being wrong — it enshrines today's bug as tomorrow's contract, especially dangerous for security golden-hashes.
+
+**Detect:** review golden/expected files for how they were produced (independent source vs generated-from-implementation); flag "update goldens" workflows without review of what changed and why.
+
+**References:** testing anti-pattern literature (tautological tests), characterization-testing caveats
+
+# Agent Verification Loop (Executable Done-When)
+
+**MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
+
+**Why:** All major vendors converge on this: an agent without an executable check ships plausible-looking code indefinitely ("if you can't verify it, don't ship it" — Anthropic; "Done when" — GLM; easy-to-verify RL — Qwen).
+
+**Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
+
+**References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
 

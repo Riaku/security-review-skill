@@ -20,3 +20,17 @@ Issues:
 - `shift-left-security`
 - `secure-by-design`
 - `security-champions`
+- `verification-level-tiers`
+- `attack-path-analysis`
+- `nfr-traceability`
+- `fail-secure-configuration`
+- `secure-by-default-shipping`
+- `zero-trust-architecture`
+- `defense-in-depth-layering`
+- `privileged-action-attribution`
+- `break-glass-access-procedure`
+- `admin-activity-review`
+- `proportionate-qa-tiering`
+- `decision-record-provenance`
+- `architecture-doc-adr-coverage`
+- `coding-agent-sandbox-config`

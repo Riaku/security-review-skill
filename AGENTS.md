@@ -43,3 +43,20 @@ Rules for AI agents (and humans) working in this repository.
   Cheat Sheet**.
 - Government/regulatory, cloud-native, ops, and discovery-agent additions: curated
   for this skill.
+
+## Detect-line convention
+
+Every issue's `Detect:` line is one of three kinds — label-free, but authors
+should keep each line honestly one kind:
+
+1. **grep-pattern** — concrete tokens a reviewer can grep
+   (`tenant_id` from request body, `verify=False`, `unsafe-inline`).
+   Preferred wherever a code pattern exists.
+2. **command-procedure** — an external check with a named command/tool
+   (`dig CAA <domain>`, `oasdiff breaking`, `kube-bench`). Name the tool.
+3. **judgment** — things only a reader can decide (process, org, runtime
+   state). Keep these rare and state what artifact the judgment reads.
+
+Never write a Detect line that is none of the three (e.g. "check for good
+security"). If a concern can't be detected from any artifact, it belongs
+in `needs-human` guidance, not a Detect line.

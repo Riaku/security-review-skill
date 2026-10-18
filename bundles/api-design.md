@@ -1,4 +1,4 @@
-# api-design — full checklist (21 items)
+# api-design — full checklist (23 items)
 
 Protocol and API contract design concerns.
 
@@ -224,4 +224,24 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `kubectl get crd -o yaml` showing empty `validation.openAPIV3Schema`; CRDs missing `x-kubernetes-*` structural markers.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
+
+# OpenAPI–Implementation Drift Check
+
+**SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.
+
+**Why:** A spec that lies is worse than no spec: consumers code against documented behavior the implementation quietly diverged from, and breaking changes ship "documented as safe."
+
+**Detect:** check CI for contract tests (Dredd, Schemathesis, Prism, schemathesis fuzz mode), response-middleware spec validation, or oasdiff between released spec versions.
+
+**References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
+
+# Breaking-Change Linting in CI
+
+**SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
+
+**Why:** Hand-review misses subtle contract breaks; automated diffing (oasdiff/buf breaking) catches them at the PR that introduces them, before consumers discover at runtime.
+
+**Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
+
+**References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
 

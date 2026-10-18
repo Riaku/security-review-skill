@@ -1,8 +1,13 @@
 # Security & Deployment Review — {repo_name}
 
-**Date:** {date} · **Skill:** security-review-skill v0.1.0
+**Date:** {date} · **Skill:** security-review-skill
 **Domains reviewed:** {domains}
 **Categories dispatched:** {categories} · **Items covered:** {item_count}
+**Depth profile:** {quick | standard | deep} · **Baseline diffed against:** {baseline_date or "none (first review)"}
+
+## Verdict: {BLOCK | SHIP-WITH-CONDITIONS | SHIP}
+
+{one-line justification per the verdict gates in references/severity-rubric.md}
 
 ## Summary
 
@@ -47,4 +52,4 @@ completeness): {na_summary}
 
 ---
 Findings are advisory: a `pass` means no violation was found in the code read,
-not a guarantee. Attribution: original list by @ghumare64; see AGENTS.md.
+not a guarantee. Attribution: original list by @ghumare64; see SOURCES.md.

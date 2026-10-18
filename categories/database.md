@@ -55,3 +55,8 @@ Issues:
 - `code-data-rollback-mismatch`
 - `unauthenticated-data-store-exposure`
 - `reidentification-risk`
+- `backup-verification-drills`
+- `exposed-data-service-ports`
+- `database-selection-workload-fit`
+- `durability-acknowledgment-policy`
+- `erasure-propagation-secondary-stores`

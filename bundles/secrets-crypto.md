@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (27 items)
+# secrets-crypto — full checklist (33 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -297,4 +297,64 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 **Detect:** No post-rotation validation step, `git leak` findings closed without provider-side revoke check, missing `aws sts get-caller-identity` / GitHub `/rate_limit` verification.
 
 **References:** OWASP ASVS V2.10.4, GitHub secret scanning docs, AWS IAM key revocation runbooks
+
+# Secrets Rotation Automation (scheduled/triggered rotation without downtime)
+
+**MUST** rotate secrets automatically on schedule and immediately on suspected exposure, without manual steps or downtime.
+
+**Why:** A leaked static secret stays valid forever; automation shrinks the attacker's usable window to the rotation interval.
+
+**Detect:** grep `rotation_period_days`, Secrets Manager rotation lambdas, Vault `ttl`/`lease`, ExternalSecret `refreshInterval`.
+
+**References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6
+
+# Device Provisioning Identity
+
+**SHOULD** provision each device with a unique, hardware-bound identity (per-device cert/keys, TPM/secure element) — never shared fleet credentials.
+
+**Why:** One leaked shared device key or cert compromises every unit in the field; unique identities enable individual revocation and per-device attribution.
+
+**Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
+
+**References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
+
+# Integration Credential Sprawl
+
+**SHOULD** centralize third-party SaaS credentials in a secrets manager with owner, scope, and expiry metadata — no credentials in shared docs, wikis, or personal accounts.
+
+**Why:** SaaS credential sprawl (one per engineer, pasted in runbooks, never rotated) makes offboarding impossible to audit and breach blast radius unknowable.
+
+**Detect:** inventory integration creds: count vs documented owners; grep wikis/runbooks/env files for SaaS API keys; check rotation history per integration; flag creds tied to individual employees.
+
+**References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
+
+# Pipeline-Orchestrator Credential Sprawl
+
+**MUST** centralize credentials used by data orchestrators (Airflow connections, dbt profiles, Spark configs) in a secrets backend — not in DAG files, connections tables in plaintext, or CI env dumps.
+
+**Why:** Orchestrators hold keys to every warehouse, bucket, and DB in the estate; their configs are broadly readable by data teams, making them the flattest credential attack surface in the company.
+
+**Detect:** grep DAGs/profiles for inline passwords, check Airflow Connections backend (secrets env/backend vs metadata DB plaintext), review dbt `profiles.yml` handling, inspect Spark `--conf` for hardcoded AWS keys.
+
+**References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
+
+# Git-History Secret Remediation
+
+**MUST** remediate a committed secret by rewriting history (filter-repo/BFG), rotating the credential, and notifying collaborators to re-clone — deleting the file in a new commit is NOT remediation.
+
+**Why:** The secret remains fully recoverable from history after deletion; the rotation must cover the entire exposure window since the key was public from first push, not last commit.
+
+**Detect:** on any discovered secret: verify history was rewritten (not just deleted-at-HEAD), credential rotated with expiry-before-exposure-window logic, forks/clones notified; judgment on incident record completeness.
+
+**References:** GitHub secret removal guidance, git-filter-repo/BFG docs, credential-exposure incident practice
+
+# Agent Context-Exclusion Files
+
+**SHOULD** maintain agent exclusion files (.cursorignore, .aiexclude, equivalent) covering secrets, credentials, and sensitive modules so they never enter agent context or indexes.
+
+**Why:** Anything the agent can read, it can echo into code, logs, or a PR; exclusion files are the gitignore of the AI-context layer and their absence means sensitive paths are agent-reachable by default.
+
+**Detect:** repo root lacks .cursorignore/.aiexclude while secrets/sensitive dirs are agent-reachable; index covers branches/patterns beyond the stable set; exclusion list missing recently-added sensitive paths.
+
+**References:** Cursor .cursorignore, Gemini .aiexclude, GitHub content-exclusion controls
 

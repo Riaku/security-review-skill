@@ -21,3 +21,8 @@ Issues:
 - `cross-site-websocket-hijacking`
 - `postmessage-origin-validation`
 - `browser-storage-sensitive-data`
+- `unvalidated-redirects-forwards`
+- `exposed-debug-actuator-endpoints`
+- `forced-browsing-admin-panels`
+- `broken-link-hijacking`
+- `third-party-tag-script-governance`

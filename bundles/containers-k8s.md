@@ -1,4 +1,4 @@
-# containers-k8s — full checklist (41 items)
+# containers-k8s — full checklist (46 items)
 
 Container and Kubernetes runtime configuration.
 
@@ -466,4 +466,54 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
 **References:** OWASP ASVS 14.2, CWE-770, NIST SP 800-184 multi-tenancy, Kubernetes QoS/ResourceQuota docs
+
+# Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
+
+**SHOULD NOT** patch running servers over SSH; rebuild and redeploy images so every host matches a known, auditable template.
+
+**Why:** Hand-mutated snowflake hosts hide drift from hardening baselines and can't be trusted or reproduced during incidents.
+
+**Detect:** grep SSH-to-prod patch runbooks vs image pipelines: Packer bake jobs, launch-template updates, `strategy: Recreate`.
+
+**References:** NIST SP 800-53 CM-2/CM-6, CIS Control 2
+
+# Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
+
+**MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
+
+**Why:** Scanners only see what you built; attackers operate in what's running, unnoticed inside otherwise "secure" images.
+
+**Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
+
+**References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
+
+# Service Mesh / Service-to-Service mTLS (identity for internal traffic)
+
+**SHOULD** enforce mutual TLS between internal services so east-west traffic carries identity, not network-location trust.
+
+**Why:** A flat internal network lets whoever breaches one service impersonate any other and sniff cleartext credentials.
+
+**Detect:** grep mesh configs: `mtls.mode: STRICT`, `PeerAuthentication`, `security.istio.io`, Linkerd/Consul `tls: ENABLE`, mesh policy manifests.
+
+**References:** NIST SP 800-207 Zero Trust, Istio mTLS docs, CIS Kubernetes Benchmark 5.x, CWE-319
+
+# Egress Control (outbound traffic allow-listed; exfil paths narrowed)
+
+**SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
+
+**Why:** Default-open egress is the exfiltration highway: malware, reverse shells, and data staging all reach arbitrary endpoints.
+
+**Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
+
+**References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
+
+# Container Escape Hardening
+
+**MUST** minimize syscall surface (seccomp profiles, no unmasked dangerous syscalls, read-only rootfs) so a compromised container cannot break out to the host.
+
+**Why:** Kernel exploits and permissive seccomp/unconfined profiles turn one broken container into full node compromise — the classic escape path Falco and Tracee alert on.
+
+**Detect:** grep manifests for `seccompProfile`, `unconfined`, `unmasked`, `privileged: true`, `CAP_SYS_*`; run `docker run` escape test suites (e.g. cdve).
+
+**References:** CIS Docker 5.3, MITRE ATT&CK T1611, Pod Security Standards restricted
 

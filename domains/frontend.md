@@ -8,6 +8,7 @@ Detection signals:
 
 Categories:
 - `web-client-security`
+- `seo-web-quality`
 
 ## Stack quick-map
 

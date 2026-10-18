@@ -44,3 +44,8 @@ Issues:
 - `zombie-process-reaping`
 - `registry-outage-resilience`
 - `noisy-neighbor-isolation`
+- `immutable-infrastructure`
+- `runtime-threat-detection`
+- `service-mesh-mtls`
+- `egress-control`
+- `container-escape-hardening`

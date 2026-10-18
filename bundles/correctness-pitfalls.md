@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (30 items)
+# correctness-pitfalls — full checklist (35 items)
 
 Language-agnostic code-level failure modes.
 
@@ -104,25 +104,25 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-362, CWE-366, OWASP ASVS 12.3
 
-# Event Loop Blocking
+# Blocking the Shared Concurrency Primitive
 
-**MUST NOT** run CPU-heavy or synchronous blocking calls inside an async event loop handler.
+**MUST NOT** run CPU-heavy or synchronous blocking calls inside a shared event loop / cooperative-scheduling context.
 
-**Why:** One blocking call stalls every concurrent request on the loop, turning a slow endpoint into a full service outage.
+**Why:** One blocking call stalls every concurrent request on that loop or worker pool, turning a slow endpoint into a full service outage.
 
-**Detect:** `time.sleep(` in async code, sync file/DB/HTTP calls in `async def`, `requests.` inside handlers, missing `run_in_executor`/`spawn_blocking`.
+**Detect:** sleep/sync file/DB/HTTP calls inside async handlers (e.g. `time.sleep` in `async def`, sync HTTP client calls in handlers), missing offload mechanisms (`run_in_executor`, `spawn_blocking`, dedicated worker pool) for blocking work.
 
 **References:** CWE-400, CWE-662, OWASP ASVS 5.3
 
-# Unhandled Promise Rejections
+# Unhandled Async Errors
 
-**MUST** attach a rejection handler to every promise/async call, or register a global unhandled-rejection hook that fails loudly.
+**MUST** attach an error handler to every async operation (promise/task/future/callback), or register a global unhandled-error hook that fails loudly.
 
-**Why:** An unhandled rejection can silently kill a worker or, in older Node versions, crash the process mid-request with no trace.
+**Why:** An unhandled async error can silently kill a worker, drop a transaction mid-flight, or vanish with no trace — the async analogue of a swallowed exception, and far easier to introduce.
 
-**Detect:** `.then(` without `.catch(`, `await` outside try/catch in entry points, missing `process.on('unhandledRejection')`, floating promises with no `void`.
+**Detect:** `.then(` without `.catch(`, `await` outside try/catch at entry points, tasks spawned without error propagation, missing global hooks (e.g. `process.on('unhandledRejection')`), floating async calls with no awaited/voided result.
 
-**References:** CWE-584, CWE-248, Node.js unhandledRejection docs
+**References:** CWE-584, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
 
 # Integer Overflow
 
@@ -303,4 +303,54 @@ Language-agnostic code-level failure modes.
 **Detect:** Container PID 1 is a shell or app without `--reaping`; `docker top`/`ps` shows defunct `<defunct>` entries; no tini/dumb-init in image.
 
 **References:** CIS Docker 5.x, CWE-459, tini/dumb-init docs, Kubernetes init container patterns
+
+# Durability Acknowledgment Policy
+
+**MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
+
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries.
+
+**Detect:** review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance.
+
+**References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off
+
+# Backfill Idempotency at Pipeline Scale
+
+**MUST** make pipeline backfills/re-runs idempotent: reprocessing a date range produces the same result, never duplicates or double-counts.
+
+**Why:** Every data team eventually re-runs a week of jobs; non-idempotent backfills double revenue figures or duplicate records that take months to discover and unwind.
+
+**Detect:** check jobs use MERGE/upsert/overwrite-partition semantics vs append; look for run-id dedupe keys; review backfill runbook for "safe to re-run" statement per job.
+
+**References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
+
+# Ledger Invariant Checks
+
+**MUST** enforce ledger invariants continuously: sum of debits equals sum of credits, no negative balances where prohibited, every money movement has a counter-entry.
+
+**Why:** Silent ledger drift (rounding, partial writes, bugs) compounds into real financial loss; systems without invariant checks discover errors at reconciliation time — too late to cheaply fix.
+
+**Detect:** check for invariant assertions in the ledger layer (double-entry enforcement, balance checks in transactions), scheduled integrity queries, and alarm (not just log) on violation.
+
+**References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
+
+# DST-Transition Behavior Test
+
+**SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
+
+**Why:** Cron jobs silently skip or double-fire at DST boundaries; "runs every 2h" becomes 23 or 25 runs twice a year — a bug that hides for months and hits exactly when you're asleep.
+
+**Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
+
+**References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
+
+# Config-Example Template Drift
+
+**SHOULD** keep a committed example config (`config.example.*`) listing every key the code reads, with the real config untracked — and verify in review that the example hasn't drifted from actual required keys.
+
+**Why:** A stale example config is a trap: new deployers hit mysterious failures or silently miss security-relevant settings (TLS flags, auth toggles) that were added to code but never to the template.
+
+**Detect:** diff example-config keys vs keys the code actually reads (grep config-access calls); flag example files missing entirely or missing recently-added settings; CI template-vs-code key comparison where tooling exists.
+
+**References:** twelve-factor config separation, analysis-code config-template practice
 

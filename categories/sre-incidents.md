@@ -37,3 +37,8 @@ Issues:
 - `sec-cyber-disclosure`
 - `threat-intelligence`
 - `soar-orchestration`
+- `backup-verification-drills`
+- `post-incident-review-practice`
+- `break-glass-access-procedure`
+- `reconciliation-runbook`
+- `dst-transition-behavior-test`

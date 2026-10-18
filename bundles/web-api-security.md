@@ -1,4 +1,4 @@
-# web-api-security — full checklist (43 items)
+# web-api-security — full checklist (52 items)
 
 Server-side API and web application attack surface.
 
@@ -539,4 +539,94 @@ iptables -t nat -A OUTPUT -d 169.254.169.254 -j REJECT
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
+
+# Code Fuzzing for Attack Surfaces (AFL/libFuzzer on parsers and untrusted-input paths)
+
+**SHOULD** continuously fuzz parsers, decoders, and untrusted-input handlers with AFL/libFuzzer-style harnesses.
+
+**Why:** Hand-written tests miss edge cases; fuzzing surfaces the memory-corruption bugs attackers actively weaponize in parsers.
+
+**Detect:** grep for `libFuzzer`, `afl-fuzz`, `oss-fuzz`, `fuzz_targets`, `cargo-fuzz`, `atheris`, seed/corpus directories in CI.
+
+**References:** OWASP fuzzing guidance, CWE-119/CWE-20, NIST SP 800-218 PW.8, OSS-Fuzz docs
+
+# Unvalidated Redirects & Forwards (open redirect in routing/SSO returns)
+
+**MUST NOT** route users via unvalidated `redirect`/`returnUrl` parameters; destinations must pass an allow-list check.
+
+**Why:** Open redirects turn your trusted domain into a phishing launchpad and can leak SSO tokens or OAuth codes externally.
+
+**Detect:** grep `?redirect=`, `next=`, `returnUrl`, `rd=` reaching `redirect()` or `Location:` without allow-list validation.
+
+**References:** OWASP Top 10 A01:2021, CWE-601, OWASP Redirects Cheat Sheet, RFC 6819
+
+# Exposed Debug & Actuator Endpoints
+
+**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+
+**Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
+
+**Detect:** grep routes/config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`; DAST-scan prod for `/env`, `/heapdump`, `/debug`, `/server-status`.
+
+**References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
+
+# Forced Browsing & Unprotected Admin Panels
+
+**MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).
+
+**Why:** Scanners (Nuclei, ffuf) find default-open admin UIs constantly; "security by obscure path" fails against wordlist enumeration.
+
+**Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
+
+**References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
+
+# Open Directory Listing
+
+**SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
+
+**Why:** `Autoindex on` / bucket list permission turns one known filename pattern into a full inventory of everything ever placed there.
+
+**Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
+
+**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+
+# Sticky Sessions & Load-Balancer Affinity
+
+**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+
+# Tenant-ID Spoofing at API Boundary
+
+**MUST** derive the tenant from the authenticated session/token on every request — never from a client-supplied tenant_id parameter or header.
+
+**Why:** The classic cross-tenant breach: API trusts `?tenant_id=` from the caller, letting one tenant read or mutate another's data with a valid session.
+
+**Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
+
+**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
+
+# Email-Template Injection
+
+**MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
+
+**Why:** Usernames or fields containing `<a href="https://phish...">` turn your trusted, DKIM-signed transactional email into a phishing vector your own domain vouches for.
+
+**Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
+
+**References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
+
+# SaaS Webhook Consumer Trust
+
+**MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
+
+**Why:** Unverified webhook endpoints accept forged events ("payment captured", "user verified") from anyone who finds the URL; SaaS signing secrets also rotate, which unverified integrations hide until they break.
+
+**Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
+
+**References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
 
