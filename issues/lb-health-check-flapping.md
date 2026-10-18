@@ -19,3 +19,7 @@ health_check: {interval: 10s, timeout: 5s,
 ```
 
 **References:** AWS ELB health check best practices, HAProxy tuning docs, Google SRE Book (overloading & health checks)
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -2,7 +2,7 @@
 
 Process-level security practices (modeling, disclosure, patching).
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [security-practices](../categories/security-practices.md) · index: [SKILL.md](../SKILL.md)
 
 # Threat Modeling
 
@@ -14,6 +14,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP Threat Dragon, NIST SP 800-181, OWASP ASVS V1.2
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Memory Safety: Buffer Overflow & Use-After-Free
 
 **MUST** bound every buffer write and never dereference freed or dangling memory in unsafe languages.
@@ -23,6 +27,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `strcpy`/`sprintf`/`memcpy` without size checks, raw `malloc`/`free` lifetimes, indexing past array length, missing bounds sanitizer.
 
 **References:** CWE-120, CWE-416, CWE-787, CERT MEM rules
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Log Injection & Log Forging
 
@@ -34,6 +42,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP Logging Cheat Sheet, CWE-117, OWASP WSTG-INPV-009
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Patch cadence and remediation SLAs for known CVEs in production images
 
 **MUST** rebuild and redeploy base images on a fixed cadence (weekly minimum), remediating critical CVEs within 24 hours of disclosure.
@@ -43,6 +55,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
 **References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Cyber insurance alignment: coverage preconditions and denial clauses
 
@@ -54,6 +70,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** ISO 27001/27017, CVE-based exclusion clauses, Marsh/Gallagher cyber underwriting guidance
 
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Treat LLM output as untrusted input (sanitize before HTML/SQL/shell/URL sinks)
 
 **MUST** sanitize or parameterize every LLM output before it reaches an HTML, SQL, shell, or URL sink.
@@ -63,6 +83,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** model response rendered via |safe / innerHTML or concatenated into queries or subprocess args.
 
 **References:** OWASP LLM01:2025, CWE-79, CWE-89, CWE-78
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Vulnerability disclosure program (SECURITY.md, coordinated disclosure, safe harbor)
 
@@ -74,6 +98,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** ISO 29147, ISO 30111, RFC 9116, OWASP VDP Guide
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
 **MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
@@ -83,6 +111,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
 
 **References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Independent penetration testing cadence and finding remediation tracking
 
@@ -94,6 +126,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Living-off-the-Land Abuse
 
 **MUST** monitor execution of legitimate binaries (curl, ssh, powershell, wmic, certutil, base64) for arguments and contexts inconsistent with normal operations.
@@ -103,6 +139,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** grep EDR/SIEM rules for process-args telemetry on LOLBAS-listed binaries (e.g. `certutil -urlcache`, `powershell -enc`); flag hosts where these run outside admin baselines.
 
 **References:** MITRE ATT&CK T1218 System Binary Proxy Execution, LOLBAS project, CWE-427, Atomic Red Team tests
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Attack Surface Management (continuous exposure discovery)
 
@@ -114,6 +154,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-119, AWS Security Hub, Cloudflare for Teams
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Attack Surface Reduction (deliberate exposure minimization)
 
 **SHOULD NOT** expose administrative interfaces, dashboards, or debug endpoints directly to the public internet without an access broker such as VPN or zero-trust gateway.
@@ -123,6 +167,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
 **References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Purple Teaming (red+blue collaborative feedback loops)
 
@@ -134,6 +182,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** MITRE ATT&CK Evaluations, NIST SP 800-115, CISA Purple Team guidance
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Breach & Attack Simulation (adversary emulation vs controls)
 
 **MAY** automate adversary emulation (BAS) to continuously replay known TTPs against controls, but only in environments with tested rollback and blast-radius limits.
@@ -143,6 +195,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** BAS tool configs (SafeBreach, AttackIQ, Atomic Red Team), `atomic-red-team` in CI, simulation schedules with rollback plans
 
 **References:** MITRE ATT&CK, Gartner BAS category, Atomic Red Team (T1059 etc.)
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Secure by Design (architectural input, not a patch)
 
@@ -154,6 +210,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** NIST SP 800-160, Saltzer & Schroeder principles, OWASP ASVS V1, CISA Secure by Design Pledges
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Security Champions Program (embedded advocates per team)
 
 **SHOULD** embed a trained security champion in each engineering team, with paid time allocated, a refresh cadence, and a direct escalation line to the security group.
@@ -163,6 +223,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** `champions` roster doc, training completion records, `office hours` schedule, per-team champion named in CODEOWNERS
 
 **References:** OWASP SAMM Security Champions, BSIMM 11.1, Microsoft Security Champions Program
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Verification-Level Tiers (ASVS L1/L2/L3: basic / standard / privileged-app requirements)
 
@@ -174,6 +238,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP ASVS 4.0.3, OWASP SAMM, NIST SP 800-53 control tailoring
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Attack-Path Analysis (reachable chains from exposure to crown jewels)
 
 **SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, cutting shortest chains first.
@@ -183,6 +251,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
 
 **References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Fail-Secure Configuration
 
@@ -194,6 +266,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
 
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Secure by Default Shipping
 
 **MUST** ship products secure out-of-the-box: MFA, logging, and SSO available at no extra cost and enabled (or one-click) on first run — never paywalled or buried as advanced features.
@@ -203,6 +279,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** review default config of the shipped product: are MFA/logging/encrypted transport on by default? Is any baseline security control gated behind paid tiers or manual hardening docs?
 
 **References:** CISA Secure by Design whitepaper & Pledge, OWASP Secure Product Design Cheat Sheet
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Zero Trust Architecture
 
@@ -214,6 +294,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Defense-in-Depth Layering
 
 **SHOULD** protect each asset with multiple independent control layers (network, app, data, runtime) so no single failure exposes it; layers must be independent, not correlated.
@@ -223,6 +307,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** map each crown-jewel asset to its control stack; flag assets protected by a single layer; check layer independence (e.g. WAF + app validation + DB authz vs WAF-only; secrets not readable by the same principal that reaches the app).
 
 **References:** OWASP Secure Product Design Cheat Sheet, NIST SP 800-53 defense-in-depth, CISA Secure by Design
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Privileged-Action Attribution
 
@@ -234,6 +322,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Break-Glass Access Procedure
 
 **SHOULD** define a monitored break-glass path for emergency privileged access: pre-authorized, logged, alerting on use, and reviewed within 24h.
@@ -243,6 +335,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
 
 **References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Admin Activity Review
 
@@ -254,6 +350,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Proportionate QA Tiering
 
 **SHOULD** match review/QA rigor to the risk tier of what's being changed: critical-path and high-impact components get deep review, dual verification, and testing; throwaway work gets proportionate scrutiny.
@@ -263,6 +363,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
 
 **References:** Aqua books proportionate assurance, risk-based testing practice, security-tier classification guidance
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Decision-Record Provenance
 
@@ -274,6 +378,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** ADR practice, decision-record keeping in analysis-code guidance, nfr-traceability companion
 
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Architecture Doc & ADR Coverage
 
 **SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
@@ -283,6 +391,10 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
 **References:** C4 model, ADR practice (Nygard), adaptive-architecture guidance
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Coding-Agent Sandbox & Permission-Mode Review
 
@@ -294,6 +406,10 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** OpenAI Codex approvals/security model, Anthropic /sandbox + permissions, Cursor Run Modes ("best-effort, not a hard boundary")
 
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Admin Tasks as One-Off Processes from the Release
 
 **SHOULD** run admin and maintenance tasks (migrations, REPLs, one-time scripts) as one-off processes from the same released code, config, and dependency isolation — committed to the repo — rather than ad-hoc scripts executed against production out-of-band.
@@ -303,4 +419,8 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** runbooks showing manual DB/console access instead of `kubectl job` or release-hook migrations; admin scripts not present in the repo; production mutations with no corresponding committed task definition.
 
 **References:** 12factor.net/admin-processes, OWASP Logging Cheat Sheet (audit of admin actions), Kubernetes Jobs pattern
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

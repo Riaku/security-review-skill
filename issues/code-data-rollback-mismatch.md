@@ -20,3 +20,7 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 ```
 
 **References:** Fowler Evolutionary Database Design (expand/contract), Marten migration docs, DORA rollback practices
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

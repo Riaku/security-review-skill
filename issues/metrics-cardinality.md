@@ -7,3 +7,7 @@
 **Detect:** grep metric definitions for labels like `user=`, `email=`, `url=`, `path=` with raw request data; review Prometheus `label_replace` and histogram bucket counts.
 
 **References:** Prometheus cardinality guidance, CWE-400, Grafana LTS high-availability docs
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** grep debezium.properties / connector JSON for `snapshot.mode=never` absent, `sslmode=disable`, hardcoded `database.password`, exposed ports 8081/5432 without TLS.
 
 **References:** OWASP A02 Cryptographic Failures, CWE-319, OWASP Data Validation Cheat Sheet
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

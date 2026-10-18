@@ -7,3 +7,7 @@
 **Detect:** SLA text vs `slo:` config mismatch, no credit policy, uptime claims without measurement source.
 
 **References:** Google SRE Book (SLA/SLO/SLI), ISO 20000, NIST SP 800-144
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

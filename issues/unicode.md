@@ -7,3 +7,7 @@
 **Detect:** `len(s)` as display width, `substr`/`slice` on user text, missing NFC/NFKC normalization, homoglyph or confusable comparisons absent.
 
 **References:** CWE-176, CWE-645, Unicode TR36, OWASP ASVS 5.2
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

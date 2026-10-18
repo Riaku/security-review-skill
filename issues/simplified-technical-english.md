@@ -7,3 +7,7 @@
 **Detect:** for runbooks/install steps: check sentence length, one-action-per-step structure, controlled vocabulary consistency (no synonym rotation: "log in/sign in/login" for the same action); flag idiomatic or marketing prose in procedural sections.
 
 **References:** ASD-STE100 Simplified Technical English (asd-ste100.org), aerospace/defense doc standards, runbook readability practice
+
+---
+
+**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

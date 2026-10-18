@@ -7,3 +7,7 @@
 **Detect:** `unsafe-inline`, `unsafe-eval`, `script-src *` in CSP config; no `Content-Security-Policy` header.
 
 **References:** OWASP A05:2021, CWE-1021, Google CSP Evaluator
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

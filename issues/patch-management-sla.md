@@ -7,3 +7,7 @@
 **Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
 
 **References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

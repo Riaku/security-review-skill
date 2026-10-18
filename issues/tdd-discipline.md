@@ -7,3 +7,7 @@
 **Detect:** commit history showing fix commits with no preceding failing-test commit; PRs where tests and fixes arrive simultaneously with no red run in CI logs.
 
 **References:** NIST SP 800-218 PW.7 (test-first practices), OWASP BSIMM TTD-1, CWE-1140 (attempt to use cached test results)
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

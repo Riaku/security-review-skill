@@ -2,34 +2,36 @@
 
 Process-level security practices (modeling, disclosure, patching).
 
+Domain: [backend](../domains/backend.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `threat-modeling`
-- `memory-safety-buffer-overflow`
-- `log-injection`
-- `patch-cadence-remediation-sla`
-- `cyber-insurance-requirements`
-- `llm-output-untrusted`
-- `vulnerability-disclosure-program`
-- `patch-management-sla`
-- `penetration-testing-cadence`
-- `living-off-the-land`
-- `attack-surface-management`
-- `attack-surface-reduction`
-- `purple-teaming`
-- `breach-attack-simulation`
-- `secure-by-design`
-- `security-champions`
-- `verification-level-tiers`
-- `attack-path-analysis`
-- `fail-secure-configuration`
-- `secure-by-default-shipping`
-- `zero-trust-architecture`
-- `defense-in-depth-layering`
-- `privileged-action-attribution`
-- `break-glass-access-procedure`
-- `admin-activity-review`
-- `proportionate-qa-tiering`
-- `decision-record-provenance`
-- `architecture-doc-adr-coverage`
-- `coding-agent-sandbox-config`
-- `one-off-admin-processes`
+- [threat-modeling](../issues/threat-modeling.md)
+- [memory-safety-buffer-overflow](../issues/memory-safety-buffer-overflow.md)
+- [log-injection](../issues/log-injection.md)
+- [patch-cadence-remediation-sla](../issues/patch-cadence-remediation-sla.md)
+- [cyber-insurance-requirements](../issues/cyber-insurance-requirements.md)
+- [llm-output-untrusted](../issues/llm-output-untrusted.md)
+- [vulnerability-disclosure-program](../issues/vulnerability-disclosure-program.md)
+- [patch-management-sla](../issues/patch-management-sla.md)
+- [penetration-testing-cadence](../issues/penetration-testing-cadence.md)
+- [living-off-the-land](../issues/living-off-the-land.md)
+- [attack-surface-management](../issues/attack-surface-management.md)
+- [attack-surface-reduction](../issues/attack-surface-reduction.md)
+- [purple-teaming](../issues/purple-teaming.md)
+- [breach-attack-simulation](../issues/breach-attack-simulation.md)
+- [secure-by-design](../issues/secure-by-design.md)
+- [security-champions](../issues/security-champions.md)
+- [verification-level-tiers](../issues/verification-level-tiers.md)
+- [attack-path-analysis](../issues/attack-path-analysis.md)
+- [fail-secure-configuration](../issues/fail-secure-configuration.md)
+- [secure-by-default-shipping](../issues/secure-by-default-shipping.md)
+- [zero-trust-architecture](../issues/zero-trust-architecture.md)
+- [defense-in-depth-layering](../issues/defense-in-depth-layering.md)
+- [privileged-action-attribution](../issues/privileged-action-attribution.md)
+- [break-glass-access-procedure](../issues/break-glass-access-procedure.md)
+- [admin-activity-review](../issues/admin-activity-review.md)
+- [proportionate-qa-tiering](../issues/proportionate-qa-tiering.md)
+- [decision-record-provenance](../issues/decision-record-provenance.md)
+- [architecture-doc-adr-coverage](../issues/architecture-doc-adr-coverage.md)
+- [coding-agent-sandbox-config](../issues/coding-agent-sandbox-config.md)
+- [one-off-admin-processes](../issues/one-off-admin-processes.md)

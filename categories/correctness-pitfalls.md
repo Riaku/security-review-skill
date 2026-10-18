@@ -2,39 +2,41 @@
 
 Language-agnostic code-level failure modes.
 
+Domain: [backend](../domains/backend.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `error-handling`
-- `edge-cases`
-- `off-by-one-errors`
-- `floating-point-math`
-- `storing-money-as-floats`
-- `time-zones`
-- `daylight-saving-time`
-- `unicode`
-- `character-encoding`
-- `thread-safety`
-- `event-loop-blocking`
-- `unhandled-promise-rejections`
-- `integer-overflow`
-- `schema-validation`
-- `debouncing`
-- `big-o-notation`
-- `technical-debt`
-- `dead-code`
-- `merge-conflicts`
-- `quadratic-complexity-nested-loops`
-- `structured-exception-handling`
-- `os-command-injection`
-- `redos`
-- `dynamic-code-evaluation`
-- `memory-safety-buffer-overflow`
-- `business-logic-bypass`
-- `operator-finalizer-leak`
-- `missing-owner-reference-orphans`
-- `configmap-env-no-hot-reload`
-- `zombie-process-reaping`
-- `durability-acknowledgment-policy`
-- `backfill-idempotency`
-- `ledger-invariant-checks`
-- `dst-transition-behavior-test`
-- `config-example-template-drift`
+- [error-handling](../issues/error-handling.md)
+- [edge-cases](../issues/edge-cases.md)
+- [off-by-one-errors](../issues/off-by-one-errors.md)
+- [floating-point-math](../issues/floating-point-math.md)
+- [storing-money-as-floats](../issues/storing-money-as-floats.md)
+- [time-zones](../issues/time-zones.md)
+- [daylight-saving-time](../issues/daylight-saving-time.md)
+- [unicode](../issues/unicode.md)
+- [character-encoding](../issues/character-encoding.md)
+- [thread-safety](../issues/thread-safety.md)
+- [event-loop-blocking](../issues/event-loop-blocking.md)
+- [unhandled-promise-rejections](../issues/unhandled-promise-rejections.md)
+- [integer-overflow](../issues/integer-overflow.md)
+- [schema-validation](../issues/schema-validation.md)
+- [debouncing](../issues/debouncing.md)
+- [big-o-notation](../issues/big-o-notation.md)
+- [technical-debt](../issues/technical-debt.md)
+- [dead-code](../issues/dead-code.md)
+- [merge-conflicts](../issues/merge-conflicts.md)
+- [quadratic-complexity-nested-loops](../issues/quadratic-complexity-nested-loops.md)
+- [structured-exception-handling](../issues/structured-exception-handling.md)
+- [os-command-injection](../issues/os-command-injection.md)
+- [redos](../issues/redos.md)
+- [dynamic-code-evaluation](../issues/dynamic-code-evaluation.md)
+- [memory-safety-buffer-overflow](../issues/memory-safety-buffer-overflow.md)
+- [business-logic-bypass](../issues/business-logic-bypass.md)
+- [operator-finalizer-leak](../issues/operator-finalizer-leak.md)
+- [missing-owner-reference-orphans](../issues/missing-owner-reference-orphans.md)
+- [configmap-env-no-hot-reload](../issues/configmap-env-no-hot-reload.md)
+- [zombie-process-reaping](../issues/zombie-process-reaping.md)
+- [durability-acknowledgment-policy](../issues/durability-acknowledgment-policy.md)
+- [backfill-idempotency](../issues/backfill-idempotency.md)
+- [ledger-invariant-checks](../issues/ledger-invariant-checks.md)
+- [dst-transition-behavior-test](../issues/dst-transition-behavior-test.md)
+- [config-example-template-drift](../issues/config-example-template-drift.md)

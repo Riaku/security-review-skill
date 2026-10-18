@@ -7,3 +7,7 @@
 **Detect:** count nested `@Retryable`, `max_retries`, `retry_times` per path; flag retry-on-timeout with no `retry_budget`.
 
 **References:** Google SRE Book retry storms, AWS retry budget guidance, CWE-400, REL11-BP06
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

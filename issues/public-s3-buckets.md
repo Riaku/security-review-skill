@@ -22,3 +22,7 @@ resource "aws_s3_bucket_public_access_block" "backups" {
 ```
 
 **References:** CWE-284, CIS AWS Foundations 2.1.5, OWASP A01:2021 Broken Access Control, AWS S3 security best practices
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

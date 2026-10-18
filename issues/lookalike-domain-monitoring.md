@@ -7,3 +7,7 @@
 **Detect:** review for a monitoring service/cron (Dmarcian, Red Points, custom diff of newly-registered domains vs brand patterns); check homoglyph/keyboard-adjacent variants are in scope.
 
 **References:** M3AAWG brand abuse guidance, Unicode homoglyph attacks, phishing pretexting reports
+
+---
+
+**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

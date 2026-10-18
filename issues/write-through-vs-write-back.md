@@ -7,3 +7,7 @@
 **Detect:** Redis `appendonly no`, async flush settings, or deferred DB writes on audit/ACL tables; `write_back`, `async_write` flags.
 
 **References:** OWASP A09:2021, CWE-758, NIST SP 800-53 AU-9, AU-4
+
+---
+
+**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

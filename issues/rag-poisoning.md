@@ -7,3 +7,7 @@
 **Detect:** ingest pipelines without source allowlists or content scanning; vector index accepting unauthenticated uploads.
 
 **References:** OWASP LLM08:2025, CWE-506, MITRE ATLAS T0043
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

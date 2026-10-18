@@ -7,3 +7,7 @@
 **Detect:** missing red-team eval datasets, no CI job matching eval|redteam|adversarial, promptfoo/garak config absent.
 
 **References:** OWASP LLM01:2025, NIST AI RMF MEASURE, MITRE ATLAS
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

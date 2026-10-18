@@ -7,3 +7,7 @@
 **Detect:** judgment on whether a documented risk tier / QA plan exists and matches the component's actual criticality (user impact, data sensitivity, money movement).
 
 **References:** Aqua books proportionate assurance, risk-based testing practice, security-tier classification guidance
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

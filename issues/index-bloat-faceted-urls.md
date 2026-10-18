@@ -7,3 +7,7 @@
 **Detect:** `site:domain` count vs actual page count; crawl for `?sort=`, `?filter=`, `?session=` variants returning 200 indexable; check robots/canonical/noindex on facet routes.
 
 **References:** Google Search Central faceted-navigation guidance, crawl-budget optimization docs
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

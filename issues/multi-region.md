@@ -7,3 +7,7 @@
 **Detect:** `region:` keys, `global-load-balancer`, `cross-region` replication flags, DNS failover records, GDPR data-residency config.
 
 **References:** NIST SP 800-34, AWS Well-Architected reliability pillar, GDPR Art. 44
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

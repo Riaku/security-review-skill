@@ -7,3 +7,7 @@
 **Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
 
 **References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** `sensitive = false` or absent on secret attributes, `terraform.tfstate` in git, `terraform output` without `-json | jq` masking, unencrypted S3 backend.
 
 **References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

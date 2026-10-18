@@ -7,3 +7,7 @@
 **Detect:** grep for bloom/`guava BloomFilter`/`BitSet` gating authz or dedup without a backing store confirmation on positive, missing `expectedFpp`/`fpp` sizing config.
 
 **References:** Bloom 1970 paper, CWE-364 Signal Error, RedisBloom false-positive docs
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

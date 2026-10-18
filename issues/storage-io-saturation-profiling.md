@@ -22,3 +22,7 @@ resource "aws_ebs_volume" "pg" {
 ```
 
 **References:** AWS EBS volume types docs, fio benchmarking guide, Google SRE Book capacity planning
+
+---
+
+**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

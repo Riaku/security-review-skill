@@ -7,3 +7,7 @@
 **Detect:** SSE routes without `Cache-Control`, `text/event-stream` handlers taking `?token=` query params.
 
 **References:** CWE-525, OWASP ASVS V9.1, MDN EventSource security notes
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

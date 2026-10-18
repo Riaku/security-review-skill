@@ -2,7 +2,7 @@
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [sre-incidents](../categories/sre-incidents.md) · index: [SKILL.md](../SKILL.md)
 
 # Health Checks
 
@@ -14,6 +14,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Kubernetes health checks, K8s docs, CWE-770, SRE Book
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Liveness vs Readiness Probes
 
 **SHOULD NOT** wire dependency checks (DB, cache) into the liveness probe; reserve them for readiness only.
@@ -23,6 +27,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `livenessProbe` with `exec: pg_isready`/DB query, identical liveness and readiness endpoints, `initialDelaySeconds: 0`.
 
 **References:** Kubernetes probe docs, CWE-770, Google SRE Workbook
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Graceful Shutdown
 
@@ -34,6 +42,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Kubernetes termination docs, CWE-227, Google SRE Book
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Connection Draining
 
 **SHOULD** drain established connections at the load balancer before removing a backend from rotation.
@@ -43,6 +55,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `drain_timeout`, `idle_timeout` on Envoy/HAProxy, `notReadyBeforeDrainDelay`, missing `connectionDraining` in cloud LB config.
 
 **References:** AWS ELB draining, Envoy drain documentation, CWE-582, NIST SP 800-178
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Stateless Services
 
@@ -54,6 +70,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** The Twelve-Factor App (processes), NIST SP 800-178, CWE-384
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Failover
 
 **MUST** automatically redirect traffic to healthy replicas within the documented failover time, with the promotion path tested.
@@ -63,6 +83,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `failover_priority`, `primary`/`replica` config, no `automatic failover` in DB/LB settings, runbook-only failover docs.
 
 **References:** AWS RDS Multi-AZ, Patroni failover, NIST SP 800-34, CWE-1049
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Multi-Region
 
@@ -74,6 +98,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** NIST SP 800-34, AWS Well-Architected reliability pillar, GDPR Art. 44
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Availability Zones
 
 **MUST** spread replicas across at least two availability zones so one zone's failure cannot drop the service below minimum capacity.
@@ -83,6 +111,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `topologySpreadConstraints`, `podAntiAffinity` on zone topology, ASG `VPCZoneIdentifier` with one subnet.
 
 **References:** AWS Well-Architected reliability pillar, K8s topology docs, NIST SP 800-34
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Single Points of Failure
 
@@ -94,6 +126,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** NIST SP 800-34, AWS Well-Architected, Google SRE Book, CWE-1049
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Disaster Recovery
 
 **MUST** maintain a rehearsed recovery plan for full-site loss, with restore verified from actual backups.
@@ -103,6 +139,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `dr_plan.md`, `backup_schedule` cron, absence of restore-test logs, `wal_level`/PITR disabled, offsite sync jobs without checksums.
 
 **References:** NIST SP 800-34, ISO 22301, CWE-190 (backup integrity gaps)
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # RTO & RPO
 
@@ -114,6 +154,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** NIST SP 800-34, ISO 22301, Google SRE Workbook
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # SLAs
 
 **SHOULD NOT** contract externally committed availability that internal SLOs and capacity cannot demonstrably sustain.
@@ -123,6 +167,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** SLA text vs `slo:` config mismatch, no credit policy, uptime claims without measurement source.
 
 **References:** Google SRE Book (SLA/SLO/SLI), ISO 20000, NIST SP 800-144
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # SLOs
 
@@ -134,6 +182,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Google SRE Workbook (SLO chapter), Prometheus recording rules, ISO 20000
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Error Budgets
 
 **SHOULD** spend the gap between 100% and the SLO as a budget for risky releases, freezing changes when exhausted.
@@ -143,6 +195,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `error_budget` in SLO config, multi-window multi-burn-rate alert thresholds, no freeze policy on exhaustion.
 
 **References:** Google SRE Workbook (error budgets), Prometheus multi-window multi-burn-rate alerting
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Incident Response
 
@@ -154,6 +210,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** NIST SP 800-61, SANS incident response process, ISO/IEC 27035
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # On-Call
 
 **SHOULD** rotate on-call across a staffed team with bounded hours and backup responders, not one heroic engineer.
@@ -163,6 +223,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** PagerDuty/Opsgenie rotation config, single `oncall:` contact in runbooks, no escalation chain.
 
 **References:** Google SRE Book (on-call), OSHA fatigue guidance, NIST SP 800-61
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Runbooks
 
@@ -174,6 +238,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Google SRE Workbook (running incidents), NIST SP 800-61, PagerDuty runbook practices
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Postmortems
 
 **SHOULD** write a blameless postmortem for every significant incident within days, with action items tracked to closure.
@@ -184,6 +252,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 **References:** Google SRE Book (postmortem culture), Blameless postmortem practice, NIST SP 800-61
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Chaos Engineering
 
 **MAY** run controlled failure injection in production-like environments, scoped by blast radius and abort criteria.
@@ -193,6 +265,10 @@ Operational readiness: DR, incidents, SLOs, on-call.
 **Detect:** `chaos-mesh`, `litmus`, Gremlin config, absence of game-day logs, no abort/steady-state criteria in experiment manifests.
 
 **References:** Principles of Chaos Engineering, Netflix Chaos Monkey, AWS FIS, NIST SP 800-34 drills
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Backup Encryption & Immutable/Offsite Copies
 
@@ -218,6 +294,10 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **References:** CIS Control 11 (immutable backups), NIST SP 800-53 CP-9, AWS S3 Object Lock docs, CWE-311
 
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # DORA (financial sector resilience)
 
 **MUST** classify critical ICT functions, test resilience (including TLPT threat-led testing), and register ICT third-party arrangements per DORA timelines.
@@ -227,6 +307,10 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
 **References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Self-Healing Systems (auto-restart, auto-failover, self-repair loops)
 
@@ -238,6 +322,10 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **References:** Kubernetes restartPolicy/livenessProbe, AWS REL11-BP10, NIST SP 800-34 auto-recovery, CWE-251
 
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Dead-man's-switch Heartbeat for Scheduled Jobs
 
 **SHOULD** give every scheduled job a heartbeat that pages when the expected ping is missing, rather than alerting only on failure.
@@ -247,6 +335,10 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 **Detect:** grep schedulers for healthcheck pings (`healthchecks.io`, `deadman` checks, `K8s CronJob` success conditions); flag jobs with failure alerts but no liveness deadline.
 
 **References:** Healthchecks.io dead-man pattern, Google SRE Workbook, CWE-778, K8s CronJob docs
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Crash-consistent volume snapshots vs logical dumps distinguished
 
@@ -270,6 +362,10 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **References:** EBS/PersistentVolume snapshot consistency docs, PostgreSQL backup methods docs, NIST SP 800-34
 
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
 **MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.
@@ -279,6 +375,10 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
 **References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide, CWE-190
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Load balancer health-check flapping detected and damped
 
@@ -302,6 +402,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** AWS ELB health check best practices, HAProxy tuning docs, Google SRE Book (overloading & health checks)
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Control-Plane Quorum (etcd) Health Monitored Separately from Workloads
 
 **MUST** monitor etcd quorum and leader health independently of application dashboards, alerting before quorum loss.
@@ -311,6 +415,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** No etcd metrics scrape (`etcd_server_has_leader`, `etcd_server_health_failures`); no separate control-plane alert rule or runbook.
 
 **References:** CIS K8s 2.0, etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Synthetic External Monitoring
 
@@ -322,6 +430,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** Google SRE Book Ch.6, OWASP Testing Guide 4.0, CWE-295
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Incident Severity Levels with a Designated Incident Commander
 
 **MUST** assign a named incident commander per severity level at declaration, with coordination authority.
@@ -331,6 +443,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** severity matrix (`SEV1`–`SEV4`) in IR docs, `incident_commander` field in tickets, no commander in paging config.
 
 **References:** NIST SP 800-61, Google SRE Workbook (incident command), ITIL incident management
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Customer-Facing Status Page and Outage Comms Templates
 
@@ -342,6 +458,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61 (communications), Google SRE Workbook, Atlassian status page practices
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Breach notification clocks across jurisdictions
 
 **MUST** detect and triage breaches fast enough to meet the strictest applicable notification deadline (72h GDPR, state laws).
@@ -351,6 +471,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** grep for incident response SLA timers, `notification_deadline`, `breach_clock` config; check monitoring-to-notification pipeline latency absent.
 
 **References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # SEC cybersecurity disclosure rules (public-company material incident reporting)
 
@@ -362,6 +486,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** SEC 8-K Item 1.05 (2023), Reg S-K Item 106, SEC cyber disclosure guidance
 
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Threat Intelligence Integration
 
 **MUST** ingest threat feeds, IOCs, and vendor advisories into ops tooling with automated matching against the estate.
@@ -371,6 +499,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** IOC feeds in SIEM config, `threat_intel` integrations, no advisory-to-asset matching in the scanner.
 
 **References:** NIST SP 800-150, MITRE ATT&CK, MISP threat sharing, CISA KEV catalog
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # SOAR / Security Orchestration & Automated Response
 
@@ -382,6 +514,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61, Gartner SOAR definition, MITRE ATT&CK response mitigations
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Backup Verification Drills (scheduled restore tests, not just backup jobs)
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
@@ -391,6 +527,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
 **References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
@@ -402,6 +542,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17
 
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Break-Glass Access Procedure
 
 **SHOULD** define a monitored break-glass path for emergency privileged access: pre-authorized, logged, alerting on use, and reviewed within 24h.
@@ -411,6 +555,10 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** look for break-glass accounts/policies (AWS IAM break-glass role, Azure PIM emergency access) with alert-on-use and review SLA; check that emergency creds are escrowed (sealed envelope) not casually held.
 
 **References:** Microsoft emergency access accounts, AWS break-glass role patterns, NIST 800-53 AC-2(2)
+
+---
+
+**Part of:** [security-practices](../categories/security-practices.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Reconciliation Runbook
 
@@ -422,6 +570,10 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
 
+---
+
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # DST-Transition Behavior Test
 
 **SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
@@ -431,4 +583,8 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
 
 **References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [sre-incidents](../categories/sre-incidents.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

@@ -19,3 +19,7 @@ if peer.spiffe_id in allowed_callers[endpoint]: ok()
 ```
 
 **References:** SPIFFE/SPIRE docs, NIST SP 800-207 Zero Trust, Istio identity & certificate docs, CIS Kubernetes Benchmark 5.x
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

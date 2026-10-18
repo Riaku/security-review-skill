@@ -21,3 +21,7 @@ for order in orders:
 ```
 
 **References:** OWASP ORM cautions in SQLi prevention cheat sheet, CWE-400, Hibernate N+1 docs, SQLAlchemy eager loading docs
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
 
 **References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

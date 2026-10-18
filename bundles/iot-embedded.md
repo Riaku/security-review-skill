@@ -2,7 +2,7 @@
 
 Firmware, OTA, and device-identity security.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [iot-embedded](../categories/iot-embedded.md) · index: [SKILL.md](../SKILL.md)
 
 # Firmware Signing & Secure Boot
 
@@ -14,6 +14,10 @@ Firmware, OTA, and device-identity security.
 
 **References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 (IOT ASSET), Arm TrustZone/UEFI Secure Boot docs
 
+---
+
+**Part of:** [iot-embedded](../categories/iot-embedded.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
+
 # OTA Update Channel Integrity & Rollback Protection
 
 **MUST** deliver OTA updates over authenticated channels with version anti-rollback so devices cannot be downgraded to vulnerable firmware.
@@ -24,6 +28,10 @@ Firmware, OTA, and device-identity security.
 
 **References:** OWASP IoT Top 10 IOT UPD, NIST IR 8259A, MCUboot anti-rollback docs
 
+---
+
+**Part of:** [iot-embedded](../categories/iot-embedded.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
+
 # Device Provisioning Identity
 
 **SHOULD** provision each device with a unique, hardware-bound identity (per-device cert/keys, TPM/secure element) — never shared fleet credentials.
@@ -33,4 +41,8 @@ Firmware, OTA, and device-identity security.
 **Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
 
 **References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
+
+---
+
+**Part of:** [iot-embedded](../categories/iot-embedded.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)
 

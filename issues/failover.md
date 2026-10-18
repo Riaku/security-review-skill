@@ -7,3 +7,7 @@
 **Detect:** `failover_priority`, `primary`/`replica` config, no `automatic failover` in DB/LB settings, runbook-only failover docs.
 
 **References:** AWS RDS Multi-AZ, Patroni failover, NIST SP 800-34, CWE-1049
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

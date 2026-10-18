@@ -23,3 +23,7 @@ resource "aws_subnet" "app_private" {
 ```
 
 **References:** CIS AWS Foundations 1.x, AWS VPC best practices, CWE-284
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

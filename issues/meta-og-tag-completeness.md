@@ -7,3 +7,7 @@
 **Detect:** crawl and flag pages with missing, duplicated, or template-identical `title`/`description`/`og:*` tags; check OG image dimensions.
 
 **References:** Google Search Central title/description docs, Open Graph protocol, oEmbed
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

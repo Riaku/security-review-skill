@@ -7,3 +7,7 @@
 **Detect:** review golden/expected files for how they were produced (independent source vs generated-from-implementation); flag "update goldens" workflows without review of what changed and why.
 
 **References:** testing anti-pattern literature (tautological tests), characterization-testing caveats
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

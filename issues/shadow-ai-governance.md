@@ -7,3 +7,7 @@
 **Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
 
 **References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

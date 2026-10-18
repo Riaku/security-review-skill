@@ -7,3 +7,7 @@
 **Detect:** `anonymousAuth: true` or `authorizationMode: AlwaysAllow` in kubelet config; 10250 reachable from arbitrary CIDRs; 10255 read-only port open.
 
 **References:** CIS K8s 4.2.1-4.2.3, CWE-306, MITRE ATT&CK T1610, K8s kubelet auth docs
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

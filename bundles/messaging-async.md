@@ -2,7 +2,7 @@
 
 Queues, delivery semantics, workers, jobs.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [messaging-async](../categories/messaging-async.md) · index: [SKILL.md](../SKILL.md)
 
 # Webhook Signature Verification
 
@@ -14,6 +14,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** CWE-347, CWE-208, Stripe/GitHub webhook signing docs
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Dead Letter Queues
 
 **MUST** route messages that exhaust retries to a monitored dead letter queue instead of silently discarding them.
@@ -23,6 +27,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep for `dead_letter`, `DLQ`, `x-dead-letter-exchange`, `maxReceiveCount`, `redrive`, `purge` in queue configs and consumer handlers.
 
 **References:** OWASP ASVS 7.4, CWE-390, NIST SP 800-53 AU-9
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Poison Messages
 
@@ -34,6 +42,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** CWE-754, OWASP ASVS 5.1, AWS SQS poison pill guidance
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # At-Least-Once Delivery
 
 **SHOULD** document at-least-once semantics explicitly and require idempotent consumers, since redelivery on ack failure is guaranteed.
@@ -43,6 +55,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep for `ack` after processing, `auto_ack=True`, missing idempotency keys, `at_least_once`, unguarded side effects in consumers.
 
 **References:** CWE-362, AWS SQS delivery semantics, NIST SP 800-171 3.1.1
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Exactly-Once Semantics
 
@@ -54,6 +70,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** Kafka EOS docs, CWE-662, NIST SP 800-53 SI-7
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Message Ordering
 
 **SHOULD** preserve ordering only where required (per-key, not global) and document where reordering is tolerated; never assume FIFO across partitions.
@@ -63,6 +83,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep for `partition_key`, `ordering_key`, `enable.idempotence`, consumers processing multi-partition topics with order-dependent logic.
 
 **References:** Kafka ordering guarantees, CWE-362, AWS SQS FIFO ordering notes
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Kafka Consumer Groups
 
@@ -74,6 +98,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** Kafka consumer group docs, CWE-664, OWASP ASVS 6.1
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Partition Keys
 
 **SHOULD** choose partition keys with high cardinality and even distribution; low-cardinality or null keys hot-spot a single partition.
@@ -83,6 +111,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep producer code for `key=`, `partition_key`, constant or nullable keys; check broker metrics for per-partition byte imbalance.
 
 **References:** Kafka partitioning docs, CWE-400, NIST SP 800-53 SC-5
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Background Jobs
 
@@ -94,6 +126,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** OWASP ASVS 7.4, CWE-400, Celery task timeout guidance
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Idempotency (idempotency keys)
 
 **MUST** accept a client-supplied idempotency key on non-idempotent operations and deduplicate replays before executing side effects.
@@ -103,6 +139,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
 **References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Payment Webhook Reconciliation
 
@@ -114,6 +154,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** OWASP WSTG-ATHN-02, CWE-347, PCI DSS 4.0 Req 6.2, Stripe webhook signing guide
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Message Queues
 
 **MUST** set queue depth limits, TTLs, and alerting thresholds; unbounded buffering hides downstream failure until memory or disk exhaustion.
@@ -123,6 +167,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep broker configs for missing `max_length`, `message_ttl`, `max_memory`, `x-max-priority`; dashboards tracking only rate, not depth.
 
 **References:** OWASP ASVS 7.4, CWE-770, RabbitMQ memory alarms docs
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Worker Pools
 
@@ -134,6 +182,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** CWE-400, NIST SP 800-53 SC-5, Kubernetes HPA guidance
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Workflow Engines
 
 **MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since Temporal/Step Functions re-execute steps after failure or recovery.
@@ -143,6 +195,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep workflow definitions for external calls outside activity/task wrappers, missing `idempotencyKey`, non-deterministic code (random, clock reads) inside workflow code.
 
 **References:** Temporal determinism docs, AWS Step Functions error handling, CWE-662
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Queue Depth and Consumer Lag Alerting
 
@@ -154,6 +210,10 @@ Queues, delivery semantics, workers, jobs.
 
 **References:** AWS SQS monitoring guide, RED/USE method, CWE-770, Google SRE Workbook
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Job Age SLO
 
 **MUST** track age of the oldest pending job as a first-class SLO with alerting, not merely queue count or throughput.
@@ -163,6 +223,10 @@ Queues, delivery semantics, workers, jobs.
 **Detect:** grep dashboards/alerts for `oldest_job_age`, `job_age_seconds`, `head_of_line_blocking`; absence of max-age alerts alongside queue-depth alerts.
 
 **References:** Google SRE Workbook tail latency, NIST SP 800-53 AU-6, SLI/SLO practice
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Overlapping cron executions guarded by single-runner locks
 
@@ -185,6 +249,10 @@ Queues, delivery semantics, workers, jobs.
 ```
 
 **References:** Kubernetes CronJob concurrencyPolicy docs, PostgreSQL advisory locks, CWE-662 Improper Synchronization
+
+---
+
+**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Long-running jobs checkpoint so restarts resume, not restart
 
@@ -209,6 +277,10 @@ for r in db.rows.gt(cur).limit(1000):
 
 **References:** Arjay McCandless cheat sheet (checkpointing), Kafka consumer offset docs, AWS fault-tolerant batch guidance
 
+---
+
+**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Backlog Catch-Up Throttling
 
 **SHOULD** throttle post-outage backlog replay below full consumer capacity so catch-up traffic does not overwhelm downstream services still recovering.
@@ -218,6 +290,10 @@ for r in db.rows.gt(cur).limit(1000):
 **Detect:** grep recovery/runbook configs for missing `rate_limit`, `throttle`, `max_concurrency` on replay; consumers configured to drain queues unbounded on startup.
 
 **References:** AWS SQS long polling backpressure, NIST SP 800-61 incident containment, Google SRE overload handling
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Webhook Replay Protection
 
@@ -229,6 +305,10 @@ for r in db.rows.gt(cur).limit(1000):
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Priority Queues & Head-of-Line Blocking
 
 **MUST NOT** let large or slow jobs block small/urgent ones on a shared queue; separate queues (or priority classes) for high-priority, fast, and bulk work.
@@ -239,6 +319,10 @@ for r in db.rows.gt(cur).limit(1000):
 
 **References:** AWS SQS priority patterns, RabbitMQ priority queues, DDIA queueing chapter
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Shared-Queue Tenant Isolation
 
 **SHOULD** isolate tenant workloads in queues by partition, dedicated queue, or per-message tenant enforcement so one tenant's burst or poison message cannot starve or crash others.
@@ -248,4 +332,8 @@ for r in db.rows.gt(cur).limit(1000):
 **Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
 
 **References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 

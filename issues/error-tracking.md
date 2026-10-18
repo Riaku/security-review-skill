@@ -7,3 +7,7 @@
 **Detect:** grep for `before_send` / `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, Sentry security docs, Sentry `before_send` filtering
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

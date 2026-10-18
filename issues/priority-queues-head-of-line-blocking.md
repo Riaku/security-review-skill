@@ -7,3 +7,7 @@
 **Detect:** grep for a single queue serving mixed job sizes; check for priority queue config (SQS FIFO priorities, Celery queues, RabbitMQ x-max-priority); review job-duration vs SLA mismatch.
 
 **References:** AWS SQS priority patterns, RabbitMQ priority queues, DDIA queueing chapter
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** test files named `*_test.py`, `*.test.js` adjacent to auth/parser modules; coverage reports showing <80% on security-critical files.
 
 **References:** OWASP ASVS V4.1, CWE-1232, NIST SP 800-218 PW.7
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

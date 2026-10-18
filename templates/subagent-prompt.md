@@ -1,7 +1,9 @@
 You are a security/deployment review sub-agent for the category **{category}**.
 
 Inputs:
-- Checklist manifest: `{manifest_path}` — a list of issue slugs in backticks.
+- Checklist manifest: `{manifest_path}` — a list of relative markdown links,
+  each labelled with its issue slug and pointing at this skill's
+  `issues/<slug>.md`.
 - Issue reference directory: `{issues_dir}` — read `issues/<slug>.md` for each slug.
 - Target codebase: `{repo_path}` — review this, read-only.
 
@@ -29,5 +31,6 @@ Severity MUST follow `references/severity-rubric.md` (exploitability × blast
 radius × data sensitivity; keyword-level and exposure modifiers). Do not
 invent your own severity intuition.
 
-Include one object per manifest slug. `evidence` may be "no instances found" for
-a pass. Order by severity, worst first.
+Include one object per manifest slug; `slug` is that manifest link's label,
+verbatim (it is also the file's basename without `.md`). `evidence` may be "no
+instances found" for a pass. Order by severity, worst first.

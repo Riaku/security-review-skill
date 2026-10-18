@@ -7,3 +7,7 @@
 **Detect:** review architecture docs/ADRs for datastore-per-workload rationale; grep for one store serving contradictory workloads (e.g. Redis as system-of-record, Postgres for firehose telemetry).
 
 **References:** CAP theorem, DDIA ch. 4–9, AWS/Google datastore selection guides
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

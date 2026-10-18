@@ -7,3 +7,7 @@
 **Detect:** verify a documented hunt cadence, saved hunt queries (KQL/SPL/Lucene) in the SIEM, and hunt findings tracked; flag SIEM used only for alert triage.
 
 **References:** MITRE ATT&CK D3FEND hunt guidance, NIST SP 800-150, SANS threat hunting process
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

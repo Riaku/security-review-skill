@@ -22,3 +22,7 @@ pg_dump -Fc mydb | age -r "$BACKUP_PUBKEY" \
 ```
 
 **References:** NIST SP 800-34 Contingency Planning, CIS Controls v8 (data protection), OWASP ASVS V7
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

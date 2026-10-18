@@ -7,3 +7,7 @@
 **Detect:** validate hreflang sets (HTML link tags, HTTP header, or sitemap — one mechanism), check reciprocity and x-default presence with an hreflang audit tool.
 
 **References:** Google Search Central localized results docs, hreflang validation checklists
+
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

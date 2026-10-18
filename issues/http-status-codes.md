@@ -7,3 +7,7 @@
 **Detect:** grep handlers for `return 200` alongside error payloads; missing `401`/`403`/`404` in route error paths.
 
 **References:** OWASP API2:2023, CWE-390, RFC 9110 §15
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

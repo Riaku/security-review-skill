@@ -7,3 +7,7 @@
 **Detect:** GitHub settings API `branches/*/protection` — check `enforce_admins`, `required_pull_request_reviews`, `required_status_checks`; grep repo scripts for `push --force` to main; missing `.github/settings.yml` `protected_branches`; CODEOWNERS files.
 
 **References:** OWASP CI Security CS1, CWE-284, NIST SP 800-218 PW.7, GitHub branch protection docs
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -19,3 +19,7 @@ CREATE TABLE orders (id INT, customer_id INT REFERENCES customers(id), total NUM
 ```
 
 **References:** Codd normal forms (1NF–3NF), Date *An Introduction to Database Systems*, CWE-1105
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

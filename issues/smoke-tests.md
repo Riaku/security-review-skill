@@ -7,3 +7,7 @@
 **Detect:** `curl -k`-free health checks, smoke stage in pipeline (`smoke.yml`, `post-deploy` job) asserting HTTPS status and auth cookie issuance.
 
 **References:** OWASP ASVS V14.2 (config), NIST SP 800-218 PO.3, WSTG v4.2 (config management testing)
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

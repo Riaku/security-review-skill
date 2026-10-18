@@ -2,38 +2,40 @@
 
 Audit and regulatory regimes.
 
+Domain: [government-compliance](../domains/government-compliance.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `fedramp`
-- `nist-800-53`
-- `nist-csf`
-- `nist-800-171`
-- `cmmc`
-- `itar-ear`
-- `cjis`
-- `hipaa`
-- `fips-140-3`
-- `fips-186-signatures`
-- `common-criteria`
-- `gdpr-regime`
-- `ccpa-cpra`
-- `uk-cyber-essentials`
-- `nis2`
-- `dora`
-- `iso-27001`
-- `soc-2-regime`
-- `pci-dss-regime`
-- `au-ism-irap`
-- `eu-ai-act`
-- `cross-border-transfer-mechanisms`
-- `lgpd`
-- `china-pipl`
-- `india-dpdp-act`
-- `children-privacy-age-assurance`
-- `breach-notification-clocks`
-- `sec-cyber-disclosure`
-- `nydfs-500`
-- `eu-cyber-resilience-act`
-- `accessibility-eaa-wcag`
-- `cyber-insurance-requirements`
-- `pqc-migration-crypto-agility`
-- `segregation-of-duties`
+- [fedramp](../issues/fedramp.md)
+- [nist-800-53](../issues/nist-800-53.md)
+- [nist-csf](../issues/nist-csf.md)
+- [nist-800-171](../issues/nist-800-171.md)
+- [cmmc](../issues/cmmc.md)
+- [itar-ear](../issues/itar-ear.md)
+- [cjis](../issues/cjis.md)
+- [hipaa](../issues/hipaa.md)
+- [fips-140-3](../issues/fips-140-3.md)
+- [fips-186-signatures](../issues/fips-186-signatures.md)
+- [common-criteria](../issues/common-criteria.md)
+- [gdpr-regime](../issues/gdpr-regime.md)
+- [ccpa-cpra](../issues/ccpa-cpra.md)
+- [uk-cyber-essentials](../issues/uk-cyber-essentials.md)
+- [nis2](../issues/nis2.md)
+- [dora](../issues/dora.md)
+- [iso-27001](../issues/iso-27001.md)
+- [soc-2-regime](../issues/soc-2-regime.md)
+- [pci-dss-regime](../issues/pci-dss-regime.md)
+- [au-ism-irap](../issues/au-ism-irap.md)
+- [eu-ai-act](../issues/eu-ai-act.md)
+- [cross-border-transfer-mechanisms](../issues/cross-border-transfer-mechanisms.md)
+- [lgpd](../issues/lgpd.md)
+- [china-pipl](../issues/china-pipl.md)
+- [india-dpdp-act](../issues/india-dpdp-act.md)
+- [children-privacy-age-assurance](../issues/children-privacy-age-assurance.md)
+- [breach-notification-clocks](../issues/breach-notification-clocks.md)
+- [sec-cyber-disclosure](../issues/sec-cyber-disclosure.md)
+- [nydfs-500](../issues/nydfs-500.md)
+- [eu-cyber-resilience-act](../issues/eu-cyber-resilience-act.md)
+- [accessibility-eaa-wcag](../issues/accessibility-eaa-wcag.md)
+- [cyber-insurance-requirements](../issues/cyber-insurance-requirements.md)
+- [pqc-migration-crypto-agility](../issues/pqc-migration-crypto-agility.md)
+- [segregation-of-duties](../issues/segregation-of-duties.md)

@@ -20,3 +20,7 @@ ip6tables -A INPUT -p tcp --dport 443 -j ACCEPT
 ```
 
 **References:** CIS Benchmarks dual-stack sections, AWS IPv6 security group guidance, NIST SP 500-267r1
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

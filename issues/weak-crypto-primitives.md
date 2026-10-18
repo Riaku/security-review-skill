@@ -7,3 +7,7 @@
 **Detect:** `DES`, `RC4`, `ECB`, `md5(`, `sha1(` in security paths, `Cipher.getInstance("DES")`, custom XOR/"encryption" functions.
 
 **References:** OWASP Cryptographic Storage Cheat Sheet, CWE-327, NIST SP 800-131A
+
+---
+
+**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

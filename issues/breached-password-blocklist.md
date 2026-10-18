@@ -7,3 +7,7 @@
 **Detect:** grep password policy code for absent blocklist/pwned-password check, no `k-anonymity`/`pwnedPasswords` call, min-length-only policy with no composition rules.
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-521, NCSC Pwned Passwords guidance
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

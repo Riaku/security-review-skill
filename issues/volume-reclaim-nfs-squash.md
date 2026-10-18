@@ -7,3 +7,7 @@
 **Detect:** PVs with `persistentVolumeReclaimPolicy: Delete` on stateful data; NFS export options missing `root_squash` in `/etc/exports` or provisioner config.
 
 **References:** CIS K8s 5.2.3, NFS man root_squash, CWE-284, NIST SP 800-190 5.3
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

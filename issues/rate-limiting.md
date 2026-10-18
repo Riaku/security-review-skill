@@ -7,3 +7,7 @@
 **Detect:** Login/reset routes with no `ratelimit`, `throttle`, `limit=` decorator or gateway policy.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Rate Limiting Cheat Sheet, NIST SP 800-63B
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

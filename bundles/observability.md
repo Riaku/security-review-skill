@@ -2,7 +2,7 @@
 
 Logs, metrics, traces, profiling, alerting.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [observability](../categories/observability.md) · index: [SKILL.md](../SKILL.md)
 
 # Structured Logging
 
@@ -14,6 +14,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** OWASP Logging Cheat Sheet, CWE-1118, NIST SP 800-92
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Log Levels
 
 **SHOULD NOT** ship production builds with debug or trace level logging enabled by default.
@@ -23,6 +27,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep config for `LOG_LEVEL=debug`, `level: trace`, `logging.DEBUG`, `debug = true` in prod env files, Helm values, or Dockerfiles.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, MASVS-STORAGE-3
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Log Rotation
 
@@ -34,6 +42,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** NIST SP 800-92, CWE-400, CIS Docker 2.4
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Distributed Tracing
 
 **MUST** propagate trace context across all service and queue boundaries so a single request is followable end to end.
@@ -43,6 +55,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep for `traceparent` / `tracestate` header propagation in HTTP clients and message producers; check tracer init covers every framework middleware.
 
 **References:** W3C Trace Context, OWASP Testing Guide 4.2, NIST SP 800-187
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # OpenTelemetry
 
@@ -54,6 +70,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** OpenTelemetry spec, OWASP Logging Cheat Sheet, NIST SP 800-137
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Correlation IDs
 
 **MUST** attach a unique correlation ID to every inbound request and carry it through all downstream calls, logs, and error reports.
@@ -63,6 +83,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep middleware for `X-Request-ID` / `request_id` generation and propagation; verify log schema includes the field on every line.
 
 **References:** OWASP Logging Cheat Sheet, AWS Prescriptive Guidance tracing, Google SRE Book Ch.6
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Metrics Cardinality
 
@@ -74,6 +98,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Prometheus cardinality guidance, CWE-400, Grafana LTS high-availability docs
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # p99 Latency
 
 **SHOULD** track and alert on p99 (not just average) latency for critical endpoints and dependency calls.
@@ -83,6 +111,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep dashboards/alerts for `histogram_quantile(0.99` or `p99`; flag services whose SLOs use only mean/median latency.
 
 **References:** Google SRE Workbook SLI chapter, CWE-400, NIST SP 800-207 zero-trust monitoring
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Alert Fatigue
 
@@ -94,6 +126,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Google SRE Workbook alerting chapter, PagerDuty alert fatigue guidance, NIST SP 800-61
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Error Tracking
 
 **SHOULD** route unhandled exceptions to an error tracker (Sentry-style) with release, environment, and correlation context — while scrubbing sensitive fields before transmission.
@@ -103,6 +139,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep for `before_send` / `before_send` scrubbers, `Sentry.init`, and check that breadcrumbs exclude password, authorization, cookie headers.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, Sentry security docs, Sentry `before_send` filtering
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Profiling
 
@@ -114,6 +154,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Google SRE Book Ch.6 monitoring, CWE-400, Datadog continuous profiling docs
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Flame Graphs
 
 **SHOULD** make flame graphs available for CPU and allocation hot spots so performance regressions and abuse patterns are visually diagnosable.
@@ -123,6 +167,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** check profiling pipeline outputs renderable flame graphs (pprof collapsed stacks, Speedscope JSON); verify runbooks link to them.
 
 **References:** Brendan Gregg flame graphs, Google SRE Workbook, CWE-400
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
@@ -145,6 +193,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** AWS Cost Anomaly Detection docs, AWS Well-Architected Cost Optimization pillar, FinOps Framework (finops.org)
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Log Injection & Log Forging
 
 **MUST NOT** write unsanitized user input into log lines; strip CR/LF and control characters before logging any request data.
@@ -154,6 +206,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep for user-controlled values interpolated into logger calls (`log.info("User " + username)`) without newline stripping; check for encoder/sanitizer in log appender config.
 
 **References:** OWASP Logging Cheat Sheet, CWE-117, OWASP WSTG-INPV-009
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # PII & Secrets Leakage into Application Logs
 
@@ -165,6 +221,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Kubernetes API Audit Logging Not Enabled
 
 **MUST** enable the kube-apiserver audit policy with persistent, tamper-resistant shipping of audit events.
@@ -174,6 +234,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** check kube-apiserver flags `--audit-policy-file`, `--audit-log-path`; grep manifests for `audit.k8s.io/v1` Policy; verify long retention on the sink.
 
 **References:** CIS Kubernetes 1.2.1–1.2.4, CWE-778, NIST SP 800-92, K8s docs audit-policy
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Manual kubectl apply Drift Not Detected Against Git
 
@@ -185,6 +249,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Flux drift detection docs, ArgoCD selfHeal, OWASP K8s misconfiguration, NIST SP 800-190 integrity monitoring
 
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Queue Depth and Consumer Lag Alerting
 
 **MUST** page on queue depth and consumer lag thresholds so stalled processing is caught before data is lost or SLAs break.
@@ -194,6 +262,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep alert rules for `rabbitmq_queue_messages_ready`, `kafka_consumergroup_lag`, `sqs ApproxAgeOfOldestMessage`; flag queues with no lag alert.
 
 **References:** AWS SQS monitoring guide, RED/USE method, CWE-770, Google SRE Workbook
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Job Age SLO
 
@@ -205,6 +277,10 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Google SRE Workbook tail latency, NIST SP 800-53 AU-6, SLI/SLO practice
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Dead-man's-switch Heartbeat for Scheduled Jobs
 
 **SHOULD** give every scheduled job a heartbeat that pages when the expected ping is missing, rather than alerting only on failure.
@@ -214,6 +290,10 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep schedulers for healthcheck pings (`healthchecks.io`, `deadman` checks, `K8s CronJob` success conditions); flag jobs with failure alerts but no liveness deadline.
 
 **References:** Healthchecks.io dead-man pattern, Google SRE Workbook, CWE-778, K8s CronJob docs
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Slow query log captured, reviewed, and regression-tracked
 
@@ -237,6 +317,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** PostgreSQL pg_stat_statements docs, MySQL slow query log docs, Google SRE Book saturation monitoring
 
+---
+
+**Part of:** [database](../categories/database.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Disk and inode exhaustion forecasted with lead time
 
 **MUST** forecast disk and inode consumption from historical growth rates and alert early enough (days, not hours) to act before full.
@@ -246,6 +330,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep monitoring for `disk_free_percent`, `inodes_free`, `predict_linear`/forecast queries in alert rules, log-rotation and cleanup cron jobs; flag alerts that fire only at >95% with no trend projection.
 
 **References:** CWE-400, NIST SP 800-184, Google SRE monitoring four golden signals
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Crash-Loop Restart Storms Bounded and Alarmed
 
@@ -257,6 +345,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** K8s docs backoff, kube-state-metrics CrashLoopBackOff, CWE-770, SRE alerting practices
 
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Log Pipeline Backpressure and Drop Rate
 
 **MUST** monitor the log pipeline's own backlog and drop rate under load so telemetry loss is visible when it happens.
@@ -266,6 +358,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep pipeline metrics for `dropped_total`, `rejected_batches`, `buffer_full`, agent `out_queue` depth; verify alerts on sustained drops > 0.
 
 **References:** NIST SP 800-92, Vector/Fluent Bit drop metrics, Google SRE Workbook, CWE-770
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Synthetic External Monitoring
 
@@ -277,6 +373,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** Google SRE Book Ch.6, OWASP Testing Guide 4.0, CWE-295
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Deploy Markers on Metrics
 
 **MUST** annotate dashboards and traces with deploy events (version, timestamp, actor) so regressions and incidents can be correlated to releases.
@@ -286,6 +386,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep CI/CD for annotations pushed to metrics (`deploy_event`, Grafana annotations API, `release` label on series); check dashboards show deploy lines.
 
 **References:** Google SRE Workbook, DORA deploy frequency practices, Grafana annotations docs
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # SARIF-Standardized Scan Results (unified alert pipeline)
 
@@ -297,6 +401,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** OWASP CI Security CS2, CWE-1053, NIST SP 800-218 PW.7, SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Threat Hunting Practice
 
 **SHOULD** run scheduled, hypothesis-driven hunts over retained telemetry instead of waiting for alerts to fire.
@@ -306,6 +414,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** verify a documented hunt cadence, saved hunt queries (KQL/SPL/Lucene) in the SIEM, and hunt findings tracked; flag SIEM used only for alert triage.
 
 **References:** MITRE ATT&CK D3FEND hunt guidance, NIST SP 800-150, SANS threat hunting process
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Masquerading & Homoglyph Detection
 
@@ -317,6 +429,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** MITRE ATT&CK T1036 Masquerading, T1036.008, CWE-456, Unicode homoglyphs (Trojan Source)
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Beaconing Detection
 
 **MUST** analyze outbound connection timing for fixed-interval patterns that indicate C2 beaconing.
@@ -326,6 +442,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep SIEM for inter-arrival variance / jitter analysis queries over flow logs; check NetFlow/Egress rules bucket connection periodicity per destination.
 
 **References:** MITRE ATT&CK T1071, T1029 Scheduled Transfer, CWE-358, Mandiant beaconing detection guidance
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Data Exfiltration Monitoring
 
@@ -337,6 +457,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** MITRE ATT&CK T1048 Exfiltration Over Alternative Protocol, T1567, CWE-200, NIST SP 800-53 AC-4
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Living-off-the-Land Abuse
 
 **MUST** monitor execution of legitimate binaries (curl, ssh, powershell, wmic, certutil, base64) for arguments and contexts inconsistent with normal operations.
@@ -346,6 +470,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep EDR/SIEM rules for process-args telemetry on LOLBAS-listed binaries (e.g. `certutil -urlcache`, `powershell -enc`); flag hosts where these run outside admin baselines.
 
 **References:** MITRE ATT&CK T1218 System Binary Proxy Execution, LOLBAS project, CWE-427, Atomic Red Team tests
+
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Anomalous Authentication Detection (impossible travel, rare UA/IP)
 
@@ -357,6 +485,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [observability](../categories/observability.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
 **SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
@@ -366,6 +498,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep detection rules for `T1021`, `remote_services`, `admin_shares`, `pass-the-hash`, unusual-login Sigma/YARA-L rules.
 
 **References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma rules, GuardDuty UnauthorizedAccess
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Credential Access Detection (keylogging, token theft, credential dumping patterns)
 
@@ -377,6 +513,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** MITRE ATT&CK TA0006/T1003, NIST SP 800-63B, CWE-522, GuardDuty credential-access detections
 
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [observability](../categories/observability.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
@@ -386,6 +526,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
+
+---
+
+**Part of:** [containers-k8s](../categories/containers-k8s.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Admin Activity Review
 
@@ -397,6 +541,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Audit-Log Chain of Custody
 
 **SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
@@ -406,6 +554,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
 
 **References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Certificate-Issuance Monitoring
 
@@ -417,6 +569,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Agent Session-Log Traceability
 
 **MUST** link every agent-authored commit to its session transcript and the human who initiated it (co-author trailer, session-log URL in commit message, verified signature).
@@ -426,6 +582,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** bot commits lacking co-author/session links; agent tooling with transcripts disabled or rotated to zero retention; no mapping from merged PR to agent run.
 
 **References:** GitHub Copilot agent auditability (signed commits, session-log link), OpenAI Codex transcripts, DeepSeek harness session-log model
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Logs as Event Streams
 
@@ -437,6 +597,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** 12factor.net/logs, OWASP Logging Cheat Sheet, Kubernetes logging best practices
 
+---
+
+**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Management-Plane Activity Alerting
 
 **MUST** route cloud control-plane audit streams (CloudTrail, Azure Activity Log, GCP Cloud Audit Logs) into real-time metric filters and alarms so privileged API activity — root/console usage, security-group and firewall changes, IAM policy modifications, key deletion — pages a human within minutes instead of waiting for a periodic log review.
@@ -447,6 +611,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** CIS AWS 3.x (CloudTrail processing & alerting), AWS CloudTrail best practices, Azure Activity Log alert guidance, aquasecurity/trivy-checks AWS CloudTrail alert rules
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Object-Level Data Access Logging
 
 **SHOULD** enable data-plane (object/bucket-level) read and write logging on object storage holding sensitive data, not just control-plane API logging — management-plane logs record who created the bucket, but never who read the objects inside it.
@@ -456,4 +624,8 @@ log_min_duration_statement = 200  # tied to p95 SLO
 **Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
 
 **References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

@@ -2,7 +2,7 @@
 
 Schema, queries, transactions, replication, backup/recovery.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [database](../categories/database.md) · index: [SKILL.md](../SKILL.md)
 
 # Indexes
 
@@ -26,6 +26,10 @@ CREATE INDEX idx_orders_customer ON orders (customer_id);
 
 **References:** OWASP ASVS V3, Use The Index Luke, MySQL indexing best practices, CWE-400
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # EXPLAIN ANALYZE
 
 **SHOULD** review `EXPLAIN ANALYZE` plans for every new hot query before merging, rather than trusting that an index exists in theory.
@@ -46,6 +50,10 @@ SELECT * FROM users WHERE lower(email) = lower($1);  -- index-only lookup
 ```
 
 **References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, OWASP ASVS V3.1, CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # N+1 Queries
 
@@ -71,6 +79,10 @@ for b in books:
 
 **References:** OWASP ASVS V3.1, Django ORM performance docs, nplusone (N+1 detection library), CWE-400
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Full Table Scans
 
 **SHOULD NOT** ship list endpoints whose queries degrade to sequential scans once the table exceeds working-set size.
@@ -92,6 +104,10 @@ SELECT * FROM events WHERE status = 'open' ORDER BY created_at DESC LIMIT 50;
 ```
 
 **References:** PostgreSQL EXPLAIN docs, Use The Index Luke: Sequential Scans, OWASP ASVS V3.1, CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Connection Pooling
 
@@ -117,6 +133,10 @@ def handler(event, ctx):
 
 **References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, OWASP ASVS V3.1, AWS Lambda connection management guide
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Database Migrations
 
 **MUST** manage schema changes through versioned, reviewable migration files applied by tooling — never by ad-hoc SQL run against production.
@@ -140,6 +160,10 @@ def upgrade():
 
 **References:** Flyway documentation, Alembic migrations guide, Google SRE Book: Migration Best Practices, CWE-1105
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Down Migrations
 
 **MUST** provide a tested `downgrade` (rollback) path for every schema migration that touches production data.
@@ -161,6 +185,10 @@ def downgrade():
 ```
 
 **References:** Alembic Rolling Back Migrations, Flyway Undo Migrations, Google SRE Book: Rollback, CWE-1105
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Transactions
 
@@ -187,6 +215,10 @@ with conn.transaction():
 
 **References:** PostgreSQL Transactions docs, MySQL InnoDB Transaction Model, CWE-662
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # ACID
 
 **MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity.
@@ -210,6 +242,10 @@ with db.transaction():
 
 **References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), CWE-662
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Isolation Levels
 
 **SHOULD** set the transaction isolation level deliberately per workload instead of inheriting the driver or framework default blindly.
@@ -231,6 +267,10 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 ```
 
 **References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, JEP-001 (Heroku), CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Deadlocks
 
@@ -259,6 +299,10 @@ with txn:
 
 **References:** PostgreSQL Deadlock Detection docs, MySQL InnoDB deadlock docs, CWE-833
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Optimistic Locking
 
 **SHOULD** use optimistic concurrency control (version or ETag column) for user-facing edits where concurrent modification is possible but rare.
@@ -280,6 +324,10 @@ WHERE id = :id AND version = :expected;
 ```
 
 **References:** Hibernate `@Version` docs, Rails `lock_version`, RFC 7232 If-Match, CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Pessimistic Locking
 
@@ -304,6 +352,10 @@ SELECT * FROM seats WHERE id = 42 FOR UPDATE NOWAIT;
 
 **References:** PostgreSQL SELECT FOR UPDATE docs, MySQL locking reads (InnoDB), CWE-662
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Normalization
 
 **SHOULD** normalize transactional schemas to at least 3NF so each fact is stored once and updates cannot leave copies inconsistent.
@@ -326,6 +378,10 @@ CREATE TABLE orders (id INT, customer_id INT REFERENCES customers(id), total NUM
 
 **References:** Codd normal forms (1NF–3NF), Date *An Introduction to Database Systems*, CWE-1105
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Denormalization
 
 **SHOULD NOT** denormalize for read speed unless the write path maintaining the copies is explicitly designed, tested, and reconciled.
@@ -347,6 +403,10 @@ upsert_user_stats(user_id, computed_from(order_events))  # replayable
 ```
 
 **References:** Kleppmann *DDIA* Ch. 1, materialized view maintenance patterns, DynamoDB denormalization guide, CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Foreign Keys
 
@@ -371,6 +431,10 @@ CREATE TABLE orders (
 
 **References:** SQL:2016 referential integrity, PostgreSQL FOREIGN KEY constraints, CWE-1105
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Unique Constraints
 
 **MUST** enforce business-level uniqueness (email, username, SKU per tenant) with database UNIQUE constraints, not just a pre-insert existence check in code.
@@ -392,6 +456,10 @@ CREATE UNIQUE INDEX users_email_uniq ON users (email);
 ```
 
 **References:** SQL UNIQUE constraint, OWASP ASVS V3.2, Rails uniqueness-validation index caveat, CWE-362
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Cascading Deletes
 
@@ -415,6 +483,10 @@ REFERENCES users(id) ON DELETE RESTRICT  -- force explicit, reviewed cleanup
 
 **References:** PostgreSQL ON DELETE actions, OWASP ASVS V6.4 (data retention), CWE-459
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Soft Deletes
 
 **MUST** filter soft-deleted rows (`deleted_at IS NULL`) in every query path, and enforce that filter centrally rather than per-call.
@@ -437,6 +509,10 @@ class UserQuery(db.Query):
 
 **References:** OWASP ASVS V6.4, Rails default_scope docs, PostgreSQL Row Security, CWE-459
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # UUIDs vs Auto-Increment
 
 **SHOULD NOT** expose sequential auto-increment identifiers in public URLs or API payloads for resources whose existence or volume is sensitive.
@@ -457,6 +533,10 @@ GET /invoices/9f2c7a4e-1b3d-4e5f-8a6b-c0d1e2f3a4b5   # UUIDv4, unguessable
 ```
 
 **References:** OWASP ASVS V3.2 / V4.2.1, RFC 4122 (UUID), PostgreSQL uuid vs bigserial notes, CWE-639
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Cursor-Based Pagination
 
@@ -480,6 +560,10 @@ ORDER BY created_at, id LIMIT 50;   -- index seek, stable across inserts
 
 **References:** PostgreSQL keyset pagination, Stripe API pagination design, CWE-400
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Full-Text Search
 
 **MUST NOT** implement user-facing search with `LIKE '%term%'` on large tables; use the database's full-text engine or a dedicated search service.
@@ -500,6 +584,10 @@ SELECT * FROM articles WHERE to_tsvector('english', body) @@ plainto_tsquery(:q)
 ```
 
 **References:** PostgreSQL Full Text Search + GIN indexes, OWASP ASVS V3.1, CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Read Replicas
 
@@ -524,6 +612,10 @@ return db.primary.get_order(o.id)   # read-your-writes on primary
 
 **References:** PostgreSQL Hot Standby docs, AWS RDS replica lag guidance, Kleppmann *DDIA* Ch. 5, CWE-362
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Replication Lag
 
 **SHOULD** monitor replication lag as a first-class SLO and make the application degrade explicitly when lag exceeds the tolerated threshold.
@@ -547,6 +639,10 @@ if replica is None:
 
 **References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Master, Google SRE Book: SLOs, CWE-362
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Sharding
 
 **MUST** choose a shard key that distributes write load evenly and keeps transactionally-related rows on the same shard; cross-shard transactions MUST be avoided by design, not discovered in production.
@@ -569,6 +665,10 @@ shard = hash(tenant_id) % 8   # all of a tenant's rows co-located
 
 **References:** Vitess sharding guide, Azure sharding/catalog pattern guides, Kleppmann *DDIA* Ch. 6, CWE-662
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Partitioning
 
 **SHOULD** partition very large tables by a natural access dimension (time, tenant) and verify that queries prune partitions instead of scanning all of them.
@@ -590,6 +690,10 @@ DROP TABLE access_logs_2026_07;   -- instant retention, no lock storm
 ```
 
 **References:** PostgreSQL partition management docs, MySQL partitioning docs, CWE-400
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Hot Partitions
 
@@ -621,6 +725,10 @@ CREATE TABLE events (
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Postgres VACUUM
 
 **SHOULD** keep autovacuum enabled and tuned per-table rather than disabling it for hand-rolled cron vacuuming.
@@ -645,6 +753,10 @@ ALTER TABLE events SET (
 
 **References:** PostgreSQL Routine Vacuuming docs, CWE-400 Uncontrolled Resource Consumption, PG transaction-ID wraparound docs
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Materialized Views
 
 **MAY** serve data from materialized views, but the freshness contract MUST be explicit: every consumer must know the maximum staleness and refresh schedule.
@@ -667,6 +779,10 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY user_perms;
 ```
 
 **References:** PostgreSQL MATERIALIZED VIEW / REFRESH CONCURRENTLY docs, OWASP A05 Security Misconfiguration
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Backups
 
@@ -693,6 +809,10 @@ pg_dump -Fc mydb | age -r "$BACKUP_PUBKEY" \
 
 **References:** NIST SP 800-34 Contingency Planning, CIS Controls v8 (data protection), OWASP ASVS V7
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Point-in-Time Recovery
 
 **SHOULD** configure continuous archiving (WAL archiving, binlog retention) so the database recovers to an arbitrary instant, not just the last nightly dump.
@@ -715,6 +835,10 @@ archive_command = 'wal-g wal-push %p'
 ```
 
 **References:** PostgreSQL Continuous Archiving & PITR docs, MySQL binlog PITR docs, NIST SP 800-34 RPO guidance
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # ORM Lazy Loading
 
@@ -740,6 +864,10 @@ for order in orders:
 
 **References:** OWASP ORM cautions in SQLi prevention cheat sheet, CWE-400, Hibernate N+1 docs, SQLAlchemy eager loading docs
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Backup Encryption & Immutable/Offsite Copies
 
 **MUST** encrypt backups at rest and keep copies that are immutable (object-lock/WORM) and offsite, so a compromised production environment cannot destroy or tamper with every copy.
@@ -764,6 +892,10 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **References:** CIS Control 11 (immutable backups), NIST SP 800-53 CP-9, AWS S3 Object Lock docs, CWE-311
 
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Data Retention & Deletion Pipelines
 
 **MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and prove deletion propagated to replicas, caches, and backups.
@@ -787,6 +919,10 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** GDPR Art. 17 Right to Erasure, CCPA deletion, NIST SP 800-53 MP-6, ISO 27018
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Batching (many writes/calls, one trip)
 
 **SHOULD** coalesce many small writes or downstream calls into batches sized to the workload instead of one network round trip per record.
@@ -807,6 +943,10 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 ```
 
 **References:** Arjay McCandless System Design Cheat Sheet (batching), psycopg execute_values docs, Kafka batch.size/linger.ms docs
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [database](../categories/database.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # NoSQL Query Injection
 
@@ -832,6 +972,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-943 NoSQL injection, OWASP NoSQL Injection Prevention Cheat Sheet, MongoDB $where security notes
 
+---
+
+**Part of:** [database](../categories/database.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Overlapping cron executions guarded by single-runner locks
 
 **MUST** guard scheduled jobs with a single-runner lock (advisory lock, flock, or leader election) so a slow run cannot overlap the next scheduled tick.
@@ -854,6 +998,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** Kubernetes CronJob concurrencyPolicy docs, PostgreSQL advisory locks, CWE-662 Improper Synchronization
 
+---
+
+**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Idle-in-transaction sessions monitored and killed
 
 **MUST** set a bounded `idle_in_transaction_session_timeout` so sessions holding open transactions without activity are terminated automatically.
@@ -875,6 +1023,10 @@ ALTER ROLE app_report SET idle_in_transaction_session_timeout = '300s'
 ```
 
 **References:** PostgreSQL idle_in_transaction_session_timeout docs, CWE-404 Improper Resource Shutdown, pg_stat_activity guides
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Statement and lock timeouts set explicitly per workload
 
@@ -899,6 +1051,10 @@ ALTER ROLE reports  SET statement_timeout = '30min';
 
 **References:** PostgreSQL timeout config docs, PgBouncer per-user pools, CWE-400 Uncontrolled Resource Consumption
 
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Slow query log captured, reviewed, and regression-tracked
 
 **SHOULD** enable the slow query log (or `pg_stat_statements`) at an SLO-appropriate threshold, review it on a standing cadence, and treat new entrants as regressions worth a ticket.
@@ -921,6 +1077,10 @@ log_min_duration_statement = 200  # tied to p95 SLO
 
 **References:** PostgreSQL pg_stat_statements docs, MySQL slow query log docs, Google SRE Book saturation monitoring
 
+---
+
+**Part of:** [database](../categories/database.md) · [observability](../categories/observability.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
 **MUST** use a live-migration tool (gh-ost, `pt-online-schema-change`, or a non-blocking Postgres equivalent) for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`.
@@ -942,6 +1102,10 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 ```
 
 **References:** GitHub gh-ost docs, Percona pt-online-schema-change docs, PostgreSQL CREATE INDEX CONCURRENTLY docs
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Stalled replication slots accumulating WAL until disk fills
 
@@ -967,6 +1131,10 @@ FROM pg_replication_slots;
 
 **References:** PostgreSQL replication slots & WAL retention docs, pgBackRest/WAL-G slot management, CWE-400 disk exhaustion
 
+---
+
+**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Crash-consistent volume snapshots vs logical dumps distinguished
 
 **SHOULD** document, per datastore, whether each backup is crash-consistent (volume snapshot) or logically consistent (`pg_dump`, `mysqldump`), and use the right one per recovery scenario.
@@ -989,6 +1157,10 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **References:** EBS/PersistentVolume snapshot consistency docs, PostgreSQL backup methods docs, NIST SP 800-34
 
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Page checksums enabled to catch silent data corruption
 
 **MUST** enable data page checksums (`--data-checksums` at initdb, or vendor equivalent) so bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently.
@@ -1009,6 +1181,10 @@ initdb -D /var/lib/postgresql/data --data-checksums
 ```
 
 **References:** PostgreSQL initdb --data-checksums docs, CWE-17 Unexpected Condition Handling, storage bit-rot literature
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Volume IOPS/throughput ceilings profiled before launch
 
@@ -1035,6 +1211,10 @@ resource "aws_ebs_volume" "pg" {
 
 **References:** AWS EBS volume types docs, fio benchmarking guide, Google SRE Book capacity planning
 
+---
+
+**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Long-running jobs checkpoint so restarts resume, not restart
 
 **MUST** persist progress checkpoints in long-running batch jobs so an interrupted run resumes from the last checkpoint instead of reprocessing from the beginning.
@@ -1058,6 +1238,10 @@ for r in db.rows.gt(cur).limit(1000):
 
 **References:** Arjay McCandless cheat sheet (checkpointing), Kafka consumer offset docs, AWS fault-tolerant batch guidance
 
+---
+
+**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Dual-write plus backfill migration cutover rehearsed
 
 **SHOULD** rehearse the full dual-write → backfill → verify → cutover sequence on a staging copy of production data before running it live, with tested rollback at each phase.
@@ -1079,6 +1263,10 @@ staging: dual-write 48h → backfill → checksum diff = 0
 ```
 
 **References:** AWS DMS dual-run/verification guidance, expand-migrate-contract migration pattern docs, NIST SP 800-34 rehearsal requirements
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Code rollback without data rollback causes schema mismatch
 
@@ -1102,6 +1290,10 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 ```
 
 **References:** Fowler Evolutionary Database Design (expand/contract), Marten migration docs, DORA rollback practices
+
+---
+
+**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
@@ -1129,6 +1321,10 @@ spec:
 
 **References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 
 **MUST NOT** describe a dataset as anonymous unless re-identification is infeasible with auxiliary data; pseudonymized data — reversible keys, stable IDs — remains personal data under GDPR.
@@ -1152,6 +1348,10 @@ export = anonymize(df, k=20,
 
 **References:** GDPR Recital 26 (anonymised vs pseudonymised), NIST SP 800-188 De-Identifying Datasets, Narayanan & Shmatikov
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Backup Verification Drills (scheduled restore tests, not just backup jobs)
 
 **MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
@@ -1161,6 +1361,10 @@ export = anonymize(df, k=20,
 **Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
 **References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+
+---
+
+**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Exposed Data-Service Ports
 
@@ -1172,6 +1376,10 @@ export = anonymize(df, k=20,
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Database Selection by Workload (CAP Class Fit)
 
 **SHOULD** choose each datastore deliberately for its workload's CAP class and access pattern — CP for transactions/permissions/inventory, AP for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale.
@@ -1181,6 +1389,10 @@ export = anonymize(df, k=20,
 **Detect:** review architecture docs/ADRs for datastore-per-workload rationale; grep for one store serving contradictory workloads (e.g. Redis as system-of-record, Postgres for firehose telemetry).
 
 **References:** CAP theorem, DDIA ch. 4–9, AWS/Google datastore selection guides
+
+---
+
+**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Durability Acknowledgment Policy
 
@@ -1192,6 +1404,10 @@ export = anonymize(df, k=20,
 
 **References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off, Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs
 
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [database](../categories/database.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Erasure Propagation to Secondary Stores
 
 **MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
@@ -1202,6 +1418,10 @@ export = anonymize(df, k=20,
 
 **References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Database per Service
 
 **SHOULD** give each service its own datastore and schema, accessed only through that service's API; **SHOULD NOT** let multiple services share a database instance or read each other's tables directly.
@@ -1211,4 +1431,8 @@ export = anonymize(df, k=20,
 **Detect:** identical DB connection strings across service repos; direct SQL against another service's tables; shared schema grants; cross-service joins in query code or reporting jobs.
 
 **References:** martinfowler.com/articles/microservices.html (Decentralized Data Management), Martin Fowler Patterns of Enterprise Application Architecture (Shared Database anti-pattern)
+
+---
+
+**Part of:** [database](../categories/database.md) · [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 

@@ -7,3 +7,7 @@
 **Detect:** `postmortems/` directory, `action_items` with owners and due dates, unresolved items past deadline.
 
 **References:** Google SRE Book (postmortem culture), Blameless postmortem practice, NIST SP 800-61
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

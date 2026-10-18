@@ -7,3 +7,7 @@
 **Detect:** grep for default credentials, open SSH/RDP, missing patch cadence, absent firewall rules; no "Cyber Essentials" cert or scope doc.
 
 **References:** UK GDPR, NCSC Cyber Essentials v3.1, ICO guidance
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

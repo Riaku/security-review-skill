@@ -2,35 +2,37 @@
 
 LLM feature security and quality.
 
+Domain: [governance](../domains/governance.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `prompt-injection`
-- `hallucinated-packages`
-- `context-windows`
-- `evals`
-- `model-version-pinning`
-- `rag-poisoning`
-- `tool-argument-injection`
-- `jailbreak-red-teaming`
-- `model-artifact-integrity`
-- `eu-ai-act`
-- `llm-output-untrusted`
-- `llm-api-pii-redaction`
-- `llm-denial-of-wallet`
-- `agent-hitl-approval`
-- `system-prompt-extraction`
-- `mcp-plugin-trust`
-- `ai-generated-code-review`
-- `embedding-inversion-vector-stores`
-- `shadow-ai-governance`
-- `ai-code-ownership-policy`
-- `agent-verification-loop`
-- `coding-agent-sandbox-config`
-- `agent-instruction-file-review`
-- `agent-session-traceability`
-- `review-bot-neutral-status-trap`
-- `advisory-vs-enforced-agent-checks`
-- `agent-egress-allowlist`
-- `agent-session-hygiene`
-- `cross-model-review-diversity`
-- `unattended-agent-automation-governance`
-- `agent-context-exclusion-file`
+- [prompt-injection](../issues/prompt-injection.md)
+- [hallucinated-packages](../issues/hallucinated-packages.md)
+- [context-windows](../issues/context-windows.md)
+- [evals](../issues/evals.md)
+- [model-version-pinning](../issues/model-version-pinning.md)
+- [rag-poisoning](../issues/rag-poisoning.md)
+- [tool-argument-injection](../issues/tool-argument-injection.md)
+- [jailbreak-red-teaming](../issues/jailbreak-red-teaming.md)
+- [model-artifact-integrity](../issues/model-artifact-integrity.md)
+- [eu-ai-act](../issues/eu-ai-act.md)
+- [llm-output-untrusted](../issues/llm-output-untrusted.md)
+- [llm-api-pii-redaction](../issues/llm-api-pii-redaction.md)
+- [llm-denial-of-wallet](../issues/llm-denial-of-wallet.md)
+- [agent-hitl-approval](../issues/agent-hitl-approval.md)
+- [system-prompt-extraction](../issues/system-prompt-extraction.md)
+- [mcp-plugin-trust](../issues/mcp-plugin-trust.md)
+- [ai-generated-code-review](../issues/ai-generated-code-review.md)
+- [embedding-inversion-vector-stores](../issues/embedding-inversion-vector-stores.md)
+- [shadow-ai-governance](../issues/shadow-ai-governance.md)
+- [ai-code-ownership-policy](../issues/ai-code-ownership-policy.md)
+- [agent-verification-loop](../issues/agent-verification-loop.md)
+- [coding-agent-sandbox-config](../issues/coding-agent-sandbox-config.md)
+- [agent-instruction-file-review](../issues/agent-instruction-file-review.md)
+- [agent-session-traceability](../issues/agent-session-traceability.md)
+- [review-bot-neutral-status-trap](../issues/review-bot-neutral-status-trap.md)
+- [advisory-vs-enforced-agent-checks](../issues/advisory-vs-enforced-agent-checks.md)
+- [agent-egress-allowlist](../issues/agent-egress-allowlist.md)
+- [agent-session-hygiene](../issues/agent-session-hygiene.md)
+- [cross-model-review-diversity](../issues/cross-model-review-diversity.md)
+- [unattended-agent-automation-governance](../issues/unattended-agent-automation-governance.md)
+- [agent-context-exclusion-file](../issues/agent-context-exclusion-file.md)

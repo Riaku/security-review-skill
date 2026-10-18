@@ -7,3 +7,7 @@
 **Detect:** Long-retention archives encrypted only with RSA-2048/ECC, TLS sessions without hybrid KEM, backups with no key-rotation schedule.
 
 **References:** NIST IR 8547, NSA CNSA 2.0 timeline, HNDL classification guidance
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

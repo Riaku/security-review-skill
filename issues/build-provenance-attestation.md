@@ -7,3 +7,7 @@
 **Detect:** grep `slsa`, `provenance`, `cosign attest`, `sigstore`, `in-toto` in CI configs and release steps.
 
 **References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 PW.4, CWE-494
+
+---
+
+**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

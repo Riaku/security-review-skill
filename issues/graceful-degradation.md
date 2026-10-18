@@ -7,3 +7,7 @@
 **Detect:** grep `fallback`, `default_value`, cached-response fallbacks, per-dependency feature flags.
 
 **References:** Netflix fallback patterns, Google SRE Book graceful degradation, CWE-251
+
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -7,3 +7,7 @@
 **Detect:** polling handlers with no `setTimeout`/deadline, absent per-IP connection limits on `/poll` endpoints.
 
 **References:** CWE-400, OWASP ASVS V5.2, MDN long polling guidance
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

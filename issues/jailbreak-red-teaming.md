@@ -7,3 +7,7 @@
 **Detect:** no garak/pyrit/jailbreakbench runs in CI; absence of stored jailbreak regression corpora or refusal-bypass tests.
 
 **References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-3
+
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

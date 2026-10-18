@@ -2,34 +2,36 @@
 
 Release engineering: strategies, environments, versioning.
 
+Domain: [infrastructure](../domains/infrastructure.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `infrastructure-as-code`
-- `terraform-state`
-- `gitops`
-- `blue-green-deployments`
-- `canary-releases`
-- `rollbacks`
-- `feature-flags`
-- `environment-parity`
-- `staging-environments`
-- `twelve-factor-apps`
-- `semantic-versioning`
-- `debug-mode-in-production`
-- `helm-values-plaintext-secrets`
-- `helm-hook-ordering-blocking`
-- `argocd-default-credentials`
-- `gitops-manual-apply-drift`
-- `terraform-state-plaintext-secrets`
-- `online-schema-change-tooling`
-- `deploy-markers-on-metrics`
-- `dual-write-backfill-cutover`
-- `code-data-rollback-mismatch`
-- `startup-dependency-ordering`
-- `infrastructure-drift-detection`
-- `immutable-infrastructure`
-- `policy-as-code-enforcement`
-- `artifact-signing-verification`
-- `stale-flag-expiry-policy`
-- `kill-switch-verification`
-- `build-release-run-separation`
-- `one-off-admin-processes`
+- [infrastructure-as-code](../issues/infrastructure-as-code.md)
+- [terraform-state](../issues/terraform-state.md)
+- [gitops](../issues/gitops.md)
+- [blue-green-deployments](../issues/blue-green-deployments.md)
+- [canary-releases](../issues/canary-releases.md)
+- [rollbacks](../issues/rollbacks.md)
+- [feature-flags](../issues/feature-flags.md)
+- [environment-parity](../issues/environment-parity.md)
+- [staging-environments](../issues/staging-environments.md)
+- [twelve-factor-apps](../issues/twelve-factor-apps.md)
+- [semantic-versioning](../issues/semantic-versioning.md)
+- [debug-mode-in-production](../issues/debug-mode-in-production.md)
+- [helm-values-plaintext-secrets](../issues/helm-values-plaintext-secrets.md)
+- [helm-hook-ordering-blocking](../issues/helm-hook-ordering-blocking.md)
+- [argocd-default-credentials](../issues/argocd-default-credentials.md)
+- [gitops-manual-apply-drift](../issues/gitops-manual-apply-drift.md)
+- [terraform-state-plaintext-secrets](../issues/terraform-state-plaintext-secrets.md)
+- [online-schema-change-tooling](../issues/online-schema-change-tooling.md)
+- [deploy-markers-on-metrics](../issues/deploy-markers-on-metrics.md)
+- [dual-write-backfill-cutover](../issues/dual-write-backfill-cutover.md)
+- [code-data-rollback-mismatch](../issues/code-data-rollback-mismatch.md)
+- [startup-dependency-ordering](../issues/startup-dependency-ordering.md)
+- [infrastructure-drift-detection](../issues/infrastructure-drift-detection.md)
+- [immutable-infrastructure](../issues/immutable-infrastructure.md)
+- [policy-as-code-enforcement](../issues/policy-as-code-enforcement.md)
+- [artifact-signing-verification](../issues/artifact-signing-verification.md)
+- [stale-flag-expiry-policy](../issues/stale-flag-expiry-policy.md)
+- [kill-switch-verification](../issues/kill-switch-verification.md)
+- [build-release-run-separation](../issues/build-release-run-separation.md)
+- [one-off-admin-processes](../issues/one-off-admin-processes.md)

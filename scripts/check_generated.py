@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
 """Check that generated artifacts are in sync with their sources.
 
-Runs gen_manifests.py, then fails if any tracked generated file
-(domains/, categories/, bundles/, references/tool-index.md) differs from
-what the generator produces. Run before committing; CI enforces it.
+Runs gen_manifests.py, then fails if any tracked generated file differs from
+what the generator produces:
+
+  domains/, categories/, bundles/, references/tool-index.md   (whole file)
+  issues/*.md                                                 (nav footer only)
+
+Issue files are canonical content, but the generator owns their trailing
+"**Part of:**" navigation footer, so a stale footer (item refiled into another
+category without re-running the generator) shows up here too. Run before
+committing; CI enforces it.
 """
 import subprocess
 import sys
@@ -13,12 +20,14 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 GENERATED_DIRS = ["domains", "categories", "bundles"]
 GENERATED_FILES = ["references/tool-index.md"]
+# Generator rewrites only the trailing nav footer block inside these files.
+NAV_DIRS = ["issues"]
 
 
 def main() -> int:
     before = {}
     paths = []
-    for d in GENERATED_DIRS:
+    for d in GENERATED_DIRS + NAV_DIRS:
         paths += sorted((ROOT / d).glob("*.md"))
     for f in GENERATED_FILES:
         p = ROOT / f
@@ -42,11 +51,14 @@ def main() -> int:
             now.add(p)
     drifted += sorted(now - set(paths))
 
+    nav_dirs = tuple(d + "/" for d in NAV_DIRS)
     if drifted:
         print("DRIFT: generated files are stale — re-run "
               "python3 scripts/gen_manifests.py and commit:")
         for d in drifted:
-            print(f"  {d}")
+            note = "  (nav footer only, item body untouched)" \
+                if str(d).startswith(nav_dirs) else ""
+            print(f"  {d}{note}")
         return 1
     print(f"generated-in-sync: {len(paths)} files OK")
     return 0

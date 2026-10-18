@@ -7,3 +7,7 @@
 **Detect:** grep for `publish(` or `kafka.send` outside `@Transactional`/`BEGIN...COMMIT`; outbox table missing `status`, `created_at`, or relay poller queries.
 
 **References:** CWE-662 Improper Synchronization, AWS Outbox Pattern, NIST SP 800-53 SI-7
+
+---
+
+**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -2,7 +2,7 @@
 
 Test pyramid, practices, and quality gates.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [testing-strategy](../categories/testing-strategy.md) · index: [SKILL.md](../SKILL.md)
 
 # Unit Tests
 
@@ -14,6 +14,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V4.1, CWE-1232, NIST SP 800-218 PW.7
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Integration Tests
 
 **SHOULD** exercise real component boundaries — database, queues, external APIs — so auth and data-flow bugs hidden by isolation surface before production.
@@ -23,6 +27,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** docker-compose.test.yml, testcontainers usage, `pytest -m integration` markers; absence of any test touching a live DB or HTTP stub.
 
 **References:** OWASP ASVS V4.1.4, CWE-1057, NIST SP 800-218 PW.8
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # End-to-End Tests
 
@@ -34,6 +42,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V4.1.3, OWASP WSTG v4.2 (session management), NIST SP 800-115
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Contract Testing
 
 **MUST** verify service-to-service API contracts (request/response schemas, auth headers) so a producer change cannot silently break consumer security assumptions.
@@ -43,6 +55,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** Pact consumer/provider specs, OpenAPI schema validation in CI (`schemathesis`, `dredd`), missing contract checks on internal REST/gRPC services.
 
 **References:** OWASP API Security Top 10 API2, CWE-20, NIST SP 800-218 PW.7
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Flaky Tests
 
@@ -54,6 +70,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V4.1.2, CWE-364 (Signal Fault), NIST SP 800-218 PW.7a
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Mocking
 
 **SHOULD NOT** mock the component under test's own security logic (auth middleware, validators); mock only external dependencies at their network boundary.
@@ -63,6 +83,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** mocks/stubs of auth functions in the same module's tests, `unittest.mock.patch` targeting local validators rather than outbound clients.
 
 **References:** OWASP ASVS V4.1, CWE-453 (Insecure Default Variable), NIST SP 800-218 PW.7
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Regression Tests
 
@@ -74,6 +98,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V4.1.1, CWE-757, NIST SP 800-218 RV.1 (verification after remediation)
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Smoke Tests
 
 **MAY** run a minimal post-deploy check (health endpoint, login round-trip, TLS handshake) to catch catastrophic security misconfiguration before full traffic shifts.
@@ -83,6 +111,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** `curl -k`-free health checks, smoke stage in pipeline (`smoke.yml`, `post-deploy` job) asserting HTTPS status and auth cookie issuance.
 
 **References:** OWASP ASVS V14.2 (config), NIST SP 800-218 PO.3, WSTG v4.2 (config management testing)
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Property-Based Testing
 
@@ -94,6 +126,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** CWE-20, OWASP ASVS V5.1 (validation), NIST SP 800-218 PW.7
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Fuzzing
 
 **SHOULD** continuously fuzz externally reachable parsers, file format handlers, and API endpoints with malformed and random inputs in CI or nightly jobs.
@@ -103,6 +139,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** oss-fuzz targets, `atheris`/`libFuzzer`/`honggfuzz`/AFL configs, `fuzz_targets` declarations and seed/corpus directories, `cargo-fuzz`, restler or schemathesis fuzz runs in CI; zero fuzz targets on C/C++ or upload handlers.
 
 **References:** OWASP WSTG v4.2 (fuzzing), CWE-119, NIST SP 800-218 PW.8 (fuzzing), Google OSS-Fuzz
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Test-Driven Development Discipline
 
@@ -114,6 +154,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** NIST SP 800-218 PW.7 (test-first practices), OWASP BSIMM TTD-1, CWE-1140 (attempt to use cached test results)
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Code Review Practice
 
 **MUST** require at least one independent reviewer for every change touching authentication, cryptography, or input handling, with a documented security checklist and a response SLA.
@@ -123,6 +167,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
 
 **References:** OWASP ASVS V1.1.4, NIST SP 800-218 PS.1 (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
+
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Linting & Static Analysis Enforced in CI (linter, type checker, SAST)
 
@@ -134,6 +182,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP CI Security CS2, CWE-1156, NIST SP 800-218 PW.7, GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
+---
+
+**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # OpenAPI–Implementation Drift Check
 
 **SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.
@@ -143,6 +195,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** check CI for contract tests (Dredd, Schemathesis, Prism, schemathesis fuzz mode), response-middleware spec validation, or oasdiff between released spec versions.
 
 **References:** Schemathesis/Dredd docs, contract-testing practice, OWASP API Security (improper inventory)
+
+---
+
+**Part of:** [api-design](../categories/api-design.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Automated A11y Gate in CI
 
@@ -154,6 +210,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** axe-core docs, WCAG 2.2, WAI-ARIA authoring practices, EAA/Section 508 compliance guidance
 
+---
+
+**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Test Determinism & Isolation
 
 **MUST** make tests deterministic: fixed seeds for randomized tests, no shared mutable state between tests, order-independent execution.
@@ -163,6 +223,10 @@ Test pyramid, practices, and quality gates.
 **Detect:** check for seeded randomness in test fixtures (seed recorded/pinned), test-order randomization enabled with passing results, shared globals/singletons mutated across test files.
 
 **References:** test-isolation practice, flaky-test prevention guidance, property-based testing seed discipline
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Self-Generated Expected Output
 
@@ -174,6 +238,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** testing anti-pattern literature (tautological tests), characterization-testing caveats
 
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Agent Verification Loop (Executable Done-When)
 
 **MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
@@ -184,6 +252,10 @@ Test pyramid, practices, and quality gates.
 
 **References:** Anthropic Claude Code best practices, GLM dev-pack best practice, Qwen3-Coder verification philosophy
 
+---
+
+**Part of:** [ai-llm](../categories/ai-llm.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Architecture Fitness Functions in CI
 
 **SHOULD** encode architectural constraints (dependency direction and depth, layering rules, latency budgets, secrets-only-via-secrets-layer) as executable checks that run in CI on every change, not as documentation reviewed once.
@@ -193,4 +265,8 @@ Test pyramid, practices, and quality gates.
 **Detect:** presence of ArchUnit, import-linter, dependency-cruiser, or custom structural validators wired into CI config; absence of any automated structural check is the finding.
 
 **References:** catio.tech/blog/architecture-as-code, Ford/Parsons/Kua "Building Evolutionary Architectures" (fitness functions)
+
+---
+
+**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

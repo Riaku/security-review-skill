@@ -2,7 +2,7 @@
 
 Server-side API and web application attack surface.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [web-api-security](../categories/web-api-security.md) · index: [SKILL.md](../SKILL.md)
 
 # SQL Injection
 
@@ -14,6 +14,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A03:2021, CWE-89, OWASP SQL Injection Prevention Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # XSS
 
 **MUST NOT** Emit user-controlled data into HTML without context-aware escaping or raw/filter bypasses.
@@ -23,6 +27,10 @@ Server-side API and web application attack surface.
 **Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data.
 
 **References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # CSRF
 
@@ -34,6 +42,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A01:2021, CWE-352, OWASP CSRF Prevention Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # CORS
 
 **MUST NOT** Pair wildcard or reflected `Access-Control-Allow-Origin` with `Allow-Credentials: true`; whitelist trusted origins.
@@ -43,6 +55,10 @@ Server-side API and web application attack surface.
 **Detect:** `Allow-Origin: *`, `allow_origins=['*']`, `@CrossOrigin` with credentials, origin reflection.
 
 **References:** OWASP A05:2021, CWE-942, MDN CORS credentials
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # SSRF
 
@@ -54,6 +70,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A10:2021, CWE-918, SSRF-Defense list
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # IDOR
 
 **MUST** Verify the authenticated principal may access every object referenced by a request identifier.
@@ -63,6 +83,10 @@ Server-side API and web application attack surface.
 **Detect:** `params['id']` in queries with no ownership filter or policy check; `get_object` without permissions.
 
 **References:** OWASP A01:2021, CWE-639, OWASP Testing Guide IDOR
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Path Traversal
 
@@ -74,6 +98,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A03:2021, CWE-22, OWASP Path Traversal guide
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Mass Assignment
 
 **MUST** Whitelist assignable fields when binding request bodies to models.
@@ -83,6 +111,10 @@ Server-side API and web application attack surface.
 **Detect:** `Model(**request.json)`, `save(params)`, `bindAll`; no allowed/forbidden lists in serializers.
 
 **References:** OWASP A08:2021, CWE-915, Rails mass-assignment guide
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Clickjacking
 
@@ -94,6 +126,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A05:2021, CWE-1021, OWASP Clickjacking Defense Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Content Security Policy
 
 **SHOULD** Deliver CSP with nonce/hash-based `script-src`; avoid `unsafe-inline` and `unsafe-eval`.
@@ -103,6 +139,10 @@ Server-side API and web application attack surface.
 **Detect:** `unsafe-inline`, `unsafe-eval`, `script-src *` in CSP config; no `Content-Security-Policy` header.
 
 **References:** OWASP A05:2021, CWE-1021, Google CSP Evaluator
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Security Headers
 
@@ -114,6 +154,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Input Validation
 
 **MUST** Validate all external input against type, length, range, and format allowlists at the trust boundary.
@@ -123,6 +167,10 @@ Server-side API and web application attack surface.
 **Detect:** Handlers reading `request.params`/body straight into logic; missing pydantic/Zod/Joi or `@Valid`.
 
 **References:** OWASP A03:2021, CWE-20, OWASP Input Validation Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Server-Side Authorization
 
@@ -134,6 +182,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A01:2021, CWE-862, OWASP Authorization Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # File Upload Validation
 
 **MUST** Check uploads by magic bytes, enforce extension/size limits, store outside the web root with randomized names.
@@ -144,6 +196,10 @@ Server-side API and web application attack surface.
 
 **References:** OWASP A03:2021, CWE-434, OWASP File Upload Prevention Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Webhook Signature Verification
 
 **MUST** Verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
@@ -153,6 +209,10 @@ Server-side API and web application attack surface.
 **Detect:** Handlers with no signature check; `hmac.compare_digest` absent; verification skipped in dev branches.
 
 **References:** CWE-347, CWE-208, Stripe/GitHub webhook signing docs
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # HSTS
 
@@ -178,6 +238,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, OWASP WSTG-401-14
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Bot Protection
 
 **MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).
@@ -187,6 +251,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 **Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Rate Limiting / Throttling
 
@@ -198,6 +266,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **References:** OWASP A04:2021, CWE-770, OWASP Rate Limiting Cheat Sheet, NIST SP 800-63B
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Insecure Deserialization
 
 **MUST NOT** Deserialize untrusted data with pickle, ObjectInputStream, unserialize, or BinaryFormatter; use schema-validated JSON.
@@ -207,6 +279,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 **Detect:** `pickle.loads`, `ObjectInputStream`, `unserialize(`, `yaml.load` without SafeLoader on request data.
 
 **References:** OWASP A08:2021, CWE-502, OWASP Deserialization Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Open Redirect
 
@@ -218,6 +294,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **References:** OWASP A01:2021, CWE-601, OWASP Unvalidated Redirects guide, RFC 6819
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Debug/Dev Mode in Production
 
 **MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
@@ -227,6 +307,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 **Detect:** `DEBUG = True`, `FLASK_DEBUG=1`, `app.run(debug`, exposed `/debug`, Werkzeug console.
 
 **References:** OWASP A05:2021, CWE-489, CWE-215
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # GraphQL Query Depth & Complexity Limits
 
@@ -238,6 +322,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 
 **References:** OWASP A04:2021, CWE-770, OWASP GraphQL Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # OS Command Injection (CWE-78)
 
 **MUST NOT** Pass user input into shell commands; invoke programs with argument arrays, no shell interpolation.
@@ -247,6 +335,10 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 **Detect:** `os.system`, `subprocess` with `shell=True`, `Runtime.exec`, `$()`/backticks in built command strings.
 
 **References:** CWE-78, OWASP A03:2021, OWASP Command Injection guidance
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # NoSQL Query Injection
 
@@ -272,6 +364,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-943 NoSQL injection, OWASP NoSQL Injection Prevention Cheat Sheet, MongoDB $where security notes
 
+---
+
+**Part of:** [database](../categories/database.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # LDAP Injection
 
 **MUST** Escape `* ( ) \` and NUL in values interpolated into LDAP filters; prefer parameterized libraries or strict allowlists.
@@ -281,6 +377,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** String-built `(&(uid=%s)...)` filters; `search(` with concatenated user values; missing `ldap_escape`.
 
 **References:** CWE-90, OWASP A03:2021, OWASP LDAP Injection Prevention Cheat Sheet
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # XML External Entity (XXE) Injection
 
@@ -292,6 +392,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-611, OWASP A03:2021, OWASP XXE Prevention Cheat Sheet
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Server-Side Template Injection (SSTI)
 
 **MUST NOT** Render user input as a template; pass it only as context variables, never into dynamic template compilation.
@@ -302,6 +406,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-1336, OWASP A03:2021, PortSwigger SSTI research
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # CRLF / HTTP Header Injection & Response Splitting
 
 **SHOULD NOT** Put user input into headers or redirect targets without rejecting CR/LF and `%0d%0a`.
@@ -311,6 +419,10 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # HTTP Request Smuggling (CL.TE / TE.CL Desync)
 
@@ -340,6 +452,10 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** CWE-444, PortSwigger HTTP desync research, RFC 9112 §6.3 (reject both headers)
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Regular Expression DoS (ReDoS)
 
 **MUST NOT** run user-supplied or unbounded text against regexes containing nested quantifiers or ambiguous alternation.
@@ -349,6 +465,10 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 **Detect:** `(a+)+`, `(a|a)*`, `(.*)*` patterns, `re.match`/`RegExp.test` on raw input, no timeout or RE2/DFA engine configured.
 
 **References:** CWE-1333, CWE-400, OWASP ReDoS, RE2 docs
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Decompression Bombs & XML Entity Expansion
 
@@ -360,6 +480,10 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** CWE-409, CWE-776, CWE-789
 
+---
+
+**Part of:** [resilience](../categories/resilience.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
+
 # Dynamic Code Evaluation of User Input (eval/exec)
 
 **MUST NOT** pass any externally influenced string to `eval`, `exec`, `Function`, or template code execution.
@@ -370,6 +494,10 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** CWE-94, CWE-95, OWASP Injection, OWASP ASVS 5.2
 
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Missing Authentication Middleware / Default-Deny Routing
 
 **MUST** default-deny: every route requires authentication unless explicitly marked public via an allowlist.
@@ -379,6 +507,10 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 **Detect:** grep router config for missing global auth middleware, routes without `@authenticated`/`requireAuth`, `public: true` as default, admin endpoints outside auth filter chain.
 
 **References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 4.5
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Instance Metadata Endpoint Protection (IMDSv2)
 
@@ -405,6 +537,10 @@ metadata_options {
 
 **References:** AWS Security Bulletin IMPDS-2019-001, AWS Security Best Practices (SCA) SEC2-BP07, CIS AWS 5.6
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Web Cache Poisoning & Cache Deception
 
 **SHOULD NOT** cache responses that vary on unkeyed inputs like headers, query params, or cookies without declaring `Vary` or normalizing them.
@@ -414,6 +550,10 @@ metadata_options {
 **Detect:** grep `Vary:`, `cache-control: public`, unkeyed `X-Forwarded-*`/`Accept-Encoding` handling; CDN cache-key config ignoring query params.
 
 **References:** CWE-421, PortSwigger Web Cache Poisoning research, OWASP A04:2021
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Cross-Site WebSocket Hijacking (CSWSH)
 
@@ -425,6 +565,10 @@ metadata_options {
 
 **References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
+
 # Business Logic Workflow Bypass & Abuse
 
 **MUST** enforce step ordering, state transitions, and per-user limits server-side rather than trusting the client's flow.
@@ -434,6 +578,10 @@ metadata_options {
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
 **References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
+
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # API Gateway Mapping Template / Proxy Passthrough Injection
 
@@ -456,6 +604,10 @@ metadata_options {
 ```
 
 **References:** CWE-74, AWS API Gateway mapping template docs, OWASP Injection cheatsheet
+
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Ingress Host-Header / vHost Routing Collisions and TLS Passthrough Misrouting
 
@@ -485,6 +637,10 @@ metadata_options {
 
 **References:** CWE-441, RFC 9110 §7.2 (Host), Kubernetes Ingress docs, OWASP A01:2021
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Account recovery and password-reset flow security (tokens, helpdesk takeover)
 
 **MUST NOT** allow helpdesk or support staff to reset a user's password without a verified second channel (e.g. confirmed email + MFA challenge) and full audit logging.
@@ -494,6 +650,10 @@ metadata_options {
 **Detect:** grep support/reset tooling for missing identity-verification step, no `audit_log` on manual resets, reset-by-username-only admin endpoints without MFA gate.
 
 **References:** NIST SP 800-63B §5.1.1.2, CWE-287, OWASP A07:2021, CWE-354
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
@@ -505,6 +665,10 @@ metadata_options {
 
 **References:** OWASP A05:2021, CWE-538, CWE-200, OWASP Testing Guide §12.2
 
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
+
 # Webhook Replay Protection
 
 **MUST NOT** rely on signatures alone for webhook authenticity; add timestamp windows and nonce deduplication to block valid-signature replays.
@@ -514,6 +678,10 @@ metadata_options {
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
+
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Exposed Debug & Actuator Endpoints
 
@@ -525,6 +693,10 @@ metadata_options {
 
 **References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
 
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Forced Browsing & Unprotected Admin Panels
 
 **MUST** authenticate and network-restrict every admin panel, dashboard, and management UI (Kibana, Adminer, /admin, wp-admin, portainer, argocd guest access).
@@ -534,6 +706,10 @@ metadata_options {
 **Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
 
 **References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
+
+---
+
+**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Open Directory Listing
 
@@ -545,6 +721,10 @@ metadata_options {
 
 **References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
 
+---
+
+**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
+
 # Sticky Sessions & Load-Balancer Affinity
 
 **SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
@@ -554,6 +734,10 @@ metadata_options {
 **Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
 
 **References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+
+---
+
+**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Tenant-ID Spoofing at API Boundary
 
@@ -565,6 +749,10 @@ metadata_options {
 
 **References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
 
+---
+
+**Part of:** [multi-tenancy](../categories/multi-tenancy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
+
 # Email-Template Injection
 
 **MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
@@ -575,6 +763,10 @@ metadata_options {
 
 **References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
 
+---
+
+**Part of:** [email-security](../categories/email-security.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # SaaS Webhook Consumer Trust
 
 **MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
@@ -584,4 +776,8 @@ metadata_options {
 **Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
 
 **References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
+
+---
+
+**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

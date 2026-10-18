@@ -20,3 +20,7 @@ send(to=addr, ...)
 ```
 
 **References:** AWS SES bounce & complaint handling docs, Gmail Sender Guidelines, M3AAWG sender best practices
+
+---
+
+**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

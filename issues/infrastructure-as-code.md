@@ -7,3 +7,7 @@
 **Detect:** grep for open security group ingress (`cidr_blocks = ["0.0.0.0/0"]`), unencrypted storage flags, and console-created resources flagged by drift detection.
 
 **References:** AWS Config drift detection, CIS AWS 5.4, IaC Scanning OWASP, Checkov/tfsec baselines
+
+---
+
+**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

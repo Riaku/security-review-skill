@@ -7,3 +7,7 @@
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
 **References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

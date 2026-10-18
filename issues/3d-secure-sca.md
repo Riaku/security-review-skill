@@ -7,3 +7,7 @@
 **Detect:** grep for `three_d_secure`, `sca_required`, `exemption`, `ds.transstatus` in payment service code and gateway config.
 
 **References:** PSD2 Article 97, OWASP WSTG-ATHZ-04, CWE-287, Stripe 3DS2 docs
+
+---
+
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

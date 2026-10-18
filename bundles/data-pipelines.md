@@ -2,7 +2,7 @@
 
 ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [data-pipelines](../categories/data-pipelines.md) · index: [SKILL.md](../SKILL.md)
 
 # Pipeline-Orchestrator Credential Sprawl
 
@@ -14,6 +14,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
 
+---
+
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # PII Propagation & Warehouse Lineage
 
 **SHOULD** track where PII flows through warehouse layers (raw→staging→marts→exports) with lineage, and enforce classification at each hop.
@@ -23,6 +27,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** review lineage tooling (OpenLineage, dbt lineage, DataHub/Collibra) for PII-tagged datasets; sample staging/mart tables for unclassified columns containing emails/ids; check export destinations inherit classification.
 
 **References:** OpenLineage spec, GDPR Art. 5(1)(c) data minimisation, Snowflake/BigQuery data-classification docs
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Backfill Idempotency at Pipeline Scale
 
@@ -34,6 +42,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
 
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [data-pipelines](../categories/data-pipelines.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Interactive-Session Artifact Leakage
 
 **MUST NOT** commit interactive-session artifacts (notebooks with executed outputs, REPL dumps, workspace snapshots) that embed the actual data processed during the session.
@@ -43,6 +55,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
 **References:** analysis-code reproducibility guidance, nbstripout/ClearOutputPreprocessor tooling
+
+---
+
+**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Data Version Pinning
 
@@ -54,6 +70,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** DVC docs, data lineage/provenance practice, reproducible-research data management guidance
 
+---
+
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Raw-Data Immutability
 
 **MUST NOT** modify raw source data in place; transformations operate on copies, preserving the raw layer for re-derivation and audit.
@@ -64,6 +84,10 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 
 **References:** analysis data-management guidance (raw-as-read-only), medallion architecture raw-layer immutability
 
+---
+
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
+
 # Dual-Run Output Equivalence
 
 **SHOULD** run old and new processing paths in parallel and diff their outputs before cutting over for high-risk data/logic changes (the data-layer analogue of blue-green deployment).
@@ -73,4 +97,8 @@ ETL/orchestration security: pipeline creds, lineage, backfill safety.
 **Detect:** check migration plans/runbooks for parallel-run + output-diff steps with tolerance thresholds; flag cutovers planned without equivalence verification.
 
 **References:** blue-green/canary practice applied to data pipelines, migration dual-run guidance
+
+---
+
+**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 

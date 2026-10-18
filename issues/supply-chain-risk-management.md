@@ -7,3 +7,7 @@
 **Detect:** grep `vendor_risk`, `supplier_assessment`, `C-SCRM` in third-party inventories, due-diligence records, SBOM ingestion configs.
 
 **References:** NIST SP 800-161, NIST SSDF (SP 800-218), ISO/IEC 27036
+
+---
+
+**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

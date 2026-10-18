@@ -7,3 +7,7 @@
 **Detect:** PagerDuty/Opsgenie rotation config, single `oncall:` contact in runbooks, no escalation chain.
 
 **References:** Google SRE Book (on-call), OSHA fatigue guidance, NIST SP 800-61
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

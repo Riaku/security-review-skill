@@ -7,3 +7,7 @@
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
 **References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+
+---
+
+**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

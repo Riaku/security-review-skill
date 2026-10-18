@@ -7,3 +7,7 @@
 **Detect:** grep IaC for AWS/Azure/GCP regions outside FedRAMP-authorized partitions; missing "fedramp", "boundary", "inherit" in compliance docs.
 
 **References:** FedRAMP Rev5, NIST SP 800-53, FedRAMP Marketplace
+
+---
+
+**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

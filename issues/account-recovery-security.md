@@ -7,3 +7,7 @@
 **Detect:** grep support/reset tooling for missing identity-verification step, no `audit_log` on manual resets, reset-by-username-only admin endpoints without MFA gate.
 
 **References:** NIST SP 800-63B §5.1.1.2, CWE-287, OWASP A07:2021, CWE-354
+
+---
+
+**Part of:** [authentication](../categories/authentication.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

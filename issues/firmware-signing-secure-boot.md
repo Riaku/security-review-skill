@@ -7,3 +7,7 @@
 **Detect:** grep build pipeline for signing steps (`osslsigncode`, `imgtool`, HSM calls); check bootloader verify-enforce (not just verify-log) mode; look for dev/test keys shipped in production images.
 
 **References:** NIST SP 800-193 platform firmware resiliency, OWASP IoT Top 10 (IOT ASSET), Arm TrustZone/UEFI Secure Boot docs
+
+---
+
+**Part of:** [iot-embedded](../categories/iot-embedded.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [SKILL.md](../SKILL.md)

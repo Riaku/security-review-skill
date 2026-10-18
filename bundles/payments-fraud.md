@@ -2,7 +2,7 @@
 
 Payment flows, fraud, and money-movement safety.
 
-> Generated artifact. Canonical source: `issues/<slug>.md`.
+> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [payments-fraud](../categories/payments-fraud.md) · index: [SKILL.md](../SKILL.md)
 
 # Idempotency (idempotency keys)
 
@@ -14,6 +14,10 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key, CWE-1394, AWS REL11-BP08, OWASP ASVS 14.3.3
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # 3D Secure / SCA
 
 **MUST** trigger 3DS2 challenge flows for high-risk transactions and honor the issuer's authentication result before capturing funds.
@@ -23,6 +27,10 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** grep for `three_d_secure`, `sca_required`, `exemption`, `ds.transstatus` in payment service code and gateway config.
 
 **References:** PSD2 Article 97, OWASP WSTG-ATHZ-04, CWE-287, Stripe 3DS2 docs
+
+---
+
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Payment Webhook Reconciliation
 
@@ -34,6 +42,10 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** OWASP WSTG-ATHN-02, CWE-347, PCI DSS 4.0 Req 6.2, Stripe webhook signing guide
 
+---
+
+**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
 **MUST** scope the cardholder data environment accurately and complete the correct SAQ level (or full ROC) for the actual card data flow, not the desired one.
@@ -43,6 +55,10 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** grep for "PAN", "cardholder", "CDE", "SAQ-" in configs; card data in logs, unsegmented networks, SAQ type mismatched to flow.
 
 **References:** PCI DSS v4.0.1, SAQ A-D, PCI SSC scoping guidance
+
+---
+
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Ledger Invariant Checks
 
@@ -54,6 +70,10 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** Double-entry bookkeeping in software (Martin Fowler), Stripe financial-modeling talks, PCI-DSS 5/financial integrity practice
 
+---
+
+**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [payments-fraud](../categories/payments-fraud.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
+
 # Reconciliation Runbook
 
 **SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
@@ -63,4 +83,8 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
 
 **References:** Stripe reconciliation guidance, PCI-DSS 9/10 financial monitoring, payments-engineering practice guides
+
+---
+
+**Part of:** [payments-fraud](../categories/payments-fraud.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

@@ -66,7 +66,7 @@ coverage honestly under it:
   authn/authz, secrets, injection, exposed endpoints, CI security.
   Roughly the MUST-keyword items in the highest-risk categories.
 - **Standard** (default): full frontier over selected domains.
-- **Deep** (audit): full frontier + baseline diffing + tool runs
+- **Deep** (audit): full frontier + tool runs
   (see `references/tooling.md`) + needs-human chase-down.
 
 A quick review MUST list what it did not cover; never let a profile

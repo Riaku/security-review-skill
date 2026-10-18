@@ -2,37 +2,39 @@
 
 Identity, credentials, session lifecycle.
 
+Domain: [backend](../domains/backend.md) · Index: [SKILL.md](../SKILL.md)
+
 Issues:
-- `jwt-expiry`
-- `refresh-tokens`
-- `oauth-2`
-- `openid-connect`
-- `session-fixation`
-- `mfa`
-- `brute-force-protection`
-- `account-enumeration`
-- `timing-attacks`
-- `jwt-algorithm-confusion`
-- `insufficient-randomness`
-- `cookie-flags`
-- `password-reset-flow`
-- `breached-password-blocklist`
-- `token-revocation-logout`
-- `jwt-audience-issuer-validation`
-- `missing-auth-middleware`
-- `social-login-account-linking`
-- `default-credentials`
-- `automount-serviceaccount-token`
-- `workload-identity-audience-validation`
-- `argocd-default-credentials`
-- `api-gateway-missing-authorizers`
-- `mesh-permissive-mode-bypass`
-- `account-recovery-security`
-- `session-invalidation-on-credential-change`
-- `saml-signature-wrapping`
-- `anomalous-auth-detection`
-- `credential-access-detection`
-- `non-human-identity-governance`
-- `oauth-third-party-scope-minimization`
-- `push-token-binding`
-- `dedicated-service-accounts`
+- [jwt-expiry](../issues/jwt-expiry.md)
+- [refresh-tokens](../issues/refresh-tokens.md)
+- [oauth-2](../issues/oauth-2.md)
+- [openid-connect](../issues/openid-connect.md)
+- [session-fixation](../issues/session-fixation.md)
+- [mfa](../issues/mfa.md)
+- [brute-force-protection](../issues/brute-force-protection.md)
+- [account-enumeration](../issues/account-enumeration.md)
+- [timing-attacks](../issues/timing-attacks.md)
+- [jwt-algorithm-confusion](../issues/jwt-algorithm-confusion.md)
+- [insufficient-randomness](../issues/insufficient-randomness.md)
+- [cookie-flags](../issues/cookie-flags.md)
+- [password-reset-flow](../issues/password-reset-flow.md)
+- [breached-password-blocklist](../issues/breached-password-blocklist.md)
+- [token-revocation-logout](../issues/token-revocation-logout.md)
+- [jwt-audience-issuer-validation](../issues/jwt-audience-issuer-validation.md)
+- [missing-auth-middleware](../issues/missing-auth-middleware.md)
+- [social-login-account-linking](../issues/social-login-account-linking.md)
+- [default-credentials](../issues/default-credentials.md)
+- [automount-serviceaccount-token](../issues/automount-serviceaccount-token.md)
+- [workload-identity-audience-validation](../issues/workload-identity-audience-validation.md)
+- [argocd-default-credentials](../issues/argocd-default-credentials.md)
+- [api-gateway-missing-authorizers](../issues/api-gateway-missing-authorizers.md)
+- [mesh-permissive-mode-bypass](../issues/mesh-permissive-mode-bypass.md)
+- [account-recovery-security](../issues/account-recovery-security.md)
+- [session-invalidation-on-credential-change](../issues/session-invalidation-on-credential-change.md)
+- [saml-signature-wrapping](../issues/saml-signature-wrapping.md)
+- [anomalous-auth-detection](../issues/anomalous-auth-detection.md)
+- [credential-access-detection](../issues/credential-access-detection.md)
+- [non-human-identity-governance](../issues/non-human-identity-governance.md)
+- [oauth-third-party-scope-minimization](../issues/oauth-third-party-scope-minimization.md)
+- [push-token-binding](../issues/push-token-binding.md)
+- [dedicated-service-accounts](../issues/dedicated-service-accounts.md)

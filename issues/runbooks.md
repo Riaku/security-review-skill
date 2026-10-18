@@ -7,3 +7,7 @@
 **Detect:** `runbooks/` directory, alert annotations linking `runbook_url`, stale `last_reviewed` dates in frontmatter.
 
 **References:** Google SRE Workbook (running incidents), NIST SP 800-61, PagerDuty runbook practices
+
+---
+
+**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
