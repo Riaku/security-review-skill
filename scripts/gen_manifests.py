@@ -186,8 +186,22 @@ def main() -> int:
         lines += [f"- `{s}`" for s in slugs]
         (ROOT / "categories" / f"{cat}.md").write_text("\n".join(lines) + "\n")
 
+    # Bulk bundles: one generated file per category with every item inlined.
+    # For harnesses that prefer few large reads over many small ones. Generated
+    # artifact — never hand-edit; edit issues/<slug>.md and re-run this script.
+    (ROOT / "bundles").mkdir(exist_ok=True)
+    for cat in all_cats:
+        slugs = [t["slug"] for t in TOPICS if cat in t["categories"]]
+        parts = [f"# {cat} — full checklist ({len(slugs)} items)", "",
+                 cat_scope(cat), "",
+                 "> Generated artifact. Canonical source: `issues/<slug>.md`.", ""]
+        for s in slugs:
+            body = (ROOT / "issues" / f"{s}.md").read_text().rstrip()
+            parts += [body, ""]
+        (ROOT / "bundles" / f"{cat}.md").write_text("\n".join(parts) + "\n")
+
     print(f"Wrote {len(DOMAINS)} domains, {len(all_cats)} categories "
-          f"covering {len(TOPICS)} topics")
+          f"(+ {len(all_cats)} bundles) covering {len(TOPICS)} topics")
     return 0
 
 

@@ -1,7 +1,7 @@
 ---
 name: security-review-skill
 description: >-
-  Systematic security, deployment, and reliability review of a codebase using 481
+  Systematic security, deployment, and reliability review of a codebase using 501
   checklist items across 28 categories and 8 domains, fanned out to parallel
   sub-agents. Use when asked to review a project for security issues, production
   readiness, deployment concerns, compliance posture, or a security audit.
@@ -15,7 +15,7 @@ metadata:
 
 # Security Review Skill
 
-Reviews a codebase and its deployment against 481 checklist items. Each item is a
+Reviews a codebase and its deployment against 501 checklist items. Each item is a
 small reference file with a normative statement written in BCP 14 keywords
 (**MUST / MUST NOT / SHOULD / SHOULD NOT / MAY**). Items are grouped into 28
 categories, and categories into 8 domains so a reviewer only loads what matches
@@ -93,9 +93,24 @@ Include the needs-human section verbatim — never silently drop findings.
 Item counts per category: `python3 scripts/merge_discovery.py` is not needed —
 read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
 
+## File Layout & Access Patterns
+
+- `issues/<slug>.md` — canonical source of truth, one file per checklist item.
+  Best for targeted reviews: load only the slugs you need.
+- `categories/<category>.md` — slug lists per category (routing).
+- `domains/<domain>.md` — detection signals and stack quick-maps (triage).
+- `bundles/<category>.md` — **generated** bulk artifact: every item of a
+  category inlined in one file. Prefer these when a harness reads whole
+  categories at once (few large reads instead of many small ones). Never
+  hand-edit bundles; edit `issues/<slug>.md` and re-run
+  `python3 scripts/gen_manifests.py`.
+
+Do not mix granularities for the same review: pick per-item or per-bundle, so
+findings cite consistently (`issues/<slug>.md` is always the citation).
+
 ## Pitfalls
 
-- Never load all 481 items into one context — triage first; that is the whole
+- Never load all 501 items into one context — triage first; that is the whole
   point of the domain layer.
 - Triage wrong is recoverable: the user can add/remove domains before dispatch.
 - Findings are advisory. A `pass` verdict means "no violation found in the code
@@ -107,4 +122,4 @@ read `scripts/topics.json` and count, or run `scripts/validate_skill.py`.
 ## Verification
 
 `python3 scripts/validate_skill.py` exits 0 with
-`OK: 481 issues, 28 categories, 8 domains`.
+`OK: 501 issues, 28 categories, 8 domains`.
