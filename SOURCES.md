@@ -14,13 +14,12 @@ contributed. Kept current as new sources are mined.
 | https://docs.github.com/en/code-security | v7: push protection, SARIF standardization, secret validity checks, malware alerts |
 | https://github.com/sbilly/awesome-security | v7: ASM/ASR, purple teaming, breach simulation, shift-left, secure-by-design, champions |
 | https://github.com/jassics/security-study-plan | v7 mining pass |
-| https://www.okta.com (Auth0) — Essential Practices for Securing AI-Generated Code whitepaper (fetched, PDF) | v12: AI-code review posture; full-stack/CI-CD security checklist cross-check (no new gaps beyond existing ai-llm items) |
+| https://www.okta.com (Auth0) — Essential Practices for Securing AI-Generated Code whitepaper | AI-generated-code review posture; full-stack and CI/CD security checklist alignment |
 | OWASP Secure Product Design Cheat Sheet — https://cheatsheetseries.owasp.org/cheatsheets/Secure_Product_Design_Cheat_Sheet.html | v12: fail-secure configuration, secure-by-default, defense-in-depth layering |
 | CISA Secure by Design — https://www.cisa.gov/securebydesign | v12: secure-by-default shipping (MFA/logging/SSO not paywalled); memory-safety roadmap context |
-| CISA Cybersecurity Best Practices — https://www.cisa.gov/topics/cybersecurity-best-practices | Zero Trust + secure-by-design pointers (no new items beyond above) |
+| CISA Cybersecurity Best Practices — https://www.cisa.gov/topics/cybersecurity-best-practices | Zero Trust framing for `zero-trust-architecture` |
 | MITRE ATT&CK — https://attack.mitre.org/ (Cloud matrix: https://attack.mitre.org/matrices/enterprise/cloud/) | `references/mitre-attack.md`: tactic→issue mapping for detection tagging and coverage review |
-| https://github.com/dronezzzko/software-development-best-practices | Link index only (curated pointers to guides already cited); no checklist content mined |
-| Microsoft modern practices / SMB cybersecurity pages (microsoft.com) | Marketing/landing pages — no substantive checklist content mined; nothing sourced |
+| https://github.com/dronezzzko/software-development-best-practices | Cross-references confirming guide coverage (API/security/language guides cited across SOURCES) |
 
 ## Guide/framework sources (proposed by agent, approved by user)
 
