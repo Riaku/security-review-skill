@@ -135,7 +135,7 @@ in a category's bundle.
 - [`categories/<category>.md`](categories/) — the category's title and a
   one-line overview (routing). It lists no items; the bundle carries those.
 - [`domains/<domain>.md`](domains/) — detection signals and stack quick-maps
-  (triage).
+  that name the categories fitting a stack, in plain text (triage).
 - [`bundles/<category>.md`](bundles/) — **generated** bulk artifact: every item
   whose frontmatter names the category, inlined in one file (header, then item
   bodies, nothing else). Prefer these when a harness reads whole categories at
@@ -166,12 +166,12 @@ in a category's bundle.
   line or nothing declares it. Nothing else in the repo is generated.
 
 Documents cross-link each other with relative markdown links: this file's
-Category Index points at every category, a [`domains/`](domains/) stack
-quick-map points at the categories that fit a stack, and [`references/`](references/)
-is linked from the file layout above. Nothing links *into*
-[`issues/`](issues/), [`categories/`](categories/) or [`domains/`](domains/):
-an item carries no nav footer and a category carries no item list. The only
-generated artifact is [`bundles/`](bundles/).
+Category Index points at every category, and [`references/`](references/) is
+linked from the file layout above. Nothing links *into* [`issues/`](issues/),
+[`categories/`](categories/) or [`domains/`](domains/): an item carries no nav
+footer, a category carries no item list, and a domain's stack quick-map names
+its categories in plain text. The only generated artifact is
+[`bundles/`](bundles/), which carries the items themselves.
 
 Do not mix granularities for the same review: pick per-item or per-bundle, so
 findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation).

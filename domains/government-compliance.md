@@ -10,6 +10,6 @@ Hardening baselines and regulatory regimes (CIS/STIG/FedRAMP/NIST/…).
 
 ## Stack quick-map
 
-- Any of the above → [hardening-benchmarks](../categories/hardening-benchmarks.md), [regulatory-frameworks](../categories/regulatory-frameworks.md)
-- Federal cloud intent → [regulatory-frameworks](../categories/regulatory-frameworks.md) (FedRAMP, NIST 800-53)
-- Health data → [regulatory-frameworks](../categories/regulatory-frameworks.md) (HIPAA) + [compliance-privacy](../categories/compliance-privacy.md)
+- Any of the above → hardening-benchmarks, regulatory-frameworks
+- Federal cloud intent → regulatory-frameworks (FedRAMP, NIST 800-53)
+- Health data → regulatory-frameworks (HIPAA) + compliance-privacy

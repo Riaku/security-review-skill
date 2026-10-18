@@ -12,6 +12,6 @@ Databases, replication, distributed data, queues, async pipelines, and data/ETL 
 
 ## Stack quick-map
 
-- Any SQL-backed service → [database](../categories/database.md)
-- Queues/workers present → [messaging-async](../categories/messaging-async.md)
-- Multiple datastores or replication/sharding configured → [distributed-systems](../categories/distributed-systems.md)
+- Any SQL-backed service → database
+- Queues/workers present → messaging-async
+- Multiple datastores or replication/sharding configured → distributed-systems

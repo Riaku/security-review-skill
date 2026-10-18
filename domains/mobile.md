@@ -9,4 +9,4 @@ Native and cross-platform mobile clients.
 
 ## Stack quick-map
 
-- iOS/Android/RN/Flutter app → [mobile](../categories/mobile.md) (+ backend categories for its API)
+- iOS/Android/RN/Flutter app → mobile (+ backend categories for its API)

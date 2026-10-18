@@ -132,9 +132,10 @@ recount from the validator output.
    derived at generation time is the bundles, and they are derived from the
    documents themselves.
 6. Nothing is generated into `issues/`, `categories/` or `domains/`: an item
-   carries no nav footer and a manifest carries no item list. Cross-references
-   are hand-authored relative links — SKILL.md's Category Index, the stack
-   quick-maps in `domains/*.md`, and the links in `references/` and `templates/`.
+   carries no nav footer, a category carries no item list, and a domain's stack
+   quick-map names its categories in plain text. The hand-authored relative
+   links that remain are SKILL.md's Category Index and the links in
+   `references/` and `templates/`.
 7. Every document is one level below the root, so a relative link target is
    always `../<dir>/<file>.md` (SKILL.md itself is the exception: root-level,
    unprefixed). Keep new documents linked from SKILL.md's file layout so a

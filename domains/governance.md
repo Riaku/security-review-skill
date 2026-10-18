@@ -10,6 +10,6 @@ Privacy, compliance-adjacent code, AI features, payments.
 
 ## Stack quick-map
 
-- User personal data stored → [compliance-privacy](../categories/compliance-privacy.md)
-- Payment flows → [payments-fraud](../categories/payments-fraud.md), [compliance-privacy](../categories/compliance-privacy.md)
-- LLM/vector features → [ai-llm](../categories/ai-llm.md), [supply-chain](../categories/supply-chain.md)
+- User personal data stored → compliance-privacy
+- Payment flows → payments-fraud, compliance-privacy
+- LLM/vector features → ai-llm, supply-chain
