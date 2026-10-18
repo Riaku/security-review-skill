@@ -24,7 +24,3 @@ url = s3.generate_presigned_url("get_object",
 ```
 
 **References:** AWS S3 presigned URL best practices, CWE-539, OWASP A07:2021
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -2,7 +2,7 @@
 
 Search visibility, crawl/index hygiene, and page experience (Google Search Central, CWV, Lighthouse).
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [seo-web-quality](../categories/seo-web-quality.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/seo-web-quality.md](../categories/seo-web-quality.md) · Index: [SKILL.md](../SKILL.md)
 
 # Canonical URL Handling
 
@@ -14,10 +14,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central canonicalization docs, SEO canonical best practices
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Core Web Vitals Budgets
 
 **MUST** define and enforce Core Web Vitals budgets — LCP ≤ 2.5s, INP ≤ 200ms, CLS ≤ 0.1 at the 75th percentile of real users.
@@ -27,10 +23,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** check for CrUX/RUM data, `web-vitals` library instrumentation, Lighthouse CI assertions on `largest-contentful-paint`, `interaction-to-next-paint`, `cumulative-layout-shift`.
 
 **References:** web.dev/vitals, Google Search Central CWV docs, Lighthouse performance category
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Crawler-Renderable Content (SSR/Prerender for JS Apps)
 
@@ -42,10 +34,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central JS SEO guidance, web.dev rendering docs
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Google Search Central Compliance
 
 **SHOULD** follow Google Search Central spam-and-quality policies: no cloaking, doorway pages, keyword stuffing, or hidden text; crawlable without login walls where indexability is intended.
@@ -55,10 +43,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** diff HTML served to Googlebot UA vs normal UA (cloaking check); review Search Console coverage + manual-action reports; audit templated landing-page generation.
 
 **References:** Google Search Essentials (spam policies), Google Search Central docs, Schema.org
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Hreflang & Internationalization Signals
 
@@ -70,10 +54,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central localized results docs, hreflang validation checklists
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Image Optimization & Modern Serving
 
 **MUST** serve images in modern formats (WebP/AVIF) with explicit dimensions, responsive `srcset`, and lazy-loading below the fold.
@@ -83,10 +63,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** grep templates for `<img>` without `width`/`height`/`srcset`/`loading="lazy"`; audit page weight by type (Lighthouse "reduce initial server response"/image reports).
 
 **References:** web.dev fast images, Google image optimization guidance, Lighthouse image audits
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Index Bloat & Faceted-URL Control
 
@@ -98,10 +74,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central faceted-navigation guidance, crawl-budget optimization docs
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Lighthouse CI Performance Budgets
 
 **SHOULD** run Lighthouse (or Lighthouse CI) on every PR with asserted budgets for performance, accessibility, best-practices, and SEO scores; fail the build on regression.
@@ -111,10 +83,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
 
 **References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Meta & OG Tag Completeness
 
@@ -126,10 +94,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central title/description docs, Open Graph protocol, oEmbed
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Redirect Chain & Status Hygiene
 
 **MUST NOT** chain redirects (>1 hop) on indexable URLs, and MUST serve 410/404 (not soft-404) for removed content.
@@ -139,10 +103,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** crawl and flag redirect_count > 1; check removed-content routes return 200 with "not found" body (soft-404) via Search Console coverage report.
 
 **References:** Google Search Central redirect docs, RFC 7231 status semantics, soft-404 guidance
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 
 # Robots.txt & noindex Governance
 
@@ -154,10 +114,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central robots.txt docs, robots.txt Exclusion Standard RFC 9309, CWE-538
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # Structured Data (Schema.org) Validation
 
 **SHOULD** emit valid JSON-LD structured data (Organization, Product, Article, FAQ, BreadcrumbList) and validate it before deploy.
@@ -168,10 +124,6 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **References:** Google Search Central structured data docs, schema.org validators, Rich Results Test
 
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
-
 # XML Sitemap Maintenance
 
 **SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.
@@ -181,8 +133,4 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 **Detect:** validate sitemap against URL statuses (all 200 + indexable); check lastmod reflects real changes; confirm robots.txt references the sitemap.
 
 **References:** Google Search Central sitemap docs, sitemap.org protocol
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)
 

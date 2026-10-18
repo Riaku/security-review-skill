@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `opentelemetry-sdk`, `otlp`, `OTEL_EXPORTER_` env vars; flag services with no instrumentation or single-vendor-only agents.
 
 **References:** OpenTelemetry spec, OWASP Logging Cheat Sheet, NIST SP 800-137
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

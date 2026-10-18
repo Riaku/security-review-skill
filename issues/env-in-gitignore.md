@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `git check-ignore -v .env`; missing `.env` entry in `.gitignore`; `git ls-files | grep '\.env$'`.
 
 **References:** OWASP Top 10 A05:2021, CWE-538, CWE-312
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

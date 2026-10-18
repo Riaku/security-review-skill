@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep password policy code for absent blocklist/pwned-password check and no `k-anonymity`/`pwnedPasswords` call; flag policies enforcing character-class composition rules instead of length plus blocklist (NIST SP 800-63B forbids composition rules).
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-521, NCSC Pwned Passwords guidance
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

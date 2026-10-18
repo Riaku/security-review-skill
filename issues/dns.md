@@ -25,7 +25,3 @@ if client_cert.subject == expected_service_identity:
 ```
 
 **References:** CWE-350 (Reliance on Reverse DNS), OWASP A08:2021, RFC 1034
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

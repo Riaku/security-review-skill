@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep HPA/KEDA configs for `maxReplicas`, `stabilizationWindowSeconds`, target metric source; flag missing ceilings or scale-up driven by unauthenticated request rate.
 
 **References:** CWE-770, OWASP ASVS 14.2, AWS Well-Architected REL08-BP05
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

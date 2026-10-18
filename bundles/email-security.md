@@ -2,7 +2,7 @@
 
 Mail authentication, brand protection, and email-content trust.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [email-security](../categories/email-security.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/email-security.md](../categories/email-security.md) · Index: [SKILL.md](../SKILL.md)
 
 # BIMI & VMC Certificates
 
@@ -13,10 +13,6 @@ Mail authentication, brand protection, and email-content trust.
 **Detect:** `dig default._bimi.<domain>` for BIMI record; verify logo is SVGZ with valid VMC/CMC; confirm DMARC alignment is a prerequisite (BIMI requires enforcement policy).
 
 **References:** bimigroup.org, Google Postmaster BIMI requirements, M3AAWG sender best practices
-
----
-
-**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Email Bounce Handling
 
@@ -41,10 +37,6 @@ send(to=addr, ...)
 
 **References:** AWS SES bounce & complaint handling docs, Gmail Sender Guidelines, M3AAWG sender best practices
 
----
-
-**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Email-Template Injection
 
 **MUST** treat user-controlled data interpolated into transactional emails as untrusted: escape HTML, strip/sanitize URLs, and never render user input as links or markup.
@@ -54,10 +46,6 @@ send(to=addr, ...)
 **Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
 
 **References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
-
----
-
-**Part of:** [email-security](../categories/email-security.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Lookalike-Domain Monitoring
 
@@ -69,10 +57,6 @@ send(to=addr, ...)
 
 **References:** M3AAWG brand abuse guidance, Unicode homoglyph attacks, phishing pretexting reports
 
----
-
-**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # MTA-STS & TLS Reporting
 
 **SHOULD** publish MTA-STS policy (or DANE) requiring TLS for inbound mail, with TLS-RPT monitoring for downgrade attempts.
@@ -82,10 +66,6 @@ send(to=addr, ...)
 **Detect:** `dig _mta-sts.<domain> TXT` and `https://mta-sts.<domain>/.well-known/mta-sts.txt` for policy (mode=enforce); check `_smtp._tls.<domain>` TLS-RPT record exists.
 
 **References:** RFC 8461 MTA-STS, RFC 8472 TLS-RPT, Google Postmaster Tools
-
----
-
-**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # SPF, DKIM & DMARC
 
@@ -108,8 +88,4 @@ SPF: "v=spf1 include:amazonses.com -all"
 ```
 
 **References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
-
----
-
-**Part of:** [email-security](../categories/email-security.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 

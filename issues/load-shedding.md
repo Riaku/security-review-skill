@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep `shed`, `admission_control`, `priority_queue`, feature-flag gating of non-critical endpoints.
 
 **References:** AWS Architecture Center load shedding, Google SRE Book SLO shedding, CWE-400, REL11-BP05
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

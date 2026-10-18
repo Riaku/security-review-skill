@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** review-config files (bot configs, thresholds, CODEOWNERS for review paths) read from PR head instead of base; missing CODEOWNERS on review automation config.
 
 **References:** Cursor Bugbot base-branch config pattern, GitHub "requester cannot approve own agent's PR" rule
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

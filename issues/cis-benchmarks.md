@@ -24,7 +24,3 @@ domains: [government-compliance, infrastructure]
 ```
 
 **References:** CIS Benchmarks (cisecurity.org), CIS Kubernetes Benchmark, CIS Docker Benchmark, DISA STIGs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

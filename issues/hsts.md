@@ -26,7 +26,3 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 ```
 
 **References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, WSTG-CONF-07
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

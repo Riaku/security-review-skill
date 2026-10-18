@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep for auth/access handlers missing audit calls; check `audit_log`, `log_event`, HMAC signing, retention config absent.
 
 **References:** CWE-778, NIST SP 800-92, SOC 2 CC7.2, PCI DSS 10.2
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

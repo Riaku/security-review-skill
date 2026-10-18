@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep docs for flagged terms (master/slave, blacklist/whitelist, guys, he/she defaults); check heading hierarchy and alt-text presence on images; lint with inclusive-language checkers (e.g. Vale rules); for procedural docs, check STE-controlled vocabulary adherence.
 
 **References:** Google style guide (inclusive language), ASD-STE100 Simplified Technical English, Write the Docs accessibility guidance
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

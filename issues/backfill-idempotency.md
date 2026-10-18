@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** check jobs use MERGE/upsert/overwrite-partition semantics vs append; look for run-id dedupe keys; review backfill runbook for "safe to re-run" statement per job.
 
 **References:** DDIA idempotent consumers, dbt incremental materializations, Airflow clear/backfill semantics
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

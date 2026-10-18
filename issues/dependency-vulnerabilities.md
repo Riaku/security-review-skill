@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** `requirements.txt`, `package-lock.json`, `go.mod`; run `pip-audit`, `npm audit`, `govulncheck`; grep `.github/workflows` for `osv-scanner`.
 
 **References:** OWASP A06:2021, CWE-1104, OSV.dev
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

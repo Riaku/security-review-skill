@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** on any discovered secret: verify history was rewritten (not just deleted-at-HEAD), credential rotated with expiry-before-exposure-window logic, forks/clones notified; judgment on incident record completeness.
 
 **References:** GitHub secret removal guidance, git-filter-repo/BFG docs, credential-exposure incident practice
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

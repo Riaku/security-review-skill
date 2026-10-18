@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep for `expiresIn`, `exp:` with values like `86400`, `7d`, `never`; missing `exp` claim in token payloads or verifier code.
 
 **References:** OWASP A02:2021, CWE-613, RFC 7519 §4.1.4, NIST SP 800-63B §7.1
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

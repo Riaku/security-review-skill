@@ -12,7 +12,3 @@ domains: [governance, government-compliance]
 **Detect:** grep for "age gate", "birthday only", "COPPA", "children"; no age-verification provider, data collection before consent check.
 
 **References:** COPPA 16 CFR 312, UK Online Safety Act 2023, Age Appropriate Design Code
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

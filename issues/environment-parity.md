@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** diff `helm values-*.yaml` across environments for divergent image tags, ingress TLS settings, networkPolicy presence, and connection-pool sizes.
 
 **References:** 12-Factor process parity, NIST SP 800-53 CM-6 configuration settings, Etsy continuous deployment lessons
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

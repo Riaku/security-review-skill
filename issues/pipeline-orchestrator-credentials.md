@@ -12,7 +12,3 @@ domains: [backend, data]
 **Detect:** grep DAGs/profiles for inline passwords, check Airflow Connections backend (secrets env/backend vs metadata DB plaintext), review dbt `profiles.yml` handling, inspect Spark `--conf` for hardcoded AWS keys.
 
 **References:** Airflow secrets-backend docs, dbt secure credentials guidance, OWASP Data Security
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

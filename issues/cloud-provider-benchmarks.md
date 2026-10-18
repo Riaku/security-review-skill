@@ -23,7 +23,3 @@ domains: [government-compliance, infrastructure]
 ```
 
 **References:** AWS Foundational Security Best Practices standard, CIS AWS Foundations Benchmark, Microsoft Defender for Cloud, GCP Security Command Center
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

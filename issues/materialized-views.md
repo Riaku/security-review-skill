@@ -25,7 +25,3 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY user_perms;
 ```
 
 **References:** PostgreSQL MATERIALIZED VIEW / REFRESH CONCURRENTLY docs, OWASP A05 Security Misconfiguration
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

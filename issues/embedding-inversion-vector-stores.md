@@ -12,7 +12,3 @@ domains: [backend, governance]
 **Detect:** vector DB ingest of unmasked PII fields; no access control on pgvector/Qdrant/Milvus collections; embeddings exported freely.
 
 **References:** OWASP LLM02:2025, OWASP LLM08:2025, CWE-311
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

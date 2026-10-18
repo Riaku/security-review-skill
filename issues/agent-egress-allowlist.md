@@ -12,7 +12,3 @@ domains: [governance, infrastructure]
 **Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
 
 **References:** OpenAI Codex domain rules, Anthropic agent network controls, vendor agent egress allowlists
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cloud-network](../categories/cloud-network.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

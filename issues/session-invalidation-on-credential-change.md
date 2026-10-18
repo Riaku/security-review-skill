@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep password/email-change handlers for missing `invalidate_all_sessions`, `revoke_tokens`, or session-store purge; old JWTs still accepted post-change.
 
 **References:** NIST SP 800-63B §5.1.1.2, OWASP A07:2021, CWE-613, RFC 7009
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

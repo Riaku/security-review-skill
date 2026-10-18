@@ -12,7 +12,3 @@ domains: [backend, reliability]
 **Detect:** grep cache set/get calls for keys lacking `tenant`/`org` components; check CDN cache keys and vary headers for tenant-scoped pages; review Redis key naming convention.
 
 **References:** OWASP Multi-Tenant Security Guidance, CWE-922 insecure storage
-
----
-
-**Part of:** [caching](../categories/caching.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

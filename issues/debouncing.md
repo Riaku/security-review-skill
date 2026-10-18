@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** Keyup/scroll/resize handlers calling APIs directly, webhook consumer with no dedupe window, missing `debounce`/`throttle`/rate-limit middleware.
 
 **References:** CWE-770, CWE-400, OWASP API4:2023
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

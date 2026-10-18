@@ -12,7 +12,3 @@ domains: [backend, frontend]
 **Detect:** Missing `X-Frame-Options`/`frame-ancestors` in headers or middleware; `ALLOWALL` frame options.
 
 **References:** OWASP A05:2021, CWE-1021, OWASP Clickjacking Defense Cheat Sheet
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [web-client-security](../categories/web-client-security.md) · [backend](../domains/backend.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

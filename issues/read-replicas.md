@@ -25,7 +25,3 @@ return db.primary.get_order(o.id)   # read-your-writes on primary
 ```
 
 **References:** PostgreSQL Hot Standby docs, AWS RDS replica lag guidance, Kleppmann *DDIA* Ch. 5, CWE-362
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

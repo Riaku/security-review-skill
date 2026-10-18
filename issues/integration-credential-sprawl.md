@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** inventory integration creds: count vs documented owners; grep wikis/runbooks/env files for SaaS API keys; check rotation history per integration; flag creds tied to individual employees.
 
 **References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

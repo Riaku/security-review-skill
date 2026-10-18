@@ -2,7 +2,7 @@
 
 Fault-tolerance patterns under dependency failure.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [resilience](../categories/resilience.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/resilience.md](../categories/resilience.md) · Index: [SKILL.md](../SKILL.md)
 
 # Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
 
@@ -14,10 +14,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
 
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Backlog Catch-Up Throttling
 
 **SHOULD** throttle post-outage backlog replay below full consumer capacity so catch-up traffic does not overwhelm downstream services still recovering.
@@ -27,10 +23,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** grep recovery/runbook configs for missing `rate_limit`, `throttle`, `max_concurrency` on replay; consumers configured to drain queues unbounded on startup.
 
 **References:** AWS SQS long polling backpressure, NIST SP 800-61 incident containment, Google SRE overload handling
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Backpressure
 
@@ -42,10 +34,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** RFC 6585, Netflix Hystrix concurrency limits, CWE-770, AWS REL11-BP04
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Bulkheads
 
 **MUST** partition threads, connections, and pools per dependency or tenant so one saturated component cannot drain shared capacity.
@@ -55,10 +43,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** grep one global `ThreadPoolExecutor`, shared `HikariCP` pool, missing per-dependency `maxConnections`.
 
 **References:** Fowler Bulkhead pattern, Hystrix thread isolation, AWS Well-Architected REL11-BP03, CWE-400
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cascading Failures
 
@@ -70,10 +54,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** Google SRE Book cascading failures, AWS Well-Architected REL11, CWE-400
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Circuit Breakers
 
 **MUST** open the circuit to a failing dependency after an error threshold, fail through a cool-off, then half-open probe before closing.
@@ -83,10 +63,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** grep `CircuitBreaker`, `resilience4j.circuitbreaker`, `failure_threshold`, `open_duration`; absence on outbound calls is the finding.
 
 **References:** Fowler CircuitBreaker, resilience4j docs, AWS Well-Architected REL11-BP04, CWE-1098
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Graceful Degradation
 
@@ -98,10 +74,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** Netflix fallback patterns, Google SRE Book graceful degradation, CWE-251
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Idempotency (idempotency keys)
 
 **MUST** accept a client-supplied idempotency key on non-idempotent operations and deduplicate replays before executing side effects.
@@ -111,10 +83,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
 **References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [payments-fraud](../categories/payments-fraud.md) · [resilience](../categories/resilience.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Jitter
 
@@ -126,10 +94,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** AWS exponential backoff and jitter, Google SRE retry guidance, CWE-400, REL11-BP06
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Kill-Switch Verification
 
 **SHOULD** test that emergency feature kill-switches actually work (flip in staging, verify behavior) before relying on them in production.
@@ -139,10 +103,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** check for scheduled kill-switch drills with recorded results; verify each critical feature has a flag whose off-path is exercised in tests; confirm flag-service outage behavior is a defined, tested state.
 
 **References:** Netflix chaos/kill-switch practice, feature-flag resilience patterns, circuit-breaker companion issue
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Load Shedding
 
@@ -154,10 +114,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** AWS Architecture Center load shedding, Google SRE Book SLO shedding, CWE-400, REL11-BP05
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Retry Storms
 
 **MUST NOT** retry without a hard budget shared across the call graph; nested retries multiply one failure into dozens.
@@ -167,10 +123,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** count nested `@Retryable`, `max_retries`, `retry_times` per path; flag retry-on-timeout with no `retry_budget`.
 
 **References:** Google SRE Book retry storms, AWS retry budget guidance, CWE-400, REL11-BP06
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Retry with Backoff (explicit policy: bounded retries, exponential + jitter)
 
@@ -182,10 +134,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** AWS exponential backoff and jitter, resilience4j Retry, CWE-400, OWASP Webhook Security Best Practices, Stripe retry docs
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Self-Healing Systems (auto-restart, auto-failover, self-repair loops)
 
 **SHOULD** automate restart and failover only for known failure modes, keeping each repair loop bounded, observable, and rate-limited.
@@ -195,10 +143,6 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** review `restartPolicy`, `livenessProbe`, `auto_failover`, `recovery_loop`; check max-restart backoff and remediation alerting.
 
 **References:** Kubernetes restartPolicy/livenessProbe, NIST SP 800-34 auto-recovery
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Startup Dependency Ordering
 
@@ -210,10 +154,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** Kubernetes init containers & probes docs, AWS retry/backoff patterns, CWE-756 missing custom error handling, resilience4j patterns
 
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [resilience](../categories/resilience.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Thundering Herd
 
 **SHOULD** stop many waiters waking at once on one cache expiry via single-flight refresh, stale-while-revalidate, or randomized TTLs.
@@ -224,10 +164,6 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** Thundering herd problem, Cloudflare stale-while-revalidate, nginx cache lock, CWE-1340, REL11-BP04
 
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Timeout Budgets / Deadline Propagation
 
 **MUST** propagate an end-to-end deadline through every downstream hop, each consuming from the remaining budget.
@@ -237,8 +173,4 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** check `context.WithTimeout` propagation, `grpc-timeout` / `X-Request-Deadline` headers, per-hop timeouts exceeding entry timeout.
 
 **References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [resilience](../categories/resilience.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

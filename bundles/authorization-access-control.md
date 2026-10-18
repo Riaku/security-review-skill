@@ -2,7 +2,7 @@
 
 Who may do what: RBAC, RLS, least privilege.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [authorization-access-control](../categories/authorization-access-control.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/authorization-access-control.md](../categories/authorization-access-control.md) · Index: [SKILL.md](../SKILL.md)
 
 # Cloud IAM Privilege Escalation Paths
 
@@ -25,10 +25,6 @@ Who may do what: RBAC, RLS, least privilege.
 ```
 
 **References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -53,10 +49,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
 **MUST NOT** grant wildcard actions/resources (`*:*`, `admin/*`) or unscoped PassRole; linters must fail CI on them.
@@ -66,10 +58,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # GitOps Controller Running as cluster-admin
 
@@ -81,10 +69,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** OWASP A05 Security Misconfiguration, CWE-250 Execution with Unnecessary Privileges, ArgoCD security docs, NIST SP 800-190
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # GitOps Repo Write Access Equals Cluster Write Access
 
 **MUST** treat write access to a GitOps repo as production cluster admin and restrict it accordingly with review, CODEOWNERS, and separation of duties.
@@ -94,10 +78,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
 **References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -109,10 +89,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-288, OWASP A07:2021, Cloud Security Alliance JML guidance
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
 **MUST NOT** grant `pods/exec`, `pods/attach`, or `pods/debug` broadly; restrict them to named break-glass groups with audit.
@@ -122,10 +98,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
 **References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
@@ -137,10 +109,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [containers-k8s](../categories/containers-k8s.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Least Privilege
 
 **MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.
@@ -150,10 +118,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
 
 **References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Least-Frequently-Used Permission Review (periodic entitlement pruning)
 
@@ -165,10 +129,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
 **MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.
@@ -178,10 +138,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
 
 **References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Privileged access management: JIT access, break-glass, session recording
 
@@ -193,10 +149,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-6(1)(2)(9) least privilege + JIT, CWE-250, OWASP A07:2021 Identification and Authentication Failures
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # RBAC
 
 **SHOULD NOT** grant permissions directly to individual users; assign roles and bind users to roles only.
@@ -206,10 +158,6 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep for user-level GRANT statements (`GRANT ... TO <user>` not `TO ROLE`), IAM policies attached to usernames, `subjects: [User/...]` in K8s RoleBindings.
 
 **References:** OWASP A01:2021, CWE-266 Incorrect Privilege Assignment, NIST SP 800-53 AC-2, RBAC NIST SP 800-162
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Row-Level Security
 
@@ -221,10 +169,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** OWASP A01:2021 Broken Access Control, CWE-285, PostgreSQL RLS docs, NIST SP 800-53 AC-3
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Segregation of duties in deploy and production operations
 
 **MAY** allow self-merge of production deploys only where compensating controls (automated policy checks, mandatory review bots) exist; otherwise require an independent approver.
@@ -235,10 +179,6 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Vertical Privilege Escalation / Function-Level Authorization
 
 **MUST** check authorization on every admin or elevated endpoint server-side; never rely on hiding buttons or menus in the UI.
@@ -248,8 +188,4 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators/middleware; compare UI-hidden actions to unprotected API paths.
 
 **References:** OWASP A01:2021, CWE-269 Improper Privilege Management, CWE-862 Missing Authorization, OWASP ASVS V4.2
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

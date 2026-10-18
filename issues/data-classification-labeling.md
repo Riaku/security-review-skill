@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
 
 **References:** NIST SP 800-122, GDPR Art. 4/32
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

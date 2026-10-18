@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `zipfile.extractall`, `zlib.decompress` without size caps; XML parsers without entity-expansion limits.
 
 **References:** CWE-409, CWE-776, CWE-789
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -24,7 +24,3 @@ staging: dual-write 48h → backfill → checksum diff = 0
 ```
 
 **References:** AWS DMS dual-run/verification guidance, expand-migrate-contract migration pattern docs, NIST SP 800-34 rehearsal requirements
-
----
-
-**Part of:** [database](../categories/database.md) · [deployment-release](../categories/deployment-release.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [backend, infrastructure]
 **Detect:** check CI for `oasdiff breaking`, `buf breaking`, `protolint`, or equivalent on API definition files; verify the comparison baseline is the last released version, not main.
 
 **References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

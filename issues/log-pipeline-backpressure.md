@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep pipeline metrics for `dropped_total`, `rejected_batches`, `buffer_full`, agent `out_queue` depth; verify alerts on sustained drops > 0.
 
 **References:** NIST SP 800-92, Vector/Fluent Bit drop metrics, Google SRE Workbook, CWE-770
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

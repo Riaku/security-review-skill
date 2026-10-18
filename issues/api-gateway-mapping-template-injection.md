@@ -24,7 +24,3 @@ domains: [backend, infrastructure]
 ```
 
 **References:** CWE-74, AWS API Gateway mapping template docs, OWASP Injection cheatsheet
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

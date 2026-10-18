@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `GOGC`, `-Xmx`, `-XX:MaxGCPauseMillis`, `gc_pause_seconds` histograms in dashboards; check GC logs for pause p99 vs SLO and full-GC frequency.
 
 **References:** CWE-400, Google SRE tail latency chapter, Java GC tuning guide (Oracle), Go runtime metrics docs
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

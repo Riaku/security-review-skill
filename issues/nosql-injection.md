@@ -26,7 +26,3 @@ db.users.findOne({ user: u, pass: await verify(p) });
 ```
 
 **References:** CWE-943 NoSQL injection, OWASP NoSQL Injection Prevention Cheat Sheet, MongoDB $where security notes
-
----
-
-**Part of:** [database](../categories/database.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** Metrics dashboards missing `cache_hits`/`cache_misses` counters; Redis INFO stats `keyspace_hits` untracked.
 
 **References:** OWASP A05:2021, CWE-400, NIST SP 800-53 SC-5
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

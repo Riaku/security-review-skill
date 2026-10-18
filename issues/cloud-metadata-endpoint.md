@@ -27,7 +27,3 @@ metadata_options {
 ```
 
 **References:** AWS IMDSv2 announcement (2019), AWS Well-Architected Security Pillar, CIS AWS 5.6
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

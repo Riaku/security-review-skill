@@ -12,7 +12,3 @@ domains: [mobile]
 **Detect:** grep `SharedPreferences`, `UserDefaults`, `localStorage` near `token`, `password`, `api_key`; check for `kSecAttrAccessible` / `EncryptedSharedPreferences` usage.
 
 **References:** OWASP MASVS-STORAGE-1, CWE-922, CWE-312, NIST SP 800-63B
-
----
-
-**Part of:** [mobile](../categories/mobile.md) · [mobile](../domains/mobile.md) · [SKILL.md](../SKILL.md)

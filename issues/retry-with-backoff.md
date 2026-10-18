@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** Grep `maxRetries`, `backoff_multiplier`, `jitter`, `RetryPolicy`; webhook senders lacking backoff/jitter/capped attempts or a terminal failure path; receivers lacking idempotent handling of repeated deliveries.
 
 **References:** AWS exponential backoff and jitter, resilience4j Retry, CWE-400, OWASP Webhook Security Best Practices, Stripe retry docs
-
----
-
-**Part of:** [resilience](../categories/resilience.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

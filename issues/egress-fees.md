@@ -24,7 +24,3 @@ s3 = boto3.client("s3", region_name="us-east-1")
 ```
 
 **References:** AWS Well-Architected Cost Optimization pillar, AWS NAT gateway pricing, GCP network egress pricing
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

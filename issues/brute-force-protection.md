@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep login endpoints for missing `rate_limit`, `attempt_count`, `lockout` logic; no backoff on 401 responses; unlimited POST to `/login`.
 
 **References:** OWASP A07:2021, CWE-307, NIST SP 800-63B §5.2.2, CIS Control 6.2
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** presence of ArchUnit, import-linter, dependency-cruiser, or custom structural validators wired into CI config; absence of any automated structural check is the finding.
 
 **References:** catio.tech/blog/architecture-as-code, Ford/Parsons/Kua "Building Evolutionary Architectures" (fitness functions)
-
----
-
-**Part of:** [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

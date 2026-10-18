@@ -30,7 +30,3 @@ domains: [backend, infrastructure]
 ```
 
 **References:** CWE-441, RFC 9110 §7.2 (Host), Kubernetes Ingress docs, OWASP A01:2021
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

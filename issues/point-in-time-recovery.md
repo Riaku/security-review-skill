@@ -25,7 +25,3 @@ archive_command = 'wal-g wal-push %p'
 ```
 
 **References:** PostgreSQL Continuous Archiving & PITR docs, MySQL binlog PITR docs, NIST SP 800-34 RPO guidance
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

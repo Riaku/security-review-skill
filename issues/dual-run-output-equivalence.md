@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** check migration plans/runbooks for parallel-run + output-diff steps with tolerance thresholds; flag cutovers planned without equivalence verification.
 
 **References:** blue-green/canary practice applied to data pipelines, migration dual-run guidance
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

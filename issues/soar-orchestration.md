@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** SOAR platform config (`Shuffle`, `TheHive`, `Cortex`), playbook definitions with `auto_contain`, absence of response automation, no approval gate on isolation actions.
 
 **References:** NIST SP 800-61, Gartner SOAR definition, MITRE ATT&CK response mitigations
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

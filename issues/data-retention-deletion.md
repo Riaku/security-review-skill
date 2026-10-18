@@ -25,7 +25,3 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
 **References:** GDPR Art. 17 Right to Erasure, CCPA deletion, NIST SP 800-53 MP-6, ISO 27018
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [database](../categories/database.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

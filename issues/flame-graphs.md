@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** check profiling pipeline outputs renderable flame graphs (pprof collapsed stacks, Speedscope JSON); verify runbooks link to them.
 
 **References:** Brendan Gregg flame graphs, Google SRE Workbook, CWE-400
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

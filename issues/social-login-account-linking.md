@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep OAuth callback for auto-link on `email` match without prior password/MFA confirmation, missing `account_linking` verification step, `findOrCreate` by email.
 
 **References:** OWASP A07:2021, CWE-287, CWE-346, Auth0 Account Linking Vulnerability advisory
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

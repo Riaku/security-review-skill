@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep vendor contracts/repos for "CMMC", "FCI", "CUI" scope statements; missing maturity evidence, unscoped integrations touching CUI flows.
 
 **References:** CMMC 2.0, NIST SP 800-171, DFARS 252.204-7021
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

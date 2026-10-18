@@ -24,7 +24,3 @@ DROP TABLE access_logs_2026_07;   -- instant retention, no lock storm
 ```
 
 **References:** PostgreSQL partition management docs, MySQL partitioning docs, CWE-400
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

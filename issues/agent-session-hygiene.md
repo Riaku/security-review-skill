@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** judgment on session transcripts: unrelated tasks per session, >2 correction loops in one session, unscoped "investigate everything" runs in the main context.
 
 **References:** Anthropic named failure patterns, GLM session-management guidance, Cursor cloud-agent session practice
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

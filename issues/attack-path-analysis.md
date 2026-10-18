@@ -12,7 +12,3 @@ domains: [backend, infrastructure]
 **Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
 
 **References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

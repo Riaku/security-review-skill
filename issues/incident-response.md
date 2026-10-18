@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** `incident_response.md`, severity matrix, absence of paging integration, no IR tabletop logs, missing escalation contacts in runbooks.
 
 **References:** NIST SP 800-61, SANS incident response process, ISO/IEC 27035
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

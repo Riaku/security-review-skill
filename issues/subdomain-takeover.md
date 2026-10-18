@@ -24,7 +24,3 @@ marketing.example.com.  CNAME  old-campaign.s3-website-us-east-1.amazonaws.com
 ```
 
 **References:** OWASP WSTG-CONF-10 (Subdomain Takeover), HackerOne takeover methodology, Can-I-Takeover-it project
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `Upgrade: websocket` handlers missing `checkOrigin`/`Origin` validation; auth deferred to post-open messages.
 
 **References:** OWASP API 2023, CWE-346, RFC 6455 §10.2
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

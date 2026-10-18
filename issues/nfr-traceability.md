@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** look for an NFR/requirements doc or ADRs citing concrete numbers; check SLO definitions trace back to stated requirements rather than post-hoc guesses.
 
 **References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

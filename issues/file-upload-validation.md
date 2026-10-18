@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `save(request.files[...])` without type/size checks; uploads under static paths; trusting client `Content-Type`.
 
 **References:** OWASP A03:2021, CWE-434, OWASP File Upload Prevention Cheat Sheet
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

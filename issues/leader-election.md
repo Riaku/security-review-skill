@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep election code for missing `epoch`/`term`/`fencing_token` checks, lease TTL longer than failover SLA, workers accepting commands without validating leader epoch.
 
 **References:** Martin Kleppmann "How to do distributed locking", CWE-662, etcd lease documentation
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep reset handlers for tokens without `exp`/`used` flags, tokens in URL query strings logged by proxies, `md5(email)` as token, no rate limit on `/forgot-password`.
 
 **References:** OWASP A07:2021, CWE-640, CWE-639, NIST SP 800-63B §5.1.1.2
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

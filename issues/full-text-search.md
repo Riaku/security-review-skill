@@ -23,7 +23,3 @@ SELECT * FROM articles WHERE to_tsvector('english', body) @@ plainto_tsquery(:q)
 ```
 
 **References:** PostgreSQL Full Text Search + GIN indexes, OWASP ASVS V3.1, CWE-400
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep changelogs/tags for `MAJOR`/`MINOR` bumps against diffed public API signatures; check `package.json`/`Cargo.toml` for `^` ranges crossing breaking releases.
 
 **References:** semver.org spec items 7-9, OWASP dependency management, CWE-1265 incorrect version semantics
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

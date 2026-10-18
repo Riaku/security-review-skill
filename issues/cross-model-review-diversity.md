@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** review pipeline config shows same model for author and critic; no independent-model step for security-sensitive diffs; judgment on independence of the review chain.
 
 **References:** vendor cross-model review practice, Anthropic fresh-context adversarial subagent review
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

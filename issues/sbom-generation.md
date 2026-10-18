@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep `bom-*.json`, `cyclonedx`, `spdx`, `syft`, `cdxgen` in CI pipelines and artifact repos.
 
 **References:** NTIA SBOM minimum elements, NIST SP 800-161, OWASP CycloneDX, CWE-1357
-
----
-
-**Part of:** [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

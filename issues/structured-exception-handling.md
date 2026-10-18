@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** Bare `except:`/`catch(Exception)`, error logged but flow continues, no custom error classes, missing React error boundary at UI roots.
 
 **References:** CWE-390, CWE-703, OWASP ASVS 7.4
-
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

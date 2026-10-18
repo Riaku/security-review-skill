@@ -14,10 +14,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Structure validation (frontmatter ↔ manifests)
-        run: python3 scripts/validate_skill.py
+      - name: Format gate (bundles generate from the item frontmatter)
+        run: python3 scripts/gen_artifacts.py
 
-      - name: Generated artifacts in sync
+      - name: Bundles in sync with the generator
         run: python3 scripts/check_generated.py
 
       - name: Size budgets (SKILL.md < 500 lines, issues <= 1500 words)
@@ -38,5 +38,3 @@ jobs:
           fi
           echo "all issue files within budget"
 
-      - name: Link check (external URLs, relative links, crawl graph)
-        run: python3 scripts/check_links.py

@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep config for `consistency=`, `read_preference=`, `quorum` vs `ONE`, `r/w` settings; missing partition-tolerance test in CI or runbook.
 
 **References:** Gilbert and Lynch (CAP theorem), PACELC paper, AWS Well-Architected Reliability Pillar
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

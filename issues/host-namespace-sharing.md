@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** Pod spec keys `hostPID: true`, `hostNetwork: true`, `hostIPC: true`; DaemonSets using them without documented reason.
 
 **References:** CIS K8s 5.2.2-5.2.4, CWE-497, MITRE ATT&CK T1611, K8s docs namespaces
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

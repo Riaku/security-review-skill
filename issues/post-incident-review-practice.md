@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep `postmortem`, `RCA`, `blameless`, review templates, action tickets linked to incident IDs.
 
 **References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17
-
----
-
-**Part of:** [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

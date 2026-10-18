@@ -23,7 +23,3 @@ GET /invoices/9f2c7a4e-1b3d-4e5f-8a6b-c0d1e2f3a4b5   # UUIDv4, unguessable
 ```
 
 **References:** OWASP ASVS V3.2 / V4.2.1, RFC 4122 (UUID), PostgreSQL uuid vs bigserial notes, CWE-639
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

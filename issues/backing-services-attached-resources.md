@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep code for hardcoded connection strings, provider URLs, and instance IDs instead of injected bindings; verify a staging deploy can point at a different provider instance with config only.
 
 **References:** 12factor.net/backing-services, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
-
----
-
-**Part of:** [third-party-integrations](../categories/third-party-integrations.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

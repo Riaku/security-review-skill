@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** `dig CAA <domain>` and check issuewild coverage (missing issuewild = wildcards blocked for all CAs — verify intent); confirm CAA covers all public cert domains including delegated subdomains.
 
 **References:** RFC 8659 CAA, CA/B Forum baseline requirements, letsencrypt CAA documentation
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

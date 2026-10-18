@@ -12,7 +12,3 @@ domains: [backend, governance]
 **Detect:** PRs touching instruction files without review; instruction files >500 lines or full of task-specific one-offs; divergence between instruction-file claims and actual CI config.
 
 **References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

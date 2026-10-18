@@ -24,7 +24,3 @@ shard = hash(tenant_id) % 8   # all of a tenant's rows co-located
 ```
 
 **References:** Vitess sharding guide, Azure sharding/catalog pattern guides, Kleppmann *DDIA* Ch. 6, CWE-662
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

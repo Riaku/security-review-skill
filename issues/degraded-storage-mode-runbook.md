@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
 **References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

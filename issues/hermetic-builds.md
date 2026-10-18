@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep CI for `--network=none`, unguarded `curl`/`pip install` outside lockfiles, ambient `export` in build scripts.
 
 **References:** SLSA build isolation, NIST SP 800-218 (SSDF), Reproducible Builds project, CWE-494
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

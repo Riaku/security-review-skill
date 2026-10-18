@@ -25,7 +25,3 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 ```
 
 **References:** CWE-350, OWASP SSRF Prevention Cheat Sheet, OWASP A10:2021
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

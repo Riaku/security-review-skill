@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `py-spy`, `pprof`, `async-profiler`, `continuous profiling` in deployment manifests; verify overhead budget documented.
 
 **References:** Google SRE Book Ch.6 monitoring, CWE-400, Datadog continuous profiling docs
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

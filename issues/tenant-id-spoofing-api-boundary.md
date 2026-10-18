@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
 
 **References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
-
----
-
-**Part of:** [multi-tenancy](../categories/multi-tenancy.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

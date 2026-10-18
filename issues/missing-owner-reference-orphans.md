@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** Created resources lacking `metadata.ownerReferences`; garbage collector cannot trace children; orphan count grows over time.
 
 **References:** K8s docs garbage collection, ownerReferences, CWE-404, operator-sdk ownership patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

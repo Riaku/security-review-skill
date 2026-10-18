@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep monitoring for `disk_free_percent`, `inodes_free`, `predict_linear`/forecast queries in alert rules, log-rotation and cleanup cron jobs; flag alerts that fire only at >95% with no trend projection.
 
 **References:** CWE-400, NIST SP 800-184, Google SRE monitoring four golden signals
-
----
-
-**Part of:** [observability](../categories/observability.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

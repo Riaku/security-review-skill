@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep for `jwt.decode` without `algorithms=[...]`, `alg.*none`, dynamic algorithm selection from token header, missing algorithm allowlist.
 
 **References:** CWE-347, OWASP A02:2021, RFC 8725 §3.1, Auth0 JWT Algorithm Confusion advisory
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

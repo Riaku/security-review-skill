@@ -25,7 +25,3 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 ```
 
 **References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 1.x
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

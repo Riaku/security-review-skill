@@ -2,7 +2,7 @@
 
 Consistency, consensus, coordination across nodes.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [distributed-systems](../categories/distributed-systems.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/distributed-systems.md](../categories/distributed-systems.md) · Index: [SKILL.md](../SKILL.md)
 
 # Bloom Filters
 
@@ -14,10 +14,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Bloom 1970 paper, CWE-364 Signal Error, RedisBloom false-positive docs
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # CAP Theorem
 
 **SHOULD** document, per datastore, the explicit consistency-versus-availability tradeoff chosen under partition, and test it.
@@ -27,10 +23,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep config for `consistency=`, `read_preference=`, `quorum` vs `ONE`, `r/w` settings; missing partition-tolerance test in CI or runbook.
 
 **References:** Gilbert and Lynch (CAP theorem), PACELC paper, AWS Well-Architected Reliability Pillar
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Change Data Capture
 
@@ -42,10 +34,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** OWASP A02 Cryptographic Failures, CWE-319, OWASP Data Validation Cheat Sheet
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Clock Skew
 
 **SHOULD NOT** rely on wall-clock timestamps for ordering, leases, or token expiry across nodes without NTP/PTP discipline and bounded-skew checks.
@@ -55,10 +43,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep for `time.time()`/`Date.now()` in lease/JWT logic, missing `ntp`/`chrony` in host config, `clock_drift` tolerance unset, no `logical clock`/HLC fallback.
 
 **References:** Google Spanner TrueTime, CWE-1009 (Depends on time), NIST SP 800-186 time sync guidance
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Consistent Hashing
 
@@ -70,10 +54,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Karger consistent hashing paper, Cassandra vnodes docs, NIST SP 800-190 §4.5
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # CQRS
 
 **SHOULD** validate and authorize commands against the write model's current state, never trusting the read model's possibly stale projection for access control.
@@ -83,10 +63,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep command handlers reading from read-store/query-side for authz, missing `expected_version`/optimistic concurrency on command, projection lag unbounded.
 
 **References:** Fowler CQRS, Greg Young CQRS docs, CWE-367 Time-of-Check Time-of-Use
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Database per Service
 
@@ -98,10 +74,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** martinfowler.com/articles/microservices.html (Decentralized Data Management), Martin Fowler Patterns of Enterprise Application Architecture (Shared Database anti-pattern)
 
----
-
-**Part of:** [database](../categories/database.md) · [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Distributed Locks
 
 **MUST** attach a fencing token to every lock grant and have the resource reject operations carrying a stale token, never trusting lock-held-alone.
@@ -111,10 +83,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep for `redis.lock`/`Redlock` usage without passing a monotonic token to the write path, missing `SET NX PX` expiry, lock release without owner-ID verification.
 
 **References:** Kleppmann "How to do distributed locking", Martin Farber Redlock critique, CWE-662
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Event Sourcing
 
@@ -126,10 +94,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Fowler Event Sourcing, Greg Young versioning, CWE-393, NIST SP 800-53 AU-9
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Eventual Consistency
 
 **SHOULD NOT** use eventually consistent reads for authorization, balance, or inventory decisions that gate money or access.
@@ -139,10 +103,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep for authz/balance queries hitting read replicas, `read_from=secondary`, replication-lag unchecked before decision logic, missing `session=` sticky reads.
 
 **References:** OWASP A01 Broken Access Control, CWE-367 TOCTOU, NIST SP 800-162
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Leader Election
 
@@ -154,10 +114,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Martin Kleppmann "How to do distributed locking", CWE-662, etcd lease documentation
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Outbox Pattern
 
 **MUST** write domain changes and their outbox events in one atomic database transaction, never publishing before commit.
@@ -167,10 +123,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep for `publish(` or `kafka.send` outside `@Transactional`/`BEGIN...COMMIT`; outbox table missing `status`, `created_at`, or relay poller queries.
 
 **References:** CWE-662 Improper Synchronization, AWS Outbox Pattern, NIST SP 800-53 SI-7
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Quorums
 
@@ -182,10 +134,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Dynamo paper quorum model, Cassandra R/W consistency levels, CWE-362 Race Condition
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Race Conditions
 
 **MUST** guard shared-state mutations with proper synchronization (atomic ops, compare-and-set, or scoped locks), never check-then-act on unsynchronized reads.
@@ -195,10 +143,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep for `if (exists) then write`, `read(); modify(); write()` without CAS/`UPDATE ... WHERE version=`, non-atomic counters (`i++`), TOCTOU on file checks.
 
 **References:** CWE-362 Race Condition, OWASP Race Condition guidance, NIST SP 800-53 SI-10
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Raft Consensus
 
@@ -210,10 +154,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300 Channel Endpoint Verify
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Split Brain
 
 **MUST NOT** allow two nodes to both believe they are primary; enforce quorum-based fencing or STONITH before accepting dual-master state.
@@ -223,10 +163,6 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep cluster config for `no-quorum-policy=ignore`, missing `stonith`, `skipped` fencing, heartbeat over untrusted network, `replication_mode=async` with dual-writable VIPs.
 
 **References:** PACEMAKER fencing docs, CWE-662, NIST SP 800-34 Contingency Planning
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 
 # Strong Consistency
 
@@ -238,10 +174,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** etcd consistency docs, Jepsen test reports, NIST SP 800-53 SC-8
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Two-Phase Commit
 
 **MUST** ensure the coordinator's commit/abort decision is write-ahead logged so participants can resolve in-doubt transactions after a crash.
@@ -252,10 +184,6 @@ Consistency, consensus, coordination across nodes.
 
 **References:** Gray 2PC paper, CWE-662, PostgreSQL XA recovery docs, NIST SP 800-53 CP-9
 
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
-
 # Workflow Engines
 
 **MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since Temporal/Step Functions re-execute steps after failure or recovery.
@@ -265,8 +193,4 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep workflow definitions for external calls outside activity/task wrappers, missing `idempotencyKey`, non-deterministic code (random, clock reads) inside workflow code.
 
 **References:** Temporal determinism docs, AWS Step Functions error handling, CWE-662
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)
 

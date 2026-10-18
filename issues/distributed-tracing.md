@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep for `traceparent` / `tracestate` header propagation in HTTP clients and message producers; check tracer init covers every framework middleware.
 
 **References:** W3C Trace Context, OpenTelemetry documentation
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

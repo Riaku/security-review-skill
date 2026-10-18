@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `http2_max_concurrent_streams`, `initial_stream_window_size`, absent h2 settings in Envoy/nginx `http2` blocks.
 
 **References:** RFC 9113 §6.9, CWE-400, nginx http2 directives
-
----
-
-**Part of:** [api-design](../categories/api-design.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

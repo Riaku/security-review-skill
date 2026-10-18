@@ -2,7 +2,7 @@
 
 LLM feature security and quality.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [ai-llm](../categories/ai-llm.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/ai-llm.md](../categories/ai-llm.md) · Index: [SKILL.md](../SKILL.md)
 
 # Advisory-vs-Enforced Agent Checks
 
@@ -14,10 +14,6 @@ LLM feature security and quality.
 
 **References:** Anthropic hooks-vs-instructions guidance, Copilot CLI hooks, Cursor hooks, Codex hooks
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Agent Context-Exclusion Files
 
 **SHOULD** maintain agent exclusion files (.cursorignore, .aiexclude, equivalent) covering secrets, credentials, and sensitive modules so they never enter agent context or indexes.
@@ -27,10 +23,6 @@ LLM feature security and quality.
 **Detect:** repo root lacks .cursorignore/.aiexclude while secrets/sensitive dirs are agent-reachable; index covers branches/patterns beyond the stable set; exclusion list missing recently-added sensitive paths.
 
 **References:** Cursor .cursorignore, Gemini .aiexclude, GitHub content-exclusion controls
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Agent Egress Allowlist & Proxy Control
 
@@ -42,10 +34,6 @@ LLM feature security and quality.
 
 **References:** OpenAI Codex domain rules, Anthropic agent network controls, vendor agent egress allowlists
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cloud-network](../categories/cloud-network.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Human-in-the-loop approval for destructive agent tool calls
 
 **MUST** require explicit human confirmation before an autonomous agent executes destructive actions (deletes, payments, sends, deploys).
@@ -55,10 +43,6 @@ LLM feature security and quality.
 **Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
 
 **References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Agent Instruction-File Review Surface
 
@@ -70,10 +54,6 @@ LLM feature security and quality.
 
 **References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Agent Session Hygiene
 
 **SHOULD** run one session per task, clear context after two failed corrections, and push broad exploration to subagents — mixed-task or polluted sessions degrade output and retain stale secrets/instructions.
@@ -83,10 +63,6 @@ LLM feature security and quality.
 **Detect:** judgment on session transcripts: unrelated tasks per session, >2 correction loops in one session, unscoped "investigate everything" runs in the main context.
 
 **References:** Anthropic named failure patterns, GLM session-management guidance, Cursor cloud-agent session practice
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Agent Session-Log Traceability
 
@@ -98,10 +74,6 @@ LLM feature security and quality.
 
 **References:** GitHub Copilot agent auditability (signed commits, session-log link), OpenAI Codex transcripts, DeepSeek harness session-log model
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [observability](../categories/observability.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Agent Verification Loop (Executable Done-When)
 
 **MUST** give every AI-agent coding task a runnable pass/fail verification criterion (tests, build, script-vs-fixture) wired into the task itself — otherwise the human becomes the verification loop.
@@ -111,10 +83,6 @@ LLM feature security and quality.
 **Detect:** agent task/plan artifacts merged with no named test/build/acceptance command; "implement X" tickets with no check; agent PRs whose CI runs no tests on the change.
 
 **References:** Anthropic Claude Code best practices, vendor coding-agent verification guidance
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [testing-strategy](../categories/testing-strategy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # AI-Code Ownership Policy
 
@@ -126,10 +94,6 @@ LLM feature security and quality.
 
 **References:** AI-generated-code review companion, deskilling research (METR/Anthropic findings), engineering-ownership practice
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # AI-generated code review gate before merge
 
 **SHOULD** require human security review of AI-generated code before merge; Copilot-style output is not self-certifying.
@@ -139,10 +103,6 @@ LLM feature security and quality.
 **Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
 
 **References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Coding-Agent Sandbox & Permission-Mode Review
 
@@ -154,10 +114,6 @@ LLM feature security and quality.
 
 **References:** OpenAI Codex approvals/security model, Anthropic /sandbox + permissions, Cursor Run Modes ("best-effort, not a hard boundary")
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Context Windows
 
 **SHOULD** bound and trim conversation context explicitly so sensitive earlier turns are evicted rather than silently retained or truncated unpredictably.
@@ -167,10 +123,6 @@ LLM feature security and quality.
 **Detect:** config keys max_tokens, context_length, truncation strategy; no retention/eviction logic in history builders.
 
 **References:** OWASP LLM10:2025, CWE-778, NIST SP 800-53 AT-4
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Cross-Model Review Diversity
 
@@ -182,10 +134,6 @@ LLM feature security and quality.
 
 **References:** vendor cross-model review practice, Anthropic fresh-context adversarial subagent review
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Embedding inversion and sensitive data in vector stores
 
 **SHOULD NOT** embed raw sensitive documents in vector stores without assessment; embeddings can leak near-verbatim source text under inversion attacks.
@@ -195,10 +143,6 @@ LLM feature security and quality.
 **Detect:** vector DB ingest of unmasked PII fields; no access control on pgvector/Qdrant/Milvus collections; embeddings exported freely.
 
 **References:** OWASP LLM02:2025, OWASP LLM08:2025, CWE-311
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # EU AI Act conformity (risk tiering, GPAI obligations, transparency and deployment deadlines)
 
@@ -210,10 +154,6 @@ LLM feature security and quality.
 
 **References:** EU AI Act 2024/1689, Annex III, GPAI Code of Practice, EU AI Office
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Evals
 
 **MUST** run security-focused evaluation suites covering injection, data leakage, and refusal bypass before shipping or updating any model-backed feature.
@@ -223,10 +163,6 @@ LLM feature security and quality.
 **Detect:** missing red-team eval datasets, no CI job matching eval|redteam|adversarial, promptfoo/garak config absent.
 
 **References:** OWASP LLM01:2025, NIST AI RMF MEASURE, MITRE ATLAS
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Hallucinated Packages
 
@@ -238,10 +174,6 @@ LLM feature security and quality.
 
 **References:** CWE-427, Snyk "slopsquatting" research, OWASP LLM03
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Jailbreak Red-Teaming
 
 **SHOULD** run recurring adversarial jailbreak testing against production prompts, logging and feeding results into the eval suite.
@@ -251,10 +183,6 @@ LLM feature security and quality.
 **Detect:** no garak/pyrit/jailbreakbench runs in CI; absence of stored jailbreak regression corpora or refusal-bypass tests.
 
 **References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-3
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
@@ -266,10 +194,6 @@ LLM feature security and quality.
 
 **References:** GDPR Art. 28, OWASP LLM02:2025, NIST Privacy Framework
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Denial-of-wallet: unbounded LLM token spend per user/tenant
 
 **MUST** enforce per-user and per-tenant token budgets, rate limits, and alerting on LLM API spend.
@@ -279,10 +203,6 @@ LLM feature security and quality.
 **Detect:** no rate_limit, max_tokens, or budget keys on LLM gateway routes; provider usage alerts not configured.
 
 **References:** OWASP LLM10:2025, CWE-770, CWE-400
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Treat LLM output as untrusted input (sanitize before HTML/SQL/shell/URL sinks)
 
@@ -294,10 +214,6 @@ LLM feature security and quality.
 
 **References:** OWASP LLM01:2025, CWE-79, CWE-89, CWE-78
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Third-party MCP/plugin trust and malicious tool-description injection
 
 **MUST** vet, pin, and sandbox third-party MCP servers and plugins; treat their tool descriptions and names as untrusted input to the model.
@@ -307,10 +223,6 @@ LLM feature security and quality.
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
 **References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Model Artifact Integrity (pickle-format models)
 
@@ -322,10 +234,6 @@ LLM feature security and quality.
 
 **References:** OWASP LLM03:2025, CWE-502, CWE-94
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [supply-chain](../categories/supply-chain.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Model Version Pinning
 
 **MUST** pin exact model versions or digests rather than floating aliases like gpt-4 or latest in production configs.
@@ -335,10 +243,6 @@ LLM feature security and quality.
 **Detect:** grep model: "latest", model: gpt-4 without dated suffix; missing digest/revision fields in inference config.
 
 **References:** OWASP LLM05:2025, CWE-1104, NIST AI RMF MANAGE
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Prompt Injection
 
@@ -350,10 +254,6 @@ LLM feature security and quality.
 
 **References:** OWASP LLM01:2025, CWE-74, NIST AI 100-2
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # RAG / Knowledge-Base Poisoning
 
 **SHOULD** validate, provenance-check, and isolate ingested documents so attacker-controlled content cannot enter the retrieval index.
@@ -363,10 +263,6 @@ LLM feature security and quality.
 **Detect:** ingest pipelines without source allowlists or content scanning; vector index accepting unauthenticated uploads.
 
 **References:** OWASP LLM04:2025, CWE-506, MITRE ATLAS
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # Review-Bot Neutral-Status Trap
 
@@ -378,10 +274,6 @@ LLM feature security and quality.
 
 **References:** Cursor Bugbot status semantics, GitHub Copilot review default-Comment behavior, Gemini severity-threshold filtering
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
 
 **MUST** inventory and govern AI features in third-party software and employee-adopted AI SaaS, since unsanctioned tools move data outside policy.
@@ -391,10 +283,6 @@ LLM feature security and quality.
 **Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
 
 **References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
 
 # System prompt extraction and sensitive config embedded in prompts
 
@@ -406,10 +294,6 @@ LLM feature security and quality.
 
 **References:** OWASP LLM07:2025, CWE-522, CWE-200
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Tool / Function-Call Argument Injection
 
 **MUST** validate and schema-check every model-generated tool argument server-side before execution; never trust the model to sanitize parameters.
@@ -420,10 +304,6 @@ LLM feature security and quality.
 
 **References:** OWASP LLM06:2025, CWE-74, OWASP Top 10 A03
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Unattended-Agent Automation Governance
 
 **MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
@@ -433,8 +313,4 @@ LLM feature security and quality.
 **Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
 
 **References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

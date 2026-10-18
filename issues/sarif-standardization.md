@@ -12,7 +12,3 @@ domains: [infrastructure, reliability]
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
 **References:** CWE-1053, NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

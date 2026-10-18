@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** Routes named `/warm`, `/prefetch`, `cache.warm(` reachable without auth middleware; unbounded key lists in payloads.
 
 **References:** OWASP A01:2021, CWE-420, CWE-770
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

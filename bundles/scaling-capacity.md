@@ -2,7 +2,7 @@
 
 Scaling behavior and capacity limits.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [scaling-capacity](../categories/scaling-capacity.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/scaling-capacity.md](../categories/scaling-capacity.md) · Index: [SKILL.md](../SKILL.md)
 
 # Autoscaling
 
@@ -14,10 +14,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-770, OWASP ASVS 14.2, AWS Well-Architected REL08-BP05
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Capacity Planning
 
 **MUST** forecast capacity against projected peak (not average) load with explicit headroom, reviewed on a recurring cadence tied to growth data.
@@ -27,10 +23,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep runbooks/planning docs for `headroom`, `peak_utilization`, `capacity_forecast`, growth-rate assumptions; check dashboards for peak-vs-average reporting and review-date stamps.
 
 **References:** Google SRE Book capacity planning, NIST SP 800-184, ITIL Capacity Management
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cold Starts
 
@@ -42,10 +34,6 @@ Scaling behavior and capacity limits.
 
 **References:** AWS Well-Architected REL11-BP03, CWE-400, Google SRE scaling practices
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
 **MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.
@@ -55,10 +43,6 @@ Scaling behavior and capacity limits.
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
 **References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [sre-incidents](../categories/sre-incidents.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Disk and inode exhaustion forecasted with lead time
 
@@ -70,10 +54,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-400, NIST SP 800-184, Google SRE monitoring four golden signals
 
----
-
-**Part of:** [observability](../categories/observability.md) · [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Garbage Collection
 
 **MAY** tune GC pause targets and heap sizing per workload, but only after measuring pause distributions rather than defaulting to aggressive tuning.
@@ -83,10 +63,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep for `GOGC`, `-Xmx`, `-XX:MaxGCPauseMillis`, `gc_pause_seconds` histograms in dashboards; check GC logs for pause p99 vs SLO and full-GC frequency.
 
 **References:** CWE-400, Google SRE tail latency chapter, Java GC tuning guide (Oracle), Go runtime metrics docs
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Horizontal vs Vertical Scaling
 
@@ -98,10 +74,6 @@ Scaling behavior and capacity limits.
 
 **References:** NIST SP 800-184, AWS Well-Architected REL05-BP02, CWE-400
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Latency vs Throughput
 
 **MUST** define separate SLOs for latency (p95/p99) and throughput, and scale on the metric that breaches first rather than a single aggregate.
@@ -111,10 +83,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep for `p99`, `histogram_quantile`, `latency_slo`, `throughput_slo` in dashboards and alert rules; absence of percentile thresholds in prometheus rules or load-test reports.
 
 **References:** Google SRE Book SLO chapter, CWE-400, NIST SP 800-184
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Denial-of-wallet: unbounded LLM token spend per user/tenant
 
@@ -126,10 +94,6 @@ Scaling behavior and capacity limits.
 
 **References:** OWASP LLM10:2025, CWE-770, CWE-400
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [scaling-capacity](../categories/scaling-capacity.md) · [governance](../domains/governance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Load Testing
 
 **SHOULD** load-test at or above expected peak with realistic traffic mix, including failure injection, before committing to a capacity number.
@@ -139,10 +103,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep repo for `k6`, `locust`, `gatling`, `wrk`, `chaos`, test reports with `p99` and error-rate thresholds; flag tests that only check mean latency or run below peak.
 
 **References:** OWASP ASVS 14.2, NIST SP 800-184, AWS Well-Architected REL11-BP04
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Memory Leaks
 
@@ -154,10 +114,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-401, OWASP ASVS 14.2, NIST SP 800-53 SI-7
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
 
 **SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
@@ -167,10 +123,6 @@ Scaling behavior and capacity limits.
 **Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
 
 **References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Non-Functional Requirements Traceability
 
@@ -182,10 +134,6 @@ Scaling behavior and capacity limits.
 
 **References:** Google SRE SLO chapter, DDIA requirements-driven design, ADR practice
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Noisy-neighbor isolation between tenants/workloads
 
 **MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
@@ -195,10 +143,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
 **References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [scaling-capacity](../categories/scaling-capacity.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # OOM Killer
 
@@ -210,10 +154,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-400, Kubernetes QoS docs, NIST SP 800-184, kernel OOM protection (oom_score_adj)
 
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
 
 **MUST NOT** nest loops over two externally sized collections without a bound on either dimension.
@@ -224,10 +164,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-407, CWE-834, OWASP API DoS guidance
 
----
-
-**Part of:** [correctness-pitfalls](../categories/correctness-pitfalls.md) · [scaling-capacity](../categories/scaling-capacity.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Sticky Sessions & Load-Balancer Affinity
 
 **SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
@@ -237,10 +173,6 @@ Scaling behavior and capacity limits.
 **Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
 
 **References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Volume IOPS/throughput ceilings profiled before launch
 
@@ -267,10 +199,6 @@ resource "aws_ebs_volume" "pg" {
 
 **References:** AWS EBS volume types docs, fio benchmarking guide, Google SRE Book capacity planning
 
----
-
-**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Stalled replication retention accumulating log segments until disk fills
 
 **MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots, and their `restart_lag`, are the classic case).
@@ -295,10 +223,6 @@ FROM pg_replication_slots;
 
 **References:** PostgreSQL replication slots & WAL retention docs, pgBackRest/WAL-G slot management, CWE-400 disk exhaustion
 
----
-
-**Part of:** [database](../categories/database.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Worker Pools
 
 **SHOULD** size worker pools against queue arrival rates and set autoscaling bounds with starvation detection; undersized pools silently age jobs.
@@ -308,8 +232,4 @@ FROM pg_replication_slots;
 **Detect:** grep for `concurrency`, `pool_size`, `num_workers` without autoscaling policy; metrics showing queue depth rising while workers idle or saturated.
 
 **References:** CWE-400, NIST SP 800-53 SC-5, Kubernetes HPA guidance
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [scaling-capacity](../categories/scaling-capacity.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

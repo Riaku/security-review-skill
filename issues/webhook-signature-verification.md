@@ -12,7 +12,3 @@ domains: [backend, data]
 **Detect:** Handlers with no signature check; `hmac.compare_digest` absent; verification skipped in dev branches.
 
 **References:** CWE-347, CWE-208, Stripe/GitHub webhook signing docs
-
----
-
-**Part of:** [messaging-async](../categories/messaging-async.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

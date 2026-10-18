@@ -28,7 +28,3 @@ spec:
 ```
 
 **References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [data](../domains/data.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

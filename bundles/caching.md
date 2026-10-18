@@ -2,7 +2,7 @@
 
 Cache correctness, performance, and eviction.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [caching](../categories/caching.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/caching.md](../categories/caching.md) · Index: [SKILL.md](../SKILL.md)
 
 # Cache-Control Headers
 
@@ -14,10 +14,6 @@ Cache correctness, performance, and eviction.
 
 **References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
 
----
-
-**Part of:** [caching](../categories/caching.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Cache Hit Ratio
 
 **SHOULD** monitor cache hit ratio per key namespace and alert when it collapses, since a miss storm pushes every request to the backing store.
@@ -27,10 +23,6 @@ Cache correctness, performance, and eviction.
 **Detect:** Metrics dashboards missing `cache_hits`/`cache_misses` counters; Redis INFO stats `keyspace_hits` untracked.
 
 **References:** OWASP A05:2021, CWE-400, NIST SP 800-53 SC-5
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Cache Invalidation
 
@@ -42,10 +34,6 @@ Cache correctness, performance, and eviction.
 
 **References:** OWASP A04:2021, CWE-613, CWE-364, NIST SP 800-53 AC-2
 
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Cache Warming
 
 **SHOULD** restrict cache-warming jobs to authenticated internal triggers and rate-limit them, never exposing warm endpoints to unauthenticated callers.
@@ -55,10 +43,6 @@ Cache correctness, performance, and eviction.
 **Detect:** Routes named `/warm`, `/prefetch`, `cache.warm(` reachable without auth middleware; unbounded key lists in payloads.
 
 **References:** OWASP A01:2021, CWE-420, CWE-770
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # CDNs
 
@@ -70,10 +54,6 @@ Cache correctness, performance, and eviction.
 
 **References:** OWASP A01:2021, CWE-525, RFC 7234 section 3.2, Cloudflare cache rules docs
 
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Cross-Tenant Cache Key Collision
 
 **MUST** include tenant identity in every cache key for tenant-scoped data (cache, CDN, search index, session store).
@@ -83,10 +63,6 @@ Cache correctness, performance, and eviction.
 **Detect:** grep cache set/get calls for keys lacking `tenant`/`org` components; check CDN cache keys and vary headers for tenant-scoped pages; review Redis key naming convention.
 
 **References:** OWASP Multi-Tenant Security Guidance, CWE-922 insecure storage
-
----
-
-**Part of:** [caching](../categories/caching.md) · [multi-tenancy](../categories/multi-tenancy.md) · [backend](../domains/backend.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # ETags
 
@@ -98,10 +74,6 @@ Cache correctness, performance, and eviction.
 
 **References:** OWASP A04:2021, RFC 7232 section 2.3, RFC 9110 8.8.3
 
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Explicit eviction policy on every in-memory data store
 
 **MUST** set an explicit memory limit and eviction policy on every in-memory data store, matched to the data it holds; unbounded growth, or a policy that can evict security-critical keys such as sessions and rate-limit counters, is a finding. Redis `maxmemory` left unbounded or `maxmemory-policy` at `noeviction`, or `allkeys-lru` on a mixed-purpose instance, is the common case.
@@ -111,10 +83,6 @@ Cache correctness, performance, and eviction.
 **Detect:** `redis-cli CONFIG GET maxmemory-policy` returning `noeviction`; sessions and caches sharing one instance with `allkeys-*`.
 
 **References:** OWASP A05:2021, CWE-770, CWE-400, Redis maxmemory docs
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # TTLs
 
@@ -126,10 +94,6 @@ Cache correctness, performance, and eviction.
 
 **References:** OWASP A07:2021, CWE-613, NIST SP 800-63B 5.1.1
 
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Write-Through vs Write-Back
 
 **MUST** use write-through persistence for security-relevant records (audit logs, ACLs, tokens); write-back caching is prohibited where a crash must not lose the write.
@@ -139,8 +103,4 @@ Cache correctness, performance, and eviction.
 **Detect:** Redis `appendonly no`, async flush settings, or deferred DB writes on audit/ACL tables; `write_back`, `async_write` flags.
 
 **References:** OWASP A09:2021, CWE-758, NIST SP 800-53 AU-9, AU-4
-
----
-
-**Part of:** [caching](../categories/caching.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 

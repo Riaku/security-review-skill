@@ -2,7 +2,7 @@
 
 Audit and regulatory regimes.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [regulatory-frameworks](../categories/regulatory-frameworks.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/regulatory-frameworks.md](../categories/regulatory-frameworks.md) · Index: [SKILL.md](../SKILL.md)
 
 # Accessibility compliance as regulatory regime (EAA, ADA/WCAG enforcement)
 
@@ -14,10 +14,6 @@ Audit and regulatory regimes.
 
 **References:** WCAG 2.1 AA, EN 301 549, European Accessibility Act, ADA Title III
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # AU ISM / IRAP (Australia)
 
 **MUST** control and monitor the hosting environment per IRAP assessment scope against the Australian ISM baseline for the relevant classification level.
@@ -27,10 +23,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "IRAP", "ISM", "PROTECTED", "hosting provider" in deployment docs; AU data in non-assessed regions, missing controls mapping.
 
 **References:** Australian ISM (PSPF), IRAP (Digital Trust Framework), PSPG
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Breach notification clocks across jurisdictions
 
@@ -42,10 +34,6 @@ Audit and regulatory regimes.
 
 **References:** GDPR Art. 33, Cal. Civ. Code §1798.82, HIPAA Breach Rule 45 CFR 164.404, NIST SP 800-61
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # CCPA/CPRA
 
 **MUST** honor California consumer rights—access, deletion, opt-out of sale/sharing—within statutory deadlines across all systems holding personal information.
@@ -55,10 +43,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "CCPA", "Do Not Sell", "opt_out", "deletion request" handlers; missing request routing, service-provider contract clauses, GPC signal support.
 
 **References:** CCPA/CPRA Cal. Civ. Code 1798.100+, CPPA regulations, IAPP CCPA guidance
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
@@ -70,10 +54,6 @@ Audit and regulatory regimes.
 
 **References:** COPPA 16 CFR 312, UK Online Safety Act 2023, Age Appropriate Design Code
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # China PIPL (cross-border security assessment, separate consent, localization)
 
 **MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
@@ -83,10 +63,6 @@ Audit and regulatory regimes.
 **Detect:** grep for data flows from CN regions to overseas endpoints; missing "separate consent", CAC filing, localization config for CN deployments.
 
 **References:** PIPL (2021), CAC Cross-Border Data Transfer Rules, GB/T 35273
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # CJIS (criminal justice data)
 
@@ -98,10 +74,6 @@ Audit and regulatory regimes.
 
 **References:** CJIS Security Policy v5.9, FBI CJIS Division, NIST SP 800-53
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # CMMC (defense supply chain)
 
 **MUST** achieve the CMMC maturity level required by contract for each enclave processing FCI or CUI, with an assessed scope covering all connected vendor systems.
@@ -111,10 +83,6 @@ Audit and regulatory regimes.
 **Detect:** grep vendor contracts/repos for "CMMC", "FCI", "CUI" scope statements; missing maturity evidence, unscoped integrations touching CUI flows.
 
 **References:** CMMC 2.0, NIST SP 800-171, DFARS 252.204-7021
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Common Criteria
 
@@ -126,10 +94,6 @@ Audit and regulatory regimes.
 
 **References:** Common Criteria ISO/IEC 15408, CCRA, NIAP/CCEVS
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Cross-border data transfer mechanisms post-Schrems II
 
 **SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
@@ -139,10 +103,6 @@ Audit and regulatory regimes.
 **Detect:** grep for EU data flows to non-adequate regions without SCC/TIA references; check `transfer_impact_assessment`, `scc_modules`, `adequacy` config absent.
 
 **References:** GDPR Ch. V, Schrems II (C-311/18), EU SCC 2021/914, EDPB Recommendations 01/2020
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Cyber insurance alignment: coverage preconditions and denial clauses
 
@@ -154,10 +114,6 @@ Audit and regulatory regimes.
 
 **References:** ISO 27001/27017, CVE-based exclusion clauses, Marsh/Gallagher cyber underwriting guidance
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # DORA (financial sector resilience)
 
 **MUST** classify critical ICT functions, test resilience (including TLPT threat-led testing), and register ICT third-party arrangements per DORA timelines.
@@ -167,10 +123,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
 **References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [sre-incidents](../categories/sre-incidents.md) · [government-compliance](../domains/government-compliance.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # EU AI Act conformity (risk tiering, GPAI obligations, transparency and deployment deadlines)
 
@@ -182,10 +134,6 @@ Audit and regulatory regimes.
 
 **References:** EU AI Act 2024/1689, Annex III, GPAI Code of Practice, EU AI Office
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # EU Cyber Resilience Act (product security lifecycle, SBOM and vulnerability handling duties)
 
 **MUST** ship products with digital elements under a secure development lifecycle, provide an SBOM, and actively handle reported vulnerabilities for the support period.
@@ -195,10 +143,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "SBOM", "CRA", "support period", vulnerability disclosure policy; no CycloneDX/SPDX artifacts, end-of-life products with live CVEs.
 
 **References:** EU CRA 2024/2847, ENISA SBOM guidance, ISO/IEC 30111
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [supply-chain](../categories/supply-chain.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # FedRAMP (Low/Moderate/High)
 
@@ -210,10 +154,6 @@ Audit and regulatory regimes.
 
 **References:** FedRAMP Rev5, NIST SP 800-53, FedRAMP Marketplace
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # FIPS 140-3 Validated Crypto
 
 **MUST** perform cryptographic operations for regulated data using FIPS 140-3 validated modules rather than unaudited library implementations.
@@ -223,10 +163,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "fips", "FIPS_MODE", openssl fips provider config; direct MD5/SHA1 usage, custom crypto, non-validated TLS libraries in regulated paths.
 
 **References:** FIPS 140-3, CMVP validated module list, NIST SP 800-175B
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # FIPS 186 / Digital Signature Standards
 
@@ -238,10 +174,6 @@ Audit and regulatory regimes.
 
 **References:** FIPS 186-5, NIST SP 800-89
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # HIPAA (health data)
 
 **MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.
@@ -251,10 +183,6 @@ Audit and regulatory regimes.
 **Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
 
 **References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
@@ -266,10 +194,6 @@ Audit and regulatory regimes.
 
 **References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # ISO/IEC 27001 ISMS
 
 **MUST** operate an information security management system with documented risk assessment, Statement of Applicability, and continual improvement cycle—not a one-time certification snapshot.
@@ -279,10 +203,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "SoA", "risk register", "Clause 9/10" evidence; stale risk assessments, Annex A controls without owners or reviews.
 
 **References:** ISO/IEC 27001:2022, ISO 27002:2022, ISO 27005
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # ITAR / EAR Export Controls
 
@@ -294,10 +214,6 @@ Audit and regulatory regimes.
 
 **References:** ITAR 22 CFR 120-130, EAR 15 CFR 730-774, DDTC
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # Brazil LGPD compliance
 
 **SHOULD** establish a legal basis for each processing activity, appoint a data protection officer (encarregado), and honor data subject rights under LGPD timelines.
@@ -307,10 +223,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "LGPD", "encarregado", "base legal", rights-request endpoints; missing privacy notices in pt-BR, no DPO contact published.
 
 **References:** LGPD Lei 13.709/2018, ANPD guidelines, ANPD DSR rules
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # EU NIS2 Directive
 
@@ -322,10 +234,6 @@ Audit and regulatory regimes.
 
 **References:** EU Directive 2022/2555, ENISA NIS2 guidance, ISO 27001 mapping
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # NIST SP 800-171 (CUI)
 
 **MUST** protect Controlled Unclassified Information at rest and in transit with FIPS-validated encryption and enforce least-privilege access on every system storing or transmitting CUI.
@@ -335,10 +243,6 @@ Audit and regulatory regimes.
 **Detect:** grep for CUI-marked storage without encryption_at_rest, unencrypted exports, shared service accounts; missing "800-171", "CUI" markings.
 
 **References:** NIST SP 800-171 Rev3, DFARS 252.204-7012, FIPS 140-3
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # NIST SP 800-53 Controls
 
@@ -350,10 +254,6 @@ Audit and regulatory regimes.
 
 **References:** NIST SP 800-53 Rev5, SP 800-53B baselines, FedRAMP
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # NIST Cybersecurity Framework (CSF)
 
 **SHOULD** cover all six functions—Govern, Identify, Protect, Detect, Respond, Recover—with at least one measurable activity per category, so governance gaps surface before incidents do.
@@ -363,10 +263,6 @@ Audit and regulatory regimes.
 **Detect:** grep docs for "Govern", "Identify", "Protect", "Detect", "Respond", "Recover" categories; missing SIEM, incident runbook, asset inventory artifacts.
 
 **References:** NIST CSF 2.0, NIST SP 800-53, CIS Controls
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # NYDFS 23 NYCRR 500 (financial services cyber requirements)
 
@@ -378,10 +274,6 @@ Audit and regulatory regimes.
 
 **References:** 23 NYCRR 500 (amended 2023), NYDFS guidance, Part 500 FAQ
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
 **MUST** scope the cardholder data environment accurately and complete the correct SAQ level (or full ROC) for the actual card data flow, not the desired one.
@@ -391,10 +283,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "PAN", "cardholder", "CDE", "SAQ-" in configs; card data in logs, unsegmented networks, SAQ type mismatched to flow.
 
 **References:** PCI DSS v4.0.1, SAQ A-D, PCI SSC scoping guidance
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Post-quantum cryptography migration plan and crypto-agility
 
@@ -406,10 +294,6 @@ Audit and regulatory regimes.
 
 **References:** NIST FIPS 203/204/205, NIST IR 8547 PQC migration, NSA CNSA 2.0
 
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # SEC cybersecurity disclosure rules (public-company material incident reporting)
 
 **MUST** disclose material cybersecurity incidents within four business days of a materiality determination via Form 8-K Item 1.05, with board-level oversight documented.
@@ -419,10 +303,6 @@ Audit and regulatory regimes.
 **Detect:** grep for "8-K", "Item 1.05", materiality assessment process; no incident-to-disclosure workflow, missing disclosure committee charter.
 
 **References:** SEC 8-K Item 1.05 (2023), Reg S-K Item 106, SEC cyber disclosure guidance
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 
 # Segregation of duties in deploy and production operations
 
@@ -434,10 +314,6 @@ Audit and regulatory regimes.
 
 **References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [backend](../domains/backend.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # SOC 2 as Audit Regime (CCs, evidence collection)
 
 **SHOULD** collect continuous, timestamped evidence for Trust Services Criteria (security, availability, confidentiality) rather than assembling artifacts only at audit time.
@@ -448,10 +324,6 @@ Audit and regulatory regimes.
 
 **References:** AICPA TSC 2017, SOC 2 Type II, Trust Services Criteria
 
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
-
 # UK GDPR + Cyber Essentials / Cyber Essentials Plus
 
 **SHOULD** pair UK GDPR data controls with Cyber Essentials' five technical controls (firewalls, secure configuration, security update management, user access control, malware protection), verified externally for CE+.
@@ -461,8 +333,4 @@ Audit and regulatory regimes.
 **Detect:** grep for default credentials, open SSH/RDP, missing patch cadence, absent firewall rules; no "Cyber Essentials" cert or scope doc.
 
 **References:** UK GDPR, NCSC Cyber Essentials v3.1, ICO guidance
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)
 

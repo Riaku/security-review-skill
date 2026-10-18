@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** `envFrom: configMapRef` where the app expects live updates; no checksum annotation or rollout trigger on ConfigMap change.
 
 **References:** K8s docs configmap env immutability, CWE-676, Bitnami/Flux config-reload patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

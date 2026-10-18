@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** grep for `replication_factor`, `read_consistency=ONE` with `write_consistency=ONE`, R+W<=N arithmetic in client config or driver defaults.
 
 **References:** Dynamo paper quorum model, Cassandra R/W consistency levels, CWE-362 Race Condition
-
----
-
-**Part of:** [distributed-systems](../categories/distributed-systems.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

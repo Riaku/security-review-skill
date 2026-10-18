@@ -28,7 +28,3 @@ resource "aws_nat_gateway" "az_a" {
 ```
 
 **References:** AWS NAT gateway best practices, CIS AWS Foundations 2.x, AWS Well-Architected Reliability pillar
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

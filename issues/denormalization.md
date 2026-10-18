@@ -24,7 +24,3 @@ upsert_user_stats(user_id, computed_from(order_events))  # replayable
 ```
 
 **References:** Kleppmann *DDIA* Ch. 1, materialized view maintenance patterns, DynamoDB denormalization guide, CWE-362
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

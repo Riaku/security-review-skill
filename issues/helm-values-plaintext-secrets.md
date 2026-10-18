@@ -12,7 +12,3 @@ domains: [backend, infrastructure]
 **Detect:** `password:`, `apiKey:`, `token:` literals in `values*.yaml`, `helm get values` output containing credentials, missing `existingSecret` references.
 
 **References:** OWASP ASVS V2.10, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
-
----
-
-**Part of:** [deployment-release](../categories/deployment-release.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

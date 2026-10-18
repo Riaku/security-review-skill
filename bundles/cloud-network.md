@@ -2,7 +2,7 @@
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [cloud-network](../categories/cloud-network.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/cloud-network.md](../categories/cloud-network.md) · Index: [SKILL.md](../SKILL.md)
 
 # Agent Egress Allowlist & Proxy Control
 
@@ -13,10 +13,6 @@ Cloud networking, DNS, edge, cloud resource exposure.
 **Detect:** agent runs without managed proxy; wildcard `*` in agent network allow rules; MCP servers reaching arbitrary hosts; repo .env containing proxy settings honored by agent tooling.
 
 **References:** OpenAI Codex domain rules, Anthropic agent network controls, vendor agent egress allowlists
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [cloud-network](../categories/cloud-network.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # API Gateway Mapping Template / Proxy Passthrough Injection
 
@@ -39,10 +35,6 @@ Cloud networking, DNS, edge, cloud resource exposure.
 ```
 
 **References:** CWE-74, AWS API Gateway mapping template docs, OWASP Injection cheatsheet
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # API Gateway / Edge Endpoints Deployed Without Authorizers
 
@@ -72,10 +64,6 @@ MyMethod:
 
 **References:** OWASP A01:2021, OWASP ASVS 4.1, AWS API Gateway authorization docs, CWE-306
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Attack-Path Analysis (reachable chains from exposure to crown jewels)
 
 **SHOULD** continuously map reachable attack paths from internet exposure and low-privilege identities to critical assets, cutting shortest chains first.
@@ -85,10 +73,6 @@ MyMethod:
 **Detect:** grep `cartography`, `bloodhound`, `attack_path` reports, reachability graph exports.
 
 **References:** MITRE ATT&CK, NIST SP 800-30, BloodHound docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Attack Surface Management (continuous exposure discovery)
 
@@ -100,10 +84,6 @@ MyMethod:
 
 **References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-119, AWS Security Hub, Cloudflare for Teams
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Attack Surface Reduction (deliberate exposure minimization)
 
 **SHOULD NOT** expose administrative interfaces, dashboards, or debug endpoints directly to the public internet without an access broker such as VPN or zero-trust gateway.
@@ -113,10 +93,6 @@ MyMethod:
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
 **References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # CAA Record Policy
 
@@ -128,10 +104,6 @@ MyMethod:
 
 **References:** RFC 8659 CAA, CA/B Forum baseline requirements, letsencrypt CAA documentation
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Certificate-Issuance Monitoring
 
 **SHOULD** alert on any certificate issued for your domains (CT-log monitoring via Certstream/CRT.sh) to detect unauthorized issuance fast.
@@ -141,10 +113,6 @@ MyMethod:
 **Detect:** check for CT-monitoring service/cron (Censys monitor, Certstream consumer, crt.sh search alerts) covering all brand domains and wildcard patterns; verify alert routing to a responder.
 
 **References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # CIS Benchmarks (OS/container/k8s/cloud)
 
@@ -168,10 +136,6 @@ MyMethod:
 
 **References:** CIS Benchmarks (cisecurity.org), CIS Kubernetes Benchmark, CIS Docker Benchmark, DISA STIGs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Client-Side TLS Verification Disabled
 
 **MUST NOT** disable server certificate or hostname verification in outbound TLS clients; every "works in dev" toggle like `verify=False` is a production man-in-the-middle hole.
@@ -194,10 +158,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 ```
 
 **References:** CWE-295, CWE-299, OWASP ASVS 14.2, OWASP Testing Guide STG-CRYPTO-03
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Billing Alerts
 
@@ -223,10 +183,6 @@ resource "aws_budgets_budget" "acct" {
 
 **References:** AWS Budgets docs, GCP Budget alerts, CIS AWS Foundations 4.x, OWASP A09:2021 Logging & Monitoring Failures
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Cloud IAM Privilege Escalation Paths
 
 **MUST** trace every newly granted cloud permission for escalation edges before merge: actions that let a principal widen its own access.
@@ -248,10 +204,6 @@ resource "aws_budgets_budget" "acct" {
 ```
 
 **References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Instance Metadata Endpoint Protection (IMDSv2)
 
@@ -278,10 +230,6 @@ metadata_options {
 
 **References:** AWS IMDSv2 announcement (2019), AWS Well-Architected Security Pillar, CIS AWS 5.6
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Cloud Provider Security Benchmarks (AWS Foundations / Azure / GCP CIS)
 
 **SHOULD** The provider's own framework — AWS Foundational Security Best Practices, Azure Secure Score, GCP CIS recommendations — be continuously evaluated in the native tool rather than spot-checked by hand.
@@ -303,10 +251,6 @@ metadata_options {
 
 **References:** AWS Foundational Security Best Practices standard, CIS AWS Foundations Benchmark, Microsoft Defender for Cloud, GCP Security Command Center
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
 **SHOULD** Track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
@@ -327,10 +271,6 @@ metadata_options {
 ```
 
 **References:** AWS Cost Anomaly Detection docs, AWS Well-Architected Cost Optimization pillar, FinOps Framework (finops.org)
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -355,10 +295,6 @@ metadata_options {
 
 **References:** AWS Confused Deputy Prevention Guide, CWE-441, AWS Security Best Practices SEC3-BP05
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # CSPM Continuous Cloud Posture Scanning (misconfig drift detected continuously)
 
 **MUST** scan cloud configuration continuously for misconfigurations instead of relying on point-in-time audits.
@@ -368,10 +304,6 @@ metadata_options {
 **Detect:** grep for `prowler`, `scoutsuite`, `cloudsploit`, `checkov --framework cloud`, scheduled posture-scan jobs with alert routing.
 
 **References:** NIST CS2 (SP 800-223), CIS Cloud Benchmarks, NIST SP 800-53 CM-6, CWE-16
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
@@ -383,10 +315,6 @@ metadata_options {
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
 
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Data Exfiltration Monitoring
 
 **SHOULD** baseline per-host and per-account egress volume and alert on anomalous outbound transfers, especially off-hours and to untrusted destinations.
@@ -396,10 +324,6 @@ metadata_options {
 **Detect:** grep flow-log analytics for `bytes_out` thresholds, new-destination first-seen alerts, and DB export / S3 egress alarms; verify egress paths are actually observable.
 
 **References:** MITRE ATT&CK T1048 Exfiltration Over Alternative Protocol, T1567, CWE-200, NIST SP 800-53 AC-4
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # DNS
 
@@ -424,10 +348,6 @@ if client_cert.subject == expected_service_identity:
 
 **References:** CWE-350 (Reliance on Reverse DNS), OWASP A08:2021, RFC 1034
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # DNS Propagation
 
 **SHOULD** Lower record TTLs to 300 seconds or less well before a planned cutover, and keep them low until the migration is confirmed stable.
@@ -449,10 +369,6 @@ dig +short A app.example.com @8.8.8.8   # verify resolvers agree
 ```
 
 **References:** RFC 2181, AWS Route 53 failover/TTL guidance, Google Cloud DNS caching docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # DNS Rebinding Against Internal Services
 
@@ -477,10 +393,6 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **References:** CWE-350, OWASP SSRF Prevention Cheat Sheet, OWASP A10:2021
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-client-security](../categories/web-client-security.md) · [frontend](../domains/frontend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # DNSSEC
 
 **SHOULD** Authoritative zones sign their records with DNSSEC, security-sensitive lookups use validating resolvers, and key rollover be automated and monitored.
@@ -502,10 +414,6 @@ $ dig example.com +dnssec     # RRSIG present, AD set, DS in parent
 
 **References:** RFC 4033/4034, RFC 6781 (key rollover), Cloudflare DNSSEC docs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
 **SHOULD** restrict outbound traffic to an explicit allow-list so compromised hosts cannot freely phone home or exfiltrate.
@@ -515,10 +423,6 @@ $ dig example.com +dnssec     # RRSIG present, AD set, DS in parent
 **Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
 
 **References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Egress Fees
 
@@ -541,10 +445,6 @@ s3 = boto3.client("s3", region_name="us-east-1")
 ```
 
 **References:** AWS Well-Architected Cost Optimization pillar, AWS NAT gateway pricing, GCP network egress pricing
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Ephemeral port / TIME_WAIT exhaustion on busy clients
 
@@ -571,10 +471,6 @@ for url in urls:
 
 **References:** RFC 9293 (TIME-WAIT), Cloudflare "Why your server runs out of ports", nginx/HAProxy connection pooling docs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Exposed Data-Service Ports
 
 **MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
@@ -584,10 +480,6 @@ for url in urls:
 **Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [data](../domains/data.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # File descriptor and conntrack table limits sized for peak
 
@@ -613,10 +505,6 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** Netflix tuning guides, Netfilter conntrack docs, Google SRE Book (capacity monitoring), USE method
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Firewalls
 
 **MUST** Default to deny for all inbound traffic, explicitly allowing only the ports and sources a service actually needs, with rules managed as code rather than clicked in a console.
@@ -638,10 +526,6 @@ deny  from any to any               # explicit default deny, logged
 ```
 
 **References:** CWE-284, CIS Benchmark network rules sections, NIST SP 500-207 Zero Trust Architecture
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # HSTS
 
@@ -666,10 +550,6 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; prelo
 ```
 
 **References:** RFC 6797, CWE-319, OWASP A02:2021 Cryptographic Failures, WSTG-CONF-07
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # HTTP Request Smuggling (CL.TE / TE.CL Desync)
 
@@ -699,10 +579,6 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** CWE-444, PortSwigger HTTP desync research, RFC 9112 §6.3 (reject both headers)
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Infrastructure Drift Detection (live state vs IaC diffed and alerted)
 
 **MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
@@ -712,10 +588,6 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 **Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
 
 **References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [deployment-release](../categories/deployment-release.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Ingress Controllers
 
@@ -740,10 +612,6 @@ metadata:
 ```
 
 **References:** CVE-2021-25742, OWASP A03:2021 Injection, Kubernetes ingress security docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Ingress Host-Header / vHost Routing Collisions and TLS Passthrough Misrouting
 
@@ -773,10 +641,6 @@ metadata:
 
 **References:** CWE-441, RFC 9110 §7.2 (Host), Kubernetes Ingress docs, OWASP A01:2021
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # IPv6
 
 **MUST NOT** IPv6 be enabled on an interface or load balancer without the same firewall coverage applied to IPv4; every rule set needs a `::/0` exposure review.
@@ -800,10 +664,6 @@ ip6tables -A INPUT -p tcp --dport 443 -j ACCEPT
 
 **References:** CIS Benchmarks dual-stack sections, AWS IPv6 security group guidance, NIST SP 500-267r1
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
 **SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
@@ -813,10 +673,6 @@ ip6tables -A INPUT -p tcp --dport 443 -j ACCEPT
 **Detect:** grep detection rules for `T1021`, `remote_services`, `admin_shares`, `pass-the-hash`, unusual-login Sigma/YARA-L rules.
 
 **References:** MITRE ATT&CK TA0008/T1021, NIST SP 800-61, Sigma rules, GuardDuty UnauthorizedAccess
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Load balancer health-check flapping detected and damped
 
@@ -840,10 +696,6 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** AWS ELB health check best practices, HAProxy tuning docs, Google SRE Book (overloading & health checks)
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [sre-incidents](../categories/sre-incidents.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
-
 # Management-Plane Activity Alerting
 
 **MUST** route cloud control-plane audit streams (CloudTrail, Azure Activity Log, GCP Cloud Audit Logs) into real-time metric filters and alarms so privileged API activity — root/console usage, security-group and firewall changes, IAM policy modifications, key deletion — pages a human within minutes instead of waiting for a periodic log review.
@@ -853,10 +705,6 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** CloudTrail configured with CloudWatch metric filters + alarms (or equivalent GuardDuty/Activity Log alert rules) covering: root account usage, `AuthorizeSecurityGroupIngress` widening, `iam:Put*Policy`/`Attach*Policy`, console login failures burst, KMS key scheduling-for-deletion; absence of any alarm wired to the audit stream is the finding. Distinguish from `admin-activity-review` (periodic human review) — this item requires automated real-time alerting.
 
 **References:** CIS AWS 3.x (CloudTrail processing & alerting), AWS CloudTrail best practices, Azure Activity Log alert guidance, aquasecurity/trivy-checks AWS CloudTrail alert rules
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [observability](../categories/observability.md) · [infrastructure](../domains/infrastructure.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)
 
 # Service Mesh Permissive mTLS and Direct-Pod-IP Bypass
 
@@ -880,10 +728,6 @@ mtls:
 ```
 
 **References:** Istio security docs (permissive mTLS caveats), OWASP Kubernetes Top 10, CWE-300
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Cloud Metadata Endpoint Credential Theft (IMDS / 169.254.169.254)
 
@@ -909,10 +753,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **References:** CWE-200, AWS IMDSv2 bulletin, GCP metadata protection docs, OWASP SSRF Prevention Cheat Sheet, CIS AWS 5.6/5.7
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # mTLS / Service-to-Service Authentication
 
 **SHOULD** Internal service-to-service calls authenticate with short-lived client certificates rather than shared API keys or network-location trust.
@@ -934,10 +774,6 @@ if peer.spiffe_id in allowed_callers[endpoint]: ok()
 ```
 
 **References:** SPIFFE/SPIRE docs, NIST SP 800-207 Zero Trust, Istio identity & certificate docs, CIS Kubernetes Benchmark 5.x
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # NAT Gateways
 
@@ -965,10 +801,6 @@ resource "aws_nat_gateway" "az_a" {
 
 **References:** AWS NAT gateway best practices, CIS AWS Foundations 2.x, AWS Well-Architected Reliability pillar
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # NodePort / LoadBalancer Accidentally Exposing Internal Services
 
 **SHOULD NOT** publish admin dashboards, databases, or metrics endpoints via NodePort or an internet-facing LoadBalancer; internal services stay internal unless a reviewed ingress explicitly fronts them.
@@ -992,10 +824,6 @@ spec:
 
 **References:** CWE-284, CIS Kubernetes 5.2.2, OWASP Kubernetes Top 10, AWS LB isolation docs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Open Directory Listing
 
 **SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
@@ -1005,10 +833,6 @@ spec:
 **Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
 
 **References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Path MTU blackholes diagnosed on tunnel/VPN paths
 
@@ -1032,10 +856,6 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
 
 **References:** RFC 8899 (PMTUD), RFC 1191, AWS VPN MTU docs, Black Hole Router / PMTU blackhole literature
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # PQC readiness of TLS/VPN termination (hybrid KEM deployment)
 
 **SHOULD** inventory every TLS and VPN termination point today and plan hybrid post-quantum key agreement (X25519 + ML-KEM) for long-lived, harvest-now-decrypt-later traffic before the client ecosystem forces a rushed rollout.
@@ -1056,10 +876,6 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 ```
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Presigned URLs
 
@@ -1082,10 +898,6 @@ url = s3.generate_presigned_url("get_object",
 ```
 
 **References:** AWS S3 presigned URL best practices, CWE-539, OWASP A07:2021
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Public S3 Buckets
 
@@ -1112,10 +924,6 @@ resource "aws_s3_bucket_public_access_block" "backups" {
 
 **References:** CWE-284, CIS AWS Foundations 2.1.5, OWASP A01:2021 Broken Access Control, AWS S3 security best practices
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Security Groups
 
 **MUST NOT** A security group admit `0.0.0.0/0` or `::/0` on administrative or data ports; prefer referencing other security groups over raw CIDR ranges.
@@ -1137,10 +945,6 @@ ingress { from_port = 5432 to_port = 5432 protocol = "tcp"
 ```
 
 **References:** CIS AWS Foundations 5.x, CWE-284, AWS VPC security group best practices
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Serverless Execution Environment Reuse Leaking Data Across Invocations
 
@@ -1168,10 +972,6 @@ def handler(event, ctx):
 
 **References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Service Mesh
 
 **SHOULD** Where a service mesh is deployed, enforce mutual TLS in STRICT mode between sidecars and remove plaintext permissive fallbacks before production sign-off.
@@ -1195,10 +995,6 @@ spec:
 
 **References:** Istio mTLS docs, NIST SP 800-207 Zero Trust, CNCF zero-trust whitepaper
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Subdomain Takeover / Dangling DNS
 
 **MUST NOT** Any DNS record remain pointing at a deprovisioned cloud resource — S3 bucket, Heroku app, CloudFront distribution — after that resource is released.
@@ -1220,10 +1016,6 @@ marketing.example.com.  CNAME  old-campaign.s3-website-us-east-1.amazonaws.com
 ```
 
 **References:** OWASP WSTG-CONF-10 (Subdomain Takeover), HackerOne takeover methodology, Can-I-Takeover-it project
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Subnets
 
@@ -1250,10 +1042,6 @@ resource "aws_subnet" "app_private" {
 ```
 
 **References:** CIS AWS Foundations 1.x, AWS VPC best practices, CWE-284
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # TLS Certificate Expiry
 
@@ -1284,10 +1072,6 @@ spec:
 
 **References:** CWE-298, OWASP A05:2021 Security Misconfiguration, Let's Encrypt renewal docs
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # TLS/ Cipher Suite Hardening (Mozilla profiles, disable legacy)
 
 **MUST** Terminating endpoints offer only modern suites per the Mozilla Intermediate (or Modern) profile, and MUST NOT negotiate RC4, 3DES, SHA-1 MACs, export, or anonymous suites.
@@ -1308,10 +1092,6 @@ ssl_protocols TLSv1.2 TLSv1.3;
 ```
 
 **References:** Mozilla Server-Side TLS (Intermediate profile), RFC 8446, CWE-326 Inadequate Encryption Strength
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
@@ -1339,10 +1119,6 @@ spec:
 
 **References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
 
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [database](../categories/database.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [data](../domains/data.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # VPCs
 
 **MUST** Workloads of different trust levels live in separate VPCs or equivalent network boundaries, with explicit, audited peering rather than one flat network.
@@ -1365,10 +1141,6 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 ```
 
 **References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 1.x
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
@@ -1393,10 +1165,6 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 
 **References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
 
----
-
-**Part of:** [authentication](../categories/authentication.md) · [cloud-network](../categories/cloud-network.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
-
 # Zero Trust Architecture
 
 **SHOULD** verify every request explicitly regardless of network location — no implicit trust for internal networks, device posture checked, per-request authorization, least-privilege service identity.
@@ -1406,8 +1174,4 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 **Detect:** look for mTLS everywhere / service mesh, identity-aware proxies (BeyondCorp-style), absence of "trusted internal network" CIDR allow-lists as sole authz, continuous session validation rather than once-at-connect.
 
 **References:** NIST SP 800-207 Zero Trust Architecture, CISA Zero Trust Maturity Model
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
 

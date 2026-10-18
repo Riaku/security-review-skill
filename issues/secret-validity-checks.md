@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** No post-rotation validation step, `git leak` findings closed without provider-side revoke check, missing `aws sts get-caller-identity` / GitHub `/rate_limit` verification.
 
 **References:** OWASP ASVS V2.10.4, GitHub secret scanning docs, AWS IAM key revocation runbooks
-
----
-
-**Part of:** [secrets-crypto](../categories/secrets-crypto.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

@@ -23,7 +23,3 @@ initdb -D /var/lib/postgresql/data --data-checksums
 ```
 
 **References:** PostgreSQL initdb --data-checksums docs, CWE-17 Unexpected Condition Handling, storage bit-rot literature
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

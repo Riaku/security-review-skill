@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** review export tooling coverage vs datastore inventory; check export includes activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
 
 **References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

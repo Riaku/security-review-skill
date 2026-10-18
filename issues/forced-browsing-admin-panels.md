@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** fuzz paths `/admin`, `/console`, `/kibana`, `/portainer`, `/adminer`; check Nginx/ingress auth annotations and network policies for management routes.
 
 **References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

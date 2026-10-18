@@ -24,7 +24,3 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 ```
 
 **References:** EBS/PersistentVolume snapshot consistency docs, PostgreSQL backup methods docs, NIST SP 800-34
-
----
-
-**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

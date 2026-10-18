@@ -12,7 +12,3 @@ domains: [governance, government-compliance]
 **Detect:** grep for PHI/ePHI handling without encryption/TLS, missing audit logging, third-party analytics SDKs receiving patient data.
 
 **References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [regulatory-frameworks](../categories/regulatory-frameworks.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

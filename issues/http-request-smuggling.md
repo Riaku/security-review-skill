@@ -30,7 +30,3 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 ```
 
 **References:** CWE-444, PortSwigger HTTP desync research, RFC 9112 §6.3 (reject both headers)
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

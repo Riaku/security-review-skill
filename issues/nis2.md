@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep for "NIS2", incident response SLA docs, "24 hours"/"72 hours" reporting; missing supply-chain audits, absent vulnerability disclosure policy.
 
 **References:** EU Directive 2022/2555, ENISA NIS2 guidance, ISO 27001 mapping
-
----
-
-**Part of:** [regulatory-frameworks](../categories/regulatory-frameworks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

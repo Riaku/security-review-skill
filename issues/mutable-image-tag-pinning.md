@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** Image fields ending in `:latest` or bare repo names; absence of `@sha256:` digest in Deployment/Pod specs.
 
 **References:** CIS Docker 4.5, NIST SP 800-190 4.4, OWASP A08 Software Supply Chain, CWE-829
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [supply-chain](../categories/supply-chain.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

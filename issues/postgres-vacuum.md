@@ -26,7 +26,3 @@ ALTER TABLE events SET (
 ```
 
 **References:** PostgreSQL Routine Vacuuming docs, CWE-400 Uncontrolled Resource Consumption, PG transaction-ID wraparound docs
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

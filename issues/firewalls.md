@@ -24,7 +24,3 @@ deny  from any to any               # explicit default deny, logged
 ```
 
 **References:** CWE-284, CIS Benchmark network rules sections, NIST SP 500-207 Zero Trust Architecture
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

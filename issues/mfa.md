@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** grep admin/SSH/RDP login paths for missing `mfa`/`totp`/`webauthn` checks, MFA toggle client-side only, `mfa_enabled` field absent in user model.
 
 **References:** NIST SP 800-63B §5.1, OWASP A07:2021, CWE-308, CIS Control 6.3
-
----
-
-**Part of:** [authentication](../categories/authentication.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

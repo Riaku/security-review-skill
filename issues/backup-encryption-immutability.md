@@ -26,7 +26,3 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 ```
 
 **References:** CIS Control 11 (immutable backups), NIST SP 800-53 CP-9, AWS S3 Object Lock docs, CWE-311
-
----
-
-**Part of:** [database](../categories/database.md) · [sre-incidents](../categories/sre-incidents.md) · [data](../domains/data.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [frontend]
 **Detect:** check for `lighthouse-ci` config (`lighthouserc.json`), `lhci autorun` in workflows, asserted `assert` thresholds per category/metric.
 
 **References:** Lighthouse CI docs (github.com/GoogleChrome/LighthouseCI), web.dev performance budgets
-
----
-
-**Part of:** [seo-web-quality](../categories/seo-web-quality.md) · [frontend](../domains/frontend.md) · [SKILL.md](../SKILL.md)

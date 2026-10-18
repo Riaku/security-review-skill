@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** grep `NetworkPolicy` egress rules, `egress gateway`, proxy allow-lists, `default-deny` outbound rules.
 
 **References:** NIST SP 800-207 Zero Trust, CIS Control 12, MITRE ATT&CK TA0011
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -12,11 +12,3 @@ Firmware, embedded devices, and device-paired services.
 
 - Any firmware/OTA/device-provisioning code → [iot-embedded](../categories/iot-embedded.md), [supply-chain](../categories/supply-chain.md)
 - Device + cloud backend → also backend categories for the paired API
-
-## Categories
-
-- [iot-embedded](../categories/iot-embedded.md)
-- [secrets-crypto](../categories/secrets-crypto.md)
-- [supply-chain](../categories/supply-chain.md)
-
-Index: [SKILL.md](../SKILL.md)

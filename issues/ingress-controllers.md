@@ -26,7 +26,3 @@ metadata:
 ```
 
 **References:** CVE-2021-25742, OWASP A03:2021 Injection, Kubernetes ingress security docs
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

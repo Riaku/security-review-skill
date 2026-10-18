@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep for personal data fields collected without consent flags; check privacy policy config, `lawful_basis`, `consent_required` keys absent from data models; missing DPIAs, DPO designation, records of processing, consent logs, cross-border transfer clauses.
 
 **References:** GDPR Arts. 5, 6, 35, 37, 83; ISO 27701; EDPB guidelines; ICO enforcement register
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

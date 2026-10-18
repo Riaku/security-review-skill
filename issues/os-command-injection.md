@@ -12,7 +12,3 @@ domains: [backend]
 **Detect:** `os.system`, `subprocess` with `shell=True`, `Runtime.exec`, `$()`/backticks in built command strings.
 
 **References:** CWE-78, OWASP A03:2021, OWASP Command Injection guidance
-
----
-
-**Part of:** [web-api-security](../categories/web-api-security.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)

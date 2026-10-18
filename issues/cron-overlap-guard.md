@@ -24,7 +24,3 @@ domains: [data]
 ```
 
 **References:** Kubernetes CronJob concurrencyPolicy docs, PostgreSQL advisory locks, CWE-662 Improper Synchronization
-
----
-
-**Part of:** [database](../categories/database.md) · [messaging-async](../categories/messaging-async.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

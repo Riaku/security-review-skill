@@ -12,7 +12,3 @@ domains: [data, governance]
 **Detect:** grep tracked notebook/JSON files for embedded result payloads (`"outputs"`, base64 blobs, table rows); check for output-stripping pre-commit hooks or CI checks on committed notebooks.
 
 **References:** Jupyter notebook security best practices, nbstripout/ClearOutputPreprocessor tooling
-
----
-
-**Part of:** [compliance-privacy](../categories/compliance-privacy.md) · [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

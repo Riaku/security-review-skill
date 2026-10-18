@@ -12,7 +12,3 @@ domains: [government-compliance, infrastructure]
 **Detect:** Check `.github/workflows/*` or Jenkinsfile for `kube-bench`, `lynis audit`, `trivy config`, `trivy image --scanners misconfig` steps and severity gates.
 
 **References:** CIS Benchmarks, NIST SP 800-53 CM-6, DevSecOps, CWE-1188
-
----
-
-**Part of:** [cicd-pipeline-security](../categories/cicd-pipeline-security.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep EDR/SIEM rules for homoglyph normalization, Levenshtein distance checks against known-good process lists, and lookalike domain monitoring.
 
 **References:** MITRE ATT&CK T1036 Masquerading, T1036.008, CWE-456, Unicode homoglyphs (Trojan Source)
-
----
-
-**Part of:** [observability](../categories/observability.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

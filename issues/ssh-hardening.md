@@ -12,7 +12,3 @@ domains: [government-compliance]
 **Detect:** grep `sshd_config` and `sshd_config.d/*` for `PermitRootLogin yes`, `PasswordAuthentication yes`, `Protocol 1`, weak `Ciphers`/`MACs`.
 
 **References:** CIS Distro Benchmark sec. 5, CWE-287, NIST SP 800-123, Mozilla Open SSH config
-
----
-
-**Part of:** [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [SKILL.md](../SKILL.md)

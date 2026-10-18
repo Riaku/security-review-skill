@@ -26,7 +26,3 @@ def handler(event, ctx):
 ```
 
 **References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, OWASP ASVS V3.1, AWS Lambda connection management guide
-
----
-
-**Part of:** [database](../categories/database.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

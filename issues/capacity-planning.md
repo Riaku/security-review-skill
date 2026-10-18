@@ -12,7 +12,3 @@ domains: [reliability]
 **Detect:** grep runbooks/planning docs for `headroom`, `peak_utilization`, `capacity_forecast`, growth-rate assumptions; check dashboards for peak-vs-average reporting and review-date stamps.
 
 **References:** Google SRE Book capacity planning, NIST SP 800-184, ITIL Capacity Management
-
----
-
-**Part of:** [scaling-capacity](../categories/scaling-capacity.md) · [reliability](../domains/reliability.md) · [SKILL.md](../SKILL.md)

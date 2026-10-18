@@ -12,7 +12,3 @@ domains: [infrastructure]
 **Detect:** Resources with `metadata.finalizers` referencing an operator whose controller is down; namespace stuck `Terminating` with lingering finalizers.
 
 **References:** K8s docs finalizers, etcd garbage collection, CWE-404, operator-sdk finalizer patterns
-
----
-
-**Part of:** [containers-k8s](../categories/containers-k8s.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

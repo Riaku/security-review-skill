@@ -12,7 +12,3 @@ domains: [backend, governance]
 **Detect:** audit exports comparing HR roster to IdP groups; grep for active accounts with no recent login, local admin accounts outside SSO, orphaned SSH keys and API tokens.
 
 **References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-288, OWASP A07:2021, Cloud Security Alliance JML guidance
-
----
-
-**Part of:** [authorization-access-control](../categories/authorization-access-control.md) · [compliance-privacy](../categories/compliance-privacy.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

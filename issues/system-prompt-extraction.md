@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** API keys, connection strings, or business rules literal in system prompt templates; prompt text in logs/tracing exporters.
 
 **References:** OWASP LLM07:2025, CWE-522, CWE-200
-
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

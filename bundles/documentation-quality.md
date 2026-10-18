@@ -2,7 +2,7 @@
 
 Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.
 
-> Generated artifact — edit the issue files, not this one. Sources: [issues/](../issues/) · manifest: [documentation-quality](../categories/documentation-quality.md) · index: [SKILL.md](../SKILL.md)
+> Generated artifact — edit the issue files, not this one. Manifest: [categories/documentation-quality.md](../categories/documentation-quality.md) · Index: [SKILL.md](../SKILL.md)
 
 # Agent Instruction-File Review Surface
 
@@ -14,10 +14,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** GitHub custom-instructions guidance (≤2 pages), Cursor rules docs (<500 lines, check into git), Anthropic "bloated CLAUDE.md gets ignored"
 
----
-
-**Part of:** [ai-llm](../categories/ai-llm.md) · [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)
-
 # Architecture Doc & ADR Coverage
 
 **SHOULD** maintain a current architecture overview (components, data flow, trust boundaries) plus ADRs for settled design decisions, kept in the repo.
@@ -27,10 +23,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** check for architecture doc with a diagram covering current components (compare against actual services/dirs); check docs/adr/ (or equivalent) exists with dated, numbered records; flag overview last-updated far behind structural changes.
 
 **References:** C4 model, ADR practice (Nygard)
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [security-practices](../categories/security-practices.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # BCP 14 Keyword Usage (RFC 2119 + RFC 8174)
 
@@ -42,10 +34,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** RFC 2119, RFC 8174 §3, IETF BCP 14
 
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Comments Explain Why, Not What
 
 **SHOULD** write comments that explain intent, rationale, and constraints — not restate what the code already says.
@@ -55,10 +43,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** flag comments that restate the adjacent line (`// increment counter` above `count++`); look for TODO/dead commented-out code left in; positive signal: comments citing constraints, bug IDs, invariants, spec sections.
 
 **References:** Code Complete (McConnell) on comments, MIT CommKit coding-and-comment style, Clean Code comment guidance
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Developer-Doc Style Consistency
 
@@ -70,10 +54,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Google developer documentation style guide, ASD-STE100 Simplified Technical English (controlled-language rules), Write the Docs style-guide guidance, Vale linter
 
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Docs-Code Synchronization
 
 **MUST** update documentation in the same change that alters the behavior it describes; stale docs are treated as a bug, not a backlog item.
@@ -83,10 +63,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** review PRs touching public behavior for corresponding doc updates; flag documented commands/config/APIs that no longer match code (run documented examples in CI where possible); check docs last-modified vs code churn on covered surfaces.
 
 **References:** docs-as-code practice, Google style guide (keep docs current), CI doc-example testing (doctest/mddoc patterns)
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Inclusive & Accessible Documentation
 
@@ -98,10 +74,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Google style guide (inclusive language), ASD-STE100 Simplified Technical English, Write the Docs accessibility guidance
 
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Runnable README
 
 **MUST** provide a README that takes a newcomer from zero to running the project: prerequisites, install, run, test commands — each verified to actually work.
@@ -111,10 +83,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** run README commands verbatim in a clean environment (CI doc-testing where possible); flag missing install/run/test sections, version-pinned prerequisites that no longer exist, or "TODO" placeholders.
 
 **References:** Google style guide (readme content), docs-as-code tested-README practice, twelve-factor dev-environment onboarding
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 
 # Simplified Technical English for Procedures
 
@@ -126,10 +94,6 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** ASD-STE100 Simplified Technical English (asd-ste100.org), aerospace/defense doc standards, runbook readability practice
 
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
-
 # Single-Source Documentation
 
 **SHOULD** document each fact once with links pointing at the canonical location, rather than repeating it across files.
@@ -139,8 +103,4 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** grep docs for the same instructions/config/versions appearing in multiple files; flag copy-pasted blocks; check cross-references use links/includes instead of duplication.
 
 **References:** Write the Docs DRY documentation guidance, docs-as-code single-source practice
-
----
-
-**Part of:** [documentation-quality](../categories/documentation-quality.md) · [backend](../domains/backend.md) · [SKILL.md](../SKILL.md)
 

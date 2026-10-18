@@ -25,7 +25,3 @@ spec:
 ```
 
 **References:** Istio mTLS docs, NIST SP 800-207 Zero Trust, CNCF zero-trust whitepaper
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

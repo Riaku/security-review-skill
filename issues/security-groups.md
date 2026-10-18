@@ -24,7 +24,3 @@ ingress { from_port = 5432 to_port = 5432 protocol = "tcp"
 ```
 
 **References:** CIS AWS Foundations 5.x, CWE-284, AWS VPC security group best practices
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)

@@ -1,39 +1,3 @@
 # secrets-crypto
 
 Secrets handling and cryptographic primitives.
-
-## Issues
-
-- [agent-context-exclusion-file](../issues/agent-context-exclusion-file.md)
-- [bcrypt-argon2](../issues/bcrypt-argon2.md)
-- [client-tls-verification-disabled](../issues/client-tls-verification-disabled.md)
-- [device-provisioning-identity](../issues/device-provisioning-identity.md)
-- [dockerfile-build-secret-leakage](../issues/dockerfile-build-secret-leakage.md)
-- [embedding-inversion-vector-stores](../issues/embedding-inversion-vector-stores.md)
-- [encryption-at-rest](../issues/encryption-at-rest.md)
-- [env-in-gitignore](../issues/env-in-gitignore.md)
-- [etcd-exposure-encryption](../issues/etcd-exposure-encryption.md)
-- [fips-140-3](../issues/fips-140-3.md)
-- [fips-186-signatures](../issues/fips-186-signatures.md)
-- [git-history-secret-remediation](../issues/git-history-secret-remediation.md)
-- [harvest-now-decrypt-later](../issues/harvest-now-decrypt-later.md)
-- [hashing-vs-encryption](../issues/hashing-vs-encryption.md)
-- [helm-values-plaintext-secrets](../issues/helm-values-plaintext-secrets.md)
-- [insufficient-randomness](../issues/insufficient-randomness.md)
-- [integration-credential-sprawl](../issues/integration-credential-sprawl.md)
-- [least-privilege](../issues/least-privilege.md)
-- [password-salting](../issues/password-salting.md)
-- [pipeline-orchestrator-credentials](../issues/pipeline-orchestrator-credentials.md)
-- [pqc-migration-crypto-agility](../issues/pqc-migration-crypto-agility.md)
-- [pqc-tls-readiness](../issues/pqc-tls-readiness.md)
-- [secret-scanning](../issues/secret-scanning.md)
-- [secret-validity-checks](../issues/secret-validity-checks.md)
-- [secrets-in-ci-logs](../issues/secrets-in-ci-logs.md)
-- [secrets-in-launch-payloads](../issues/secrets-in-launch-payloads.md)
-- [secrets-in-mobile-binaries](../issues/secrets-in-mobile-binaries.md)
-- [secrets-management](../issues/secrets-management.md)
-- [secrets-rotation-automation](../issues/secrets-rotation-automation.md)
-- [terraform-state-plaintext-secrets](../issues/terraform-state-plaintext-secrets.md)
-- [weak-crypto-primitives](../issues/weak-crypto-primitives.md)
-
-Domains: [backend](../domains/backend.md) · [data](../domains/data.md) · [governance](../domains/governance.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [iot-embedded](../domains/iot-embedded.md) · [mobile](../domains/mobile.md) · Index: [SKILL.md](../SKILL.md)

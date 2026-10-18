@@ -12,7 +12,3 @@ domains: [governance]
 **Detect:** grep for `three_d_secure`, `sca_required`, `exemption`, `ds.transstatus` in payment service code and gateway config.
 
 **References:** PSD2 Article 97, EMV 3-D Secure 2.x (EMVCo), CWE-287, Stripe 3DS2 docs
-
----
-
-**Part of:** [payments-fraud](../categories/payments-fraud.md) · [governance](../domains/governance.md) · [SKILL.md](../SKILL.md)

@@ -12,7 +12,3 @@ domains: [data]
 **Detect:** check storage layout for read-only raw layer (permissions, separate bucket/schema) vs in-place edits; review pipeline code for writes to raw datasets; check raw retention policy.
 
 **References:** analysis data-management guidance (raw-as-read-only), medallion architecture raw-layer immutability
-
----
-
-**Part of:** [data-pipelines](../categories/data-pipelines.md) · [data](../domains/data.md) · [SKILL.md](../SKILL.md)

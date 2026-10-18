@@ -23,7 +23,3 @@ ssl_protocols TLSv1.2 TLSv1.3;
 ```
 
 **References:** Mozilla Server-Side TLS (Intermediate profile), RFC 8446, CWE-326 Inadequate Encryption Strength
-
----
-
-**Part of:** [cloud-network](../categories/cloud-network.md) · [hardening-benchmarks](../categories/hardening-benchmarks.md) · [government-compliance](../domains/government-compliance.md) · [infrastructure](../domains/infrastructure.md) · [SKILL.md](../SKILL.md)
