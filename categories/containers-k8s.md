@@ -1,0 +1,46 @@
+# containers-k8s
+
+Container and Kubernetes runtime configuration.
+
+Issues:
+- `liveness-vs-readiness-probes`
+- `multi-stage-builds`
+- `non-root-containers`
+- `resource-requests-limits`
+- `pod-disruption-budgets`
+- `k8s-rbac-networkpolicies`
+- `cis-benchmarks`
+- `cis-docker-benchmark`
+- `pod-security-standards`
+- `dangerous-host-mounts`
+- `docker-socket-mount`
+- `privileged-containers-capabilities`
+- `host-namespace-sharing`
+- `automount-serviceaccount-token`
+- `k8s-rbac-escalation-verbs`
+- `metadata-endpoint-credential-theft`
+- `admission-policy-engine-absent`
+- `admission-webhook-failure-policy`
+- `etcd-exposure-encryption`
+- `kubelet-port-protection`
+- `k8s-api-audit-logging`
+- `mutable-image-tag-pinning`
+- `signed-image-admission-enforcement`
+- `dind-privileged-ci-builds`
+- `helm-hook-ordering-blocking`
+- `operator-finalizer-leak`
+- `missing-owner-reference-orphans`
+- `crd-missing-openapi-validation`
+- `gitops-controller-cluster-admin-overreach`
+- `volume-reclaim-nfs-squash`
+- `namespace-resource-quota-absent`
+- `nodeport-lb-internal-exposure`
+- `configmap-env-no-hot-reload`
+- `k8s-exec-attach-root-equivalent`
+- `fd-conntrack-limit-sizing`
+- `node-pressure-eviction-behavior`
+- `etcd-control-plane-quorum`
+- `crash-loop-restart-storm`
+- `zombie-process-reaping`
+- `registry-outage-resilience`
+- `noisy-neighbor-isolation`

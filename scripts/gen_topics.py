@@ -9,9 +9,10 @@ import re
 import sys
 import pathlib
 
-PLAN = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else
-                   "/opt/data/workspace/.hermes/plans/"
-                   "2026-10-18_010654-security-review-skill-repo.md")
+if len(sys.argv) > 1:
+    PLAN = pathlib.Path(sys.argv[1])
+else:
+    sys.exit("usage: gen_topics.py <planning-doc.md>")
 OUT = pathlib.Path(__file__).resolve().parent / "topics.json"
 
 ROW = re.compile(r"^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([a-z0-9-]+)\s*\|\s*([^|]+?)\s*\|$")

@@ -1,0 +1,57 @@
+# database
+
+Schema, queries, transactions, replication, backup/recovery.
+
+Issues:
+- `indexes`
+- `explain-analyze`
+- `n-plus-1-queries`
+- `full-table-scans`
+- `connection-pooling`
+- `database-migrations`
+- `down-migrations`
+- `transactions`
+- `acid`
+- `isolation-levels`
+- `deadlocks`
+- `optimistic-locking`
+- `pessimistic-locking`
+- `normalization`
+- `denormalization`
+- `foreign-keys`
+- `unique-constraints`
+- `cascading-deletes`
+- `soft-deletes`
+- `uuids-vs-auto-increment`
+- `cursor-based-pagination`
+- `full-text-search`
+- `read-replicas`
+- `replication-lag`
+- `sharding`
+- `partitioning`
+- `hot-partitions`
+- `postgres-vacuum`
+- `materialized-views`
+- `backups`
+- `testing-restores`
+- `point-in-time-recovery`
+- `orm-lazy-loading`
+- `backup-encryption-immutability`
+- `data-retention-deletion`
+- `batching`
+- `async-writes`
+- `nosql-injection`
+- `cron-overlap-guard`
+- `idle-in-transaction-monitoring`
+- `statement-lock-timeouts`
+- `slow-query-log-review`
+- `online-schema-change-tooling`
+- `wal-slot-disk-exhaustion`
+- `crash-consistent-snapshots`
+- `page-checksum-corruption-detection`
+- `storage-io-saturation-profiling`
+- `checkpoint-resumable-jobs`
+- `dual-write-backfill-cutover`
+- `code-data-rollback-mismatch`
+- `unauthenticated-data-store-exposure`
+- `reidentification-risk`
