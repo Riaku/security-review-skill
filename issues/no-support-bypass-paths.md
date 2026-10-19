@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep `impersonat`, `login_as`, `sudo`, `skip_auth`, `as_user`, and support-role branches that sit above the policy check.
 
-**References:** Schneier, The 11 Secure Design Principles, https://www.schneier.com/blog/archives/2007/01/the_11_secure_h.html
+**References:** Saltzer & Schroeder, The Protection of Information in Computer Systems, https://web.mit.edu/Saltzer/www/publications/protection/

@@ -9,8 +9,12 @@ Rules for AI agents (and humans) working in this repository.
   directly to `main`, do not commit directly to `main`.
 - Branch per change: `feat/<slug>`, `fix/<slug>`, `content/<category>`, `docs/<slug>`.
   One logical change per branch/PR — do not batch unrelated work into one PR.
-- `main` is protected: direct pushes are rejected by branch protection; PRs require
-  all CI checks to pass before merge (see Pre-PR gate).
+- `main` takes changes by pull request only, and a PR requires all CI checks to
+  pass before merge (see Pre-PR gate). Do not push to `main` directly.
+- Branch protection is **not enabled today**: this repo is private, and GitHub's
+  protection API needs Pro for private repositories. Once the repo is public,
+  add a `main` ruleset requiring the `validate` check. Until then the no-direct
+  push rule is enforced by convention, not by GitHub.
 
 ## Pre-PR gate: ALL checks green before opening or updating a PR
 
@@ -49,11 +53,12 @@ Both must exit 0. Notes:
 - Rebase feature branches locally; never rebase or force-push shared branches.
   When a force-push to your own PR branch is unavoidable, use
   `git push --force-with-lease` — never bare `--force`.
-- Merge method: squash-merge to `main` (one logical unit per merged commit), as
-  enforced by repo settings.
+- Merge method: squash-merge to `main` (one logical unit per merged commit). Repo
+  settings currently allow squash, merge-commit and rebase merges, so this is a
+  convention — squash when you merge.
 - PR size: small and reviewable. If a PR grows past a few hundred changed lines of
   content, split it by category or concern.
-- Never merge your own PR on a red check, and never bypass branch protection
+- Never merge your own PR on a red check, and never bypass the required checks
   (`--no-verify`, admin override) for content changes.
 
 ## Commit message conventions (Conventional Commits)

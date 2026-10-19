@@ -84,7 +84,7 @@ Server-side API and web application attack surface.
 
 **Detect:** grep decode/unescape calls placed after the validation or comparison (`urldecode`, `normalize`, `unquote`) and validators that run on the raw parameter.
 
-**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html, One Byte to Rule Them All (Facebook canonicalization bypass), https://david942j.blogspot.com/2018/10/one-byte-to-rule-them-all-fun-with-fb.html
+**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html, CWE-180: Validate Before Canonicalize, https://cwe.mitre.org/data/definitions/180.html
 
 # Clickjacking
 
