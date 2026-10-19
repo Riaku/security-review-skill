@@ -100,6 +100,16 @@ with no inspectable artifact belongs in `needs-human` guidance.
 - A bundle MUST hold every item whose frontmatter names the category, in slug
   order, bodies only.
 
+## Installer output
+
+Running an installer inside the working tree writes `.agents/` and
+`skills-lock.json`. Both are ignored and neither is authored.
+
+- You MUST NOT commit them. They carry a second copy of the corpus and double
+  every install.
+- `git add -A` will stage them anyway; check `git status` before you commit.
+- The gate fails when either is tracked.
+
 ## Findings format
 
 A sub-agent returns one JSON object per line: `slug`, `verdict`, `severity`,
@@ -125,7 +135,7 @@ Run the gate before you open or update a pull request. It MUST exit 0.
 python3 scripts/check_generated.py
 ```
 
-The success line reads `items-valid: … ; no generated artifacts tracked`.
+The success line reads `items-valid: … ; no generated or installed artifacts tracked`.
 
 The gate checks three things:
 
@@ -133,7 +143,8 @@ The gate checks three things:
    `description`.
 2. Every item's frontmatter is complete, sorted, unique and names real
    manifests; every body opens with an H1; every category has an overview line.
-3. No file under `bundles/` is tracked by git.
+3. No build product or installed copy is tracked by git: nothing under
+   `bundles/` or `.agents/`, and no `skills-lock.json`.
 
 CI installs PyYAML 6.0.2 for check 1. When PyYAML is absent, the gate falls back
 to a pattern check that flags an unquoted scalar containing `: `.
