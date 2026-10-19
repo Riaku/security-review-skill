@@ -1,28 +1,18 @@
-# compliance-privacy — full checklist (39 items)
+# compliance-privacy — full checklist (37 items)
 
 Privacy operations and data protection in code.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/compliance-privacy.md](../categories/compliance-privacy.md) · Index: [SKILL.md](../SKILL.md)
 
-# Audit-Log Chain of Custody
-
-**SHOULD** make audit evidence tamper-evident: append-only/WORM storage, integrity hashing or signing, and documented custody for compliance artifacts.
-
-**Why:** Audit findings you can't prove weren't altered are worthless in court or a regulator's hands; tampering by an insider must be detectable.
-
-**Detect:** check log destinations for immutability (S3 Object Lock, BigQuery time-travel, blockchain/hash-chained logs); verify hash/signature chain continuity; check deletion of audit logs is itself alarmed.
-
-**References:** NIST 800-92 log management, AWS S3 Object Lock WORM, SOC2 CC4 evidence integrity
-
 # Audit Logs
 
-**MUST** record security-relevant events (auth, access, privilege changes) with tamper-evident integrity and retention aligned to policy.
+**MUST** record security-relevant events (auth, access, privilege changes) with tamper-evident integrity and retention aligned to policy; **SHOULD** keep compliance-relevant audit evidence on append-only/WORM storage with integrity hashing or signing and documented custody, so insider tampering is detectable.
 
 **Why:** Missing or mutable audit trails prevent incident reconstruction and violate compliance requirements for non-repudiation.
 
-**Detect:** grep for auth/access handlers missing audit calls; check `audit_log`, `log_event`, HMAC signing, retention config absent.
+**Detect:** grep for auth/access handlers missing audit calls; check `audit_log`, `log_event`, HMAC signing, retention config absent; check log destinations for immutability (S3 Object Lock, BigQuery time-travel, hash-chained logs), verify hash/signature chain continuity, and confirm audit-log deletion is itself alarmed.
 
-**References:** CWE-778, NIST SP 800-92, SOC 2 CC7.2, PCI DSS 10.2
+**References:** CWE-778, NIST SP 800-92, AWS S3 Object Lock WORM, SOC 2 CC7.2/CC4, PCI DSS 10.2
 
 # Breach notification clocks across jurisdictions
 
@@ -94,16 +84,6 @@ Privacy operations and data protection in code.
 
 **References:** NIST SP 800-122, GDPR Art. 4/32
 
-# Data Portability Export Mechanics
-
-**SHOULD** provide a machine-readable export (JSON/CSV) of the personal data the user provided and that is processed on consent or contract (GDPR Art. 20), plus a fuller access response covering all personal data held about them (Art. 15), both generated within the regulatory SLA.
-
-**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under the one-month statutory clock (Art. 12(3), extendable by two months) without pre-built tooling fails.
-
-**Detect:** review export tooling coverage vs datastore inventory; check the Art. 20 export covers provided data while the Art. 15 response covers activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
-
-**References:** GDPR Art. 20 (portability) and Art. 15 (access), Google Takeout architecture talks, DSAR platform docs
-
 # Data Residency
 
 **MUST** store and process data within the geographic boundaries mandated by applicable regulation or customer contract.
@@ -139,13 +119,13 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 # DSAR Fulfillment (GDPR access/deletion requests)
 
-**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within one month of request (extendable by two further months for complex requests).
+**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within one month of request (extendable by two further months for complex requests), including a machine-readable export (JSON/CSV) of the data the subject provided and that is processed on consent or contract (GDPR Art. 20).
 
 **Why:** Inability to fulfill DSARs violates GDPR Articles 15/17 and invites regulatory enforcement and subject complaints.
 
-**Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
+**Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent; review export coverage against the datastore inventory (the Art. 20 export must cover provided data while the Art. 15 response covers activity/logs/derived records) and confirm the self-service export is access-controlled.
 
-**References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
+**References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 20 (portability), GDPR Art. 12(3), ISO 27701 §9, DSAR platform docs
 
 # Excessive Data Exposure in API Serialization
 

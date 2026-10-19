@@ -14,16 +14,6 @@ Release engineering: strategies, environments, versioning.
 
 **References:** ArgoCD Security Guide, CWE-1188, OWASP A05:2021
 
-# Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
-
-**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
-
-**Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
-
-**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
-
-**References:** SLSA Build Level 3, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
-
 # Blue-Green Deployments
 
 **SHOULD** keep the idle environment patched and drained of live secrets, with automated cutover health gates before traffic shifts.
@@ -33,6 +23,16 @@ Release engineering: strategies, environments, versioning.
 **Detect:** grep switch scripts for missing health-check gates before service/ingress selector flips; compare standby image tags against the live CVE-patched baseline.
 
 **References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 Initialization of a Resource with an Insecure Default
+
+# Build Provenance Attestation (SLSA-style signed provenance for artifacts)
+
+**MUST** sign released artifacts and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline, and **MUST** verify those signatures and checksums at every downstream boundary (before a deployment consumes an artifact, and at cluster admission) so unsigned or mismatched artifacts are rejected rather than merely signed.
+
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream, and without provenance or an SBOM there is no record of which source and builder produced what.
+
+**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files; deploy jobs pulling images by mutable tag with no digest or checksum verification; grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, and admission verify rules.
+
+**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, OWASP CI/CD Top 10 CICD-SEC-9, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control), CWE-494, CWE-345
 
 # Strict Build / Release / Run Separation
 

@@ -34,6 +34,16 @@ Container and Kubernetes runtime configuration.
 
 **References:** CIS K8s 5.1.6, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
+# Build Provenance Attestation (SLSA-style signed provenance for artifacts)
+
+**MUST** sign released artifacts and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline, and **MUST** verify those signatures and checksums at every downstream boundary (before a deployment consumes an artifact, and at cluster admission) so unsigned or mismatched artifacts are rejected rather than merely signed.
+
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream, and without provenance or an SBOM there is no record of which source and builder produced what.
+
+**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files; deploy jobs pulling images by mutable tag with no digest or checksum verification; grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, and admission verify rules.
+
+**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, OWASP CI/CD Top 10 CICD-SEC-9, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control), CWE-494, CWE-345
+
 # CIS Benchmarks (OS/container/k8s/cloud)
 
 **MUST** Every OS image, container base, Kubernetes cluster, and cloud account be baselined against the applicable CIS Benchmark, with deviations recorded as explicit, time-boxed exceptions rather than silent drift.
@@ -466,16 +476,6 @@ spec:
 **Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
-
-# Admission Enforcement of Signed Images (Verify, Not Just Sign)
-
-**MUST** enforce signature verification at admission so unsigned or wrongly-signed images are rejected before they ever schedule.
-
-**Why:** Signing without enforcement is decoration: an attacker pushes an unsigned image and the cluster runs it happily because nothing checks.
-
-**Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
-
-**References:** SLSA L3, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control)
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 

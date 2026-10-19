@@ -1,4 +1,4 @@
-# security-practices — full checklist (30 items)
+# security-practices — full checklist (29 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -174,25 +174,15 @@ Process-level security practices (modeling, disclosure, patching).
 
 **References:** 12factor.net/admin-processes, OWASP Logging Cheat Sheet (audit of admin actions), Kubernetes Jobs pattern
 
-# Patch cadence and remediation SLAs for known CVEs in production images
-
-**MUST** rebuild and redeploy base images on a fixed cadence (weekly minimum), remediating critical CVEs within 24 hours of disclosure.
-
-**Why:** Long-lived images accumulate known-exploitable CVEs that scanners flag forever and worms exploit within days.
-
-**Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
-
-**References:** CWE-1104, CISA KEV, NIST SP 800-40 Rev. 4, OWASP A06:2021
-
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
-**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) covering both application dependencies and the base images of shipped artifacts, rebuilding and redeploying those images on a fixed cadence (weekly minimum) so long-lived images do not accumulate known-exploitable CVEs, and log every exception with owner and expiry date.
 
 **Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
 
-**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
+**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields; `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
+**References:** NIST SP 800-40 Rev. 4, CIS Control 7, PCI DSS 6.3.3, CWE-1104, CISA KEV, OWASP A06:2021
 
 # Independent penetration testing cadence and finding remediation tracking
 
