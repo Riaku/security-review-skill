@@ -19,7 +19,7 @@ ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384;
 
 **Good:**
 ```
-ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
+ssl_conf_command Groups X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 ```
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs

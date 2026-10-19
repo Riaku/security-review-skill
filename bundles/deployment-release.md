@@ -6,13 +6,13 @@ Release engineering: strategies, environments, versioning.
 
 # Default admin password, signing key and webhook auth on control planes
 
-**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
+**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.secretkey` are the canonical example (CWE-1188).
 
 **Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
 
-**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
+**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.secretkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
 
-**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
+**References:** ArgoCD Security Guide, CWE-1188, OWASP A05:2021
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
@@ -50,7 +50,7 @@ Release engineering: strategies, environments, versioning.
 
 **Why:** A timer-driven rollout spreads a defect to the whole fleet before anyone notices, turning a small blast radius into a full outage.
 
-**Detect:** grep Argo Rollouts/Flagger configs for `canary.steps` without `analysis`/`metrics` blocks, missing `maxTraffic` error thresholds, or `abortScaleDownDelaySeconds` absent.
+**Detect:** grep Argo Rollouts configs for `canary.steps` without an `analysis` step/`analysisTemplates` and for `trafficRouting` without metric-based abort; grep Flagger for `analysis.maxWeight`/`stepWeight` without `threshold` and without `metrics[].thresholdRange`.
 
 **References:** Google SRE Book canarying, NIST SP 800-190, AWS CodeDeploy canary guards, CWE-1095 lifecycle defect
 
@@ -64,9 +64,9 @@ Release engineering: strategies, environments, versioning.
 
 **Bad:**
 ```sql
--- release 41: rename + drop; rollback to 40 breaks every query
+-- release 41: destructive rename (and an index/query that still says `total`)
 ALTER TABLE orders RENAME COLUMN total TO amount_cents;
-ALTER TABLE orders DROP COLUMN total;
+-- rollback to 40: old code queries `total`, which no longer exists
 ```
 
 **Good:**
@@ -165,7 +165,7 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 
-**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--atomic` flags in CI deploy steps.
+**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks` flags in CI deploy steps.
 
 **References:** Helm hooks docs, CWE-664 Improper Control of a Resource Through its Lifetime, NIST SP 800-190 change control
 
@@ -177,7 +177,7 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Detect:** `password:`, `apiKey:`, `token:` literals in `values*.yaml`, `helm get values` output containing credentials, missing `existingSecret` references.
 
-**References:** OWASP ASVS V2.10, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
+**References:** OWASP ASVS V6.4.1, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
 
 # Immutable Infrastructure (no SSH-and-patch; replace, don't mutate)
 
@@ -330,5 +330,5 @@ gh-ost --table=orders --alter="MODIFY promo_code text" \
 
 **Detect:** grep images/repos for hardcoded hosts, ports, and credentials instead of `env`/`ConfigMap`; check for session data written to container filesystem paths.
 
-**References:** 12factor.net config/stateless factors, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
+**References:** 12factor.net config/stateless factors, OWASP Docker Top 10 D06 (Protect Secrets), CWE-798 hardcoded credentials
 

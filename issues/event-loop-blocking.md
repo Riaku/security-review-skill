@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** sleep/sync file/DB/HTTP calls inside async handlers (e.g. `time.sleep` in `async def`, sync HTTP client calls in handlers), missing offload mechanisms (`run_in_executor`, `spawn_blocking`, dedicated worker pool) for blocking work.
 
-**References:** CWE-400, CWE-662, OWASP ASVS 5.3
+**References:** CWE-400, CWE-662, OWASP ASVS V11.1.3/V11.1.4

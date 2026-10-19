@@ -12,7 +12,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** No ValidatingWebhookConfiguration for gatekeeper/kyverno; namespaces missing `pod-security.kubernetes.io/enforce` labels.
 
-**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04, NIST SP 800-190 5.4
+**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04
 
 # Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
 
@@ -135,7 +135,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+**References:** CWE-1104, CISA KEV, NIST SP 800-40 Rev. 4, OWASP A06:2021
 
 # Pod Security Standards: seccomp, readOnlyRootFilesystem, allowPrivilegeEscalation
 
@@ -155,7 +155,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** `securityContext.capabilities.add` listing `SYS_ADMIN`, `NET_ADMIN`, `SYS_MODULE`; `privileged: true` without an exception record.
 
-**References:** CIS K8s 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
+**References:** CIS K8s 1.24 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
 
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
@@ -165,7 +165,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth.
 
-**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP Testing Guide §12.2
+**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP WSTG-CONF-05
 
 # SSH Hardening
 

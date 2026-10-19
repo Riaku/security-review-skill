@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
 
-**References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
+**References:** OWASP ASVS V7.1.1, CWE-532, CWE-214

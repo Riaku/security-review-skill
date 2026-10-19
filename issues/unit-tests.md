@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** test files named `*_test.py`, `*.test.js` adjacent to auth/parser modules; coverage reports showing <80% on security-critical files.
 
-**References:** OWASP ASVS V1.1.1, CWE-1232, NIST SP 800-218 (SSDF)
+**References:** OWASP ASVS V1.1.1, NIST SP 800-218 (SSDF)

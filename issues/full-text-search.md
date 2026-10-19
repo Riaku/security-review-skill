@@ -22,4 +22,4 @@ CREATE INDEX articles_fts ON articles USING gin(to_tsvector('english', body));
 SELECT * FROM articles WHERE to_tsvector('english', body) @@ plainto_tsquery(:q);
 ```
 
-**References:** PostgreSQL Full Text Search + GIN indexes, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL Full Text Search + GIN indexes, CWE-400

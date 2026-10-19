@@ -24,4 +24,4 @@ resp = requests.post("https://api.internal.example/token", json=payload,
                      verify="/etc/ssl/corp-ca-bundle.pem")
 ```
 
-**References:** CWE-295, CWE-299, OWASP ASVS 14.2, OWASP Testing Guide STG-CRYPTO-03
+**References:** CWE-295, CWE-299, OWASP ASVS V9.2.1, OWASP WSTG-CRYP-01

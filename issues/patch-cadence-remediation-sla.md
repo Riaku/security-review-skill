@@ -11,4 +11,4 @@ domains: [backend, government-compliance]
 
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+**References:** CWE-1104, CISA KEV, NIST SP 800-40 Rev. 4, OWASP A06:2021

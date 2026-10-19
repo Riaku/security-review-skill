@@ -34,6 +34,14 @@ CREATE TABLE events (
 CREATE TABLE events_2026_10 PARTITION OF events
     FOR VALUES FROM ('2026-10-01') TO ('2026-11-01')
     PARTITION BY HASH (user_id);
+CREATE TABLE events_2026_10_p0 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 0);
+CREATE TABLE events_2026_10_p1 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 1);
+CREATE TABLE events_2026_10_p2 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 2);
+CREATE TABLE events_2026_10_p3 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 3);
 ```
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns

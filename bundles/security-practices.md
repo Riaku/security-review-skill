@@ -42,7 +42,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** Certstream/subdomain enumeration output, `external-exposure.csv`, cloud security hub findings, diff of DNS zone records vs. approved inventory.
 
-**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
+**References:** OWASP WSTG-INFO-02, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
 
 # Attack Surface Reduction (deliberate exposure minimization)
 
@@ -52,7 +52,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
-**References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
+**References:** OWASP ASVS V1.14, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
 
 # Breach & Attack Simulation (adversary emulation vs controls)
 
@@ -182,7 +182,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** CWE-1104, CISA KEV, NIST SP 800-40, OWASP A06:2021
+**References:** CWE-1104, CISA KEV, NIST SP 800-40 Rev. 4, OWASP A06:2021
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 

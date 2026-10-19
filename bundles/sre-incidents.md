@@ -82,7 +82,7 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **SHOULD** document, per datastore, whether each backup is crash-consistent (volume snapshot) or logically consistent (`pg_dump`, `mysqldump`), and use the right one per recovery scenario.
 
-**Why:** A raw volume snapshot of a running database captures whatever was in page cache at capture time; the engine may need crash recovery, and some configurations produce unrestorable sets. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
+**Why:** A raw volume snapshot of a running database captures only what the host had already flushed to the volume at that instant — not the dirty pages still in page cache — so it is crash-consistent at best and the engine needs crash recovery (WAL/binlog replay) to open it. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
 
 **Detect:** The backup matrix should state each method's consistency guarantee; volume-snapshot jobs over hot databases must pair with WAL/binlog archiving.
 
@@ -108,7 +108,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Detect:** Cron with fixed local hours, `timedelta(hours=1)` loops over calendar days, `TZ=America/` with `naive` datetimes, no test freezing the clock at a DST boundary (spring-forward gap, fall-back overlap) in the deployment timezone, scheduler docs silent on which timezone governs.
 
-**References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
+**References:** NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
 
 # Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
@@ -158,7 +158,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Detect:** No etcd metrics scrape (`etcd_server_has_leader`, `etcd_server_health_failures`); no separate control-plane alert rule or runbook.
 
-**References:** CIS K8s 2.0, etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
+**References:** etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
 
 # Failover
 

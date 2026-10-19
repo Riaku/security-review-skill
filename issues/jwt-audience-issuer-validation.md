@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep verifier config for missing `issuer`/`audience` checks, `jwks_uri` fetched without TLS pinning, `kid` resolved dynamically with no allowlist.
 
-**References:** RFC 8725 §3.3-3.4, CWE-345, OWASP A02:2021, OIDC Core §3.1.3.7
+**References:** RFC 8725 §3.8-3.9, CWE-345, OWASP A02:2021, OIDC Core §3.1.3.7

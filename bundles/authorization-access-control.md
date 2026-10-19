@@ -57,7 +57,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
-**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 1.16
 
 # GitOps Controller Running as cluster-admin
 
@@ -87,7 +87,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** audit exports comparing HR roster to IdP groups; grep for active accounts with no recent login, local admin accounts outside SSO, orphaned SSH keys and API tokens.
 
-**References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-288, OWASP A07:2021, Cloud Security Alliance JML guidance
+**References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-287, OWASP A07:2021, Cloud Security Alliance JML guidance
 
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
@@ -117,7 +117,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
 
-**References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
+**References:** OWASP ASVS V1.4.1, CWE-269, NIST SP 800-53 AC-6
 
 # Least-Frequently-Used Permission Review (periodic entitlement pruning)
 

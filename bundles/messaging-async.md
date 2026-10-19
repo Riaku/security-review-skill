@@ -20,7 +20,7 @@ Queues, delivery semantics, workers, jobs.
 
 **Why:** Untimed jobs accumulate, exhaust DB pools and workers, and mask failures that surface only as total system stall.
 
-**Detect:** grep for job definitions missing `timeout`, `max_retries`, `dead_timeout`; Sidekiq/Celery configs without `soft_time_limit` or `expires`.
+**Detect:** grep for job definitions missing `timeout`, `max_retries`; Sidekiq job definitions with no `retry:`/`dead:` ceiling, Celery tasks without `time_limit`/`soft_time_limit`/`expires`.
 
 **References:** OWASP ASVS 7.4, CWE-400, Celery task timeout guidance
 
@@ -127,7 +127,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Detect:** grep configs for duplicated `group.id` values across services, hardcoded shared groups, `group.instance.id` collisions.
 
-**References:** Kafka consumer group docs, CWE-664, OWASP ASVS 6.1
+**References:** Kafka consumer group docs, CWE-664
 
 # Message Ordering
 
@@ -145,7 +145,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Why:** A queue that grows silently becomes a time bomb — messages expire or the broker crashes exactly when the backlog peaks.
 
-**Detect:** grep broker configs for missing `max_length`, `message_ttl`, `max_memory`, `x-max-priority`; dashboards tracking only rate, not depth.
+**Detect:** grep broker configs for missing `max-length`/`message-ttl` policies (or `x-max-length`/`x-message-ttl`), `vm_memory_high_watermark`, `x-max-priority`; dashboards tracking only rate, not depth.
 
 **References:** OWASP ASVS 7.4, CWE-770, RabbitMQ memory alarms docs
 
@@ -185,7 +185,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Why:** One huge job on a shared queue starves thousands of small requests — the classic unbounded-queue failure where latency grows without end until consumers never catch up.
 
-**Detect:** grep for a single queue serving mixed job sizes; check for priority queue config (SQS FIFO priorities, Celery queues, RabbitMQ x-max-priority); review job-duration vs SLA mismatch.
+**Detect:** grep for a single queue serving mixed job sizes; check for priority queue config (separate queues per priority class, Celery `priority`/queue routing, RabbitMQ `x-max-priority`; note SQS has no native priority, so a mixed-priority FIFO queue is the anti-pattern to flag); review job-duration vs SLA mismatch.
 
 **References:** AWS SQS priority patterns, RabbitMQ priority queues, DDIA queueing chapter
 
@@ -241,9 +241,9 @@ for r in db.rows.gt(cur).limit(1000):
 
 # Workflow Engines
 
-**MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since Temporal/Step Functions re-execute steps after failure or recovery.
+**MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since engines re-run step code (Temporal workflow code on every replay; Step Functions tasks on every retry) and execute activities at least once.
 
-**Why:** Non-idempotent steps (emails, charges, HTTP POSTs) fire again on every replay, duplicating real-world effects across restarts.
+**Why:** Activities are at-least-once: a worker that dies after the external call but before the completion is recorded will run the step again, and Step Functions re-runs a failed task on retry. Non-idempotent steps (emails, charges, HTTP POSTs) therefore duplicate real-world effects, while Temporal's replay-visible failure mode is non-deterministic *workflow* code (clock reads, random, map order) that diverges from history.
 
 **Detect:** grep workflow definitions for external calls outside activity/task wrappers, missing `idempotencyKey`, non-deterministic code (random, clock reads) inside workflow code.
 

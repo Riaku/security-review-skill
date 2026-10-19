@@ -5,7 +5,7 @@ domains: [infrastructure]
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 
-**MUST** set PersistentVolume `persistentReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
+**MUST** set PersistentVolume `spec.persistentVolumeReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
 
 **Why:** A careless Delete policy destroys data on release, while NFS without root_squash lets any pod's root read and write the export.
 

@@ -76,7 +76,7 @@ Privacy operations and data protection in code.
 
 # Cross-border data transfer mechanisms post-Schrems II
 
-**SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
+**SHOULD** use Standard Contractual Clauses with a documented transfer impact assessment for EU/EEA personal data transferred to a country without an adequacy decision.
 
 **Why:** Transferring EU data without valid safeguards violates GDPR Chapter V post-Schrems II, risking transfer bans and fines.
 
@@ -205,7 +205,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** audit exports comparing HR roster to IdP groups; grep for active accounts with no recent login, local admin accounts outside SSO, orphaned SSH keys and API tokens.
 
-**References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-288, OWASP A07:2021, Cloud Security Alliance JML guidance
+**References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-287, OWASP A07:2021, Cloud Security Alliance JML guidance
 
 # Brazil LGPD compliance
 

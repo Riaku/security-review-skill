@@ -133,7 +133,7 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** `alt-svc: h3` advertised with no UDP firewall rules or QUIC-aware WAF; rate limiters bound to TCP sockets only.
 
-**References:** RFC 9000, CWE-492, Cloudflare HTTP/3 deployment guidance
+**References:** RFC 9000, CWE-693, Cloudflare HTTP/3 deployment guidance
 
 # Keep-Alive
 
@@ -223,7 +223,7 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** check `context.WithTimeout` propagation, `grpc-timeout` / `X-Request-Deadline` headers, per-hop timeouts exceeding entry timeout.
 
-**References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
+**References:** gRPC Deadlines, Google SRE Book deadline propagation, CWE-400
 
 # Token Revocation & Logout Invalidation
 

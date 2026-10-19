@@ -26,13 +26,13 @@ CI/CD system as an attack surface.
 
 # Default admin password, signing key and webhook auth on control planes
 
-**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
+**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.secretkey` are the canonical example (CWE-1188).
 
 **Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
 
-**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
+**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.secretkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
 
-**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
+**References:** ArgoCD Security Guide, CWE-1188, OWASP A05:2021
 
 # Benchmark Scanning in CI (kube-bench, Lynis, Trivy misconfig)
 
@@ -132,7 +132,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
-**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
+**References:** OWASP Docker Top 10 D01 (Secure User Mapping: never use --privileged), CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
 
 # Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
 
@@ -142,7 +142,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
+**References:** OWASP Docker Top 10 D06 (Protect Secrets), CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
 
 # GitOps Repo Write Access Equals Cluster Write Access
 
@@ -232,7 +232,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
-**References:** CWE-1053, NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
+**References:** NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
 # Secrets in CI Logs
 
@@ -242,7 +242,7 @@ CI/CD system as an attack surface.
 
 **Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
 
-**References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
+**References:** OWASP ASVS V7.1.1, CWE-532, CWE-214
 
 # Unattended-Agent Automation Governance
 

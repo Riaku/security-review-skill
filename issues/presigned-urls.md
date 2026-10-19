@@ -23,4 +23,4 @@ url = s3.generate_presigned_url("get_object",
         Params={"Bucket": b, "Key": k}, ExpiresIn=300)  # 5 minutes
 ```
 
-**References:** AWS S3 presigned URL best practices, CWE-539, OWASP A07:2021
+**References:** AWS S3 presigned URL best practices, CWE-598, OWASP A07:2021

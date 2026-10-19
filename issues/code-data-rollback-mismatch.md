@@ -13,9 +13,9 @@ domains: [data, infrastructure]
 
 **Bad:**
 ```sql
--- release 41: rename + drop; rollback to 40 breaks every query
+-- release 41: destructive rename (and an index/query that still says `total`)
 ALTER TABLE orders RENAME COLUMN total TO amount_cents;
-ALTER TABLE orders DROP COLUMN total;
+-- rollback to 40: old code queries `total`, which no longer exists
 ```
 
 **Good:**

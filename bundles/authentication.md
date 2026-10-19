@@ -12,7 +12,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** grep for `user not found`, `email already exists`, `invalid username` strings; differing HTTP status codes (404 vs 401) on auth endpoints.
 
-**References:** OWASP A07:2021, CWE-204, CWE-203, NIST SP 800-63B §5.2.3
+**References:** OWASP A07:2021, CWE-204, CWE-203, NIST SP 800-63B-4 §3.2.2
 
 # Account recovery and password-reset flow security (tokens, helpdesk takeover)
 
@@ -64,13 +64,13 @@ MyMethod:
 
 # Default admin password, signing key and webhook auth on control planes
 
-**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.signingkey` are the canonical example (CWE-1188).
+**MUST** replace a product's shipped default administrative password, set a unique token-signing key, and authenticate every webhook receiver before exposing a self-hosted control plane; ArgoCD's `admin` password and auto-generated `server.secretkey` are the canonical example (CWE-1188).
 
 **Why:** ArgoCD ships with a known default admin and auto-generated signing key; an attacker who reaches the UI or webhook endpoint gains cluster-wide deploy control.
 
-**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.signingkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
+**Detect:** check `argocd-secret` for unchanged `admin.password`, default `server.secretkey`, webhook receivers without `secret`/HMAC verification, `admin.enabled: true` in values.
 
-**References:** ArgoCD Security Guide, CWE-1188, CVE-2023-22482, OWASP A05:2021
+**References:** ArgoCD Security Guide, CWE-1188, OWASP A05:2021
 
 # Auto-Mounted Service Account Tokens in Pods That Don't Need the API
 
@@ -170,7 +170,7 @@ MyMethod:
 
 **Detect:** grep verifier config for missing `issuer`/`audience` checks, `jwks_uri` fetched without TLS pinning, `kid` resolved dynamically with no allowlist.
 
-**References:** RFC 8725 §3.3-3.4, CWE-345, OWASP A02:2021, OIDC Core §3.1.3.7
+**References:** RFC 8725 §3.8-3.9, CWE-345, OWASP A02:2021, OIDC Core §3.1.3.7
 
 # JWT Expiry
 
@@ -243,7 +243,7 @@ mtls:
 
 **Detect:** grep callback handlers for absent `state` checks, `response_type=token` in public clients, missing `code_verifier`/`code_challenge` in auth URL construction.
 
-**References:** OWASP A01:2021, CWE-352, RFC 6749 §10.12, OAuth Security BCP §7
+**References:** OWASP A01:2021, CWE-352, RFC 6749 §10.12, RFC 9700 §2.1/§4.7
 
 # OAuth Third-Party Scope Minimization
 
@@ -293,7 +293,7 @@ mtls:
 
 **Detect:** grep refresh endpoints for missing rotation (`old token reused`), refresh tokens kept in localStorage, no `revoked`/`rotated_at` column in token store.
 
-**References:** OWASP A02:2021, CWE-523, RFC 6749 §6, OAuth Security BCP §4.13
+**References:** OWASP A02:2021, CWE-523, RFC 6749 §6, RFC 9700 §4.14
 
 # SAML assertion validation and XML signature wrapping
 
@@ -376,5 +376,5 @@ mtls:
   "token.actions.githubusercontent.com:sub": "repo:acme/deploy:ref:refs/heads/main"}}
 ```
 
-**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
+**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE threat model
 

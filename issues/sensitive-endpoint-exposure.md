@@ -11,4 +11,4 @@ domains: [backend, government-compliance]
 
 **Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth.
 
-**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP Testing Guide §12.2
+**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP WSTG-CONF-05

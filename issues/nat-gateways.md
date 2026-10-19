@@ -27,4 +27,4 @@ resource "aws_nat_gateway" "az_a" {
 }   # one per AZ; private route tables use their local NAT
 ```
 
-**References:** AWS NAT gateway best practices, CIS AWS Foundations 2.x, AWS Well-Architected Reliability pillar
+**References:** AWS NAT gateway best practices, CIS AWS Foundations 5.x, AWS Well-Architected Reliability pillar

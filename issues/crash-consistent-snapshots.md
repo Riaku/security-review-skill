@@ -7,7 +7,7 @@ domains: [data, reliability]
 
 **SHOULD** document, per datastore, whether each backup is crash-consistent (volume snapshot) or logically consistent (`pg_dump`, `mysqldump`), and use the right one per recovery scenario.
 
-**Why:** A raw volume snapshot of a running database captures whatever was in page cache at capture time; the engine may need crash recovery, and some configurations produce unrestorable sets. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
+**Why:** A raw volume snapshot of a running database captures only what the host had already flushed to the volume at that instant — not the dirty pages still in page cache — so it is crash-consistent at best and the engine needs crash recovery (WAL/binlog replay) to open it. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
 
 **Detect:** The backup matrix should state each method's consistency guarantee; volume-snapshot jobs over hot databases must pair with WAL/binlog archiving.
 

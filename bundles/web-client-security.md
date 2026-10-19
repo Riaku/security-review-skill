@@ -52,7 +52,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** `unsafe-inline`, `unsafe-eval`, `script-src *` in CSP config; no `Content-Security-Policy` header.
 
-**References:** OWASP A05:2021, CWE-1021, Google CSP Evaluator
+**References:** OWASP A05:2021, CWE-693, Google CSP Evaluator
 
 # Cookie Consent
 

@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep user-data/cloud-init blocks for `AWS_SECRET_ACCESS_KEY`, `password=`, `token`, `-----BEGIN`, connection strings with credentials; Terraform `aws_instance.userdata` / `google_compute_instance.metadata.startup-script` containing literals rather than role names or secret-manager references; scanned AMI user-data for inherited secrets.
 
-**References:** CIS AWS 5.4 (no secrets in user data), cloud-init sensitive-data guidance, AWS best practices for embedded credentials, aquasecurity/trivy-checks user-data secret rules
+**References:** cloud-init sensitive-data guidance, AWS best practices for embedded credentials, aquasecurity/trivy-checks user-data secret rules

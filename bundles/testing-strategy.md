@@ -142,7 +142,7 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** security fix PRs lacking a corresponding test case; CVE IDs or advisory references absent from test names/comments (e.g. `test_cve_2024_xxx`).
 
-**References:** OWASP ASVS V1.1.1, CWE-757, NIST SP 800-218 (SSDF) (verification after remediation)
+**References:** OWASP ASVS V1.1.1, NIST SP 800-218 (SSDF) (verification after remediation)
 
 # Self-Generated Expected Output
 
@@ -192,5 +192,5 @@ Test pyramid, practices, and quality gates.
 
 **Detect:** test files named `*_test.py`, `*.test.js` adjacent to auth/parser modules; coverage reports showing <80% on security-critical files.
 
-**References:** OWASP ASVS V1.1.1, CWE-1232, NIST SP 800-218 (SSDF)
+**References:** OWASP ASVS V1.1.1, NIST SP 800-218 (SSDF)
 

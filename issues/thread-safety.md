@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** Shared dict/list mutated without `Lock`/`mutex`/`synchronized`, check-then-act on globals, non-atomic `count += 1`, cached mutable singletons.
 
-**References:** CWE-362, CWE-366, OWASP ASVS 12.3
+**References:** CWE-362, CWE-366, OWASP ASVS V11.1.6

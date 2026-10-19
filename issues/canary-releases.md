@@ -9,6 +9,6 @@ domains: [infrastructure]
 
 **Why:** A timer-driven rollout spreads a defect to the whole fleet before anyone notices, turning a small blast radius into a full outage.
 
-**Detect:** grep Argo Rollouts/Flagger configs for `canary.steps` without `analysis`/`metrics` blocks, missing `maxTraffic` error thresholds, or `abortScaleDownDelaySeconds` absent.
+**Detect:** grep Argo Rollouts configs for `canary.steps` without an `analysis` step/`analysisTemplates` and for `trafficRouting` without metric-based abort; grep Flagger for `analysis.maxWeight`/`stepWeight` without `threshold` and without `metrics[].thresholdRange`.
 
 **References:** Google SRE Book canarying, NIST SP 800-190, AWS CodeDeploy canary guards, CWE-1095 lifecycle defect

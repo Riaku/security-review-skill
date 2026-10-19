@@ -32,7 +32,7 @@ Cache correctness, performance, and eviction.
 
 **Detect:** grep for cache.set without paired cache.delete/evict; keys like `user_perms:`, `session:` missing invalidation hooks.
 
-**References:** OWASP A04:2021, CWE-613, CWE-364, NIST SP 800-53 AC-2
+**References:** OWASP A04:2021, CWE-613, NIST SP 800-53 AC-2
 
 # Cache Warming
 
@@ -52,7 +52,7 @@ Cache correctness, performance, and eviction.
 
 **Detect:** CDN config caching paths like `/account`, `/api/me`; missing `Cache-Control: private` on authenticated responses at edge rules.
 
-**References:** OWASP A01:2021, CWE-525, RFC 7234 section 3.2, Cloudflare cache rules docs
+**References:** OWASP A01:2021, CWE-525, RFC 9111 section 3.5, Cloudflare cache rules docs
 
 # Cross-Tenant Cache Key Collision
 
@@ -72,7 +72,7 @@ Cache correctness, performance, and eviction.
 
 **Detect:** `ETag` built from user-independent hashes; `If-None-Match` handlers ignoring tenant ID; weak `W/` validators on auth-sensitive resources.
 
-**References:** OWASP A04:2021, RFC 7232 section 2.3, RFC 9110 8.8.3
+**References:** OWASP A04:2021, RFC 9110 8.8.3
 
 # Explicit eviction policy on every in-memory data store
 

@@ -23,4 +23,4 @@ CREATE UNIQUE INDEX users_email_uniq ON users (email);
 -- races resolve: one wins, one gets a violation to handle
 ```
 
-**References:** SQL UNIQUE constraint, OWASP ASVS V3.2, Rails uniqueness-validation index caveat, CWE-362
+**References:** SQL UNIQUE constraint, OWASP ASVS V11.1, Rails uniqueness-validation index caveat, CWE-362

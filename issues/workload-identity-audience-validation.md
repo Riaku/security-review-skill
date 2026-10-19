@@ -24,4 +24,4 @@ domains: [backend, infrastructure]
   "token.actions.githubusercontent.com:sub": "repo:acme/deploy:ref:refs/heads/main"}}
 ```
 
-**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
+**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE threat model

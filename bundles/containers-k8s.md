@@ -12,7 +12,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** No ValidatingWebhookConfiguration for gatekeeper/kyverno; namespaces missing `pod-security.kubernetes.io/enforce` labels.
 
-**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04, NIST SP 800-190 5.4
+**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04
 
 # Admission Webhook failurePolicy:Fail Deadlock and TLS Misconfig
 
@@ -74,7 +74,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** `envFrom: configMapRef` where the app expects live updates; no checksum annotation or rollout trigger on ConfigMap change.
 
-**References:** K8s docs configmap env immutability, CWE-676, Bitnami/Flux config-reload patterns
+**References:** K8s docs configmap env immutability, Bitnami/Flux config-reload patterns
 
 # Crash-Loop Restart Storms Bounded and Alarmed
 
@@ -124,7 +124,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** Grep workflows for `privileged: true`, `docker:dind` images, or volume mounts of `/var/run/docker.sock` into build jobs.
 
-**References:** OWASP Docker DS01, CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
+**References:** OWASP Docker Top 10 D01 (Secure User Mapping: never use --privileged), CWE-250, NIST SP 800-218 (SSDF), Kaniko and BuildKit rootless docs, GitLab CI best practices
 
 # Egress Control (outbound traffic allow-listed; exfil paths narrowed)
 
@@ -144,7 +144,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** No etcd metrics scrape (`etcd_server_has_leader`, `etcd_server_health_failures`); no separate control-plane alert rule or runbook.
 
-**References:** CIS K8s 2.0, etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
+**References:** etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
 
 # etcd Exposure and Missing etcd Encryption
 
@@ -196,7 +196,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 
-**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--atomic` flags in CI deploy steps.
+**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks` flags in CI deploy steps.
 
 **References:** Helm hooks docs, CWE-664 Improper Control of a Resource Through its Lifetime, NIST SP 800-190 change control
 
@@ -332,7 +332,7 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **Detect:** Image fields ending in `:latest` or bare repo names; absence of `@sha256:` digest in Deployment/Pod specs.
 
-**References:** CIS Docker 4.5, NIST SP 800-190 4.4, OWASP A08 Software Supply Chain, CWE-829
+**References:** CIS Docker 4.5, NIST SP 800-190 §4.2.2 (stale images in registries), OWASP A08 Software Supply Chain, CWE-829
 
 # Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
 
@@ -395,7 +395,7 @@ spec:
 
 **Detect:** `USER root`, missing `USER` directive in Dockerfile; runtime `id -u` equals 0; `runAsNonRoot: false` in pod specs.
 
-**References:** CIS Docker 4.1, CIS K8s 5.2.7, CWE-250, OWASP K8s PSA runAsNonRoot
+**References:** CIS Docker 4.1, CIS K8s 1.24 5.2.7 (root containers), CWE-250, OWASP K8s PSA runAsNonRoot
 
 # Operator Finalizer Leaks Blocking Resource Deletion
 
@@ -435,7 +435,7 @@ spec:
 
 **Detect:** `securityContext.capabilities.add` listing `SYS_ADMIN`, `NET_ADMIN`, `SYS_MODULE`; `privileged: true` without an exception record.
 
-**References:** CIS K8s 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
+**References:** CIS K8s 1.24 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
 
 # Registry Outage Tolerated via Cached/Pinned Images
 
@@ -445,7 +445,7 @@ spec:
 
 **Detect:** No `imagePullPolicy: IfNotPresent`/`Never` with pre-pulled images; no local registry mirror or pull-through cache configured.
 
-**References:** K8s docs imagePullPolicy, NIST SP 800-190 4.4, Harbor/Docker registry mirror docs, OWASP A08
+**References:** K8s docs imagePullPolicy, Harbor/Docker registry mirror docs, OWASP A08
 
 # Resource Requests & Limits
 
@@ -479,7 +479,7 @@ spec:
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 
-**MUST** set PersistentVolume `persistentReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
+**MUST** set PersistentVolume `spec.persistentVolumeReclaimPolicy` deliberately (Retain for data-bearing volumes) and enable `root_squash` on NFS exports.
 
 **Why:** A careless Delete policy destroys data on release, while NFS without root_squash lets any pod's root read and write the export.
 

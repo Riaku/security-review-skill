@@ -45,7 +45,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
                      verify="/etc/ssl/corp-ca-bundle.pem")
 ```
 
-**References:** CWE-295, CWE-299, OWASP ASVS 14.2, OWASP Testing Guide STG-CRYPTO-03
+**References:** CWE-295, CWE-299, OWASP ASVS V9.2.1, OWASP WSTG-CRYP-01
 
 # Device Provisioning Identity
 
@@ -65,7 +65,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
+**References:** OWASP Docker Top 10 D06 (Protect Secrets), CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
 
 # Embedding inversion and sensitive data in vector stores
 
@@ -85,7 +85,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** RDS/S3 `encrypted = false`, `storageClass` without SSE-KMS, Longhorn/Vault unencrypted PVCs, backup files with plaintext contents.
 
-**References:** OWASP ASVS V0.9.2, CWE-311, NIST SP 800-53 SC-28
+**References:** OWASP ASVS V6.1.1, CWE-311, NIST SP 800-53 SC-28
 
 # .env in .gitignore
 
@@ -165,7 +165,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** `password:`, `apiKey:`, `token:` literals in `values*.yaml`, `helm get values` output containing credentials, missing `existingSecret` references.
 
-**References:** OWASP ASVS V2.10, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
+**References:** OWASP ASVS V6.4.1, CWE-312, Helm security best practices, Bitnami `existingSecret` pattern
 
 # Insufficient Randomness for Tokens and IDs
 
@@ -195,7 +195,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
 
-**References:** OWASP ASVS V1.4.3, CWE-269, NIST SP 800-53 AC-6
+**References:** OWASP ASVS V1.4.1, CWE-269, NIST SP 800-53 AC-6
 
 # Password Salting
 
@@ -243,7 +243,7 @@ ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384;
 
 **Good:**
 ```
-ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
+ssl_conf_command Groups X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 ```
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs
@@ -256,7 +256,7 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
+**References:** OWASP ASVS V2.10.4, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
 
 # Secret Validity Checking (verify leaked keys are live)
 
@@ -276,7 +276,7 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **Detect:** `echo $SECRET`, `set -x` in steps handling credentials, `env`/`printenv` in pipelines, `export` of tokens without `::add-mask::`.
 
-**References:** OWASP ASVS V2.10.3, CWE-532, CWE-214
+**References:** OWASP ASVS V7.1.1, CWE-532, CWE-214
 
 # Secrets in Instance Launch Payloads
 
@@ -286,7 +286,7 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **Detect:** grep user-data/cloud-init blocks for `AWS_SECRET_ACCESS_KEY`, `password=`, `token`, `-----BEGIN`, connection strings with credentials; Terraform `aws_instance.userdata` / `google_compute_instance.metadata.startup-script` containing literals rather than role names or secret-manager references; scanned AMI user-data for inherited secrets.
 
-**References:** CIS AWS 5.4 (no secrets in user data), cloud-init sensitive-data guidance, AWS best practices for embedded credentials, aquasecurity/trivy-checks user-data secret rules
+**References:** cloud-init sensitive-data guidance, AWS best practices for embedded credentials, aquasecurity/trivy-checks user-data secret rules
 
 # Hardcoded API keys and secrets in mobile app binaries
 

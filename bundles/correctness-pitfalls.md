@@ -12,7 +12,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `in` membership on lists in loops, sort-then-scan per request, nested loops over collections, no complexity note on hot functions.
 
-**References:** CWE-407, CWE-834, OWASP ASVS 5.3
+**References:** CWE-407, CWE-834, OWASP ASVS V11.1.3/V11.1.4
 
 # Business Logic Workflow Bypass & Abuse
 
@@ -52,15 +52,15 @@ Language-agnostic code-level failure modes.
 
 **Detect:** Cron with fixed local hours, `timedelta(hours=1)` loops over calendar days, `TZ=America/` with `naive` datetimes, no test freezing the clock at a DST boundary (spring-forward gap, fall-back overlap) in the deployment timezone, scheduler docs silent on which timezone governs.
 
-**References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
+**References:** NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
 
 # Dead Code
 
-**SHOULD NOT** ship code paths that are never reached or never exercised by tests.
+**SHOULD NOT** ship code paths that cannot be reached (no call site, permanently-off feature flag, disabled branch); a reachable branch that no test exercises is a coverage finding, not dead code.
 
 **Why:** Unreachable branches hide vulnerabilities that no test covers, rot silently, and mislead reviewers into trusting unverified logic.
 
-**Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off, coverage reports showing 0 hits.
+**Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off.
 
 **References:** CWE-561
 
@@ -92,7 +92,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** sleep/sync file/DB/HTTP calls inside async handlers (e.g. `time.sleep` in `async def`, sync HTTP client calls in handlers), missing offload mechanisms (`run_in_executor`, `spawn_blocking`, dedicated worker pool) for blocking work.
 
-**References:** CWE-400, CWE-662, OWASP ASVS 5.3
+**References:** CWE-400, CWE-662, OWASP ASVS V11.1.3/V11.1.4
 
 # Floating Point Math
 
@@ -162,7 +162,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** Handler reads `request.json[...]` with no validator, missing Pydantic/Zod/JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
 
-**References:** CWE-915, CWE-1289, OWASP ASVS 5.2, OWASP API1:2023
+**References:** CWE-915, CWE-1289, OWASP ASVS V5.1.3/V5.1.4, OWASP API1:2023
 
 # Storing Money as Floats
 
@@ -172,7 +172,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `float`/`double` in amount, price, balance, total columns or fields; `REAL`/`FLOAT` in migrations; `round(x*100)` casts.
 
-**References:** CWE-1240, CWE-682, PCI DSS 6.5
+**References:** CWE-1339, CWE-682, PCI DSS 6.5
 
 # Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)
 
@@ -202,7 +202,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** Shared dict/list mutated without `Lock`/`mutex`/`synchronized`, check-then-act on globals, non-atomic `count += 1`, cached mutable singletons.
 
-**References:** CWE-362, CWE-366, OWASP ASVS 12.3
+**References:** CWE-362, CWE-366, OWASP ASVS V11.1.6
 
 # Time Zones
 
@@ -212,7 +212,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `datetime.now()` / `new Date()` without `tz=utc`, `localtime` in Postgres columns, `TIMESTAMP` instead of `TIMESTAMPTZ`, hardcoded `+08:00` offsets.
 
-**References:** CWE-1091, NIST SP 800-53 AU-3, ISO 8601
+**References:** NIST SP 800-53 AU-3, ISO 8601
 
 # Unhandled Async Errors
 
@@ -222,7 +222,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `.then(` without `.catch(`, `await` outside try/catch at entry points, tasks spawned without error propagation, missing global hooks (e.g. `process.on('unhandledRejection')`), floating async calls with no awaited/voided result.
 
-**References:** CWE-584, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
+**References:** CWE-391, CWE-248, Node.js unhandledRejection docs, structured-concurrency practices
 
 # Unicode
 
