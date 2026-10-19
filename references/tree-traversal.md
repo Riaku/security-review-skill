@@ -75,15 +75,22 @@ shortcut masquerade as a full pass.
 
 ## Sub-agent failure recovery
 
-Phase 3 assumes clean JSON. Handle the failure modes explicitly:
+Sub-agents return one JSON object per line, so a damaged reply is usually a
+damaged line, not a damaged document.
 
-- **Malformed JSON**: retry the category once with a stricter reminder of
-  the output contract.
+- **Unparseable line**: drop it and continue. The coverage check below catches the
+  slug it should have reported, so one bad line cannot hide an item.
+- **Zero lines**: treat as a failed dispatch (every leaf owes a verdict), retry
+  once, then `needs-human` per leaf.
+- **Partial return**: run
+  `python3 scripts/category_slugs.py <category> --check <findings.jsonl>`, which
+  compares reported slugs with the ones the category owns. Retry the category
+  once; if slugs are still missing, record each as `needs-human` — "not reported
+  by sub-agent". A partial return parses cleanly, so this is the only thing that
+  catches it.
 - **Timeout / crash**: retry once; if it fails again, record the whole
   category as `needs-human` with reason "dispatch failed" — never
   silently drop it.
-- **Zero objects returned**: treat as a failed dispatch (every leaf owes
-  a verdict), retry once, then `needs-human` per leaf.
 - The report MUST show dispatched vs settled counts per category so a
   gap is visible, not hidden.
 

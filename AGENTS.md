@@ -17,7 +17,7 @@ MUST NOT, SHOULD, SHOULD NOT and MAY, defined in RFC 2119 and RFC 8174.
 | `bundles/<name>.md` | Generated. Never committed. See [Generated artifacts](#generated-artifacts). |
 | `references/` | Long-form material: tooling catalog, ATT&CK map, platform notes, severity rubric, traversal model. |
 | `templates/` | Sub-agent prompt and review report. |
-| `scripts/` | `gen_artifacts.py` (generator and format gate), `check_generated.py` (CI gate), `check_links.py` (link probe). |
+| `scripts/` | `gen_artifacts.py` (generator and format gate), `check_generated.py` (CI gate), `category_slugs.py` (category membership and return-coverage check), `check_links.py` (link probe). |
 
 ## Item format
 
@@ -100,6 +100,21 @@ with no inspectable artifact belongs in `needs-human` guidance.
 - A bundle MUST hold every item whose frontmatter names the category, in slug
   order, bodies only.
 
+## Findings format
+
+A sub-agent returns one JSON object per line: `slug`, `verdict`, `severity`,
+`evidence`, `recommendation`. Lines, not an array, so a truncated reply still
+delivers what it finished.
+
+- You MUST NOT commit findings. The payload is a transport format between a
+  sub-agent and its caller; the deliverable is the Markdown report.
+- Before you merge a return, check it against the category it claims to cover:
+  `python3 scripts/category_slugs.py <category> --check <findings.jsonl>`. Exit 0
+  means every owned slug came back; exit 1 names what is missing or unknown.
+- A slug that did not come back MUST appear in the report as `needs-human` — "not
+  reported by sub-agent". A partial return parses cleanly, so nothing else catches
+  it.
+
 ## Gate
 
 Run the gate before you open or update a pull request. It MUST exit 0.
@@ -110,13 +125,15 @@ python3 scripts/check_generated.py
 
 The success line reads `items-valid: … ; no generated artifacts tracked`.
 
-The gate checks three things:
+The gate checks four things:
 
 1. `SKILL.md` frontmatter parses as YAML and has non-empty `name` and
    `description`.
 2. Every item's frontmatter is complete, sorted, unique and names real
    manifests; every body opens with an H1; every category has an overview line.
-3. No file under `bundles/` is tracked by git.
+3. `category_slugs.py` and the generator agree on every category's membership, so
+   the coverage check cannot report a complete return as incomplete.
+4. No file under `bundles/` is tracked by git.
 
 CI installs PyYAML 6.0.2 for check 1. When PyYAML is absent, the gate falls back
 to a pattern check that flags an unquoted scalar containing `: `.
