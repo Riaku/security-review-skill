@@ -1,4 +1,4 @@
-# supply-chain — full checklist (22 items)
+# supply-chain — full checklist (23 items)
 
 Dependencies, artifacts, build provenance.
 
@@ -153,6 +153,16 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep torch.load( without weights_only=True, pickle.load on model files, .pkl/.ckpt pulled from Hub without checksum/signature.
 
 **References:** OWASP LLM03:2025, CWE-502, CWE-94
+
+# Model Version Pinning
+
+**MUST** pin exact model versions or digests rather than floating aliases like gpt-4 or latest in production configs.
+
+**Why:** Silent upstream model swaps change safety behavior and data-handling guarantees without any code review.
+
+**Detect:** grep model: "latest", model: gpt-4 without dated suffix; missing digest/revision fields in inference config.
+
+**References:** OWASP LLM03:2025, CWE-1104, NIST AI RMF MANAGE
 
 # Mutable Image Tags (latest) Instead of Digest Pinning
 

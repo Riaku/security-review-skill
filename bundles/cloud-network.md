@@ -94,6 +94,16 @@ MyMethod:
 
 **References:** OWASP ASVS V1.14, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
 
+# Broken Link & Dependency Hijacking
+
+**SHOULD** remove or pin dead external references (deleted CDN packages, lapsed domains, 404'd script/CSS links) that attackers can register and serve malicious content through.
+
+**Why:** A dangling `<script src>` to an unregistered domain is a supply-chain foothold the browser trusts implicitly — recon tools flag these by checking DNS on referenced hosts.
+
+**Detect:** crawl pages and check HTTP status + DNS registration of every external script/CSS/frame host; grep templates for known-dead CDNs (bower, rawgit, shutdown libraries).
+
+**References:** OWASP WSTG-BUSL, CWE-427, npm/CDN takeover incidents
+
 # CAA Record Policy
 
 **SHOULD** publish CAA records restricting which CAs may issue certificates for the domain, with issuewild and iodef contact configured.
@@ -945,32 +955,6 @@ ingress { from_port = 5432 to_port = 5432 protocol = "tcp"
 ```
 
 **References:** CIS AWS Foundations 5.x, CWE-284, AWS VPC security group best practices
-
-# Serverless Execution Environment Reuse Leaking Data Across Invocations
-
-**MUST NOT** cache per-request data — customer records, tokens, decrypted keys — in module-level or global mutable state of a serverless function, because warm containers are shared by later, possibly different, invocations.
-
-**Why:** Lambda and friends reuse a warmed container across tenants' requests when concurrency allows; a global populated during request A can be read during request B, producing cross-customer data disclosure that only appears under load.
-
-**Detect:** In Lambda/Cloud Function/Cloud Run code, flag module-scope dicts, lists, or connection objects that store request-derived values (`current_user = None` at top level then assigned inside the handler), memoized decryption caches keyed loosely, and background threads outliving the handler. Contrast with connection pools (acceptable) versus data caches (not).
-
-**Bad:**
-```python
-cached_profile = None          # module scope, survives invocations
-def handler(event, ctx):
-    global cached_profile
-    cached_profile = fetch_profile(event["user_id"])
-    return {"sso": cached_profile["email"]}
-```
-
-**Good:**
-```python
-def handler(event, ctx):
-    profile = fetch_profile(event["user_id"])   # request-local only
-    return {"sso": profile["email"]}
-```
-
-**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 S3:2017 (Sensitive Data Exposure)
 
 # Service Mesh
 

@@ -190,16 +190,6 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **References:** Kubernetes health checks, K8s docs, CWE-770, SRE Book
 
-# Dead-man's-switch Heartbeat for Scheduled Jobs
-
-**SHOULD** give every scheduled job a heartbeat that pages when the expected ping is missing, rather than alerting only on failure.
-
-**Why:** A cron that never runs — disabled, deadlocked, or silently deleted — produces no error at all; only absence-of-beat reveals it.
-
-**Detect:** grep schedulers for healthcheck pings (`healthchecks.io`, `deadman` checks, `K8s CronJob` success conditions); flag jobs with failure alerts but no liveness deadline.
-
-**References:** Healthchecks.io dead-man pattern, Google SRE Workbook, CWE-778, K8s CronJob docs
-
 # Incident Response
 
 **MUST** maintain a written incident response process with defined roles, escalation paths, and comms cadence, exercised annually.
@@ -371,6 +361,16 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** status page config (`statuspage.io`, `instatus`), `comms_templates` directory, no comms owner in runbook.
 
 **References:** NIST SP 800-61 (communications), Google SRE Workbook, Atlassian status page practices
+
+# Sticky Sessions & Load-Balancer Affinity
+
+**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
 
 # Synthetic External Monitoring
 

@@ -1,5 +1,5 @@
 ---
-categories: [database]
+categories: [database, distributed-systems]
 domains: [data]
 ---
 

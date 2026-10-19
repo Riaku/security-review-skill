@@ -1,6 +1,6 @@
 ---
-categories: [scaling-capacity, web-api-security]
-domains: [backend, reliability]
+categories: [scaling-capacity, sre-incidents]
+domains: [reliability]
 ---
 
 # Sticky Sessions & Load-Balancer Affinity

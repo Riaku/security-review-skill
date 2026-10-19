@@ -1,4 +1,4 @@
-# authentication — full checklist (33 items)
+# authentication — full checklist (32 items)
 
 Identity, credentials, session lifecycle.
 
@@ -244,16 +244,6 @@ mtls:
 **Detect:** grep callback handlers for absent `state` checks, `response_type=token` in public clients, missing `code_verifier`/`code_challenge` in auth URL construction.
 
 **References:** OWASP A01:2021, CWE-352, RFC 6749 §10.12, RFC 9700 §2.1/§4.7
-
-# OAuth Third-Party Scope Minimization
-
-**MUST** request the minimum OAuth scopes from identity providers and audit granted-scope drift for third-party app integrations.
-
-**Why:** Over-scoped integrations (`offline_access`, full mailbox, full repo) turn a third-party breach into your breach; scopes granted years ago silently persist.
-
-**Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
-
-**References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
 
 # OpenID Connect
 

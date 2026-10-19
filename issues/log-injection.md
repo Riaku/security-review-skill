@@ -1,5 +1,5 @@
 ---
-categories: [observability, security-practices]
+categories: [observability]
 domains: [backend, reliability]
 ---
 

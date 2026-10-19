@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (37 items)
+# compliance-privacy — full checklist (35 items)
 
 Privacy operations and data protection in code.
 
@@ -147,16 +147,6 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** GDPR Arts. 5, 6, 35, 37, 83; ISO 27701; EDPB guidelines; ICO enforcement register
 
-# Harvest-now-decrypt-later exposure of long-lived confidential data
-
-**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with post-quantum or hybrid key agreement, since today's ciphertext can be stored and decrypted later and re-keying does not re-protect ciphertext already archived under the old key.
-
-**Why:** Adversaries archive encrypted traffic and backups now, waiting for quantum or key-compromise advances to unlock them retroactively.
-
-**Detect:** Long-retention archives encrypted only with RSA-2048/ECC, TLS sessions without hybrid KEM, backups with no key-rotation schedule.
-
-**References:** NIST IR 8547, NSA CNSA 2.0 timeline, CISA post-quantum cryptography guidance
-
 # HIPAA (health data)
 
 **MUST** safeguard protected health information with access controls, encryption in transit, and audit logs covering every system in the HIPAA covered entity or business associate chain.
@@ -256,16 +246,6 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for `cvv`, `track_data`, `pin_block` persisted post-auth; check database schemas, logs, and backups for prohibited fields.
 
 **References:** PCI DSS 3.2.1 Req 3.2, PCI DSS 4.0 Req 3.3.1, CWE-312
-
-# Independent penetration testing cadence and finding remediation tracking
-
-**SHOULD** commission an external penetration test at least annually and after major architectural changes, with every finding tracked to closure in a ticketing system.
-
-**Why:** Self-assessment shares the builder's blind spots; untracked findings recur across engagements.
-
-**Detect:** `pentest` reports dated within 12 months, `remediation` tracker with finding IDs, contract/engagement records
-
-**References:** OWASP WSTG, PTES, NIST SP 800-115, PCI DSS 11.4
 
 # PII Handling
 

@@ -1,4 +1,4 @@
-# web-client-security — full checklist (20 items)
+# web-client-security — full checklist (21 items)
 
 Browser-side attack surface and defenses.
 
@@ -33,6 +33,16 @@ Browser-side attack surface and defenses.
 **Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
 
 **References:** OWASP A04:2021, CWE-525, RFC 9111 §5.2.2.5 (no-store)
+
+# CDNs
+
+**MUST NOT** allow CDNs to cache authenticated or per-user responses unless the origin marks them `private` and cache rules exclude them.
+
+**Why:** A CDN caching a personalized response serves one user's data — tokens, PII, balances — to others sharing the URL.
+
+**Detect:** CDN config caching paths like `/account`, `/api/me`; missing `Cache-Control: private` on authenticated responses at edge rules.
+
+**References:** OWASP A01:2021, CWE-525, RFC 9111 section 3.5, Cloudflare cache rules docs
 
 # Clickjacking
 

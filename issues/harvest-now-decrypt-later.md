@@ -1,6 +1,6 @@
 ---
-categories: [compliance-privacy, secrets-crypto]
-domains: [backend, governance]
+categories: [secrets-crypto]
+domains: [backend]
 ---
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data

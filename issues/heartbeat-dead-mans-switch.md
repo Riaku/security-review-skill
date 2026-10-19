@@ -1,5 +1,5 @@
 ---
-categories: [observability, sre-incidents]
+categories: [observability]
 domains: [reliability]
 ---
 

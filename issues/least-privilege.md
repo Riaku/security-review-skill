@@ -1,5 +1,5 @@
 ---
-categories: [authorization-access-control, secrets-crypto]
+categories: [authorization-access-control]
 domains: [backend]
 ---
 

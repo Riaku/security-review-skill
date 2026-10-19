@@ -1,5 +1,5 @@
 ---
-categories: [caching]
+categories: [caching, web-client-security]
 domains: [reliability]
 ---
 

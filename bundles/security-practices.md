@@ -1,4 +1,4 @@
-# security-practices — full checklist (29 items)
+# security-practices — full checklist (28 items)
 
 Process-level security practices (modeling, disclosure, patching).
 
@@ -143,16 +143,6 @@ Process-level security practices (modeling, disclosure, patching).
 **Detect:** model response rendered via |safe / innerHTML or concatenated into queries or subprocess args.
 
 **References:** OWASP LLM05:2025, CWE-79, CWE-89, CWE-78
-
-# Log Injection & Log Forging
-
-**MUST NOT** write unsanitized user input into log lines; strip CR/LF and control characters before logging any request data.
-
-**Why:** Injected newlines let attackers forge fake log entries or split one entry into many, poisoning the audit trail you rely on during investigations.
-
-**Detect:** grep for user-controlled values interpolated into logger calls (`log.info("User " + username)`) without newline stripping; check for encoder/sanitizer in log appender config.
-
-**References:** OWASP Logging Cheat Sheet, CWE-117
 
 # Memory Safety: Buffer Overflow & Use-After-Free
 

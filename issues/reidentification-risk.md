@@ -1,5 +1,5 @@
 ---
-categories: [compliance-privacy, database]
+categories: [compliance-privacy]
 domains: [data, governance]
 ---
 

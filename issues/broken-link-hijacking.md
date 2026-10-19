@@ -1,5 +1,5 @@
 ---
-categories: [supply-chain, web-client-security]
+categories: [cloud-network, supply-chain, web-client-security]
 domains: [frontend, infrastructure]
 ---
 
