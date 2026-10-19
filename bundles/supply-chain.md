@@ -1,4 +1,4 @@
-# supply-chain — full checklist (60 items)
+# supply-chain — full checklist (62 items)
 
 Dependencies, artifacts, build provenance.
 
@@ -244,6 +244,16 @@ Dependencies, artifacts, build provenance.
 
 **References:** zizmor, https://github.com/zizmorcore/zizmor
 
+# Inbound Grants Match Outbound Licence
+
+**MUST** require every contribution to carry an inbound grant no broader than the project's outbound licence — DCO sign-off, CLA, or explicit statement — enforced in CI, not by goodwill.
+
+**Why:** One patch copied from a differently licensed project can force the whole distribution onto terms the project never chose, and unsigned history leaves no way to prove provenance afterwards.
+
+**Detect:** grep commit trailers and PR metadata for `Signed-off-by`, a CLA-bot label, or a CONTRIBUTING section stating contribution terms; flag merged PRs that carry none of the three, and vendored files with no origin note.
+
+**References:** Developer Certificate of Origin, https://developercertificate.org/, ASF Contributor License Agreements, https://www.apache.org/licenses/contributor-agreements.html, REUSE Specification, https://reuse.software/spec/
+
 # Internal Registry Proxy
 
 **MUST** fetch dependencies through an internal registry or proxy that enforces allowlisting, malware blocking, and quarantine of new versions.
@@ -353,6 +363,16 @@ Dependencies, artifacts, build provenance.
 **Detect:** grep for vendored `.min.js` bundles and packer output with no matching source-map or upstream source reference in the lockfile.
 
 **References:** Analyzing obfuscation against SAST pipelines (arXiv 2604.01131), https://arxiv.org/abs/2604.01131
+
+# Declare a Project Licence
+
+**MUST** declare a licence at the repository root and put the matching SPDX identifier in source file headers, so consumers and scanners can determine their obligations without asking.
+
+**Why:** Code with no licence is all-rights-reserved: nobody may legally copy, modify or ship it, and partial or drifted headers make the answer differ per file.
+
+**Detect:** grep for a root `LICENSE`/`COPYING` file and for `SPDX-License-Identifier` headers in source files; flag repositories with source code and no licence file, or headers naming a licence that contradicts it (`reuse lint`, `licensee detect`, `scancode-toolkit`).
+
+**References:** SPDX License List, https://spdx.org/licenses/, REUSE Specification, https://reuse.software/spec/, choosealicense.com, https://choosealicense.com/
 
 # Pin The Expected Signer
 

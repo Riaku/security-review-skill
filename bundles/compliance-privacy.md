@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (46 items)
+# compliance-privacy — full checklist (51 items)
 
 Privacy operations and data protection in code.
 
@@ -207,6 +207,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** RFC 6973 Privacy Considerations, https://www.rfc-editor.org/rfc/rfc6973.txt
 
+# Inbound Grants Match Outbound Licence
+
+**MUST** require every contribution to carry an inbound grant no broader than the project's outbound licence — DCO sign-off, CLA, or explicit statement — enforced in CI, not by goodwill.
+
+**Why:** One patch copied from a differently licensed project can force the whole distribution onto terms the project never chose, and unsigned history leaves no way to prove provenance afterwards.
+
+**Detect:** grep commit trailers and PR metadata for `Signed-off-by`, a CLA-bot label, or a CONTRIBUTING section stating contribution terms; flag merged PRs that carry none of the three, and vendored files with no origin note.
+
+**References:** Developer Certificate of Origin, https://developercertificate.org/, ASF Contributor License Agreements, https://www.apache.org/licenses/contributor-agreements.html, REUSE Specification, https://reuse.software/spec/
+
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
 **MUST** honour consent given, managed, reviewed, or withdrawn through a Consent Manager registered with the Data Protection Board of India, and fulfill data fiduciary duties including breach notification and grievance redressal.
@@ -307,6 +317,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 3.x (logging), aquasecurity/trivy-checks storage logging rules
 
+# Declare a Project Licence
+
+**MUST** declare a licence at the repository root and put the matching SPDX identifier in source file headers, so consumers and scanners can determine their obligations without asking.
+
+**Why:** Code with no licence is all-rights-reserved: nobody may legally copy, modify or ship it, and partial or drifted headers make the answer differ per file.
+
+**Detect:** grep for a root `LICENSE`/`COPYING` file and for `SPDX-License-Identifier` headers in source files; flag repositories with source code and no licence file, or headers naming a licence that contradicts it (`reuse lint`, `licensee detect`, `scancode-toolkit`).
+
+**References:** SPDX License List, https://spdx.org/licenses/, REUSE Specification, https://reuse.software/spec/, choosealicense.com, https://choosealicense.com/
+
 # Partial Data Display
 
 **MUST** return and display only the minimum sensitive value the feature needs, masking all but the last few characters by default.
@@ -367,6 +387,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
+# Track the Privacy Budget
+
+**MUST** track cumulative privacy budget across every query and release of a dataset published under differential privacy, and refuse further releases once the budget is exhausted.
+
+**Why:** Epsilon is not a per-query setting: noisy answers compose, so ten queries at epsilon 1 can isolate an individual even though each looked harmless in isolation.
+
+**Detect:** grep query paths for an `epsilon` argument with no accumulator behind it — no budget store keyed by dataset and analyst, or accounting that resets between sessions; confirm the limit is enforced server-side, not in a client default.
+
+**References:** Dwork & Roth, The Algorithmic Foundations of Differential Privacy, https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf, Google differential-privacy library, https://github.com/google/differential-privacy, NIST SP 800-226, https://csrc.nist.gov/pubs/sp/800/226/final
+
 # Privacy Review Threat Classes
 
 **SHOULD** run a privacy review separate from the security review, covering surveillance, aggregation, secondary use and exclusion.
@@ -396,6 +426,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
 
 **References:** NIST SP 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 5.4 no shared administrator accounts
+
+# Quasi-Identifier Class Floors
+
+**MUST** measure quasi-identifier combinations in any released dataset and suppress or generalise rows until every equivalence class meets a minimum size, instead of only stripping direct identifiers.
+
+**Why:** Date of birth, postcode and sex together single out most people, so a release with names removed still re-identifies from public records while being labelled de-identified.
+
+**Detect:** command: run `arx`, `sdcMicro`, or a groupby over candidate quasi-identifier columns and report the smallest equivalence-class size; flag any release whose floor is below policy (commonly 5–11).
+
+**References:** NIST SP 800-188 De-Identifying Government Datasets, https://csrc.nist.gov/pubs/sp/800/188/final, Sweeney, k-anonymity (1997), ENISA pseudonymisation techniques, https://www.enisa.europa.eu/publications/pseudonymisation-techniques-and-best-practices
 
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 
@@ -495,6 +535,16 @@ def handler(event, ctx):
 **Detect:** exiftool on stored uploads and check for GPS, device, and author tags.
 
 **References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x23-V14-Data-Protection.md, CWE-200
+
+# Synthetic Data Memorisation Checks
+
+**MUST NOT** treat synthetic records as non-personal until memorisation and nearest-neighbour tests show they cannot reproduce real individuals from the training set.
+
+**Why:** Generative models emit training rows verbatim or near-verbatim for rare records, so a synthetic release can leak the very individuals it was generated to protect.
+
+**Detect:** command: run a distance-to-closest-training-record test and a membership-inference check (`sdmetrics`, `synthcity`, or an explicit overlap count) before release; flag exports shipped with no test result recorded.
+
+**References:** NIST SP 800-188 De-Identifying Government Datasets, https://csrc.nist.gov/pubs/sp/800/188/final, Shokri et al., Membership Inference Attacks Against Machine Learning Models, https://arxiv.org/abs/1610.05820, Carlini et al., Extracting Training Data from Large Language Models, https://arxiv.org/abs/2012.07805
 
 # Vendor/third-party risk management and subprocessor registers
 
