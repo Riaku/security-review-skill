@@ -1,7 +1,10 @@
 # Sources & Attribution
 
-Every external source this skill's content was derived from, with what it
-contributed. Kept current as new sources are mined.
+The principal sources behind this corpus, and what each contributed. This list
+is deliberately **not** exhaustive: every item carries its own `References:`
+line, and those per-item citations are the authoritative record of what
+supports a specific rule — together they reach more sources than are listed
+here. Credit for the seed list and the taxonomy's shape comes first.
 
 ## Sources
 
@@ -28,6 +31,12 @@ contributed. Kept current as new sources are mined.
 | OWASP ASVS | verification-level tiers; app-sec item wording |
 | OWASP WSTG | detect-methodology; conf/athz items |
 | OWASP Cheat Sheet Series | prescriptive wording across items |
+| MITRE CWE — https://cwe.mitre.org/ | weakness taxonomy; per-item CWE references (cited by 381 items) |
+| NIST SP 800-53 Rev 5 — https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final | control references for access control, audit, integrity and crypto items (62 items) |
+| CIS Benchmarks / CIS Controls — https://www.cisecurity.org/cis-benchmarks | host and platform hardening baselines (9 items) |
+| PCI DSS v4.0 — https://www.pcisecuritystandards.org/ | payment-card scope, storage and transmission rules (8 items) |
+| GDPR — https://gdpr-info.eu/ | privacy items: purpose limitation, data minimisation, retention (20 items) |
+| ISO/IEC 27001 & 27002 | ISMS control mapping for governance items (8 items) |
 | SANS Top 25 Most Dangerous Software Errors | correctness-pitfalls severity weighting |
 | NIST SP 800-161r1 | supply-chain risk management |
 | SLSA (slsa.dev) | build provenance, hermetic builds |
