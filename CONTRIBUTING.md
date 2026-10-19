@@ -28,14 +28,19 @@ short version:
 ## Before opening a PR
 
 ```bash
-python3 scripts/check_generated.py   # FIRST: report bundles that no longer match
-python3 scripts/gen_artifacts.py     # then write every bundle from the frontmatter
-python3 scripts/check_generated.py   # must print: bundles-in-sync
+python3 scripts/check_generated.py   # the whole gate — must exit 0
 ```
 
-Both scripts must exit 0, in that order — `check_generated.py` runs the generator
-itself, so generating first would hide the drift it looks for. The last line must
-read `bundles-in-sync: 35 bundles OK` (the count grows if a category is added).
+Its last line reads `items-valid: … ; no generated artifacts tracked`. The check
+runs the generator into a throw-away directory, so it validates every item's
+frontmatter without writing into the tree, and it fails if anything under
+`bundles/` has been committed.
+
+`bundles/` is **generated on demand and gitignored**, so a fresh clone or install
+has none. Run `python3 scripts/gen_artifacts.py` if you want the bulk category
+files locally — it writes into the ignored `bundles/` and never dirties the tree.
+Committing them fails the gate, because they duplicate the items and roughly
+double what a user downloads to install the skill.
 
 Then:
 
