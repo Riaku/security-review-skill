@@ -1,6 +1,6 @@
 ---
-categories: [deployment-release]
-domains: [infrastructure]
+categories: [deployment-release, web-api-security]
+domains: [backend, infrastructure]
 ---
 
 # Feature Flags

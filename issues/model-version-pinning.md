@@ -1,5 +1,5 @@
 ---
-categories: [ai-llm]
+categories: [ai-llm, supply-chain]
 domains: [governance]
 ---
 

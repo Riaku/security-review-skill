@@ -1,8 +1,31 @@
-# distributed-systems — full checklist (19 items)
+# distributed-systems — full checklist (22 items)
 
 Consistency, consensus, coordination across nodes.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/distributed-systems.md](../categories/distributed-systems.md) · Index: [SKILL.md](../SKILL.md)
+
+# ACID
+
+**MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity.
+
+**Why:** ACID holds inside one database, not across a database plus a queue plus a third-party API. Treating "we use Postgres" as blanket safety leaves balances and event logs silently diverging whenever the second write fails after the first commits.
+
+**Detect:** A DB commit followed by a Kafka/queue publish with no outbox or saga pattern; no reconciliation job comparing stores; SQLite used for concurrent multi-writer workloads.
+
+**Bad:**
+```python
+db.commit()
+kafka.publish("order-created", order)   # publish fails -> event lost forever
+```
+
+**Good:**
+```python
+with db.transaction():
+    db.insert_order(order)
+    outbox.enqueue("order-created", order)  # relay process publishes reliably
+```
+
+**References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), CWE-662
 
 # Bloom Filters
 
@@ -73,6 +96,16 @@ Consistency, consensus, coordination across nodes.
 **Detect:** identical DB connection strings across service repos; direct SQL against another service's tables; shared schema grants; cross-service joins in query code or reporting jobs.
 
 **References:** martinfowler.com/articles/microservices.html (Decentralized Data Management), Martin Fowler Patterns of Enterprise Application Architecture (Shared Database anti-pattern)
+
+# Database Selection by Workload (CAP Class Fit)
+
+**SHOULD** choose each datastore deliberately for its workload's read/write consistency requirement and access pattern — strong consistency for transactions/permissions/inventory, tunable consistency for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale, naming the store's configured behaviour under partition (quorum/R+W>N, read preference) rather than a product-level CP/AP label.
+
+**Why:** A wrong datastore choice surfaces years later as a forced migration ("the worst pain imaginable"): an AP store backing balances, or a CP store blocking feeds during partitions.
+
+**Detect:** review architecture docs/ADRs for datastore-per-workload rationale; grep for one store serving contradictory workloads (e.g. Redis as system-of-record, Postgres for firehose telemetry).
+
+**References:** CAP theorem, DDIA ch. 4–9, AWS/Google datastore selection guides
 
 # Distributed Locks
 
@@ -153,6 +186,28 @@ Consistency, consensus, coordination across nodes.
 **Detect:** grep raft config for voter count, missing `--listen-peer-urls=https://`/`--initial-advertise-peer-urls=https://`, missing `--peer-client-cert-auth`/`--peer-cert-file`, single-node `bootstrap` left in production manifests.
 
 **References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300
+
+# Sharding
+
+**MUST** choose a shard key that distributes write load evenly and keeps transactionally-related rows on the same shard; cross-shard transactions MUST be avoided by design, not discovered in production.
+
+**Why:** A poor shard key creates hot shards that melt while others idle, and splitting related rows forces distributed transactions — where a partial commit leaves balances, inventories, and indexes permanently inconsistent.
+
+**Detect:** Shard key reviewed against access patterns (tenant_id vs user_id vs time); queries that JOIN or transact across shards; resharding plan documented before the first shard ships; per-shard QPS/CPU variance in dashboards.
+
+**Bad:**
+```python
+shard = hash(user_id) % 8
+# transfers lock rows in two users' shards -> 2PC everywhere
+```
+
+**Good:**
+```python
+shard = hash(tenant_id) % 8   # all of a tenant's rows co-located
+# cross-tenant work goes through async reconciliation
+```
+
+**References:** Vitess sharding guide, Azure sharding/catalog pattern guides, Kleppmann *DDIA* Ch. 6, CWE-662
 
 # Split Brain
 

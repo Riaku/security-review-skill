@@ -1,6 +1,6 @@
 ---
-categories: [compliance-privacy, security-practices]
-domains: [backend, governance]
+categories: [security-practices]
+domains: [backend]
 ---
 
 # Independent penetration testing cadence and finding remediation tracking

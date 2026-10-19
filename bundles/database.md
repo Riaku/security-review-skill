@@ -1,4 +1,4 @@
-# database — full checklist (53 items)
+# database — full checklist (51 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -690,30 +690,6 @@ CREATE TABLE orders (id INT, customer_id INT REFERENCES customers(id), total NUM
 
 **References:** Codd normal forms (1NF–3NF), Date *An Introduction to Database Systems*, CWE-1105
 
-# NoSQL Query Injection
-
-**MUST NOT** build queries by merging raw user input into query objects; validate types and use explicit field-level operators instead of user-controlled dicts or `$where` clauses.
-
-**Why:** MongoDB-style engines interpret operator keys inside user JSON: `{"pass": {"$ne": ""}}` submitted into a naive `find(body)` authenticates without a password. `$where` with string concatenation goes further, executing arbitrary JavaScript server-side.
-
-**Detect:** Grep for `find(req.body)`, `$where`, `mapReduce` with interpolation, and PyMongo/Mongoose filters whose dict originates from request payloads. Check for missing schema validation (Mongoose strict mode, JSON Schema) on inbound documents.
-
-**Bad:**
-```javascript
-db.users.find({
-  user: req.body.user,
-  pass: req.body.pass   // {"$ne":""} bypasses auth
-});
-```
-
-**Good:**
-```javascript
-const u = String(req.body.user), p = String(req.body.pass);
-db.users.findOne({ user: u, pass: await verify(p) });
-```
-
-**References:** CWE-943 NoSQL injection, OWASP NoSQL Injection Prevention Cheat Sheet, MongoDB $where security notes
-
 # Online schema-change tooling for large tables (gh-ost, pt-osc)
 
 **MUST** use a non-blocking migration strategy for schema changes on tables above a defined size instead of a plain blocking `ALTER TABLE`: gh-ost or `pt-online-schema-change` for MySQL, expand-contract/`pgroll` or concurrent-index patterns for Postgres.
@@ -894,29 +870,6 @@ return db.primary.get_order(o.id)   # read-your-writes on primary
 ```
 
 **References:** PostgreSQL Hot Standby docs, AWS RDS replica lag guidance, Kleppmann *DDIA* Ch. 5, CWE-362
-
-# Anonymization vs pseudonymization and re-identification risk in shared datasets
-
-**MUST NOT** describe a dataset as anonymous unless re-identification is infeasible with auxiliary data; pseudonymized data — reversible keys, stable IDs — remains personal data under GDPR.
-
-**Why:** Substituting user IDs is not anonymization. Linking "anonymized" exports against public sources (voter rolls, breach dumps, location traces) routinely re-identifies people, as the Netflix Prize showed.
-
-**Detect:** Review shared exports for stable identifiers and quasi-identifiers (birth date + ZIP + gender), and whether k-anonymity or differential privacy was applied. Check whether the agreement's claimed classification matches custody of the mapping table.
-
-**Bad:**
-```python
-export = df[["user_id", "zip", "dob", "purchase"]]  # "anonymous"
-# join zip+dob against voter file -> names
-```
-
-**Good:**
-```python
-export = anonymize(df, k=20,
-    generalize={"dob": "year", "zip": "5->3"})
-# or differential-privacy aggregates, not row-level release
-```
-
-**References:** GDPR Recital 26 (anonymised vs pseudonymised), NIST SP 800-188 De-Identifying Datasets, Narayanan & Shmatikov
 
 # Replication Lag
 

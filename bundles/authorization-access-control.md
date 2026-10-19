@@ -1,4 +1,4 @@
-# authorization-access-control — full checklist (16 items)
+# authorization-access-control — full checklist (17 items)
 
 Who may do what: RBAC, RLS, least privilege.
 
@@ -108,6 +108,16 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
 
 **References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.006, NIST SP 800-190
+
+# Kubernetes RBAC & NetworkPolicies
+
+**MUST** bind least-privilege RBAC roles and enforce default-deny NetworkPolicies per namespace instead of flat open cluster networking.
+
+**Why:** Cluster-admin bindings and absent network segmentation let any compromised pod read secrets or laterally reach every service.
+
+**Detect:** `ClusterRoleBinding` to `cluster-admin` for app serviceaccounts; no `NetworkPolicy` with `podSelector` matching all ingress in namespace.
+
+**References:** CIS K8s 5.1, RBAC Least Privilege, CWE-284, OWASP Kubernetes Top 10 K03/K07
 
 # Least Privilege
 

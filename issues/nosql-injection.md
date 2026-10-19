@@ -1,5 +1,5 @@
 ---
-categories: [database, web-api-security]
+categories: [web-api-security]
 domains: [backend, data]
 ---
 

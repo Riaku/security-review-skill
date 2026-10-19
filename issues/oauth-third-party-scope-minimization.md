@@ -1,5 +1,5 @@
 ---
-categories: [authentication, third-party-integrations]
+categories: [third-party-integrations]
 domains: [backend]
 ---
 

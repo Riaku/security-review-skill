@@ -1,5 +1,5 @@
 ---
-categories: [containers-k8s]
+categories: [authorization-access-control, containers-k8s]
 domains: [infrastructure]
 ---
 

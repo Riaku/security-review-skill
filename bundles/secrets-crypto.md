@@ -1,4 +1,4 @@
-# secrets-crypto — full checklist (31 items)
+# secrets-crypto — full checklist (30 items)
 
 Secrets handling and cryptographic primitives.
 
@@ -186,16 +186,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 **Detect:** inventory integration creds: count vs documented owners; grep wikis/runbooks/env files for SaaS API keys; check rotation history per integration; flag creds tied to individual employees.
 
 **References:** NIST SP 800-53 IA-5, OWASP Secrets Management Cheat Sheet, vendor SSO/API-token best practices
-
-# Least Privilege
-
-**MUST** grant every service account, role, and credential only the permissions its workload actually uses, verified against observed access rather than assumed needs.
-
-**Why:** Over-broad credentials turn any single compromise into a cluster-wide or account-wide breach.
-
-**Detect:** `cluster-admin`, `roleRef`, `rbac.authorization.k8s.io/v1`, `aws:iam::*:*admin*`, wildcard `"*"` in policy Action/Resource fields.
-
-**References:** OWASP ASVS V1.4.1, CWE-269, NIST SP 800-53 AC-6
 
 # Password Salting
 

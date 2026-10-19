@@ -191,6 +191,16 @@ metadata_options {
 
 **References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
 
+# Feature Flags
+
+**MUST NOT** use feature flags as a substitute for access control; authorization checks belong server-side regardless of a flag's state.
+
+**Why:** Toggling a flag off in the UI while the endpoint stays routable exposes unfinished, unauthenticated functionality to anyone who knows the URL.
+
+**Detect:** grep flag SDK calls (`isEnabled(`, `flipper`, `launchdarkly`) wrapped around UI only while routes lack auth middleware; flags defaulting `true` in prod config.
+
+**References:** OWASP ASVS 4.1 access control, CWE-862 missing authorization, Unleash/LaunchDarkly security guidance
+
 # File Upload Validation
 
 **MUST** Check uploads by magic bytes, enforce extension/size limits, store outside the web root with randomized names.
@@ -514,16 +524,6 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** `requests.get(user_url)`, `urlopen`, `fetch(` on request-derived URLs without IP-blocklist checks.
 
 **References:** OWASP A10:2021, CWE-918, SSRF-Defense list
-
-# Sticky Sessions & Load-Balancer Affinity
-
-**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
-
-**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
-
-**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
-
-**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
 
 # Tenant-ID Spoofing at API Boundary
 

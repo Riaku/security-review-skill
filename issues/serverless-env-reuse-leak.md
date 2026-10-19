@@ -1,5 +1,5 @@
 ---
-categories: [cloud-network, compliance-privacy]
+categories: [compliance-privacy]
 domains: [governance, infrastructure]
 ---
 
