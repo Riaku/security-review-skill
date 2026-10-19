@@ -46,17 +46,27 @@ domains/categories to the user and accept overrides before dispatch.
 
 ### Phase 2 — Dispatch
 
+Build the bulk artifacts once, then hand each sub-agent a single file:
+
+```bash
+python3 scripts/gen_artifacts.py    # writes bundles/<category>.md; gitignored, never shipped
+```
+
 For each selected category, spawn one sub-agent via your harness's parallel-task
 facility (e.g. Hermes `delegate_task`, Claude Code Task tool; sequential fallback
 if none). Fill [`templates/subagent-prompt.md`](templates/subagent-prompt.md)
 with:
 - `{category}` — the category name
-- `{manifest_path}` — absolute path to [`categories/<category>.md`](categories/)
-- `{issues_dir}` — absolute path to this skill's [`issues/`](issues/) directory
+- `{bundle_path}` — absolute path to `bundles/<category>.md`: every item of the
+  category inlined in one file, so the sub-agent does one read, not forty
+- `{manifest_path}` — absolute path to [`categories/<category>.md`](categories/):
+  the category's scope, and what a finding in it looks like
 - `{repo_path}` — absolute path to the target repo
 
-The items for a category are the ones whose frontmatter `categories:` names it;
-the manifest file holds only the category's title and overview.
+Pass the bundle rather than the item directory: it is generated from the items'
+own frontmatter, so it cannot disagree with them as long as it was built after
+the last edit. If `python3` is unavailable where the skill is installed, pass
+`{issues_dir}` instead and let the sub-agent select items by frontmatter.
 
 Launch all categories concurrently where the harness allows.
 
@@ -124,71 +134,11 @@ nothing is silently lost.
 | [regulatory-frameworks](categories/regulatory-frameworks.md) | [government-compliance](domains/government-compliance.md) |
 | [iot-embedded](categories/iot-embedded.md) | [iot-embedded](domains/iot-embedded.md) |
 
-Item counts per category: run
-[`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) — its output line
-names the bundle, item, category and domain totals — or count the slugs whose
-frontmatter names the category.
-
-## File Layout & Access Patterns
-
-- [`issues/<slug>.md`](issues/) — canonical source of truth, one file per
-  checklist item. Its frontmatter (`categories:`, `domains:`) is the single
-  declaration of what the item belongs to; the bundles are built from it. Best
-  for targeted reviews: load only the slugs you need.
-- [`categories/<category>.md`](categories/) — the category's scope (routing):
-  its one-line overview, what it covers, what it does not cover, and what a
-  finding in it looks like. It lists no items; each item's own frontmatter
-  carries that.
-- [`domains/<domain>.md`](domains/) — detection signals and stack quick-maps
-  that name the categories fitting a stack, in plain text (triage).
-- `bundles/<category>.md` — **generated on demand and not committed**: every
-  item whose frontmatter names the category, inlined in one file (header, then
-  item bodies, nothing else). Prefer it when a harness reads whole categories at
-  once (few large reads instead of many small ones). Build the ones you need:
-
-  ```bash
-  python3 scripts/gen_artifacts.py            # writes bundles/, gitignored
-  ```
-
-  If Python is unavailable where the skill is installed, read
-  [`issues/<slug>.md`](issues/) directly — filter by `categories:` in the
-  frontmatter and load only the slugs you need. Never hand-edit a bundle: edit
-  the item and regenerate.
-- [`references/tooling.md`](references/tooling.md) — human-readable scanner/tool
-  catalog by class.
-- [`references/mitre-attack.md`](references/mitre-attack.md) — ATT&CK
-  tactic→issue mapping for tagging detection findings and reviewing telemetry
-  coverage.
-- [`references/platform-hosting.md`](references/platform-hosting.md) — verified
-  vendor security guides + review surfaces per platform (Cloudflare, Vercel,
-  GitHub Pages, Fly.io, Azure, GCP); read the matching section when triage
-  detects the platform.
-- [`references/tree-traversal.md`](references/tree-traversal.md) —
-  frontier/rounds evaluation model (adapted from the `grilling` skill) for
-  Phases 1–3.
-- [`references/severity-rubric.md`](references/severity-rubric.md) — severity
-  definition (exploitability × blast radius × modifiers); sub-agents MUST rate
-  findings against it.
-- [`scripts/gen_artifacts.py`](scripts/gen_artifacts.py) — the generator, and
-  the format gate: it writes `bundles/` (gitignored) from the items'
-  frontmatter, and exits 1 naming the offender when an item's frontmatter is
-  missing, malformed, unsorted or names a category or domain with no file, when
-  an item body does not open with an H1, or when a category manifest has no
-  overview line or nothing declares it. Nothing else in the repo is generated.
-
-Documents cross-link each other with relative markdown links: this file's
-Category Index points at every category, [`references/`](references/) is linked
-from the file layout above, and some references
-([`references/mitre-attack.md`](references/mitre-attack.md)) link straight to the
-items they map. What the *generator* writes no links into is
-[`issues/`](issues/), [`categories/`](categories/) and [`domains/`](domains/):
-an item carries no nav footer, a category carries no item list, and a domain's
-stack quick-map names its categories in plain text. The only generated artifact
-is `bundles/`, which carries the items themselves — and it is not committed, so
-a fresh install has no bundles until the generator is run.
-
-Do not mix granularities for the same review: pick per-item or per-bundle, so
-findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation).
+Other references: [`references/tooling.md`](references/tooling.md) (scanner
+catalog), [`references/mitre-attack.md`](references/mitre-attack.md) (ATT&CK
+tactic→slug mapping) and
+[`references/platform-hosting.md`](references/platform-hosting.md) (per-platform
+review surfaces; read the matching section when triage detects the platform).
 
 ## Pitfalls
 
