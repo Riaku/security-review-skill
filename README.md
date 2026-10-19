@@ -10,6 +10,36 @@ a *References* line.
 Use it when asked to review a project for security issues, production
 readiness, deployment concerns, compliance posture, or a security audit.
 
+## Install
+
+A skill is a directory with a `SKILL.md` at its root, so installing is a clone or
+a copy into whatever directory your harness reads skills from:
+
+```bash
+git clone https://github.com/Riaku/security-review-skill.git \
+  "$SKILLS_DIR/security-review-skill"
+```
+
+There is nothing to build and no service to run: the bundles are committed, and a
+harness that takes a path rather than a directory can simply be pointed at
+`SKILL.md`.
+
+## Usage
+
+Ask your agent to use it, naming the target and the scope you care about:
+
+```
+Review ~/src/my-service with the security-review-skill checklist.
+Focus on the backend and data domains; report MUST violations first.
+```
+
+The skill triages the target against `domains/`, loads only the category bundles
+that apply, and reports findings with item slugs, `file:line` evidence and a
+verdict; `templates/` carries the sub-agent prompt and report format it uses.
+
+Without an agent harness it still works by hand — start at `SKILL.md` and walk the
+phases yourself, since everything is plain Markdown.
+
 ## Layout
 
 - `SKILL.md` — the skill definition: when to use it and the phased workflow
@@ -50,3 +80,22 @@ generator itself, so generating first would overwrite the drift it looks for.
 ## Sources
 
 Full attribution in `SOURCES.md`.
+
+## Licence
+
+[MIT](LICENSE.md). Provenance of the sources this corpus derives from is in
+[SOURCES.md](SOURCES.md), and each item cites its own references.
+
+## Security
+
+See [SECURITY.md](SECURITY.md): report workflow, script or supply-chain issues
+privately through GitHub advisories. Disagreement with an item, and dead or moved
+reference links, are normal issues rather than vulnerabilities.
+
+## Scope and caveats
+
+This is review guidance, not a scanner, and not a substitute for a penetration
+test or a professional audit. Items describe what to look for and why it matters;
+they cannot prove absence, and passing every item is not evidence that a system is
+secure. Nothing here is legal advice — licensing, privacy and regulatory items
+point at the obligations a reviewer should check, not at a legal conclusion.
