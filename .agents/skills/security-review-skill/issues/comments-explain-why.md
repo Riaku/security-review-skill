@@ -1,0 +1,14 @@
+---
+categories: [documentation-quality]
+domains: [backend]
+---
+
+# Comments Explain Why, Not What
+
+**SHOULD** write comments that explain intent, rationale, and constraints — not restate what the code already says.
+
+**Why:** What-comments duplicate the code, go stale on every edit, and crowd out the why-context that actually helps the next reader (and the security reviewer looking for the invariant).
+
+**Detect:** flag comments that restate the adjacent line (`// increment counter` above `count++`); look for TODO/dead commented-out code left in; positive signal: comments citing constraints, bug IDs, invariants, spec sections.
+
+**References:** Code Complete (McConnell) on comments, MIT CommKit coding-and-comment style, Clean Code comment guidance

@@ -110,7 +110,9 @@ delivers what it finished.
   sub-agent and its caller; the deliverable is the Markdown report.
 - Before you merge a return, check it against the category it claims to cover:
   `python3 scripts/category_slugs.py <category> --check <findings.jsonl>`. Exit 0
-  means every owned slug came back; exit 1 names what is missing or unknown.
+  means every owned slug came back; exit 1 names what is missing or unknown. The
+  script reads membership through `gen_artifacts.read_item`, the generator's own
+  reader, so the two cannot disagree about who belongs where.
 - A slug that did not come back MUST appear in the report as `needs-human` — "not
   reported by sub-agent". A partial return parses cleanly, so nothing else catches
   it.
@@ -125,15 +127,13 @@ python3 scripts/check_generated.py
 
 The success line reads `items-valid: … ; no generated artifacts tracked`.
 
-The gate checks four things:
+The gate checks three things:
 
 1. `SKILL.md` frontmatter parses as YAML and has non-empty `name` and
    `description`.
 2. Every item's frontmatter is complete, sorted, unique and names real
    manifests; every body opens with an H1; every category has an overview line.
-3. `category_slugs.py` and the generator agree on every category's membership, so
-   the coverage check cannot report a complete return as incomplete.
-4. No file under `bundles/` is tracked by git.
+3. No file under `bundles/` is tracked by git.
 
 CI installs PyYAML 6.0.2 for check 1. When PyYAML is absent, the gate falls back
 to a pattern check that flags an unquoted scalar containing `: `.
