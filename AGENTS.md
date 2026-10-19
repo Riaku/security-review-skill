@@ -77,6 +77,10 @@ Format: `type(scope): imperative summary`
 - Vague messages are rejected in review: `update`, `fix bug`, `wip`,
   `address review comments` carry no information.
 - Reference issues/PRs in the footer (`Closes #N`).
+- **Sign every commit** (`git commit -s`). CI fails any PR whose commits lack a
+  `Signed-off-by` trailer matching the author — inbound-equals-outbound is
+  enforced, not aspirational. Turn it on permanently for this repo:
+  `git config format.signOff true`.
 - Conventional types are also the input for automated changelogs/version bumps —
   keep the type honest (`feat` vs `fix`), because releases are derived from it.
 
