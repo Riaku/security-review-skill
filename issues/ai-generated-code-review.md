@@ -11,4 +11,4 @@ domains: [governance, infrastructure]
 
 **Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
 
-**References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
+**References:** OWASP LLM05:2025, NIST SSDF PW.7

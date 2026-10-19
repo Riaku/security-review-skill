@@ -1,6 +1,6 @@
 ---
 categories: [hardening-benchmarks]
-domains: [government-compliance]
+domains: [government-compliance, infrastructure]
 ---
 
 # Kernel/Sysctl Hardening

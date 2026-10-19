@@ -1,5 +1,5 @@
 ---
-categories: [containers-k8s, scaling-capacity]
+categories: [containers-k8s, multi-tenancy, scaling-capacity]
 domains: [infrastructure, reliability]
 ---
 

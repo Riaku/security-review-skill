@@ -11,4 +11,4 @@ domains: [government-compliance, reliability]
 
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
-**References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
+**References:** EU Regulation 2022/2554, Commission Delegated Regulation (EU) 2024/1774 (RTS on ICT risk management), Commission Implementing Regulation (EU) 2024/2956 (ITS on the register of information), EIOPA/EBA guidance

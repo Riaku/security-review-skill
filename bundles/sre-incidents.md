@@ -6,7 +6,7 @@ Operational readiness: DR, incidents, SLOs, on-call.
 
 # Availability Zones
 
-**MUST** spread replicas across at least two availability zones so one zone's failure cannot drop the service below minimum capacity.
+**MUST** spread replicas across at least two availability zones — three for N+1 with quorum — and size each surviving zone to carry peak load, so one zone's failure cannot drop the service below minimum capacity.
 
 **Why:** All replicas in one zone means a datacenter event takes down 100% of capacity despite looking available.
 
@@ -100,6 +100,16 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **References:** EBS/PersistentVolume snapshot consistency docs, PostgreSQL backup methods docs, NIST SP 800-34
 
+# Daylight Saving Time
+
+**SHOULD NOT** compute elapsed time or cron schedules by naive clock arithmetic across DST transitions; **SHOULD** test scheduled jobs and time logic across the spring-forward gap and fall-back overlap in the deployment timezone.
+
+**Why:** Skipped and repeated local hours make jobs fire twice, never fire, or report impossible durations — a bug that hides for months and surfaces exactly at the transition.
+
+**Detect:** Cron with fixed local hours, `timedelta(hours=1)` loops over calendar days, `TZ=America/` with `naive` datetimes, no test freezing the clock at a DST boundary (spring-forward gap, fall-back overlap) in the deployment timezone, scheduler docs silent on which timezone governs.
+
+**References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
+
 # Storage Operating Degraded (Degraded RAID/Mirror) Runbook
 
 **MUST** provide a runbook for degraded RAID/mirror states: rebuild procedure, performance limits, escalation threshold.
@@ -128,17 +138,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
-**References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
-
-# DST-Transition Behavior Test
-
-**SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
-
-**Why:** Cron jobs silently skip or double-fire at DST boundaries; "runs every 2h" becomes 23 or 25 runs twice a year — a bug that hides for months and hits exactly when you're asleep.
-
-**Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
-
-**References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
+**References:** EU Regulation 2022/2554, Commission Delegated Regulation (EU) 2024/1774 (RTS on ICT risk management), Commission Implementing Regulation (EU) 2024/2956 (ITS on the register of information), EIOPA/EBA guidance
 
 # Error Budgets
 
@@ -178,7 +178,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Detect:** `terminationGracePeriodSeconds`, `SIGTERM` handler absent, `preStop` hook missing, `kill -9` in stop scripts.
 
-**References:** Kubernetes termination docs, CWE-227, Google SRE Book
+**References:** Kubernetes termination docs, CWE-404, Google SRE Book
 
 # Health Checks
 
@@ -186,7 +186,7 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 
 **Why:** A process that answers while its database is dead passes naive checks and keeps serving broken responses to users.
 
-**Detect:** `GET /healthz`, `/health`, `HEALTHCHECK` in Dockerfiles, `livenessProbe` without DB checks, `readinessProbe` hitting only static 200.
+**Detect:** `GET /healthz`, `/health`, `HEALTHCHECK` in Dockerfiles, `readinessProbe` hitting only static 200 or checking process liveness instead of dependencies, and the inverse error of a `livenessProbe` wired to a DB/cache check — dependency checks in liveness kill pods during a downstream outage.
 
 **References:** Kubernetes health checks, K8s docs, CWE-770, SRE Book
 
@@ -326,7 +326,7 @@ health_check: {interval: 10s, timeout: 5s,
 
 **SHOULD NOT** contract externally committed availability that internal SLOs and capacity cannot demonstrably sustain.
 
-**Why:** An SLA looser than engineering reality triggers credits, churn, and legal exposure every time the system behaves as built.
+**Why:** An SLA tighter than engineering reality triggers credits, churn, and legal exposure every time the system behaves as built.
 
 **Detect:** SLA text vs `slo:` config mismatch, no credit policy, uptime claims without measurement source.
 

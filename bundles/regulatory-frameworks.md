@@ -22,7 +22,7 @@ Audit and regulatory regimes.
 
 **Detect:** grep for "IRAP", "ISM", "PROTECTED", "hosting provider" in deployment docs; AU data in non-assessed regions, missing controls mapping.
 
-**References:** Australian ISM (PSPF), IRAP (Digital Trust Framework), PSPG
+**References:** Australian Information Security Manual (ISM), Protective Security Policy Framework (PSPF), IRAP (Information Security Registered Assessors Program)
 
 # Breach notification clocks across jurisdictions
 
@@ -46,7 +46,7 @@ Audit and regulatory regimes.
 
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
-**MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
+**MUST** obtain verifiable parental consent before collecting personal data from under-13 US users (COPPA, 16 CFR 312), and where UK users are likely to be children apply the age-appropriate design code and use age verification or age estimation that is highly effective at determining whether a user is a child (Online Safety Act 2023 s.12(6)).
 
 **Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 
@@ -56,7 +56,7 @@ Audit and regulatory regimes.
 
 # China PIPL (cross-border security assessment, separate consent, localization)
 
-**MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
+**MUST** use one of PIPL Art. 38's transfer mechanisms (CAC security assessment, CAC standard-contract filing, or PI-protection certification) where the Art. 40 thresholds apply, obtain separate consent for sensitive PI (Art. 29) and for the cross-border transfer (Art. 39), and localise within China where Art. 40 applies.
 
 **Why:** Transferring Chinese user data abroad without CAC approval halts operations and triggers fines up to 5% of revenue plus criminal exposure.
 
@@ -72,15 +72,15 @@ Audit and regulatory regimes.
 
 **Detect:** grep for "CJIS", "ORI", "CHRI" markers; missing MFA, absent audit trails, unencrypted backup media in CJIS-scoped repos.
 
-**References:** CJIS Security Policy v5.9, FBI CJIS Division, NIST SP 800-53
+**References:** CJIS Security Policy v6.1 (2026), FBI CJIS Division, NIST SP 800-53
 
 # CMMC (defense supply chain)
 
-**MUST** achieve the CMMC maturity level required by contract for each enclave processing FCI or CUI, with an assessed scope covering all connected vendor systems.
+**MUST** achieve the CMMC 2.0 level required by contract (Level 1, 2, or 3) for each enclave processing FCI or CUI, with an assessed scope covering all connected vendor systems.
 
 **Why:** Unassessed subcontractors are the classic supply-chain entry point; one compromised small vendor can expose the entire defense program.
 
-**Detect:** grep vendor contracts/repos for "CMMC", "FCI", "CUI" scope statements; missing maturity evidence, unscoped integrations touching CUI flows.
+**Detect:** grep vendor contracts/repos for "CMMC", "FCI", "CUI" scope statements; missing level-assessment evidence, unscoped integrations touching CUI flows.
 
 **References:** CMMC 2.0, NIST SP 800-171, DFARS 252.204-7021
 
@@ -122,13 +122,13 @@ Audit and regulatory regimes.
 
 **Detect:** grep for "DORA", "TLPT", "critical functions register", ICT exit plans; missing incident escalation, unregistered ICT providers.
 
-**References:** EU Regulation 2022/2554, ESA RTS/ITS on RTS, EIOPA/EBA guidance
+**References:** EU Regulation 2022/2554, Commission Delegated Regulation (EU) 2024/1774 (RTS on ICT risk management), Commission Implementing Regulation (EU) 2024/2956 (ITS on the register of information), EIOPA/EBA guidance
 
 # EU AI Act conformity (risk tiering, GPAI obligations, transparency and deployment deadlines)
 
 **MUST** classify each AI system's risk tier and meet the corresponding obligations—transparency notices, conformity assessment for high-risk, GPAI documentation—before the phased enforcement deadlines.
 
-**Why:** Systems deployed without risk classification face market withdrawal and fines up to 7% of turnover once enforcement phases begin.
+**Why:** Systems deployed without risk classification face market withdrawal and administrative fines of up to EUR 15M or 3% of worldwide turnover (Art. 99(4)); prohibited practices carry up to EUR 35M or 7% (Art. 99(3)).
 
 **Detect:** grep for "high-risk", "GPAI", "Annex III", "conformity", "Article 50 transparency"; AI features with no risk tier or labeling.
 
@@ -186,13 +186,13 @@ Audit and regulatory regimes.
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** honour consent given, managed, reviewed, or withdrawn through a Consent Manager registered with the Data Protection Board of India, and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 
 **Detect:** grep for "DPDP", "consent manager", "data fiduciary", grievance officer; consent captured without registered manager, no breach notification process.
 
-**References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
+**References:** DPDP Act 2023, DPDP Rules 2025, India Data Protection Board
 
 # ISO/IEC 27001 ISMS
 
@@ -228,7 +228,7 @@ Audit and regulatory regimes.
 
 **MUST** implement risk management, incident reporting within 24/72-hour milestones, and supply-chain security for entities in essential/important sectors.
 
-**Why:** NIS2 makes management personally liable and fines up to 10M EUR; late incident reports compound penalties after an attack.
+**Why:** NIS2 makes management personally liable and fines reach at least EUR 10M or 2% of worldwide turnover (whichever is higher) for essential entities (EUR 7M or 1.4% for important entities); late incident reports compound penalties after an attack.
 
 **Detect:** grep for "NIS2", incident response SLA docs, "24 hours"/"72 hours" reporting; missing supply-chain audits, absent vulnerability disclosure policy.
 
@@ -276,13 +276,13 @@ Audit and regulatory regimes.
 
 # PCI DSS as Audit Regime (SAQ, CDE scoping)
 
-**MUST** scope the cardholder data environment accurately and complete the correct SAQ level (or full ROC) for the actual card data flow, not the desired one.
+**MUST** scope the cardholder data environment accurately and complete the correct SAQ type (or a QSA-led ROC) for the actual card data flow, not the desired one.
 
 **Why:** Under-scoped CDEs are the most common PCI failure: one stray database storing PANs drags the whole network into breach liability.
 
 **Detect:** grep for "PAN", "cardholder", "CDE", "SAQ-" in configs; card data in logs, unsegmented networks, SAQ type mismatched to flow.
 
-**References:** PCI DSS v4.0.1, SAQ A-D, PCI SSC scoping guidance
+**References:** PCI DSS v4.0.1, SAQ A, A-EP, B, B-IP, C, C-VT, D, PCI SSC scoping guidance
 
 # Post-quantum cryptography migration plan and crypto-agility
 
@@ -312,7 +312,7 @@ Audit and regulatory regimes.
 
 **Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
 
-**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-268 Privilege Chaining, OWASP ASVS V1.4, SLSA provenance requirements
 
 # SOC 2 as Audit Regime (CCs, evidence collection)
 

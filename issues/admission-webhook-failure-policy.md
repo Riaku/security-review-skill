@@ -11,4 +11,4 @@ domains: [infrastructure, reliability]
 
 **Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
 
-**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
+**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-833, SRE postmortem patterns

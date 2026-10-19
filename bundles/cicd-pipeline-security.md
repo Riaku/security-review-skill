@@ -22,7 +22,7 @@ CI/CD system as an attack surface.
 
 **Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
 
-**References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
+**References:** OWASP LLM05:2025, NIST SSDF PW.7
 
 # Default admin password, signing key and webhook auth on control planes
 
@@ -122,7 +122,7 @@ CI/CD system as an attack surface.
 
 **Detect:** CODEOWNERS covering auth/crypto paths, PR templates with security checklist items, branch protection requiring ≥1 approval; self-merged security PRs in git log.
 
-**References:** OWASP ASVS V1.1.4, NIST SP 800-218 (SSDF) (code review), OWASP Code Review Guide v2, CWE-1068 (design/practice inconsistency)
+**References:** OWASP ASVS V1.1.7, NIST SP 800-218 (SSDF) (code review), OWASP Code Review Guide v2, CWE-1068 (Inconsistency Between Implementation and Documented Design)
 
 # Docker-in-Docker / Privileged Build Steps in CI
 
@@ -138,11 +138,11 @@ CI/CD system as an attack surface.
 
 **MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.
 
-**Why:** Copied files and build args persist in layer history and are recoverable from any pushed image with `docker history`.
+**Why:** Copied files and build args persist in the final image: copied file contents remain in the saved layers of any pushed image, and ARG/ENV values stay visible in `docker history` and image metadata.
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
 
 # GitOps Repo Write Access Equals Cluster Write Access
 
@@ -182,7 +182,7 @@ CI/CD system as an attack surface.
 
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI/CD Top 10 CICD-SEC-10, CWE-1156, NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+**References:** NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
@@ -248,9 +248,9 @@ CI/CD system as an attack surface.
 
 **MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
 
-**Why:** Unattended agents run with no human per task — GitHub documents a dedicated automations-risk section; DeepSeek's review harness gives inbound webhook auth ZERO outbound authority by design.
+**Why:** Unattended agents run with no human per task, so every capability they hold is reachable from whatever triggers them; an automation must not inherit outbound authority from an inbound webhook or schedule it does not control.
 
 **Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
 
-**References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
+**References:** GitHub Copilot coding agent risks and mitigations, OWASP LLM06:2025 Excessive Agency, NIST SP 800-53 AC-6
 

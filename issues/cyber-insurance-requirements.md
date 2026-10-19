@@ -1,6 +1,6 @@
 ---
 categories: [regulatory-frameworks, security-practices]
-domains: [backend, government-compliance]
+domains: [governance]
 ---
 
 # Cyber insurance alignment: coverage preconditions and denial clauses

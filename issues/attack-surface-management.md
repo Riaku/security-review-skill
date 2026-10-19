@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** Certstream/subdomain enumeration output, `external-exposure.csv`, cloud security hub findings, diff of DNS zone records vs. approved inventory.
 
-**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-119, AWS Security Hub, Cloudflare for Teams
+**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One

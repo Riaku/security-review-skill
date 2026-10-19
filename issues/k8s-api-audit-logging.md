@@ -11,4 +11,4 @@ domains: [infrastructure, reliability]
 
 **Detect:** check kube-apiserver flags `--audit-policy-file`, `--audit-log-path`; grep manifests for `audit.k8s.io/v1` Policy; verify long retention on the sink.
 
-**References:** CIS Kubernetes 1.2.1–1.2.4, CWE-778, NIST SP 800-92, K8s docs audit-policy
+**References:** CIS Kubernetes Benchmark 1.2.x (API-server audit settings: --audit-policy-file, --audit-log-path, rotation and retention), CWE-778, NIST SP 800-92, K8s docs audit-policy

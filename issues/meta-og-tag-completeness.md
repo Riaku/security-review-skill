@@ -5,7 +5,7 @@ domains: [frontend]
 
 # Meta & OG Tag Completeness
 
-**SHOULD** emit per-page title (unique, ≤60 chars), meta description, Open Graph, and Twitter Card tags — generated from content, not boilerplate.
+**SHOULD** emit per-page title (unique, concise), meta description, Open Graph, and Twitter Card tags — generated from content, not boilerplate.
 
 **Why:** Missing/duplicated titles and descriptions degrade SERP click-through and make every shared link render blank in social/messaging previews.
 

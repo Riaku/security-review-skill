@@ -51,8 +51,17 @@ def main() -> int:
     paths = bundles()
     before = {p: p.read_text(encoding="utf-8") for p in paths}
 
-    subprocess.run([sys.executable, str(GENERATOR)],
-                   check=True, stdout=subprocess.DEVNULL)
+    result = subprocess.run([sys.executable, str(GENERATOR)],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+                            text=True)
+    if result.returncode != 0:
+        # The generator is the format gate and its own message is the useful
+        # one, so surface that instead of a CalledProcessError traceback.
+        print("the generator failed — fix that first, then re-run this check:")
+        error = (result.stderr or "").strip()
+        print(f"  {error}" if error else
+              f"  {GENERATOR.relative_to(ROOT)} exited {result.returncode}")
+        return 1
 
     drifted = []
     for p in paths:

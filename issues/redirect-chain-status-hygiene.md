@@ -11,4 +11,4 @@ domains: [frontend]
 
 **Detect:** crawl and flag redirect_count > 1; check removed-content routes return 200 with "not found" body (soft-404) via Search Console coverage report.
 
-**References:** Google Search Central redirect docs, RFC 7231 status semantics, soft-404 guidance
+**References:** Google Search Central redirect docs, RFC 9110 §15.4/§15.5 (redirection and client-error status codes), soft-404 guidance

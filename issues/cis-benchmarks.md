@@ -19,7 +19,7 @@ domains: [government-compliance, infrastructure]
 **Good:**
 ```yaml
 # CI job on every image build + weekly cluster scan
-- run: kube-bench --json | jq '[.NodeResults[].Tests[] | select(.failures>0)]'
+- run: kube-bench --json | jq '[.Controls[].tests[].results[] | select(.status=="FAIL")]'
 # failures fail the build unless matched to a registered exception
 ```
 

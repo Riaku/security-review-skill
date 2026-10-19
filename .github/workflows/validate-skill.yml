@@ -14,10 +14,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Format gate (bundles generate from the item frontmatter)
-        run: python3 scripts/gen_artifacts.py
-
-      - name: Bundles in sync with the generator
+      # check_generated.py runs the generator itself, and the generator is the
+      # format gate. Generating before it would overwrite the very drift it is
+      # looking for, so this is the only generation step in CI.
+      - name: Bundles in sync with the generator (and format gate)
         run: python3 scripts/check_generated.py
 
       - name: Size budgets (SKILL.md < 500 lines, issues <= 1500 words)

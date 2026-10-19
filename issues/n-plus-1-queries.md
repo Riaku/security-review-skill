@@ -25,4 +25,4 @@ for b in books:
     print(b.author.name)   # single JOIN
 ```
 
-**References:** OWASP ASVS V3.1, Django ORM performance docs, nplusone (N+1 detection library), CWE-400
+**References:** Django ORM performance docs, nplusone (N+1 detection library), CWE-400

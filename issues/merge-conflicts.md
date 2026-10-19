@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** `<<<<<<<`, `=======`, `>>>>>>>` in tracked files, conflict resolved without re-running tests, security files merged without review.
 
-**References:** CWE-1152, OWASP ASVS 15.2, Git conflict docs
+**References:** OWASP ASVS 15.2, Git conflict docs

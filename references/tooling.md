@@ -129,6 +129,6 @@ substituted with an equivalent from the same class.
 - Tool output is input to findings, not the finding itself: ground every
   finding in file:line you read, per the skill's verification rule.
 - Pin scanner versions and rule bundles in CI for reproducibility
-  (see `pinned-ci-actions`).
+  (see [ci-action-pinning](../issues/ci-action-pinning.md)).
 - False-positive triage is part of the review; record suppressed findings with
   justification rather than deleting them.

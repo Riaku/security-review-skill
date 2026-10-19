@@ -27,4 +27,4 @@ def handler(event, ctx):
     return {"sso": profile["email"]}
 ```
 
-**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 S3:2017 (Sensitive Data Exposure)

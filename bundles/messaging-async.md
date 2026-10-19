@@ -107,7 +107,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-837, AWS REL11-BP08
 
 # Job Age SLO
 
@@ -207,7 +207,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 **Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
 
-**References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
+**References:** OWASP Multi-Tenant Security Cheat Sheet (queue isolation patterns), bulkheads pattern
 
 # Webhook Replay Protection
 
@@ -221,7 +221,7 @@ for r in db.rows.gt(cur).limit(1000):
 
 # Webhook Signature Verification
 
-**MUST** Verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
+**MUST** verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
 
 **Why:** Unsigned endpoints accept forged events — fake payments, refunds, account changes.
 

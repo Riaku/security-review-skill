@@ -1,5 +1,5 @@
 ---
-categories: [authorization-access-control]
+categories: [authorization-access-control, multi-tenancy]
 domains: [backend]
 ---
 

@@ -12,7 +12,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
 
-**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
+**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 8.11 (Conduct Audit Log Reviews)
 
 # Agent Session-Log Traceability
 
@@ -42,7 +42,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** grep auth pipeline for absent `impossible_travel`, `geoip`, `ua_fingerprint` checks; no step-up MFA on new-device login; no alerting on geo-velocity anomalies.
 
-**References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
+**References:** OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
 
 # Audit-Log Chain of Custody
 
@@ -86,7 +86,7 @@ Logs, metrics, traces, profiling, alerting.
 
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
-**SHOULD** Track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
+**SHOULD** track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
 
 **Why:** Aggregate budgets miss slow-burn regressions like an N+1 query tripling per-request cost, and anomaly detection is often the first visible signal of credential abuse mining compute.
 
@@ -107,11 +107,11 @@ Logs, metrics, traces, profiling, alerting.
 
 # Crash-Loop Restart Storms Bounded and Alarmed
 
-**SHOULD** bound restart backoff and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.
+**SHOULD** bound a crash-looping workload's blast radius (restart deadline, quota, node-level backoff tuning where available) and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.
 
 **Why:** Unbounded rapid restarts amplify load on kubelet and API server while the underlying error goes unnoticed until an outage.
 
-**Detect:** No alert on `kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}`; `restartPolicy` with no backoff ceiling or paging rule.
+**Detect:** No alert on `kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}` and no paging rule for it; no `activeDeadlineSeconds` or quota bounding an endlessly restarting workload (`restartPolicy` accepts only `Always`/`OnFailure`/`Never` and carries no backoff ceiling).
 
 **References:** K8s docs backoff, kube-state-metrics CrashLoopBackOff, CWE-770, SRE alerting practices
 
@@ -223,7 +223,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** check kube-apiserver flags `--audit-policy-file`, `--audit-log-path`; grep manifests for `audit.k8s.io/v1` Policy; verify long retention on the sink.
 
-**References:** CIS Kubernetes 1.2.1–1.2.4, CWE-778, NIST SP 800-92, K8s docs audit-policy
+**References:** CIS Kubernetes Benchmark 1.2.x (API-server audit settings: --audit-policy-file, --audit-log-path, rotation and retention), CWE-778, NIST SP 800-92, K8s docs audit-policy
 
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
@@ -277,7 +277,7 @@ Logs, metrics, traces, profiling, alerting.
 
 # Log Rotation
 
-**MUST** configure rotation and retention for every locally written log file so disks never fill and evidence survives long enough to investigate.
+**MUST** configure rotation and retention for every log file a process writes on a host or VM (in containers, rotate at the node or collector instead, never in-pod) so disks never fill and evidence survives long enough to investigate.
 
 **Why:** Unrotated logs fill the volume and crash the service, while over-short retention erases the audit trail mid-incident.
 
@@ -323,7 +323,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** grep metric definitions for labels like `user=`, `email=`, `url=`, `path=` with raw request data; review Prometheus `label_replace` and histogram bucket counts.
 
-**References:** Prometheus cardinality guidance, CWE-400, Grafana LTS high-availability docs
+**References:** Prometheus cardinality guidance, CWE-400
 
 # Object-Level Data Access Logging
 
@@ -333,7 +333,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
 
-**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
+**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 3.x (logging), aquasecurity/trivy-checks storage logging rules
 
 # OpenTelemetry
 

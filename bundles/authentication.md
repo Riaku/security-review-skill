@@ -32,7 +32,7 @@ Identity, credentials, session lifecycle.
 
 **Detect:** grep auth pipeline for absent `impossible_travel`, `geoip`, `ua_fingerprint` checks; no step-up MFA on new-device login; no alerting on geo-velocity anomalies.
 
-**References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
+**References:** OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
 
 # API Gateway / Edge Endpoints Deployed Without Authorizers
 
@@ -80,7 +80,7 @@ MyMethod:
 
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
-**References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
+**References:** CIS K8s 5.1.6, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
 # Breached & Common Password Blocklist
 
@@ -110,7 +110,7 @@ MyMethod:
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, draft-ietf-httpbis-rfc6265bis §4.1.2.7 (SameSite), OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
 
 # Credential Access Detection (keylogging, token theft, credential dumping patterns)
 
@@ -130,7 +130,7 @@ MyMethod:
 
 **Detect:** `spec.serviceAccountName` absent or `default` in Deployments/Pods/StatefulSets; `default` SA bound to any Role/ClusterRole beyond the baseline; IAM roles (e.g. EKS IRSA annotations) attached to workloads running as `default`. Policy engines: Kyverno `require-dedicated-service-accounts` / a equivalent admission rule.
 
-**References:** CIS Kubernetes 5.1.4 (minimize default SA admission), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
+**References:** CIS Kubernetes 5.1.5 (default service accounts not actively used), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
 
 # Default & Weak Credentials in Shipped Software
 
@@ -140,7 +140,7 @@ MyMethod:
 
 **Detect:** grep configs/seed files for `admin:admin`, `changeme`, `default_password`, hardcoded credentials in Docker images, demo accounts in fixtures shipped to prod.
 
-**References:** CWE-1188, OWASP A05:2021, CIS Control 5.4, NIST SP 800-118
+**References:** CWE-1188, OWASP A05:2021, CIS Control 4.7, NIST SP 800-63B
 
 # Insufficient Randomness for Tokens and IDs
 
@@ -223,7 +223,7 @@ mtls:
 
 **Detect:** grep router config for missing global auth middleware, routes without `@authenticated`/`requireAuth`, `public: true` as default, admin endpoints outside auth filter chain.
 
-**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 4.5
+**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 6.7 (Centralize Access Control)
 
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
@@ -353,7 +353,7 @@ mtls:
 
 **Detect:** grep logout handler for missing token blacklist/`jti` denylist, no `/revoke` endpoint, Redis denylist absent, logout only clears client cookie.
 
-**References:** RFC 7009, RFC 8725 §4.1, OWASP A02:2021, NIST SP 800-53 SC-23
+**References:** RFC 7009 §2.1 (revocation request), OWASP A02:2021, NIST SP 800-53 SC-23
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 

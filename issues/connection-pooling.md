@@ -22,7 +22,11 @@ def handler(event, ctx):
 ```python
 pool = psycopg2.pool.ThreadedConnectionPool(2, 20, DSN)  # module-level
 def handler(event, ctx):
-    with pool.getconn() as conn: ...
+    conn = pool.getconn()
+    try:
+        ...
+    finally:
+        pool.putconn(conn)   # `with conn:` would only end the transaction
 ```
 
-**References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, OWASP ASVS V3.1, AWS Lambda connection management guide
+**References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, psycopg2 pool docs (getconn/putconn), AWS Lambda connection management guide

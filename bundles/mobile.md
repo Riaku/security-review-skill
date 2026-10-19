@@ -12,7 +12,7 @@ Mobile client security.
 
 **Detect:** grep for `certificatePinner`, `TrustKit`, `ServerTrustPolicy`, `network_security_config.xml` with `pin-set`; absence in Retrofit/OkHttp/URLSession configs.
 
-**References:** OWASP MASVS-NETWORK-4, CWE-295, OWASP MAS Testing Guide Network Interception
+**References:** OWASP MASVS-NETWORK-1, CWE-295, OWASP MAS Testing Guide Network Interception
 
 # Deep Link / Universal Link Validation
 
@@ -22,7 +22,7 @@ Mobile client security.
 
 **Detect:** grep `AppDelegate continueUserActivity`, `onNewIntent`, `intent-filter`, `universalLinksOnly`; review handlers for missing authz checks on link parameters.
 
-**References:** OWASP MASVS-PLATFORM-6, CWE-20, CWE-639, OWASP MAS Testing Guide Client-Side Attack Surface
+**References:** OWASP MASVS-PLATFORM-1, CWE-20, CWE-639, OWASP MAS Testing Guide Client-Side Attack Surface
 
 # Mobile Reverse-Engineering & Tamper Protection
 
@@ -32,7 +32,7 @@ Mobile client security.
 
 **Detect:** grep `SafetyNet`/`Play Integrity`, `jailbreak`/`rootbeer`, `isDebuggerConnected`, `ptrace`, `frida`; verify Play Integrity / App Attest server-side validation exists.
 
-**References:** OWASP MASVS-RESILIENCE-1..4, CWE-919, MAS Testing Guide Tampering and Reverse Engineering
+**References:** OWASP MASVS-RESILIENCE-1..4, MAS Testing Guide Tampering and Reverse Engineering
 
 # Mobile Secure Storage (Keychain/Keystore)
 

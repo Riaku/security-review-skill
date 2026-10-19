@@ -11,4 +11,4 @@ domains: [government-compliance]
 
 **Detect:** grep for "IRAP", "ISM", "PROTECTED", "hosting provider" in deployment docs; AU data in non-assessed regions, missing controls mapping.
 
-**References:** Australian ISM (PSPF), IRAP (Digital Trust Framework), PSPG
+**References:** Australian Information Security Manual (ISM), Protective Security Policy Framework (PSPF), IRAP (Information Security Registered Assessors Program)

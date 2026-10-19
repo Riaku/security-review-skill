@@ -63,15 +63,15 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** gzip/brotli on auth pages with CSRF tokens or API keys in body; `compression: true` with no secret-response exclusion.
 
-**References:** CWE-310, CRIME (CVE-2012-4929), BREACH (CVE-2013-3587)
+**References:** CWE-203, CRIME (CVE-2012-4929), BREACH (CVE-2013-3587)
 
 # CRDs Without OpenAPI Validation Schemas
 
-**MUST** define an OpenAPI v3 validation schema for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.
+**MUST** define a structural OpenAPI v3 validation schema (`spec.versions[*].schema.openAPIV3Schema`) for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.
 
 **Why:** Schema-less CRDs admit arbitrary fields, letting a bad manifest crash controllers or smuggle input into privileged reconcile logic.
 
-**Detect:** `kubectl get crd -o yaml` showing empty `validation.openAPIV3Schema`; CRDs missing `x-kubernetes-*` structural markers.
+**Detect:** `kubectl get crd -o yaml` and inspect `spec.versions[*].schema.openAPIV3Schema` for `x-kubernetes-preserve-unknown-fields: true`, `additionalProperties: true`, or empty `properties` objects — for `apiextensions.k8s.io/v1` a structural schema is required, so validation is only ever absent by explicit opt-out.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
 
@@ -83,7 +83,7 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
-**References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
+**References:** OWASP API3:2023, CWE-213
 
 # gRPC
 
@@ -123,7 +123,7 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** `http2_max_concurrent_streams`, `initial_stream_window_size`, absent h2 settings in Envoy/nginx `http2` blocks.
 
-**References:** RFC 9113 §6.9, CWE-400, nginx http2 directives
+**References:** RFC 9113 §6.5.2 and §6.9, CWE-400, nginx http2 directives
 
 # HTTP/3 / QUIC
 
@@ -233,7 +233,7 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **Detect:** grep logout handler for missing token blacklist/`jti` denylist, no `/revoke` endpoint, Redis denylist absent, logout only clears client cookie.
 
-**References:** RFC 7009, RFC 8725 §4.1, OWASP A02:2021, NIST SP 800-53 SC-23
+**References:** RFC 7009 §2.1 (revocation request), OWASP A02:2021, NIST SP 800-53 SC-23
 
 # WebSockets
 

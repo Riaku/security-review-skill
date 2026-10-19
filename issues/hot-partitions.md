@@ -7,7 +7,7 @@ domains: [data]
 
 **MUST** distribute write load across partitions or shards so no single partition absorbs a disproportionate share of traffic.
 
-**Why:** A partition keyed on a monotonic value like today's date concentrates all current writes on one node, throttling throughput and amplifying the blast radius of a single-node failure while the rest of the cluster idles.
+**Why:** A partition keyed on a monotonic value like today's date sends every current write to the single newest partition — same server, same WAL, same buffer pool — saturating that partition's throughput and lock contention while the older ones idle; spreading writes across machines is a separate sharding decision that Postgres partitioning does not make for you.
 
 **Detect:** Look for shard keys built from `CURRENT_DATE`, timestamps, or auto-increment IDs used directly as the partition key; check DDL for `PARTITION BY RANGE (created_at)` with no salting and per-partition write metrics for skew.
 
@@ -24,11 +24,16 @@ CREATE TABLE events (
 **Good:**
 ```sql
 CREATE TABLE events (
-    shard smallint,
+    id bigserial,
+    user_id bigint,
     created_at timestamptz,
     payload jsonb
-) PARTITION BY HASH (shard), RANGE (created_at);
--- shard = hash(user_id) % N spreads writes
+) PARTITION BY RANGE (created_at);
+-- Postgres allows one strategy per table: range on created_at, then hash each
+-- child on user_id so a day's writes spread over N sub-partitions
+CREATE TABLE events_2026_10 PARTITION OF events
+    FOR VALUES FROM ('2026-10-01') TO ('2026-11-01')
+    PARTITION BY HASH (user_id);
 ```
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns

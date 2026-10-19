@@ -23,4 +23,4 @@ CREATE TABLE payments (order_id INT REFERENCES orders(id) ON DELETE CASCADE);
 REFERENCES users(id) ON DELETE RESTRICT  -- force explicit, reviewed cleanup
 ```
 
-**References:** PostgreSQL ON DELETE actions, OWASP ASVS V6.4 (data retention), CWE-459
+**References:** PostgreSQL ON DELETE actions, OWASP ASVS 4.0.3 V8.3.8 (data retention), CWE-459

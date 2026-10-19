@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** Pact consumer/provider specs, OpenAPI schema validation in CI (`schemathesis`, `dredd`), missing contract checks on internal REST/gRPC services.
 
-**References:** OWASP API Security Top 10 API2, CWE-20, NIST SP 800-218 (SSDF)
+**References:** OWASP API Security Top 10 API10:2023 (Unsafe Consumption of APIs), CWE-20, NIST SP 800-218 (SSDF)

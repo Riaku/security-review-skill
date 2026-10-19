@@ -13,3 +13,4 @@ Privacy, compliance-adjacent code, AI features, payments.
 - User personal data stored → compliance-privacy
 - Payment flows → payments-fraud, compliance-privacy
 - LLM/vector features → ai-llm, supply-chain
+- Outbound email (transactional or bulk) → email-security

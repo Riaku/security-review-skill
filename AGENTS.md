@@ -18,20 +18,23 @@ Never open a PR — and never ask for review — with a red or pending-critical 
 Run the full CI-equivalent **locally** before pushing:
 
 ```bash
-python3 scripts/gen_artifacts.py      # write every bundle from the items' frontmatter
-python3 scripts/check_generated.py    # committed bundles must match the generator
+python3 scripts/check_generated.py    # FIRST: reports bundles that no longer match
+python3 scripts/gen_artifacts.py      # then write every bundle from the frontmatter
 ```
 
 Both must exit 0. Notes:
 
+- **Order matters.** `check_generated.py` snapshots the committed bundles and
+  then runs the generator itself, so it catches a commit where an item changed
+  but its bundle did not. Running the generator first overwrites exactly the
+  drift it is looking for and turns the check green — never script the two the
+  other way round.
 - `gen_artifacts.py` is also the format gate: it refuses to write anything and
   names the offending file when an item's frontmatter is missing, malformed,
-  unsorted or names a category/domain with no file, when an item body does not
-  open with an H1, or when a category manifest has no overview line or nothing
-  declares it. A format problem cannot reach a bundle.
-- `check_generated.py` then compares the committed bundles with what the
-  generator produces, so an item edit that was not followed by a regeneration
-  fails here.
+  unsorted, declared twice or names a category or domain with no file, when an
+  item body does not open with an H1, when a category manifest has no overview
+  line or nothing declares it, and when `bundles/` holds a file no category
+  regenerates. A format problem cannot reach a bundle.
 - After merges/refactors that remove or rename slugs, remap every reference in the
   items' frontmatter and in SKILL.md's Category Index table, then regenerate.
   Membership is declared once, in `issues/*.md`, so those are the only places a
@@ -79,12 +82,13 @@ Every PR body MUST contain:
 
 1. **Summary** — what changed and why (one short paragraph + list).
 2. **Test plan** — the exact commands run and their real output line
-   (e.g. `OK: 616 issues, 35 categories, 9 domains`), with checkboxes for
-   anything verified in CI.
+   (e.g. the generator's `wrote N bundles from N items …` line, or
+   `bundles-in-sync: N bundles OK`), with checkboxes for anything verified in
+   CI.
 3. **Deferred/follow-ups** — anything noticed but intentionally not done here.
 
 State honest counts; never carry a number remembered from a previous session —
-recount from the validator output.
+recount from the generator's or the check's own output line.
 
 ## Versioning policy
 

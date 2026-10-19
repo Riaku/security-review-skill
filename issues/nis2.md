@@ -7,7 +7,7 @@ domains: [government-compliance]
 
 **MUST** implement risk management, incident reporting within 24/72-hour milestones, and supply-chain security for entities in essential/important sectors.
 
-**Why:** NIS2 makes management personally liable and fines up to 10M EUR; late incident reports compound penalties after an attack.
+**Why:** NIS2 makes management personally liable and fines reach at least EUR 10M or 2% of worldwide turnover (whichever is higher) for essential entities (EUR 7M or 1.4% for important entities); late incident reports compound penalties after an attack.
 
 **Detect:** grep for "NIS2", incident response SLA docs, "24 hours"/"72 hours" reporting; missing supply-chain audits, absent vulnerability disclosure policy.
 

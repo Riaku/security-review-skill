@@ -5,7 +5,7 @@ domains: [backend, infrastructure]
 
 # Debug/Dev Mode in Production
 
-**MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
+**MUST NOT** ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
 
 **Why:** Traceback pages leak source and secrets; debug consoles allow code execution.
 

@@ -1,18 +1,8 @@
-# supply-chain — full checklist (26 items)
+# supply-chain — full checklist (25 items)
 
 Dependencies, artifacts, build provenance.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/supply-chain.md](../categories/supply-chain.md) · Index: [SKILL.md](../SKILL.md)
-
-# Artifact Signing & Provenance (cosign/Sigstore/SBOM)
-
-**MUST** sign released images and attach provenance attestations plus an SBOM generated inside the trusted build pipeline.
-
-**Why:** Unsigned artifacts can be swapped or forged after build with no way to trace who produced what, defeating every downstream integrity check.
-
-**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files.
-
-**References:** SLSA L3, Sigstore docs, NIST SP 800-161, NTIA SBOM minimum elements
 
 # Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
 
@@ -22,7 +12,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
-**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
+**References:** SLSA Build Level 3, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
 
 # Broken Link & Dependency Hijacking
 
@@ -36,13 +26,13 @@ Dependencies, artifacts, build provenance.
 
 # Build Provenance Attestation (SLSA-style signed provenance for artifacts)
 
-**MUST** attach signed provenance (source, builder, inputs) to every published artifact so consumers can verify its origin.
+**MUST** sign released images and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline to every published artifact, so consumers can verify both origin and contents.
 
-**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream.
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream, and without provenance or an SBOM there is no record of which source and builder produced what.
 
-**Detect:** grep `slsa`, `provenance`, `cosign attest`, `sigstore`, `in-toto` in CI configs and release steps.
+**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files.
 
-**References:** SLSA v1.0, in-toto attestation framework, NIST SP 800-218 (SSDF), CWE-494
+**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, CWE-494
 
 # CI Action Pinning (SHA not tag)
 
@@ -72,7 +62,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** `.npmrc`/`pip.conf` without scoped `@internal:registry=`; `pip install` without `--index-url`; internal names absent from private registry listings.
 
-**References:** CWE-427, OWASP A06:2021, Alex Birsan 2021 disclosure
+**References:** CWE-427, OWASP A08:2021, Alex Birsan 2021 disclosure
 
 # Dependency Vulnerabilities
 
@@ -172,7 +162,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
-**References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
+**References:** OWASP LLM03:2025, MITRE ATLAS, CWE-829
 
 # Model Artifact Integrity (pickle-format models)
 
@@ -212,7 +202,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** `SOURCE_DATE_EPOCH` unset; build scripts embedding `date`/`hostname`; `-trimpath` absent in Go builds; unreproducible flag in `reproducible-builds.org` checks.
 
-**References:** CWE-937, reproducible-builds.org, SLSA L3
+**References:** reproducible-builds.org, SLSA L3
 
 # SBOM Generation & Retention (CycloneDX/SPDX per build, kept for incident response)
 
@@ -242,7 +232,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
 
-**References:** SLSA L4, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.4
+**References:** SLSA L3, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control)
 
 # Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
 

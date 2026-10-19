@@ -11,4 +11,4 @@ domains: [data]
 
 **Detect:** grep for `redis.lock`/`Redlock` usage without passing a monotonic token to the write path, missing `SET NX PX` expiry, lock release without owner-ID verification.
 
-**References:** Kleppmann "How to do distributed locking", Martin Farber Redlock critique, CWE-662
+**References:** Kleppmann "How to do distributed locking" (2016), antirez "Is Redlock safe?" (2016), CWE-662

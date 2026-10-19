@@ -23,4 +23,4 @@ idle_in_transaction_session_timeout = 60s
 ALTER ROLE app_report SET idle_in_transaction_session_timeout = '300s'
 ```
 
-**References:** PostgreSQL idle_in_transaction_session_timeout docs, CWE-404 Improper Resource Shutdown, pg_stat_activity guides
+**References:** PostgreSQL idle_in_transaction_session_timeout docs, CWE-404 Improper Resource Shutdown or Release, pg_stat_activity guides

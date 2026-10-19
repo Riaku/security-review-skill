@@ -5,7 +5,7 @@ domains: [infrastructure]
 
 # Public S3 Buckets
 
-**MUST NOT** Any bucket holding application data, backups, or user content be publicly readable or writable; Block Public Access must be on at account and bucket level.
+**MUST NOT** Any bucket holding application data, backups, or user content be publicly readable or writable; Block Public Access **MUST** be enabled at account and bucket level.
 
 **Why:** Misconfigured ACLs and `Principal: "*"` policies are the most common cause of large-scale data leaks — and write-enabled buckets allow malware hosting or ransom via object overwrite.
 

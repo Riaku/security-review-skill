@@ -97,7 +97,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
-**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
+**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1609 Container Administration Command, NIST SP 800-190
 
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
@@ -107,7 +107,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
 
-**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
+**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.006, NIST SP 800-190
 
 # Least Privilege
 
@@ -177,7 +177,7 @@ Who may do what: RBAC, RLS, least privilege.
 
 **Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
 
-**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-268 Privilege Chaining, OWASP ASVS V1.4, SLSA provenance requirements
 
 # Vertical Privilege Escalation / Function-Level Authorization
 

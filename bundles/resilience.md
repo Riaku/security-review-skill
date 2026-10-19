@@ -12,7 +12,7 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
 
-**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
+**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-833, SRE postmortem patterns
 
 # Backlog Catch-Up Throttling
 
@@ -72,7 +72,7 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** grep `fallback`, `default_value`, cached-response fallbacks, per-dependency feature flags.
 
-**References:** Netflix fallback patterns, Google SRE Book graceful degradation, CWE-251
+**References:** Netflix fallback patterns, Google SRE Book graceful degradation
 
 # Idempotency (idempotency keys)
 
@@ -82,11 +82,11 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** Check POST endpoints for `Idempotency-Key` handling, `idempotency_key` unique constraint, dedupe cache; grep payment API routes and migration files for `dedupe`.
 
-**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-1394, AWS REL11-BP08
+**References:** Stripe Idempotent Requests, draft-ietf-httpapi-idempotency-key-header, CWE-837, AWS REL11-BP08
 
 # Jitter
 
-**MUST NOT** schedule retries, refreshes, or polling on exact fixed intervals; randomize timing so replica timers never align.
+**MUST NOT** let retries, refreshes, or polling across replicas or clients share exact fixed intervals; randomize the timing (full/decorrelated jitter on retries) so timers never align.
 
 **Why:** Identical timers synchronize into spikes that repeatedly knock over a recovering service.
 
@@ -162,7 +162,7 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** grep identical `ttl` on hot keys, fixed `expireAt`, missing `singleflight` or `stale-while-revalidate`, notify-all locks.
 
-**References:** Thundering herd problem, Cloudflare stale-while-revalidate, nginx cache lock, CWE-1340, REL11-BP04
+**References:** Thundering herd problem, Cloudflare stale-while-revalidate, nginx cache lock, CWE-770, REL11-BP04
 
 # Timeout Budgets / Deadline Propagation
 

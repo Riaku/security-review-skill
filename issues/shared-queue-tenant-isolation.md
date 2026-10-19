@@ -11,4 +11,4 @@ domains: [backend, data]
 
 **Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
 
-**References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
+**References:** OWASP Multi-Tenant Security Cheat Sheet (queue isolation patterns), bulkheads pattern

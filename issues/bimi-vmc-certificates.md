@@ -9,6 +9,6 @@ domains: [governance]
 
 **Why:** Without BIMI/VMC, spoofed phishing emails render indistinguishable from legitimate brand mail; with it, forged senders visibly fail.
 
-**Detect:** `dig default._bimi.<domain>` for BIMI record; verify logo is SVGZ with valid VMC/CMC; confirm DMARC alignment is a prerequisite (BIMI requires enforcement policy).
+**Detect:** `dig default._bimi.<domain>` for BIMI record; verify the logo is SVG Portable/Secure (SVG P/S, commonly served as .svgz) with a valid VMC/CMC; confirm DMARC alignment is a prerequisite (BIMI requires enforcement policy).
 
 **References:** bimigroup.org, Google Postmaster BIMI requirements, M3AAWG sender best practices

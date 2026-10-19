@@ -5,7 +5,7 @@ domains: [governance, government-compliance]
 
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
-**MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
+**MUST** obtain verifiable parental consent before collecting personal data from under-13 US users (COPPA, 16 CFR 312), and where UK users are likely to be children apply the age-appropriate design code and use age verification or age estimation that is highly effective at determining whether a user is a child (Online Safety Act 2023 s.12(6)).
 
 **Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 

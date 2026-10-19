@@ -23,4 +23,4 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 -- or explicit: SELECT ... FOR UPDATE on the row being modified
 ```
 
-**References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, JEP-001 (Heroku), CWE-362
+**References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, Jepsen analyses (jepsen.io/analyses), CWE-362

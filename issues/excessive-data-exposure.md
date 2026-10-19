@@ -11,4 +11,4 @@ domains: [backend, governance]
 
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
-**References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
+**References:** OWASP API3:2023, CWE-213

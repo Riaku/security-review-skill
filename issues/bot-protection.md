@@ -5,10 +5,10 @@ domains: [backend]
 
 # Bot Protection
 
-**MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).
+**MUST** challenge automated clients on login, signup, password-reset, and other abuse-prone flows with bot detection or a challenge (fingerprinting, proof-of-work, CAPTCHA), on top of whatever rate limiting applies.
 
-**Why:** Unprotected endpoints enable credential stuffing, account enumeration, and resource exhaustion attacks at scale.
+**Why:** Credential stuffing and signup abuse are spread across large proxy pools, so per-IP throttling alone does not stop them; a challenge is what separates a script from a user.
 
-**Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
+**Detect:** grep auth flows for a challenge step (`captcha`, `recaptcha`, `turnstile`, `hcaptcha`, `bot_detection`, `proof_of_work`) or bot-detection middleware; a login route with throttling but no challenge at all.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet

@@ -86,7 +86,7 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 # Meta & OG Tag Completeness
 
-**SHOULD** emit per-page title (unique, ≤60 chars), meta description, Open Graph, and Twitter Card tags — generated from content, not boilerplate.
+**SHOULD** emit per-page title (unique, concise), meta description, Open Graph, and Twitter Card tags — generated from content, not boilerplate.
 
 **Why:** Missing/duplicated titles and descriptions degrade SERP click-through and make every shared link render blank in social/messaging previews.
 
@@ -102,7 +102,7 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 **Detect:** crawl and flag redirect_count > 1; check removed-content routes return 200 with "not found" body (soft-404) via Search Console coverage report.
 
-**References:** Google Search Central redirect docs, RFC 7231 status semantics, soft-404 guidance
+**References:** Google Search Central redirect docs, RFC 9110 §15.4/§15.5 (redirection and client-error status codes), soft-404 guidance
 
 # Robots.txt & noindex Governance
 
@@ -126,7 +126,7 @@ Search visibility, crawl/index hygiene, and page experience (Google Search Centr
 
 # XML Sitemap Maintenance
 
-**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.
+**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and reference it from robots.txt and submit it through Search Console (Google retired the sitemaps ping endpoint in 2023).
 
 **Why:** A stale sitemap (listing removed, noindex, or redirected URLs) wastes crawl budget and delays discovery of real content.
 

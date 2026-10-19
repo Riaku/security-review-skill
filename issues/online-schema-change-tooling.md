@@ -13,13 +13,14 @@ domains: [data, infrastructure]
 
 **Bad:**
 ```sql
--- 400 GB table, exclusive lock for hours
-ALTER TABLE orders ADD COLUMN promo_code varchar(32);
+-- 400 GB table: changing a column's type rebuilds the table and blocks
+-- concurrent DML (MySQL 8.0 online DDL: Instant No, Permits Concurrent DML No)
+ALTER TABLE orders MODIFY promo_code text;
 ```
 
 **Good:**
 ```bash
-gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
+gh-ost --table=orders --alter="MODIFY promo_code text" \
   --execute   # ghost-table copy, seconds-long cutover
 ```
 
