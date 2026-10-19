@@ -9,7 +9,7 @@ license: MIT
 metadata:
   author: security-review-skill contributors
   spec: https://agentskills.io/specification
-  attribution: Full source list in SOURCES.md. Seed: 250-item list by @ghumare64 (https://x.com/ghumare64/status/2111332908657148356); system-design content from Arjay McCandless's Cheat Sheet and Ultimate System Design Playbook; expanded from OWASP/NIST/MITRE/SLSA and vendor platform guides.
+  attribution: "Full source list in SOURCES.md. Seed: 250-item list by @ghumare64 (https://x.com/ghumare64/status/2111332908657148356); system-design content from Arjay McCandless's Cheat Sheet and Ultimate System Design Playbook; expanded from OWASP/NIST/MITRE/SLSA and vendor platform guides."
 ---
 
 # Security Review Skill
@@ -126,8 +126,8 @@ nothing is silently lost.
 
 Item counts per category: run
 [`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) — its output line
-names the bundle, item, category and domain totals — or count the items inlined
-in a category's bundle.
+names the bundle, item, category and domain totals — or count the slugs whose
+frontmatter names the category.
 
 ## File Layout & Access Patterns
 
@@ -137,16 +137,23 @@ in a category's bundle.
   for targeted reviews: load only the slugs you need.
 - [`categories/<category>.md`](categories/) — the category's scope (routing):
   its one-line overview, what it covers, what it does not cover, and what a
-  finding in it looks like. It lists no items; the bundle carries those.
+  finding in it looks like. It lists no items; each item's own frontmatter
+  carries that.
 - [`domains/<domain>.md`](domains/) — detection signals and stack quick-maps
   that name the categories fitting a stack, in plain text (triage).
-- [`bundles/<category>.md`](bundles/) — **generated** bulk artifact: every item
-  whose frontmatter names the category, inlined in one file (header, then item
-  bodies, nothing else). Prefer these when a harness reads whole categories at
-  once (few large reads instead of many small ones). Never hand-edit bundles;
-  edit [`issues/<slug>.md`](issues/) and re-run
-  [`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) — the generator
-  groups items by their own frontmatter.
+- `bundles/<category>.md` — **generated on demand and not committed**: every
+  item whose frontmatter names the category, inlined in one file (header, then
+  item bodies, nothing else). Prefer it when a harness reads whole categories at
+  once (few large reads instead of many small ones). Build the ones you need:
+
+  ```bash
+  python3 scripts/gen_artifacts.py            # writes bundles/, gitignored
+  ```
+
+  If Python is unavailable where the skill is installed, read
+  [`issues/<slug>.md`](issues/) directly — filter by `categories:` in the
+  frontmatter and load only the slugs you need. Never hand-edit a bundle: edit
+  the item and regenerate.
 - [`references/tooling.md`](references/tooling.md) — human-readable scanner/tool
   catalog by class.
 - [`references/mitre-attack.md`](references/mitre-attack.md) — ATT&CK
@@ -163,11 +170,11 @@ in a category's bundle.
   definition (exploitability × blast radius × modifiers); sub-agents MUST rate
   findings against it.
 - [`scripts/gen_artifacts.py`](scripts/gen_artifacts.py) — the generator, and
-  the format gate: it writes [`bundles/`](bundles/) from the items' frontmatter,
-  and exits 1 naming the offender when an item's frontmatter is missing,
-  malformed, unsorted or names a category or domain with no file, when an item
-  body does not open with an H1, or when a category manifest has no overview
-  line or nothing declares it. Nothing else in the repo is generated.
+  the format gate: it writes `bundles/` (gitignored) from the items'
+  frontmatter, and exits 1 naming the offender when an item's frontmatter is
+  missing, malformed, unsorted or names a category or domain with no file, when
+  an item body does not open with an H1, or when a category manifest has no
+  overview line or nothing declares it. Nothing else in the repo is generated.
 
 Documents cross-link each other with relative markdown links: this file's
 Category Index points at every category, [`references/`](references/) is linked
@@ -177,7 +184,8 @@ items they map. What the *generator* writes no links into is
 [`issues/`](issues/), [`categories/`](categories/) and [`domains/`](domains/):
 an item carries no nav footer, a category carries no item list, and a domain's
 stack quick-map names its categories in plain text. The only generated artifact
-is [`bundles/`](bundles/), which carries the items themselves.
+is `bundles/`, which carries the items themselves — and it is not committed, so
+a fresh install has no bundles until the generator is run.
 
 Do not mix granularities for the same review: pick per-item or per-bundle, so
 findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation).
@@ -195,10 +203,9 @@ findings cite consistently ([`issues/<slug>.md`](issues/) is always the citation
 
 ## Verification
 
-Run [`python3 scripts/check_generated.py`](scripts/check_generated.py) first — it
-snapshots the committed bundles and then runs the generator itself, so it is the
-leg that catches a bundle which no longer matches its items — and
-[`python3 scripts/gen_artifacts.py`](scripts/gen_artifacts.py) to write them.
-Together those two are the whole gate. The generator's line names how many
-bundles it wrote and how many items, categories and domains it saw; read that
+Run [`python3 scripts/check_generated.py`](scripts/check_generated.py) — the
+whole gate. It runs the generator into a throw-away directory, so a malformed
+item fails there with the offending file named, and it fails if any bundle has
+been re-added to git, since generated files in the index are exactly what makes
+the skill expensive to install. Its last line names the counts it saw; read that
 line for the numbers, never a figure remembered from a previous session.

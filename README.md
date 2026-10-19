@@ -20,9 +20,9 @@ git clone https://github.com/Riaku/security-review-skill.git \
   "$SKILLS_DIR/security-review-skill"
 ```
 
-There is nothing to build and no service to run: the bundles are committed, and a
-harness that takes a path rather than a directory can simply be pointed at
-`SKILL.md`.
+There is nothing to build and no service to run: the checklist is plain
+Markdown, and a harness that takes a path rather than a directory can simply be
+pointed at `SKILL.md`.
 
 ## Usage
 
@@ -49,10 +49,10 @@ phases yourself, since everything is plain Markdown.
   the item belongs to. Best for targeted reviews: load only the slugs you need.
 - `categories/<category>.md` — the category's scope: its one-line overview plus
   what it covers, what it does not cover, and what a finding in it looks like.
-  It lists no items; the bundle carries those.
+  It lists no items; each item's own frontmatter carries that.
 - `domains/<domain>.md` — detection signals and a stack quick-map for triage.
-- `bundles/<category>.md` — generated bulk artifact: every item of a category
-  inlined in one file.
+- `bundles/<category>.md` — generated on demand and gitignored, never shipped:
+  every item of a category inlined in one file.
 - `references/` — hand-authored reference material: the tooling catalog, the
   MITRE ATT&CK mapping, platform-hosting notes, the severity rubric and the
   tree-traversal guide.
@@ -60,7 +60,8 @@ phases yourself, since everything is plain Markdown.
 - `scripts/` — the generator and the checks. There is no data file: an item's
   category and domain membership lives in its own frontmatter.
 
-`bundles/` are generated: edit `issues/<slug>.md` and re-run the generator.
+`bundles/` is **generated on demand and not committed** — run
+`python3 scripts/gen_artifacts.py` when you want whole categories in one read.
 `issues/`, `categories/` and `domains/` are authored end to end — no item
 carries a nav footer, no category carries an item list.
 
@@ -70,12 +71,12 @@ See `AGENTS.md` for the required workflow (branch per change, PR-only to
 `main`, pre-PR gate). The rules in brief:
 
 ```bash
-python3 scripts/check_generated.py   # FIRST: report bundles that no longer match
-python3 scripts/gen_artifacts.py     # then write every bundle from the frontmatter
+python3 scripts/check_generated.py   # the whole gate — must exit 0
 ```
 
-Both must exit 0 before opening a PR. The order matters: the check runs the
-generator itself, so generating first would overwrite the drift it looks for.
+It validates every item's frontmatter and fails if a generated bundle has been
+committed. The success line reads `items-valid: … ; no generated artifacts
+tracked`.
 
 ## Sources
 

@@ -8,13 +8,14 @@ Phases 1–3.
 ## The tree
 
 - **Root** — the target repo.
-- **Domain nodes** (8) — settled by detection signals in `domains/*.md`.
+- **Domain nodes** — one per `domains/*.md`, settled by its detection signals.
   A domain is *settled* when you have inspected the repo and recorded
   applies / not-applies (with the signal that decided it).
-- **Category nodes** (29) — settled by the domain's stack quick-map.
+- **Category nodes** — one per `categories/*.md`, settled by the domain's stack
+  quick-map.
   A category is *unblocked* when at least one applying domain lists it.
-- **Leaf nodes** (557 issues) — each `issues/<slug>.md` is a leaf hanging
-  off its category. A leaf is *evaluable* when its category is unblocked.
+- **Leaf nodes** — each `issues/<slug>.md` is a leaf hanging off its category.
+  A leaf is *evaluable* when its category is unblocked.
 
 ## Work in rounds, not one giant pass
 
@@ -50,7 +51,7 @@ Classify the target before dispatching — the shape changes the strategy:
   fabricate coverage.
 - **Monorepo** (many packages): scope per top-level package or per
   changed area; run triage once per package, then traverse each with its
-  own frontier. Never fan 29 categories over 2M files undifferentiated.
+  own frontier. Never fan every category over 2M files undifferentiated.
 - **Generated-code-only**: review the generator and its templates, not
   the output.
 - **Changed-files-scoped (PR review)**: map changed files → categories

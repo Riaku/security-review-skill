@@ -19,6 +19,11 @@ category, in slug order. Nothing is written into ``issues/``, ``categories/``
 or ``domains/`` — those documents are authored end to end, and the footers and
 item lists that used to be generated into them are gone.
 
+``bundles/`` is gitignored, not committed: it is built on demand by a reviewer
+who wants whole categories in one read, and generating it must never dirty the
+working tree. Pass ``--out DIR`` to write somewhere else (the gate does, into a
+temporary directory).
+
 This script is also the format gate. It refuses to write anything, exiting 1
 with the offending file named, when:
 
@@ -125,9 +130,16 @@ def overview_of(path: pathlib.Path) -> str:
         f"needs one, and each bundle quotes it")
 
 
-def main() -> int:
+def main(argv: list[str]) -> int:
     if not SKILL_FILE.exists():
         raise BuildError("SKILL.md not found at the repo root")
+
+    out_dir = BUNDLES_DIR
+    if "--out" in argv:
+        try:
+            out_dir = pathlib.Path(argv[argv.index("--out") + 1]).resolve()
+        except IndexError:
+            raise BuildError("--out needs a directory path")
 
     manifests = {p.stem: p for p in _md_files(CATEGORIES_DIR)}
     known_doms = {p.stem for p in _md_files(DOMAINS_DIR)}
@@ -170,16 +182,16 @@ def main() -> int:
             parts += [items[slug][1], ""]
         rendered[cat] = "\n".join(parts) + "\n"
 
-    BUNDLES_DIR.mkdir(exist_ok=True)
-    orphans = sorted(p.name for p in _md_files(BUNDLES_DIR)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    orphans = sorted(p.name for p in _md_files(out_dir)
                      if p.stem not in manifests)
     if orphans:
         raise BuildError(
-            "bundles/ holds file(s) no category regenerates — a renamed or "
-            f"deleted category left them behind; delete them: {', '.join(orphans)}")
+            f"{out_dir.name}/ holds file(s) no category regenerates — a renamed "
+            f"or deleted category left them behind; delete them: {', '.join(orphans)}")
 
     for cat, text in rendered.items():
-        (BUNDLES_DIR / f"{cat}.md").write_text(text, encoding="utf-8")
+        (out_dir / f"{cat}.md").write_text(text, encoding="utf-8")
 
     print(f"wrote {len(manifests)} bundles from {len(items)} items "
           f"({len(manifests)} categories, {len(known_doms)} domains)")
@@ -188,7 +200,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     try:
-        raise SystemExit(main())
+        raise SystemExit(main(sys.argv[1:]))
     except BuildError as exc:
         print(f"error: {exc}", file=sys.stderr)
         raise SystemExit(1)
