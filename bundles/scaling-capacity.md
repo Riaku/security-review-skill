@@ -1,4 +1,4 @@
-# scaling-capacity — full checklist (20 items)
+# scaling-capacity — full checklist (19 items)
 
 Scaling behavior and capacity limits.
 
@@ -114,16 +114,6 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-401, NIST SP 800-53 SI-7
 
-# Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
-
-**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
-
-**Why:** Without quotas, a runaway or malicious workload exhausts shared CPU/memory, degrading every other namespace on the cluster.
-
-**Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
-
-**References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
-
 # Non-Functional Requirements Traceability
 
 **SHOULD** record non-functional requirements (scale targets, latency SLOs, availability, durability, compliance) as explicit, testable constraints that architecture decisions reference.
@@ -137,12 +127,13 @@ Scaling behavior and capacity limits.
 # Noisy-neighbor isolation between tenants/workloads
 
 **MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
+**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
 
-**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located.
+**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located, and a runaway or malicious workload in an unbounded namespace exhausts shared CPU/memory, degrading every other namespace on the cluster.
 
-**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
+**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps, namespaces with no `ResourceQuota`/`LimitRange` objects, and tenant namespaces sharing unbounded node pools.
 
-**References:** CWE-770, Kubernetes QoS/ResourceQuota docs
+**References:** CWE-770, Kubernetes QoS/ResourceQuota docs, CIS K8s 5.2.1, K8s quotas/limitranges docs, NIST SP 800-190 5.3
 
 # OOM Killer
 
@@ -154,25 +145,25 @@ Scaling behavior and capacity limits.
 
 **References:** CWE-400, Kubernetes QoS docs, NIST SP 800-184, kernel OOM protection (oom_score_adj)
 
-# Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
+# Complexity on Hot Paths & Quadratic Nested Loops (O(n²) on unbounded input)
 
-**MUST NOT** nest loops over two externally sized collections without a bound on either dimension.
+**MUST NOT** nest loops over two externally sized collections without a bound on either dimension; **SHOULD** know the complexity of hot paths against realistic input sizes before shipping, not just correctness.
 
-**Why:** A modest payload (10k × 10k) becomes 100M operations, letting one cheap request saturate CPU for everyone.
+**Why:** A modest payload (10k × 10k) becomes 100M operations, letting one cheap request saturate CPU for everyone, and an unnoticed linear or worse scan inside a request turns moderate traffic into timeouts and CPU saturation.
 
-**Detect:** `for ... for` over request arrays, `.map` inside `.filter` on user lists, join without index, no max-length on both sides.
+**Detect:** `for ... for` over request arrays, `.map` inside `.filter` on user lists, join without index, no max-length on both sides; `in` membership on lists in loops, sort-then-scan per request, no complexity note on hot functions.
 
-**References:** CWE-407, CWE-834, OWASP API DoS guidance
+**References:** CWE-407, CWE-834, OWASP API DoS guidance, OWASP ASVS V11.1.3/V11.1.4
 
-# Sticky Sessions & Load-Balancer Affinity
+# Stateless Services & Sticky-Session Affinity
 
-**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+**SHOULD** keep session and application state external (datastore, token) so any replica can serve any request; **SHOULD NOT** rely on sticky sessions to make a stateful design work — if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
 
-**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem; locally stored sessions break autoscaling and failover the same way, silently logging users out or losing their cart when a node is killed.
 
-**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; `session.save_path` on local disk, `JSESSIONID` sticky sessions, writes to `/tmp` or pod-local volumes; test node drain behavior.
 
-**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, The Twelve-Factor App (processes)
 
 # Volume IOPS/throughput ceilings profiled before launch
 

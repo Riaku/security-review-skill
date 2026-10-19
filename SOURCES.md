@@ -67,7 +67,7 @@ contributed. Kept current as new sources are mined.
 | Gemini Code Assist style guide & docs — https://cloud.google.com/gemini/docs/code-review/style-guide | review-category framing; .aiexclude exclusion pattern |
 | OpenAI Codex security docs — https://developers.openai.com/codex/agent-approvals-security.md | v15: sandbox×approval matrix, two-phase secret lifecycle, cached-search injection defense |
 | Amazon Q Developer docs (code reviews / severity / MCP security) — https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/code-reviews.md | six review classes; CVSS×access×effort severity matrix; MCP trust principles |
-| 12-Factor App — https://12factor.net/ | v16: backing-services-attached-resources, build-release-run-separation, logs-as-event-streams, one-off-admin-processes |
+| 12-Factor App — https://12factor.net/ | v16: twelve-factor-apps, build-release-run-separation, logs-as-event-streams, one-off-admin-processes |
 | Martin Fowler — Microservices (Decentralized Data Management) — https://martinfowler.com/articles/microservices.html | v16: database-per-service |
 | Catio — Architecture as Code — https://www.catio.tech/blog/architecture-as-code | v16: architecture-fitness-functions (per Ford/Parsons/Kua, Building Evolutionary Architectures) |
 | aquasecurity/trivy-checks — https://github.com/aquasecurity/trivy-checks | v17: management-plane-activity-alerting, object-level-data-access-logging, dedicated-service-accounts, secrets-in-launch-payloads (mined from 1,103 Rego checks / 995 AVD docs; bulk of remaining checks mapped to existing generic items) |

@@ -1,4 +1,4 @@
-# containers-k8s — full checklist (44 items)
+# containers-k8s — full checklist (43 items)
 
 Container and Kubernetes runtime configuration.
 
@@ -344,16 +344,6 @@ iptables -A FORWARD -m set --match-set blacklist dst -j DROP
 
 **References:** CIS Docker 4.5, NIST SP 800-190 §4.2.2 (stale images in registries), OWASP A08 Software Supply Chain, CWE-829
 
-# Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
-
-**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
-
-**Why:** Without quotas, a runaway or malicious workload exhausts shared CPU/memory, degrading every other namespace on the cluster.
-
-**Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
-
-**References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
-
 # Node Disk/Memory Pressure Eviction Behavior Understood
 
 **SHOULD** document and test how kubelet evicts pods under DiskPressure/MemoryPressure, ordering QoS classes and PDBs correctly.
@@ -390,12 +380,13 @@ spec:
 # Noisy-neighbor isolation between tenants/workloads
 
 **MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
+**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
 
-**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located.
+**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located, and a runaway or malicious workload in an unbounded namespace exhausts shared CPU/memory, degrading every other namespace on the cluster.
 
-**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
+**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps, namespaces with no `ResourceQuota`/`LimitRange` objects, and tenant namespaces sharing unbounded node pools.
 
-**References:** CWE-770, Kubernetes QoS/ResourceQuota docs
+**References:** CWE-770, Kubernetes QoS/ResourceQuota docs, CIS K8s 5.2.1, K8s quotas/limitranges docs, NIST SP 800-190 5.3
 
 # Non-Root Containers
 

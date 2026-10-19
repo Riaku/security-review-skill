@@ -1,4 +1,4 @@
-# cloud-network — full checklist (59 items)
+# cloud-network — full checklist (56 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
@@ -169,30 +169,6 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **References:** CWE-295, CWE-299, OWASP ASVS V9.2.1, OWASP WSTG-CRYP-01
 
-# Cloud Billing Alerts
-
-**MUST** Budget alarms exist at account and per-project level, wired to a channel someone actually reads, with thresholds low enough to catch a runaway resource before it becomes a five-figure month.
-
-**Why:** Compromised keys, crypto-mining spin-ups, and retry-storm Lambda loops all manifest first as a billing spike; teams without alarms discover them at invoice time, weeks after the abuse started.
-
-**Detect:** Check IaC for AWS Budgets / GCP Budget Alerts / Azure Cost Management exports — absence is the finding. Verify recipients are distribution lists, not one departing engineer, and that daily-velocity checks exist alongside monthly totals.
-
-**Bad:**
-```
-# no budgets defined; first signal is the month-end invoice: $41,000
-```
-
-**Good:**
-```hcl
-resource "aws_budgets_budget" "acct" {
-  budget_limit { amount = 2000 cost_types { include_tax = true } }
-  notification_type { threshold = 500 comparison_operator = "GREATER_THAN"
-    subscriber_info { subscription_type = "EMAIL" address = "ops-alerts@corp" } }
-}
-```
-
-**References:** AWS Budgets docs, GCP Budget alerts, CIS AWS Foundations 4.x, OWASP A09:2021 Logging & Monitoring Failures
-
 # Cloud IAM Privilege Escalation Paths
 
 **MUST** trace every newly granted cloud permission for escalation edges before merge: actions that let a principal widen its own access.
@@ -263,14 +239,16 @@ metadata_options {
 
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
+**MUST** budget alarms exist at account and per-project level, wired to a channel someone actually reads, with thresholds low enough to catch a runaway resource before it becomes a five-figure month.
 **SHOULD** track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
 
-**Why:** Aggregate budgets miss slow-burn regressions like an N+1 query tripling per-request cost, and anomaly detection is often the first visible signal of credential abuse mining compute.
+**Why:** Compromised keys, crypto-mining spin-ups, and retry-storm Lambda loops all manifest first as a billing spike; teams without alarms discover them at invoice time, weeks after the abuse started. Aggregate budgets miss slow-burn regressions like an N+1 query tripling per-request cost, and anomaly detection is often the first visible signal of credential abuse mining compute.
 
-**Detect:** Check for Cost Anomaly Detection subscriptions and velocity-based thresholds. Flag teams tracking only monthly totals. Scan cost-explorer exports for idle resources: unattached EBS volumes, idle NAT gateways, oversized node pools.
+**Detect:** Check IaC for AWS Budgets / GCP Budget Alerts / Azure Cost Management exports — absence is the finding. Verify recipients are distribution lists, not one departing engineer, and that daily-velocity checks exist alongside monthly totals. Check for Cost Anomaly Detection subscriptions and velocity-based thresholds. Flag teams tracking only monthly totals. Scan cost-explorer exports for idle resources: unattached EBS volumes, idle NAT gateways, oversized node pools.
 
 **Bad:**
 ```
+# no budgets defined at all; first signal is the month-end invoice: $41,000
 # one monthly total budget alarm at 100%; regressions invisible until overrun
 ```
 
@@ -278,9 +256,10 @@ metadata_options {
 ```
 # weekly cost/1k-requests trend + anomaly detection (daily, $50 threshold)
 # routed to the owning team's channel, not just finance
+# plus account/per-project aws_budgets_budget at a low threshold -> ops-alerts@corp distribution list
 ```
 
-**References:** AWS Cost Anomaly Detection docs, AWS Well-Architected Cost Optimization pillar, FinOps Framework (finops.org)
+**References:** AWS Budgets docs, GCP Budget alerts, CIS AWS Foundations 4.x, OWASP A09:2021 Logging & Monitoring Failures, AWS Cost Anomaly Detection docs, AWS Well-Architected Cost Optimization pillar, FinOps Framework (finops.org)
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -515,13 +494,13 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **References:** Netflix tuning guides, Netfilter conntrack docs, Google SRE Book (capacity monitoring), USE method
 
-# Firewalls
+# Firewalls & Security Groups
 
-**MUST** Default to deny for all inbound traffic, explicitly allowing only the ports and sources a service actually needs, with rules managed as code rather than clicked in a console.
+**MUST** Default to deny for all inbound traffic, explicitly allowing only the ports and sources a service actually needs, with rules managed as code rather than clicked in a console; security groups in particular **MUST NOT** admit `0.0.0.0/0` or `::/0` on administrative or data ports, and prefer referencing other security groups over raw CIDR ranges.
 
-**Why:** Rules added "temporarily" during incidents accumulate into a wide-open perimeter; a firewall whose real policy is unknown to anyone is not a control, and console-only changes leave no review trail.
+**Why:** Rules added "temporarily" during incidents accumulate into a wide-open perimeter; a firewall whose real policy is unknown to anyone is not a control, and console-only changes leave no review trail. Security groups are the de facto perimeter for every instance in a VPC, and one wide-open rule on Redis, Postgres, or SSH is internet-scanned within hours — ransomware entry points start exactly like this.
 
-**Detect:** Enumerate rulesets for `any`/`0.0.0.0/0` sources on management ports (22, 3389, 5432, 27017, 6379). Diff running state against committed config to catch console drift and ownerless rules.
+**Detect:** Enumerate rulesets for `any`/`0.0.0.0/0` sources on management ports (22, 3389, 5432, 27017, 6379). Grep Terraform `ingress` blocks for `cidr_blocks = ["0.0.0.0/0"]` or `::/0` on administrative or data ports (22/3389/5432/3306/6379/27017), and flag blanket self-referencing groups and unused groups with unclear ownership. Diff running state against committed config to catch console drift.
 
 **Bad:**
 ```
@@ -535,7 +514,17 @@ allow from 10.20.0.0/16 (ops-vpn) to port 22
 deny  from any to any               # explicit default deny, logged
 ```
 
-**References:** CWE-284, CIS Benchmark network rules sections, NIST SP 800-207 Zero Trust Architecture
+**References:** CWE-284, CIS Benchmark network rules sections, CIS AWS Foundations 5.x, AWS VPC security group best practices, NIST SP 800-207 Zero Trust Architecture
+
+# Infrastructure Drift Detection (live state vs IaC and GitOps reconciliation)
+
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes; **SHOULD** also run periodic drift detection on the GitOps path (Flux `diff`/`check`, ArgoCD health) that alerts when live cluster state diverges from the reconciled Git revision.
+
+**Why:** A hand-applied manifest silently overrides GitOps intent, so the next sync either reverts an emergency fix or entrenches an unauthorized change unnoticed; console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
+
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`; check Flux `Kustomization` for `interval`/`retryInterval` with drift alerts, ArgoCD `syncPolicy.automated` plus `selfHeal: true`; grep for out-of-band `kubectl apply` in audit logs.
+
+**References:** Flux drift detection docs, ArgoCD selfHeal, OWASP K8s misconfiguration, NIST SP 800-190 integrity monitoring, NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # HSTS
 
@@ -588,16 +577,6 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 ```
 
 **References:** CWE-444, PortSwigger HTTP desync research, RFC 9112 §6.3 (reject both headers)
-
-# Infrastructure Drift Detection (live state vs IaC diffed and alerted)
-
-**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
-
-**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
-
-**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
-
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # Ingress Controllers
 
@@ -719,10 +698,11 @@ health_check: {interval: 10s, timeout: 5s,
 # Service Mesh Permissive mTLS and Direct-Pod-IP Bypass
 
 **MUST NOT** treat permissive-mode mTLS as an access-control boundary; enforce STRICT mTLS per namespace and pair it with NetworkPolicies that block plaintext direct-pod-IP access.
+**SHOULD** Where a service mesh is deployed, enforce mutual TLS in STRICT mode between sidecars and remove plaintext permissive fallbacks before production sign-off.
 
 **Why:** Permissive mode accepts both meshed (mTLS) and raw plaintext traffic, so an attacker inside the cluster — or a compromised pod — simply bypasses the sidecar by dialing the pod IP on the plaintext port, and any authorization policy keyed on peer identity silently fails open for that path.
 
-**Detect:** Check PeerAuthentication `mtls.mode: PERMISSIVE` (or mesh-wide default), AuthorizationPolicies that allow when principal is empty, CNI/network policies that don't restrict pod ports to sidecar traffic only, and services reachable on `podIP:port` in egress tests. Verify destination rules route through the service, not resolved pod endpoints.
+**Detect:** Check PeerAuthentication `mtls.mode: PERMISSIVE` (or mesh-wide default), AuthorizationPolicies that allow when principal is empty, CNI/network policies that don't restrict pod ports to sidecar traffic only, and services reachable on `podIP:port` in egress tests. Verify destination rules route through the service, not resolved pod endpoints. Also check `PeerAuthentication`/`DestinationRule` for `mtls.mode: STRICT` versus `PERMISSIVE`/`DISABLED`, and look for namespace-wide exemptions and `excludeOutboundPorts` annotations smuggling traffic around the mesh.
 
 **Bad:**
 ```yaml
@@ -737,7 +717,7 @@ mtls:
 # plus NetworkPolicy restricting the port to the mesh sidecar
 ```
 
-**References:** Istio security docs (permissive mTLS caveats), OWASP Kubernetes Top 10, CWE-300
+**References:** Istio security docs (permissive mTLS caveats), Istio mTLS docs, NIST SP 800-207 Zero Trust, CNCF zero-trust whitepaper, OWASP Kubernetes Top 10, CWE-300
 
 # Cloud Metadata Endpoint Credential Theft (IMDS / 169.254.169.254)
 
@@ -933,51 +913,6 @@ resource "aws_s3_bucket_public_access_block" "backups" {
 ```
 
 **References:** CWE-284, CIS AWS Foundations 2.1.5, OWASP A01:2021 Broken Access Control, AWS S3 security best practices
-
-# Security Groups
-
-**MUST NOT** A security group admit `0.0.0.0/0` or `::/0` on administrative or data ports; prefer referencing other security groups over raw CIDR ranges.
-
-**Why:** SGs are the de facto perimeter for every instance in a VPC, and one wide-open rule on Redis, Postgres, or SSH is internet-scanned within hours — ransomware entry points start exactly like this.
-
-**Detect:** Grep Terraform for `cidr_blocks = ["0.0.0.0/0"]` in `ingress` blocks, especially paired with ports 22/3389/5432/3306/6379/27017. Flag blanket self-referencing groups and unused groups with unclear ownership.
-
-**Bad:**
-```hcl
-ingress { from_port = 5432 to_port = 5432 protocol = "tcp"
-         cidr_blocks = ["0.0.0.0/0"] }
-```
-
-**Good:**
-```hcl
-ingress { from_port = 5432 to_port = 5432 protocol = "tcp"
-         security_groups = [aws_security_group.app.id] }  # SG-to-SG
-```
-
-**References:** CIS AWS Foundations 5.x, CWE-284, AWS VPC security group best practices
-
-# Service Mesh
-
-**SHOULD** Where a service mesh is deployed, enforce mutual TLS in STRICT mode between sidecars and remove plaintext permissive fallbacks before production sign-off.
-
-**Why:** A mesh left in PERMISSIVE mode still accepts plaintext, so encryption becomes optional and identity unauthenticated — an attacker inside the cluster can impersonate any service, and the mesh's own telemetry records the impostor.
-
-**Detect:** Check Istio `PeerAuthentication`/`DestinationRule` for `mtls.mode: STRICT` versus `PERMISSIVE`/`DISABLED`. Look for namespace-wide exemptions and `excludeOutboundPorts` annotations smuggling traffic around the mesh.
-
-**Bad:**
-```yaml
-kind: PeerAuthentication
-spec: { mtls: { mode: PERMISSIVE } }   # plaintext still accepted
-```
-
-**Good:**
-```yaml
-spec:
-  mtls: { mode: STRICT }
-  selector: { matchLabels: { app: payments } }
-```
-
-**References:** Istio mTLS docs, NIST SP 800-207 Zero Trust, CNCF zero-trust whitepaper
 
 # Subdomain Takeover / Dangling DNS
 

@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (35 items)
+# compliance-privacy — full checklist (34 items)
 
 Privacy operations and data protection in code.
 
@@ -94,13 +94,13 @@ Privacy operations and data protection in code.
 
 **References:** GDPR Ch. V, Russian 152-FZ, China PIPL Art. 40, ISO 27018
 
-# Data Retention & Deletion Pipelines
+# Data Retention, Erasure & Tenant Offboarding Purge
 
-**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups.
+**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups; a departing tenant's data **MUST** be purged from primary stores, replicas, caches, search indexes, analytics, backups policy, and third-party processors, with verification and attestation evidence that the purge completed.
 
-**Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold.
+**Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold. Offboarded tenant data lingering in a warehouse layer or search index is the same breach waiting to be discovered, and "we deleted the account" rarely means everything.
 
-**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap.
+**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap. For offboarding, review the tenant purge runbook and code against the actual datastore inventory, look for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` compared with the active-tenant set), and confirm a purge verification/attestation step exists.
 
 **Bad:**
 ```python
@@ -115,7 +115,7 @@ db.users.mark_deleted(id)          # tombstone
 outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
-**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018
+**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018, SOC 2 CC6, OWASP Multi-Tenant Security Cheat Sheet
 
 # DSAR Fulfillment (GDPR access/deletion requests)
 
@@ -376,23 +376,14 @@ def handler(event, ctx):
 
 **References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
 
-# Tenant Offboarding Data Purge
-
-**MUST** provide a verified, complete tenant purge: primary stores, replicas, caches, search indexes, backups policy, analytics, and third-party processors — with attestation evidence.
-
-**Why:** Offboarded tenant data lingering in a warehouse layer or search index is a compliance breach waiting to be discovered; "we deleted the account" rarely means everything.
-
-**Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
-
-**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Cheat Sheet
-
 # Vendor/third-party risk management and subprocessor registers
 
+**MUST** vet critical suppliers at onboarding and re-review their security posture on a fixed cadence.
 **SHOULD** maintain a current register of every vendor and its subprocessors with review dates, data access scope, and breach-notification terms.
 
-**Why:** Breaches frequently originate downstream; without a register you cannot assess exposure or notify affected parties when a vendor falls.
+**Why:** Breaches frequently originate downstream; without a register you cannot assess exposure or notify affected parties when a vendor falls. A single compromised or negligent vendor becomes your breach: SolarWinds showed one upstream can poison thousands of downstream users.
 
-**Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses.
+**Detect:** Missing vendor register doc or spreadsheet; SaaS admin lists without subprocessor pages checked; contracts lacking breach-notification SLA clauses; no `vendor_risk`/`supplier_assessment`/`C-SCRM` records in third-party inventories, due-diligence records, or SBOM ingestion configs.
 
-**References:** NIST SP 800-161, SOC 2 CC9.2, GDPR Art. 28, ISO 27036
+**References:** NIST SP 800-161, NIST SSDF (SP 800-218), SOC 2 CC9.2, GDPR Art. 28, ISO 27036
 

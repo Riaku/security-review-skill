@@ -1,4 +1,4 @@
-# web-client-security — full checklist (21 items)
+# web-client-security — full checklist (20 items)
 
 Browser-side attack surface and defenses.
 
@@ -104,15 +104,15 @@ Browser-side attack surface and defenses.
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
 
-# Cross-Site WebSocket Hijacking (CSWSH)
+# WebSockets: Upgrade Authentication & Origin Validation (CSWSH)
 
-**MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.
+**MUST** authenticate the upgrade handshake and validate the `Origin` header against an explicit allowlist on every WebSocket connection.
 
-**Why:** WebSockets ignore CORS; any malicious site can open a socket using the victim's cookies and act as them in real time.
+**Why:** WebSockets ignore CORS, so any malicious site can open a socket using the victim's cookies and act as them in real time, streaming private data to the attacker's page.
 
-**Detect:** grep `ws://`, `wss://`, `upgrade` handlers, `onConnection` without origin checks; nginx `proxy_set_header Origin` passthrough config.
+**Detect:** grep `ws://`, `wss://`, `Upgrade: websocket` upgrade handlers, `onConnection` without origin checks (missing `checkOrigin`/`Origin` validation) or with auth deferred to post-open messages; nginx `proxy_set_header Origin` passthrough config.
 
-**References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
+**References:** CWE-1385, CWE-346, OWASP A01:2021, OWASP API 2023, RFC 6455 section 10.2
 
 # CSRF
 
@@ -187,16 +187,6 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 **References:** OWASP A07:2021, CWE-384, OWASP Session Management Cheat Sheet
 
-# SSR Hydration XSS
-
-**MUST NOT** interpolate user-controlled data into server-rendered HTML without context-aware escaping, especially inside script, attribute, or URL contexts.
-
-**Why:** Unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
-
-**Detect:** grep `dangerouslySetInnerHTML`, `innerHTML`, `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, unescaped `{{ }}` templates.
-
-**References:** CWE-79, OWASP XSS Prevention Cheat Sheet, OWASP A03:2021
-
 # Third-Party Tag & Script Governance
 
 **MUST** inventory, approve, and CSP-restrict every third-party script loaded in the app (analytics, marketing tags, chat widgets).
@@ -219,11 +209,11 @@ if not (ip.is_private or ip.is_loopback or ip.is_link_local):
 
 # XSS
 
-**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data.
+**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data, and user-controlled data MUST NOT be interpolated into server-rendered HTML (`__NEXT_DATA__`, `window.__INITIAL_STATE__`, inline `<script>` blocks, unescaped `{{ }}` templates) without context-aware escaping for script, attribute, and URL contexts.
 
-**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
+**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them; unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
 
-**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data.
+**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data; `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, and unescaped `{{ }}` templates in server-rendered HTML.
 
 **References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
 

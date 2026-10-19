@@ -75,6 +75,16 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
 
+# WebSockets: Upgrade Authentication & Origin Validation (CSWSH)
+
+**MUST** authenticate the upgrade handshake and validate the `Origin` header against an explicit allowlist on every WebSocket connection.
+
+**Why:** WebSockets ignore CORS, so any malicious site can open a socket using the victim's cookies and act as them in real time, streaming private data to the attacker's page.
+
+**Detect:** grep `ws://`, `wss://`, `Upgrade: websocket` upgrade handlers, `onConnection` without origin checks (missing `checkOrigin`/`Origin` validation) or with auth deferred to post-open messages; nginx `proxy_set_header Origin` passthrough config.
+
+**References:** CWE-1385, CWE-346, OWASP A01:2021, OWASP API 2023, RFC 6455 section 10.2
+
 # Excessive Data Exposure in API Serialization
 
 **MUST NOT** serialize whole ORM/model objects to API responses; project an explicit DTO containing only intended fields.
@@ -234,14 +244,4 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** grep logout handler for missing token blacklist/`jti` denylist, no `/revoke` endpoint, Redis denylist absent, logout only clears client cookie.
 
 **References:** RFC 7009 §2.1 (revocation request), OWASP A02:2021, NIST SP 800-53 SC-23
-
-# WebSockets
-
-**MUST** authenticate the upgrade handshake and validate the Origin header on every WebSocket connection.
-
-**Why:** Cross-site WebSocket hijacking lets a victim's browser open an authenticated socket to your API, streaming private data to an attacker's page.
-
-**Detect:** `Upgrade: websocket` handlers missing `checkOrigin`/`Origin` validation; auth deferred to post-open messages.
-
-**References:** OWASP API 2023, CWE-346, RFC 6455 §10.2
 
