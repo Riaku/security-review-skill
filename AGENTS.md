@@ -1,213 +1,209 @@
 # AGENTS.md — security-review-skill
 
-Rules for AI agents (and humans) working in this repository.
+Rules for agents and humans who change this repository.
 
-## Contribution workflow (REQUIRED)
+This repository is a security-review checklist that an agent loads as a skill.
+`SKILL.md` is the entry point. Requirements below use the BCP 14 keywords MUST,
+MUST NOT, SHOULD, SHOULD NOT and MAY, defined in RFC 2119 and RFC 8174.
 
-- The **initial bootstrap** (scaffold and taxonomy) was committed directly to `main`.
-- **Every change after the bootstrap commit MUST go in via pull request.** Do not push
-  directly to `main`, do not commit directly to `main`.
-- Branch per change: `feat/<slug>`, `fix/<slug>`, `content/<category>`, `docs/<slug>`.
-  One logical change per branch/PR — do not batch unrelated work into one PR.
-- `main` takes changes by pull request only, and a PR requires all CI checks to
-  pass before merge (see Pre-PR gate). Do not push to `main` directly.
-- This is **enforced, not just documented**: the `main: PR + validate gate` ruleset
-  rejects direct pushes and force-pushes, requires a pull request, and requires the
-  `validate` check to pass on a branch that is up to date with `main`. It permits
-  squash merges only.
+## Repository layout
 
-## Pre-PR gate: ALL checks green before opening or updating a PR
+| Path | Contents |
+|---|---|
+| `SKILL.md` | Skill definition: triage, dispatch, merge and verdict phases. |
+| `issues/<slug>.md` | One checklist item per file. Its frontmatter is the only membership record. |
+| `categories/<name>.md` | Category manifest: scope and boundaries. Names no items. |
+| `domains/<name>.md` | Domain manifest: detection signals and stack quick-map. |
+| `bundles/<name>.md` | Generated. Never committed. See [Generated artifacts](#generated-artifacts). |
+| `references/` | Long-form material: tooling catalog, ATT&CK map, platform notes, severity rubric, traversal model. |
+| `templates/` | Sub-agent prompt and review report. |
+| `scripts/` | `gen_artifacts.py` (generator and format gate), `check_generated.py` (CI gate), `check_links.py` (link probe). |
 
-Never open a PR — and never ask for review — with a red or pending-critical check.
-Run the full CI-equivalent **locally** before pushing:
+## Item format
 
-```bash
-python3 scripts/check_generated.py    # the whole gate — must exit 0
+An item MUST be one file, `issues/<slug>.md`, with four parts:
+
+1. YAML frontmatter declaring `categories:` and `domains:` as inline lists.
+2. An H1 title.
+3. One statement led by a single BCP 14 keyword, in bold.
+4. Three labelled lines: `**Why:**`, `**Detect:**`, `**References:**`.
+
+```markdown
+---
+categories: [cicd-pipeline-security, supply-chain]
+domains: [infrastructure]
+---
+
+# CI Action Pinning
+
+**MUST** reference third-party actions by full commit SHA, not a mutable tag.
+
+**Why:** A retagged tag swaps in attacker-controlled code with the workflow's permissions.
+**Detect:** Grep `.github/workflows/*.yml` for `uses:` values matching `@v[0-9]` or `@main`.
+**References:** CWE-829, NIST SP 800-218, OWASP Top 10 CI/CD CICD-SEC-3
 ```
 
-Notes:
+### Frontmatter
 
-- `check_generated.py` runs the generator into a throw-away directory, so it
-  validates every item's frontmatter without writing into the tree, and it fails
-  if any file under `bundles/` is tracked by git. Its success line is
-  `items-valid: … ; no generated artifacts tracked`.
-- **`bundles/` is generated on demand and gitignored.** Do not commit it: it
-  duplicates the items and roughly doubles the install footprint, and a reviewer
-  generates the categories it needs. Run `python3 scripts/gen_artifacts.py`
-  locally whenever you want the bulk files (it writes into the ignored
-  `bundles/`, so it never dirties the tree); `--out DIR` writes elsewhere.
-- `gen_artifacts.py` is also the format gate: it refuses to write anything and
-  names the offending file when an item's frontmatter is missing, malformed,
-  unsorted, declared twice or names a category or domain with no file, when an
-  item body does not open with an H1, when a category manifest has no overview
-  line or nothing declares it, and when the output directory holds a bundle no
-  category regenerates. A format problem cannot reach a bundle.
-- After merges/refactors that remove or rename slugs, remap every reference in the
-  items' frontmatter and in SKILL.md's Category Index table, then regenerate.
-  Membership is declared once, in `issues/*.md`, so those are the only places a
-  rename has to reach.
-- If CI still fails after pushing, fix before requesting review; do not merge with a
-  failing check and do not re-trigger blindly — read the failing log first.
+- Both lists MUST be sorted, MUST NOT repeat a name, and MUST name an existing
+  `categories/<name>.md` or `domains/<name>.md`.
+- Both lists MUST hold at least one name.
+- The frontmatter MUST be valid YAML. Quote any value that contains `: `.
 
-## Branch & merge rules
+### Statement
 
-- Keep branches short-lived (days, not weeks); rebase onto the current base branch
-  before requesting review so the diff stays clean.
-- Rebase feature branches locally; never rebase or force-push shared branches.
-  When a force-push to your own PR branch is unavoidable, use
-  `git push --force-with-lease` — never bare `--force`.
-- Merge method: squash-merge to `main` (one logical unit per merged commit) — the
-  only method the ruleset permits, so merge-commit and rebase are refused.
-- PR size: small and reviewable. If a PR grows past a few hundred changed lines of
-  content, split it by category or concern.
-- Never merge your own PR on a red check, and never bypass the required checks
-  (`--no-verify`, admin override) for content changes.
+- An item MUST carry exactly one obligation. If `Detect:` would check two
+  different things, write two items.
+- The statement SHOULD stay under 30 words; the corpus median is 19.
+- The title SHOULD stay short; the corpus median is 3 words and most are 1–5.
+- `References:` SHOULD list one to four sources.
+- An item MUST read as a rule for any stack. A source MAY be about one language,
+  framework or vendor; the rule MUST NOT be.
 
-## Commit message conventions (Conventional Commits)
+### Membership
 
-Format: `type(scope): imperative summary`
+- An item MUST NOT fork content to serve several categories. A straddling item
+  lists every category it applies to and lives in exactly one file.
 
-- **Imperative mood**, as if completing "If applied, this commit will …":
-  `add`, `fix`, `refactor`, `remove` — not `added`/`fixes`/`updated`.
-- Summary ≤ 50 characters, no trailing period, says WHAT changed; the body says
-  WHY and lists the effects (blank line, then bullets).
-- Types: `feat` (new items/categories), `fix` (corrections to existing items,
-  validator/CI repairs), `docs` (SKILL.md, AGENTS.md, SOURCES.md prose),
-  `refactor` (restructuring with no coverage change), `test`/`ci`/`chore`
-  (validation tooling), `revert`.
-- Scope for this repo: the category, subsystem, or tool touched
-  (`secrets-crypto`, `topics`, `ci`, `bundles`, `agents`).
-- Vague messages are rejected in review: `update`, `fix bug`, `wip`,
-  `address review comments` carry no information.
-- Reference issues/PRs in the footer (`Closes #N`).
-- **Sign every commit** (`git commit -s`). CI fails any PR whose commits lack a
-  `Signed-off-by` trailer matching the author — inbound-equals-outbound is
-  enforced, not aspirational. Turn it on permanently for this repo:
-  `git config format.signOff true`.
-- Conventional types are also the input for automated changelogs/version bumps —
-  keep the type honest (`feat` vs `fix`), because releases are derived from it.
+## Detect lines
 
-## PR body conventions
+`Detect:` MUST be one of three kinds:
 
-Every PR body MUST contain:
+| Kind | Shape | Example |
+|---|---|---|
+| Pattern | Tokens a reviewer can search for. | `tenant_id` read from the request body |
+| Command | A named tool and the check it runs. | `oasdiff breaking`, `kube-bench` |
+| Judgment | A decision only a reader makes; MUST name the artifact it reads. | Read the incident runbook. |
 
-1. **Summary** — what changed and why (one short paragraph + list).
-2. **Test plan** — the exact commands run and their real output line
-   (e.g. the generator's `wrote N bundles from N items …` line, or the gate's
-   `items-valid: …` line), with checkboxes for anything verified in CI.
-3. **Deferred/follow-ups** — anything noticed but intentionally not done here.
+`Detect:` MUST NOT carry advice such as "check for good security". A concern
+with no inspectable artifact belongs in `needs-human` guidance.
 
-State honest counts; never carry a number remembered from a previous session —
-recount from the generator's or the check's own output line.
+## Category and domain manifests
 
-## Versioning policy
+- A category manifest MUST open with an H1 and one overview line, and MUST be
+  named by at least one item.
+- A category manifest SHOULD state what the category covers, what it does not
+  cover, and what a finding in it looks like.
+- A domain manifest MUST list detection signals and a stack quick-map. The
+  quick-map MUST name categories in plain text, with no links.
+- A manifest MUST NOT list items.
 
-- **Select exactly ONE versioning strategy for this repo and enforce it; do not mix
-  strategies.** This repo does not mandate which strategy — the project (or the
-  PR author, agreed in review) picks the one that fits how the corpus is consumed,
-  then applies it consistently. Candidate strategies: SemVer-style
-  (MAJOR.MINOR.PATCH), date-based (CalVer), or a simple monotonically increasing
-  corpus-revision number (the `vN` markers currently in commit history).
-- Whichever strategy is selected, it MUST be:
-  - **Documented** — named in this file with its bump rules, so every contributor
-    applies the same meaning to a version.
-  - **Enforced** — the version marker appears in the commit/PR title
-    (`feat: v16 — …`), and review rejects changes that under-state the bump
-    (e.g. a slug-breaking taxonomy change shipped as a patch-level change).
-  - **Single** — two live schemes in one repo is a failure state. Switching
-    strategy is itself the biggest possible bump and MUST replace, not
-    supplement, the old scheme.
-- If SemVer (or a compatibility-driven scheme) is the selected strategy, the
-  mapping for this corpus is: **MAJOR** = incompatible taxonomy changes
-  (category renames/removals, item merges that delete slugs consumers may
-  reference, manifest-format changes); **MINOR** = backward-compatible
-  additions (new items/categories); **PATCH** = compatible fixes (wording,
-  references, detect lines, tooling). Pre-release labels (`-rc.1`) MAY mark
-  taxonomy reworks under review.
-- Independent of strategy: keep slug compatibility where possible — prefer adding
-  a new slug over renaming in place; merges that delete slugs (dedupe) must be
-  announced with an explicit removed-slugs list in the release notes.
+## Generated artifacts
 
-## Non-negotiable invariants
+`bundles/` is generated and ignored by git.
 
-1. An item's frontmatter is the single source of membership. Every item has an
-   `issues/<slug>.md` file whose YAML frontmatter declares the `categories:` and
-   `domains:` it belongs to, and every value names a real `categories/*.md` or
-   `domains/*.md` manifest. Nothing else records membership, so nothing can drift
-   out of step with it.
-2. Every issue file: H1 title, a bolded BCP 14 keyword (**MUST / MUST NOT / SHOULD /
-   SHOULD NOT / MAY**) within the first 300 characters, and a `**References:**` line.
-3. Issue content is single-sourced: a straddling topic is listed in multiple
-   manifests but its content lives in exactly one file. Never fork content to
-   "customize" it per category.
-4. Run the full Pre-PR gate (above) before opening any PR; it must exit 0.
-5. No data files. The corpus is markdown plus issue frontmatter — no JSON, CSV or
-   other machine-readable index, and no Python-side taxonomy. The one thing
-   derived at generation time is the bundles, and they are derived from the
-   documents themselves.
-6. Nothing is generated into `issues/`, `categories/` or `domains/`: an item
-   carries no nav footer, a category carries no item list, and a domain's stack
-   quick-map names its categories in plain text. The hand-authored relative
-   links that remain are SKILL.md's Category Index and the links in
-   `references/` and `templates/`.
-7. Every document is one level below the root, so a relative link target is
-   always `../<dir>/<file>.md` (SKILL.md itself is the exception: root-level,
-   unprefixed). Keep new documents linked from SKILL.md's file layout so a
-   reader or agent can still find them by following links.
-8. Bundles are grouped from the items' own frontmatter: every item naming a
-   category is inlined into that category's bundle in slug order, body only.
-   Anything the generator cannot derive — bad frontmatter, an unknown category
-   or domain, a category with nothing in it — stops it with exit 1.
+- You MUST NOT commit `bundles/`. It duplicates the items and doubles the
+  installed size.
+- Run `python3 scripts/gen_artifacts.py` to write every bundle into the ignored
+  `bundles/`. Add `--out DIR` to write elsewhere.
+- You MUST NOT edit a bundle. Edit the item and regenerate.
+- A bundle MUST hold every item whose frontmatter names the category, in slug
+  order, bodies only.
+
+## Gate
+
+Run the gate before you open or update a pull request. It MUST exit 0.
+
+```bash
+python3 scripts/check_generated.py
+```
+
+The success line reads `items-valid: … ; no generated artifacts tracked`.
+
+The gate checks three things:
+
+1. `SKILL.md` frontmatter parses as YAML and has non-empty `name` and
+   `description`.
+2. Every item's frontmatter is complete, sorted, unique and names real
+   manifests; every body opens with an H1; every category has an overview line.
+3. No file under `bundles/` is tracked by git.
+
+CI installs PyYAML 6.0.2 for check 1. When PyYAML is absent, the gate falls back
+to a pattern check that flags an unquoted scalar containing `: `.
+
+## Branches, commits, pull requests
+
+- Create one branch per logical change, named `feat/<slug>`, `fix/<slug>`,
+  `content/<category>`, `docs/<slug>` or `chore/<slug>`. Do not batch unrelated
+  work.
+- You MUST sign off every commit with `git commit -s`. CI rejects a commit whose
+  `Signed-off-by` trailer is missing or names a different author. Set
+  `git config format.signOff true` once per clone.
+- Use Conventional Commits: `type(scope): imperative summary`, 50 characters or
+  fewer, no trailing period. Types are `feat`, `fix`, `docs`, `refactor`,
+  `chore`, `ci`, `test` and `revert`. The body states why.
+- `main` accepts pull requests only, merges squash only, and requires the
+  `validate` check on a branch that is up to date with `main`. A ruleset
+  enforces this with no bypass. You MUST NOT push to `main`, force-push it, or
+  override a check.
+- You MAY update your own branch with `git push --force-with-lease`. You MUST
+  NOT use bare `--force`.
+- Split a pull request that changes more than a few hundred lines of content.
+
+A pull request body MUST contain three sections:
+
+1. **Summary** — what changed and why.
+2. **Test plan** — the commands you ran and their real output, with checkboxes
+   for what CI covers.
+3. **Deferred** — what you noticed and chose not to do here.
+
+Measure every number you quote. Do not carry a figure from an earlier session.
+
+## CI
+
+| Workflow | Trigger | Blocks merge |
+|---|---|---|
+| `validate` | Pull request | Yes |
+| `link-check` | Mondays 06:00 UTC, manual | No |
+
+`validate` runs the DCO check, the gate, and two size budgets: `SKILL.md` under
+500 lines, and every item under 1500 words.
+
+When a check fails, read its log. You MUST NOT merge on a red check, and MUST
+NOT re-run one without a change.
+
+`link-check` probes every URL on an item's `References:` line and runs only on a
+schedule, so reference rot never blocks a pull request. It reports 401, 403 and
+429 as blocked rather than broken, because those hosts refuse datacenter IPs. A
+dead citation is a normal issue.
 
 ## Adding an item
 
-1. Create `issues/<slug>.md`: the frontmatter block (`categories:` and `domains:`,
-   both sorted), then the H1 title, the BCP 14 statement and the `**Why:**` /
-   `**Detect:**` / `**References:**` lines. Frontmatter is the only place
-   membership is declared — there is nothing else to update.
-2. Run `python3 scripts/gen_artifacts.py` if you want the bulk bundles locally
-   (they are gitignored, so this is optional and never needs committing). It
-   rebuilds every bundle from the frontmatter and exits 1 naming the offender if
-   the frontmatter is malformed or names a category or domain that does not
-   exist.
-3. Run the Pre-PR gate, commit on a branch, open a PR.
+1. Create `issues/<slug>.md` in the format above.
+2. Run `python3 scripts/check_generated.py`.
+3. Commit on a branch and open a pull request.
 
-## Adding a document (not an item)
+You do not need to run the generator. The gate runs it in a temporary directory.
 
-Hand-authored documents (a new `references/<name>.md`, a template, a root-level
-doc) should be linked from `SKILL.md` — usually its file-layout section — as
-[`references/<name>.md`](references/<name>.md), the way every other file there
-is linked, so a reader or agent can still find them by following links.
+## Adding a document
+
+1. Write it under `references/`, `templates/` or the repository root.
+2. Link it from `SKILL.md`, so a reader finds it by following links.
+3. Run the gate.
+
+## Content rules
+
+- A citation MUST resolve. Fetch each URL before you add it; a moved or invented
+  link is the most common defect in a contributed item.
+- You MUST paraphrase. Do not paste text you cannot license under MIT.
+- You MUST NOT write credentials, real internal hostnames or personal data into
+  an item. Use `example.com`, `10.0.0.0/8` and placeholder tokens.
+- A regulatory item MUST state the obligation a reviewer checks, not a legal
+  conclusion.
+- Prefer a specific artifact over a general principle: a file path, a config key
+  or a command.
+
+## Security
+
+Report a vulnerability in a workflow, a script or a pinned action through GitHub
+private vulnerability reporting. `SECURITY.md` describes the scope. Do not open a
+public issue for it.
 
 ## Attribution
 
-- Original 250-item list: **@ghumare64 (Sahil Ghumare)** —
-  https://x.com/ghumare64/status/2111332908657148356 — kudos for the curation.
-- System-design concepts (retry/backoff, self-healing, queues, worker pools,
-  workflow engines, batching, async writes): **Arjay McCandless's System Design
-  Cheat Sheet**.
-- Government/regulatory, cloud-native, ops, and discovery-agent additions: curated
-  for this skill.
-- Workflow/commit/PR/versioning rules above distilled from: freeCodeCamp git best
-  practices (imperative mood, ≤50-char summary, PR review hygiene), EnLume
-  Conventional Commits guide (type-driven semantic release), DEV.to commit & PR
-  guide (type table, scope conventions), daily.dev git best practices
-  (`--force-with-lease`, squash discipline, rebase-before-merge) and daily.dev
-  API-versioning guide (pick one strategy, plan early, communicate breaks).
-
-## Detect-line convention
-
-Every issue's `Detect:` line is one of three kinds — label-free, but authors
-should keep each line honestly one kind:
-
-1. **grep-pattern** — concrete tokens a reviewer can grep
-   (`tenant_id` from request body, `verify=False`, `unsafe-inline`).
-   Preferred wherever a code pattern exists.
-2. **command-procedure** — an external check with a named command/tool
-   (`dig CAA <domain>`, `oasdiff breaking`, `kube-bench`). Name the tool.
-3. **judgment** — things only a reader can decide (process, org, runtime
-   state). Keep these rare and state what artifact the judgment reads.
-
-Never write a Detect line that is none of the three (e.g. "check for good
-security"). If a concern can't be detected from any artifact, it belongs
-in `needs-human` guidance, not a Detect line.
+- Seed list: @ghumare64 (Sahil Ghumare),
+  [original list](https://x.com/ghumare64/status/2111332908657148356).
+- System-design material: Arjay McCandless, System Design Cheat Sheet and
+  Ultimate System Design Playbook.
+- Everything else: curated for this skill. Per-item sources sit on each item's
+  `References:` line; `SOURCES.md` holds the collection list.

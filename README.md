@@ -16,6 +16,8 @@ A skill is a directory with a `SKILL.md` at its root, so installing is a clone o
 a copy into whatever directory your harness reads skills from:
 
 ```bash
+npx skills add Riaku/security-review-skill      # or your harness's own installer
+
 git clone https://github.com/Riaku/security-review-skill.git \
   "$SKILLS_DIR/security-review-skill"
 ```
@@ -23,6 +25,19 @@ git clone https://github.com/Riaku/security-review-skill.git \
 There is nothing to build and no service to run: the checklist is plain
 Markdown, and a harness that takes a path rather than a directory can simply be
 pointed at `SKILL.md`.
+
+**Installing from an archive.** The installer also accepts a direct download URL
+to a `.zip`, `.tar`, `.tar.gz`, `.tgz` or a bare `SKILL.md` — the path for a
+release asset, a mirror, or an offline machine. Its extractor refuses archives
+with more than 1,000 files by default, and this skill is 1,047 (983 items plus
+the manifests, references and scripts), so that path needs the limit raised:
+
+```bash
+SKILLS_EXTRACT_MAX_FILES=2000 npx skills add <archive-url>
+```
+
+The `owner/repo` and git-clone paths above have no file-count limit and need no
+override.
 
 ## Usage
 
