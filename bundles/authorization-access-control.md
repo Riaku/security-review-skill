@@ -189,13 +189,13 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-268 Privilege Chaining, OWASP ASVS V1.4, SLSA provenance requirements
 
-# Vertical Privilege Escalation / Function-Level Authorization
+# Server-Side Authorization
 
-**MUST** check authorization on every admin or elevated endpoint server-side; never rely on hiding buttons or menus in the UI.
+**MUST** check authorization on every admin or elevated endpoint server-side and **MUST NOT** trust the client for any authorization decision: hidden UI, client route guards, and client-supplied role or permission values are all forgeable, so permissions are re-derived from the authenticated session on every request.
 
-**Why:** Attackers call hidden endpoints directly (IDOR-style), and client-side gating stops no one with curl or a proxy.
+**Why:** Hidden buttons and guarded routes are bypassed by calling the API directly: attackers hit hidden admin endpoints with curl or a proxy, and client-side gating stops no one.
 
-**Detect:** grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators/middleware; compare UI-hidden actions to unprotected API paths.
+**Detect:** handlers reading role or permission from a request body, header, or unverified token claim; permission flags echoed to the client and trusted back; destructive actions gated only in the frontend router; grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators or middleware and compare UI-hidden actions to unprotected API paths.
 
-**References:** OWASP A01:2021, CWE-269 Improper Privilege Management, CWE-862 Missing Authorization, OWASP ASVS V4.2
+**References:** OWASP A01:2021, CWE-862, CWE-269 Improper Privilege Management, OWASP Authorization Cheat Sheet, OWASP ASVS V4.2
 

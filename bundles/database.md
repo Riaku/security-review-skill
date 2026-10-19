@@ -4,13 +4,13 @@ Schema, queries, transactions, replication, backup/recovery.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/database.md](../categories/database.md) · Index: [SKILL.md](../SKILL.md)
 
-# ACID
+# ACID & Transactional Outbox
 
-**MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity.
+**MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity, and domain changes along with their outbox events **MUST** be written in one atomic database transaction, never publishing before commit.
 
-**Why:** ACID holds inside one database, not across a database plus a queue plus a third-party API. Treating "we use Postgres" as blanket safety leaves balances and event logs silently diverging whenever the second write fails after the first commits.
+**Why:** ACID holds inside one database, not across a database plus a queue plus a third-party API. Treating "we use Postgres" as blanket safety leaves balances and event logs silently diverging whenever the second write fails after the first commits. Publishing outside the transaction causes phantom events on rollback or lost events on crash, corrupting downstream consumers.
 
-**Detect:** A DB commit followed by a Kafka/queue publish with no outbox or saga pattern; no reconciliation job comparing stores; SQLite used for concurrent multi-writer workloads.
+**Detect:** A DB commit followed by a Kafka/queue publish with no outbox or saga pattern; no reconciliation job comparing stores; SQLite used for concurrent multi-writer workloads. Grep for `publish(` or `kafka.send` outside `@Transactional`/`BEGIN...COMMIT`; an outbox table missing `status`, `created_at`, or a relay poller is a gap.
 
 **Bad:**
 ```python
@@ -25,7 +25,7 @@ with db.transaction():
     outbox.enqueue("order-created", order)  # relay process publishes reliably
 ```
 
-**References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), CWE-662
+**References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), AWS Outbox Pattern, NIST SP 800-53 SI-7, CWE-662
 
 # Backup Encryption & Immutable/Offsite Copies
 
@@ -51,15 +51,15 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **References:** CIS Control 11 (immutable backups), NIST SP 800-53 CP-9, AWS S3 Object Lock docs, CWE-311
 
-# Backup Verification Drills (scheduled restore tests, not just backup jobs)
+# Disaster Recovery & Backup Verification (rehearsed full-site restore drills)
 
-**MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
+**MUST** maintain a rehearsed recovery plan for full-site loss, with restores verified from actual backups by scheduled restore drills whose results are tracked and failures escalated.
 
-**Why:** Backups never restored are unverified guesses: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop — and ransomware crews routinely destroy backup targets too. Discovering a corrupt set during a real incident converts an outage into permanent loss.
+**Why:** Backups never restored are unverified guesses, and DR plans never rehearsed fail when the real disaster arrives: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop — and ransomware crews routinely destroy backup targets too. Discovering a corrupt set during a real incident converts an outage into permanent loss.
 
-**Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
+**Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding, as are a missing `dr_plan.md`, disabled `wal_level`/PITR, and offsite sync jobs without checksums. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
-**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4, ISO 22301
 
 # Backups
 
@@ -246,13 +246,13 @@ ORDER BY created_at, id LIMIT 50;   -- index seek, stable across inserts
 
 **References:** PostgreSQL keyset pagination, Stripe API pagination design, CWE-400
 
-# Data Retention & Deletion Pipelines
+# Data Retention, Erasure & Tenant Offboarding Purge
 
-**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups.
+**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups; a departing tenant's data **MUST** be purged from primary stores, replicas, caches, search indexes, analytics, backups policy, and third-party processors, with verification and attestation evidence that the purge completed.
 
-**Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold.
+**Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold. Offboarded tenant data lingering in a warehouse layer or search index is the same breach waiting to be discovered, and "we deleted the account" rarely means everything.
 
-**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap.
+**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap. For offboarding, review the tenant purge runbook and code against the actual datastore inventory, look for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` compared with the active-tenant set), and confirm a purge verification/attestation step exists.
 
 **Bad:**
 ```python
@@ -267,7 +267,7 @@ db.users.mark_deleted(id)          # tombstone
 outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
-**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018
+**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018, SOC 2 CC6, OWASP Multi-Tenant Security Cheat Sheet
 
 # Database Migrations
 

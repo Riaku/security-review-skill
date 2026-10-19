@@ -1,16 +1,16 @@
-# distributed-systems — full checklist (22 items)
+# distributed-systems — full checklist (21 items)
 
 Consistency, consensus, coordination across nodes.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/distributed-systems.md](../categories/distributed-systems.md) · Index: [SKILL.md](../SKILL.md)
 
-# ACID
+# ACID & Transactional Outbox
 
-**MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity.
+**MUST** rely on ACID guarantees only where the engine actually provides them; workflows spanning multiple stores MUST NOT assume cross-system atomicity, and domain changes along with their outbox events **MUST** be written in one atomic database transaction, never publishing before commit.
 
-**Why:** ACID holds inside one database, not across a database plus a queue plus a third-party API. Treating "we use Postgres" as blanket safety leaves balances and event logs silently diverging whenever the second write fails after the first commits.
+**Why:** ACID holds inside one database, not across a database plus a queue plus a third-party API. Treating "we use Postgres" as blanket safety leaves balances and event logs silently diverging whenever the second write fails after the first commits. Publishing outside the transaction causes phantom events on rollback or lost events on crash, corrupting downstream consumers.
 
-**Detect:** A DB commit followed by a Kafka/queue publish with no outbox or saga pattern; no reconciliation job comparing stores; SQLite used for concurrent multi-writer workloads.
+**Detect:** A DB commit followed by a Kafka/queue publish with no outbox or saga pattern; no reconciliation job comparing stores; SQLite used for concurrent multi-writer workloads. Grep for `publish(` or `kafka.send` outside `@Transactional`/`BEGIN...COMMIT`; an outbox table missing `status`, `created_at`, or a relay poller is a gap.
 
 **Bad:**
 ```python
@@ -25,7 +25,7 @@ with db.transaction():
     outbox.enqueue("order-created", order)  # relay process publishes reliably
 ```
 
-**References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), CWE-662
+**References:** Kleppmann *DDIA* Ch. 7, Transactional Outbox pattern (Confluent), AWS Outbox Pattern, NIST SP 800-53 SI-7, CWE-662
 
 # Bloom Filters
 
@@ -147,16 +147,6 @@ with db.transaction():
 
 **References:** Martin Kleppmann "How to do distributed locking", CWE-662, etcd lease documentation
 
-# Outbox Pattern
-
-**MUST** write domain changes and their outbox events in one atomic database transaction, never publishing before commit.
-
-**Why:** Publishing outside the transaction causes phantom events on rollback or lost events on crash, corrupting downstream consumers.
-
-**Detect:** grep for `publish(` or `kafka.send` outside `@Transactional`/`BEGIN...COMMIT`; outbox table missing `status`, `created_at`, or relay poller queries.
-
-**References:** CWE-662 Improper Synchronization, AWS Outbox Pattern, NIST SP 800-53 SI-7
-
 # Quorums
 
 **MUST** configure intersecting read/write quorums (R + W > N) wherever a read must observe the most recent acknowledged write, and use compare-and-set / lightweight transactions (or a single writer per key) wherever concurrent read-modify-write must not lose an update — quorum intersection alone does not prevent lost updates.
@@ -169,13 +159,13 @@ with db.transaction():
 
 # Race Conditions
 
-**MUST** guard shared-state mutations with proper synchronization (atomic ops, compare-and-set, or scoped locks), never check-then-act on unsynchronized reads.
+**MUST** guard shared-state mutations with proper synchronization (atomic ops, compare-and-set, or scoped locks) or immutability, never check-then-act on unsynchronized reads and never assume single-threaded execution.
 
-**Why:** Interleaved read-modify-write across threads or nodes yields lost updates and double-spends that surface only under production concurrency.
+**Why:** Interleaved read-modify-write across threads or nodes yields lost updates, double-spends, and intermittently corrupted data that surface only under production concurrency, carrying security holes that appear only under real load.
 
-**Detect:** grep for `if (exists) then write`, `read(); modify(); write()` without CAS/`UPDATE ... WHERE version=`, non-atomic counters (`i++`), TOCTOU on file checks.
+**Detect:** grep for `if (exists) then write`, `read(); modify(); write()` without CAS/`UPDATE ... WHERE version=`, non-atomic counters (`i++`), shared dict/list mutated without `Lock`/`mutex`/`synchronized`, cached mutable singletons, TOCTOU on file checks.
 
-**References:** CWE-362 Race Condition, OWASP Race Condition guidance, NIST SP 800-53 SI-10
+**References:** CWE-362 Race Condition, CWE-366, OWASP Race Condition guidance, NIST SP 800-53 SI-10, OWASP ASVS V11.1.6
 
 # Raft Consensus
 

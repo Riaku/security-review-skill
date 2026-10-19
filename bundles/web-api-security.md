@@ -1,4 +1,4 @@
-# web-api-security — full checklist (49 items)
+# web-api-security — full checklist (47 items)
 
 Server-side API and web application attack surface.
 
@@ -121,15 +121,15 @@ metadata_options {
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
 
-# Cross-Site WebSocket Hijacking (CSWSH)
+# WebSockets: Upgrade Authentication & Origin Validation (CSWSH)
 
-**MUST** validate the `Origin` header on the WebSocket upgrade handshake against an explicit allowlist.
+**MUST** authenticate the upgrade handshake and validate the `Origin` header against an explicit allowlist on every WebSocket connection.
 
-**Why:** WebSockets ignore CORS; any malicious site can open a socket using the victim's cookies and act as them in real time.
+**Why:** WebSockets ignore CORS, so any malicious site can open a socket using the victim's cookies and act as them in real time, streaming private data to the attacker's page.
 
-**Detect:** grep `ws://`, `wss://`, `upgrade` handlers, `onConnection` without origin checks; nginx `proxy_set_header Origin` passthrough config.
+**Detect:** grep `ws://`, `wss://`, `Upgrade: websocket` upgrade handlers, `onConnection` without origin checks (missing `checkOrigin`/`Origin` validation) or with auth deferred to post-open messages; nginx `proxy_set_header Origin` passthrough config.
 
-**References:** CWE-1385, OWASP A01:2021, RFC 6455 section 10.2
+**References:** CWE-1385, CWE-346, OWASP A01:2021, OWASP API 2023, RFC 6455 section 10.2
 
 # CSRF
 
@@ -180,16 +180,6 @@ metadata_options {
 **Detect:** grep mail templates for raw interpolation of user fields (`{{name}}` without escape, `|safe`, `dangerouslySetInnerHTML`); check URL fields are validated against allow-lists before rendering as links.
 
 **References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
-
-# Exposed Debug & Actuator Endpoints
-
-**MUST** disable unused framework debug and management endpoints and restrict the rest to authenticated management access (`management.endpoints.web.exposure.include`, `management.server.port`); `/env`, `/heapdump`, `/phpinfo`, and `pprof` handlers are never reachable unauthenticated.
-
-**Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
-
-**Detect:** grep routes/config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`; DAST-scan prod for `/env`, `/heapdump`, `/debug`, `/server-status`.
-
-**References:** OWASP WSTG-CONF-04, CWE-489, CWE-200
 
 # Feature Flags
 
@@ -324,12 +314,13 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 # Input Validation
 
 **MUST** Validate all external input against type, length, range, and format allowlists at the trust boundary.
+**MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.
 
-**Why:** Downstream code assumes validated data; one unchecked field becomes the injection vector.
+**Why:** Downstream code assumes validated data; one unchecked field becomes the injection vector, and unvalidated fields let attackers inject unexpected shapes, extra keys, or oversized values that downstream code mishandles.
 
-**Detect:** Handlers reading `request.params`/body straight into logic; missing pydantic/Zod/Joi or `@Valid`.
+**Detect:** Handlers reading `request.params`/body straight into logic; missing pydantic/Zod/Joi or `@Valid`; `request.json[...]` read with no validator or JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
 
-**References:** OWASP A03:2021, CWE-20, OWASP Input Validation Cheat Sheet
+**References:** OWASP A03:2021, CWE-20, OWASP Input Validation Cheat Sheet, CWE-915, CWE-1289, OWASP ASVS V5.1.3/V5.1.4, OWASP API1:2023
 
 # Insecure Deserialization
 
@@ -455,16 +446,6 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-1333, CWE-400, OWASP ReDoS, RE2 docs
 
-# SaaS Webhook Consumer Trust
-
-**MUST** verify signature, origin, and replay-protection on every inbound webhook from third-party SaaS — and treat payload contents as untrusted input.
-
-**Why:** Unverified webhook endpoints accept forged events ("payment captured", "user verified") from anyone who finds the URL; SaaS signing secrets also rotate, which unverified integrations hide until they break.
-
-**Detect:** grep webhook handlers for signature verification (HMAC compare, provider SDK `constructEvent`), timestamp tolerance checks, idempotency-key dedupe; flag handlers that trust payload identity fields blindly.
-
-**References:** OWASP Webhook Security practices, Stripe/GitHub webhook verification docs, CWE-345 insufficient verification of data authenticity
-
 # Security Headers
 
 **MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.
@@ -477,23 +458,23 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
-**MUST NOT** Expose admin panels, actuator endpoints, `.git`/`.env` files, or dashboards publicly; gate them behind auth.
+**MUST NOT** Expose admin panels, actuator endpoints, `.git`/`.env` files, debug routes, or dashboards publicly; gate them behind auth, and **MUST** disable unused framework debug and management endpoints while restricting the rest to authenticated management access (`management.endpoints.web.exposure.include`, `management.server.port`), so `/env`, `/heapdump`, `/phpinfo`, `pprof`, and `/server-status` are never reachable unauthenticated.
 
-**Why:** Leaked `.env` and `.git` hand attackers credentials and full source directly.
+**Why:** Leaked `.env` and `.git` hand attackers credentials and full source directly, and debug or management endpoints dump environment variables, heap memory, and internal configuration — a single unauthenticated `/env` request can leak every secret in the service.
 
-**Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth.
+**Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth; grep routes and config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`, and DAST-scan production for `/env`, `/heapdump`, `/debug`.
 
-**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP WSTG-CONF-05
+**References:** OWASP A05:2021, CWE-538, CWE-200, CWE-489, OWASP WSTG-CONF-04, OWASP WSTG-CONF-05
 
 # Server-Side Authorization
 
-**MUST NOT** Trust the client for any authorization decision: hidden UI, client route guards, and client-supplied role or permission values are all forgeable, so permissions are re-derived server-side from the authenticated session on every request.
+**MUST** check authorization on every admin or elevated endpoint server-side and **MUST NOT** trust the client for any authorization decision: hidden UI, client route guards, and client-supplied role or permission values are all forgeable, so permissions are re-derived from the authenticated session on every request.
 
-**Why:** Hidden buttons and guarded routes are bypassed by calling the API directly.
+**Why:** Hidden buttons and guarded routes are bypassed by calling the API directly: attackers hit hidden admin endpoints with curl or a proxy, and client-side gating stops no one.
 
-**Detect:** handlers reading role or permission from a request body, header, or unverified token claim; permission flags echoed to the client and trusted back; destructive actions gated only in the frontend router.
+**Detect:** handlers reading role or permission from a request body, header, or unverified token claim; permission flags echoed to the client and trusted back; destructive actions gated only in the frontend router; grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators or middleware and compare UI-hidden actions to unprotected API paths.
 
-**References:** OWASP A01:2021, CWE-862, OWASP Authorization Cheat Sheet
+**References:** OWASP A01:2021, CWE-862, CWE-269 Improper Privilege Management, OWASP Authorization Cheat Sheet, OWASP ASVS V4.2
 
 # Server-Side Template Injection (SSTI)
 
@@ -555,23 +536,23 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
 
-# Webhook Signature Verification
+# Webhook Signature & Origin Verification
 
-**MUST** verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
+**MUST** verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook, validate the `Origin` header against an explicit allowlist, and treat payload contents — identity fields included — as untrusted input.
 
-**Why:** Unsigned endpoints accept forged events — fake payments, refunds, account changes.
+**Why:** Unsigned endpoints accept forged events — fake payments, refunds, account changes — from anyone who finds the URL; a handler that trusts payload identity fields blindly is the same exposure, and SaaS signing secrets rotate, so an unverified integration hides the breakage until it fails.
 
-**Detect:** Handlers with no signature check; `hmac.compare_digest` absent; verification skipped in dev branches.
+**Detect:** Handlers with no signature check; `hmac.compare_digest` absent; verification skipped in dev branches; no origin check; no idempotency-key dedupe; provider SDK helpers (`constructEvent`) unused; handlers that trust payload identity fields blindly.
 
-**References:** CWE-347, CWE-208, Stripe/GitHub webhook signing docs
+**References:** CWE-347, CWE-345, CWE-208, OWASP Webhook Security practices, Stripe/GitHub webhook signing/verification docs
 
 # XSS
 
-**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data.
+**MUST NOT** emit user-controlled data into HTML without context-aware escaping; raw-output helpers and escaping-filter bypasses (`|safe`, `Markup(`, `dangerouslySetInnerHTML`) MUST NOT receive request-controlled data, and user-controlled data MUST NOT be interpolated into server-rendered HTML (`__NEXT_DATA__`, `window.__INITIAL_STATE__`, inline `<script>` blocks, unescaped `{{ }}` templates) without context-aware escaping for script, attribute, and URL contexts.
 
-**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them.
+**Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them; unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
 
-**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data.
+**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data; `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, and unescaped `{{ }}` templates in server-rendered HTML.
 
 **References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
 

@@ -1,4 +1,4 @@
-# ai-llm — full checklist (31 items)
+# ai-llm — full checklist (30 items)
 
 LLM feature security and quality.
 
@@ -154,15 +154,15 @@ LLM feature security and quality.
 
 **References:** EU AI Act 2024/1689, Annex III, GPAI Code of Practice, EU AI Office
 
-# Evals
+# Security Evals & Jailbreak Red-Teaming
 
-**MUST** run security-focused evaluation suites covering injection, data leakage, and refusal bypass before shipping or updating any model-backed feature.
+**MUST** run security-focused evaluation suites covering injection, data leakage, and refusal bypass before shipping or updating any model-backed feature; **SHOULD** also run recurring adversarial jailbreak testing against production prompts, logging and feeding the results back into that suite.
 
-**Why:** Without adversarial evals, regressions in safety behavior ship silently and are discovered by attackers first.
+**Why:** Without adversarial evals, regressions in safety behavior ship silently and are discovered by attackers first; static safety guardrails decay as novel jailbreaks circulate publicly, so an untested system fails the day one lands.
 
-**Detect:** missing red-team eval datasets, no CI job matching eval|redteam|adversarial, promptfoo/garak config absent.
+**Detect:** missing red-team eval datasets, no CI job matching eval|redteam|adversarial, promptfoo/garak config absent; no garak/pyrit/jailbreakbench runs in CI, and no stored jailbreak regression corpora or refusal-bypass tests.
 
-**References:** OWASP LLM01:2025, NIST AI RMF MEASURE, MITRE ATLAS
+**References:** OWASP LLM01:2025, NIST AI RMF MEASURE, MITRE ATLAS, NIST AI 100-2e2023
 
 # Hallucinated Packages
 
@@ -173,16 +173,6 @@ LLM feature security and quality.
 **Detect:** Install logs for names absent from the registry; review AI-generated import lines against PyPI/npm search; grep manifests for near-miss spellings of popular libs.
 
 **References:** CWE-427, Snyk "slopsquatting" research, OWASP LLM03
-
-# Jailbreak Red-Teaming
-
-**SHOULD** run recurring adversarial jailbreak testing against production prompts, logging and feeding results into the eval suite.
-
-**Why:** Static safety guardrails decay as novel jailbreaks circulate publicly; untested systems fail the day one lands.
-
-**Detect:** no garak/pyrit/jailbreakbench runs in CI; absence of stored jailbreak regression corpora or refusal-bypass tests.
-
-**References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-2e2023
 
 # PII redaction and DPAs before sending data to third-party LLM APIs
 

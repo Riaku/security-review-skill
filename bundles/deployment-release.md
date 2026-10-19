@@ -1,4 +1,4 @@
-# deployment-release — full checklist (29 items)
+# deployment-release — full checklist (28 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -149,15 +149,15 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **References:** OWASP Kubernetes Top 10 K04 (centralized policy enforcement), NIST SP 800-190, Sigstore/cosign, Git signed commits
 
-# Manual kubectl apply Drift Not Detected Against Git
+# Infrastructure Drift Detection (live state vs IaC and GitOps reconciliation)
 
-**SHOULD** run periodic drift detection (Flux `diff`/`check`, ArgoCD health) that alerts when live cluster state diverges from the reconciled Git revision.
+**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes; **SHOULD** also run periodic drift detection on the GitOps path (Flux `diff`/`check`, ArgoCD health) that alerts when live cluster state diverges from the reconciled Git revision.
 
-**Why:** A hand-applied manifest silently overrides GitOps intent, so the next sync either reverts an emergency fix or entrenches an unauthorized change unnoticed.
+**Why:** A hand-applied manifest silently overrides GitOps intent, so the next sync either reverts an emergency fix or entrenches an unauthorized change unnoticed; console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
 
-**Detect:** check Flux `Kustomization` for `interval`/`retryInterval` with drift alerts, ArgoCD `syncPolicy.automated` plus `selfHeal: true`; grep for out-of-band `kubectl apply` in audit logs.
+**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`; check Flux `Kustomization` for `interval`/`retryInterval` with drift alerts, ArgoCD `syncPolicy.automated` plus `selfHeal: true`; grep for out-of-band `kubectl apply` in audit logs.
 
-**References:** Flux drift detection docs, ArgoCD selfHeal, OWASP K8s misconfiguration, NIST SP 800-190 integrity monitoring
+**References:** Flux drift detection docs, ArgoCD selfHeal, OWASP K8s misconfiguration, NIST SP 800-190 integrity monitoring, NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # Release hook ordering and failed-hook release blocking
 
@@ -198,16 +198,6 @@ staging: dual-write 48h → backfill → checksum diff = 0
 **Detect:** grep for open security group ingress (`cidr_blocks = ["0.0.0.0/0"]`), unencrypted storage flags, and console-created resources flagged by drift detection.
 
 **References:** AWS Config drift detection, CIS AWS 5.4, IaC Scanning OWASP, Checkov/tfsec baselines
-
-# Infrastructure Drift Detection (live state vs IaC diffed and alerted)
-
-**MUST** continuously diff live infrastructure against IaC definitions and alert on unauthorized manual changes.
-
-**Why:** Console-clicked changes bypass review and become invisible holes — an undocumented open security group never gets fixed.
-
-**Detect:** grep `terraform plan -detailed-exitcode` cron jobs, Driftctl, AWS Config drift rules, `kubectl diff -f`.
-
-**References:** NIST SP 800-53 CM-3/CM-6, CIS Control 2, Terraform drift docs
 
 # Kill-Switch Verification
 
@@ -324,11 +314,11 @@ gh-ost --table=orders --alter="MODIFY promo_code text" \
 
 # 12-Factor Apps
 
-**SHOULD** externalize config to the environment and treat processes as stateless, so no secret or session state is baked into images or local disk.
+**SHOULD** externalize config to the environment — reaching every backing service (database, queue, cache, SMTP) through an environment-supplied location and credential so the provider or instance can be swapped without a code change — and treat processes as stateless, so no secret or session state is baked into images or local disk.
 
-**Why:** Config compiled into images leaks through registry access and forces rebuilds to rotate credentials, slowing response to a compromise.
+**Why:** Config compiled into images leaks through registry access and forces rebuilds to rotate credentials, slowing response to a compromise; hardcoded provider hostnames and instance identifiers likewise block credential rotation and moving to a managed or failover instance, and leak internal topology into the repo.
 
-**Detect:** grep images/repos for hardcoded hosts, ports, and credentials instead of `env`/`ConfigMap`; check for session data written to container filesystem paths.
+**Detect:** grep images/repos for hardcoded hosts, ports, credentials, connection strings, provider URLs, and instance IDs instead of `env`/`ConfigMap` or injected bindings; check for session data written to container filesystem paths; verify a staging deploy can point at a different provider instance with config only.
 
-**References:** 12factor.net config/stateless factors, OWASP Docker Top 10 D06 (Protect Secrets), CWE-798 hardcoded credentials
+**References:** 12factor.net config/stateless factors, 12factor.net/backing-services, OWASP Docker Top 10 D06 (Protect Secrets), CWE-798 hardcoded credentials
 

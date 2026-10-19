@@ -1,18 +1,8 @@
-# correctness-pitfalls — full checklist (23 items)
+# correctness-pitfalls — full checklist (22 items)
 
 Language-agnostic code-level failure modes.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/correctness-pitfalls.md](../categories/correctness-pitfalls.md) · Index: [SKILL.md](../SKILL.md)
-
-# Big O Notation
-
-**SHOULD** know the complexity of hot paths against realistic input sizes before shipping, not just correctness.
-
-**Why:** An unnoticed linear or worse scan inside a request turns moderate traffic into timeouts and CPU saturation.
-
-**Detect:** `in` membership on lists in loops, sort-then-scan per request, nested loops over collections, no complexity note on hot functions.
-
-**References:** CWE-407, CWE-834, OWASP ASVS V11.1.3/V11.1.4
 
 # Business Logic Workflow Bypass & Abuse
 
@@ -104,6 +94,17 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-1339, CWE-682, IEEE 754
 
+# Input Validation
+
+**MUST** Validate all external input against type, length, range, and format allowlists at the trust boundary.
+**MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.
+
+**Why:** Downstream code assumes validated data; one unchecked field becomes the injection vector, and unvalidated fields let attackers inject unexpected shapes, extra keys, or oversized values that downstream code mishandles.
+
+**Detect:** Handlers reading `request.params`/body straight into logic; missing pydantic/Zod/Joi or `@Valid`; `request.json[...]` read with no validator or JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
+
+**References:** OWASP A03:2021, CWE-20, OWASP Input Validation Cheat Sheet, CWE-915, CWE-1289, OWASP ASVS V5.1.3/V5.1.4, OWASP API1:2023
+
 # Integer Overflow
 
 **MUST NOT** perform arithmetic on externally influenced integers without width or range checks.
@@ -144,25 +145,25 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-193, CWE-119
 
-# Quadratic Complexity & Nested Loops (O(n²) on unbounded input)
+# Complexity on Hot Paths & Quadratic Nested Loops (O(n²) on unbounded input)
 
-**MUST NOT** nest loops over two externally sized collections without a bound on either dimension.
+**MUST NOT** nest loops over two externally sized collections without a bound on either dimension; **SHOULD** know the complexity of hot paths against realistic input sizes before shipping, not just correctness.
 
-**Why:** A modest payload (10k × 10k) becomes 100M operations, letting one cheap request saturate CPU for everyone.
+**Why:** A modest payload (10k × 10k) becomes 100M operations, letting one cheap request saturate CPU for everyone, and an unnoticed linear or worse scan inside a request turns moderate traffic into timeouts and CPU saturation.
 
-**Detect:** `for ... for` over request arrays, `.map` inside `.filter` on user lists, join without index, no max-length on both sides.
+**Detect:** `for ... for` over request arrays, `.map` inside `.filter` on user lists, join without index, no max-length on both sides; `in` membership on lists in loops, sort-then-scan per request, no complexity note on hot functions.
 
-**References:** CWE-407, CWE-834, OWASP API DoS guidance
+**References:** CWE-407, CWE-834, OWASP API DoS guidance, OWASP ASVS V11.1.3/V11.1.4
 
-# Schema Validation
+# Race Conditions
 
-**MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.
+**MUST** guard shared-state mutations with proper synchronization (atomic ops, compare-and-set, or scoped locks) or immutability, never check-then-act on unsynchronized reads and never assume single-threaded execution.
 
-**Why:** Unvalidated fields let attackers inject unexpected shapes, extra keys, or oversized values that downstream code mishandles.
+**Why:** Interleaved read-modify-write across threads or nodes yields lost updates, double-spends, and intermittently corrupted data that surface only under production concurrency, carrying security holes that appear only under real load.
 
-**Detect:** Handler reads `request.json[...]` with no validator, missing Pydantic/Zod/JSON Schema, `additionalProperties: true`, mass-assignment from raw body.
+**Detect:** grep for `if (exists) then write`, `read(); modify(); write()` without CAS/`UPDATE ... WHERE version=`, non-atomic counters (`i++`), shared dict/list mutated without `Lock`/`mutex`/`synchronized`, cached mutable singletons, TOCTOU on file checks.
 
-**References:** CWE-915, CWE-1289, OWASP ASVS V5.1.3/V5.1.4, OWASP API1:2023
+**References:** CWE-362 Race Condition, CWE-366, OWASP Race Condition guidance, NIST SP 800-53 SI-10, OWASP ASVS V11.1.6
 
 # Storing Money as Floats
 
@@ -193,16 +194,6 @@ Language-agnostic code-level failure modes.
 **Detect:** `TODO`/`FIXME`/`HACK` with no ticket, duplicated blocks, dead feature flags, `XXX` markers, no debt entry in the backlog.
 
 **References:** ISO 25010 maintainability, NIST SP 800-160
-
-# Thread Safety
-
-**MUST** protect shared mutable state with locks, atomics, or immutability; never assume single-threaded execution.
-
-**Why:** Unprotected races corrupt data intermittently and produce security holes that only appear under production load.
-
-**Detect:** Shared dict/list mutated without `Lock`/`mutex`/`synchronized`, check-then-act on globals, non-atomic `count += 1`, cached mutable singletons.
-
-**References:** CWE-362, CWE-366, OWASP ASVS V11.1.6
 
 # Time Zones
 

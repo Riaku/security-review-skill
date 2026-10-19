@@ -1,4 +1,4 @@
-# sre-incidents — full checklist (35 items)
+# sre-incidents — full checklist (33 items)
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
@@ -38,15 +38,15 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 
 **References:** CIS Control 11 (immutable backups), NIST SP 800-53 CP-9, AWS S3 Object Lock docs, CWE-311
 
-# Backup Verification Drills (scheduled restore tests, not just backup jobs)
+# Disaster Recovery & Backup Verification (rehearsed full-site restore drills)
 
-**MUST** run scheduled restore drills proving backups actually recover systems, with results tracked and failures escalated.
+**MUST** maintain a rehearsed recovery plan for full-site loss, with restores verified from actual backups by scheduled restore drills whose results are tracked and failures escalated.
 
-**Why:** Backups never restored are unverified guesses: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop — and ransomware crews routinely destroy backup targets too. Discovering a corrupt set during a real incident converts an outage into permanent loss.
+**Why:** Backups never restored are unverified guesses, and DR plans never rehearsed fail when the real disaster arrives: truncated dumps, missing WAL segments, procedures that only work on one engineer's laptop — and ransomware crews routinely destroy backup targets too. Discovering a corrupt set during a real incident converts an outage into permanent loss.
 
-**Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
+**Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding, as are a missing `dr_plan.md`, disabled `wal_level`/PITR, and offsite sync jobs without checksums. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
-**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4
+**References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4, ISO 22301
 
 # Break-Glass Access Procedure
 
@@ -119,16 +119,6 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
 **References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
-
-# Disaster Recovery
-
-**MUST** maintain a rehearsed recovery plan for full-site loss, with restore verified from actual backups.
-
-**Why:** Never-restored backups are unverified files; untested DR plans fail when the real disaster arrives.
-
-**Detect:** `dr_plan.md`, `backup_schedule` cron, absence of restore-test logs, `wal_level`/PITR disabled, offsite sync jobs without checksums.
-
-**References:** NIST SP 800-34, ISO 22301
 
 # DORA (financial sector resilience)
 
@@ -342,16 +332,6 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61, Gartner SOAR definition, MITRE ATT&CK response mitigations
 
-# Stateless Services
-
-**SHOULD** keep session and application state external (datastore, token) so any replica can serve any request.
-
-**Why:** Locally stored sessions break autoscaling and failover; a killed node silently logs users out or loses their cart.
-
-**Detect:** `session.save_path` on local disk, `JSESSIONID` sticky sessions, writes to `/tmp` or pod-local volumes, `sessionAffinity: ClientIP`.
-
-**References:** The Twelve-Factor App (processes)
-
 # Customer-Facing Status Page and Outage Comms Templates
 
 **SHOULD** publish a status page and pre-approved outage templates so customers learn impact from you, not rumor.
@@ -362,15 +342,15 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** NIST SP 800-61 (communications), Google SRE Workbook, Atlassian status page practices
 
-# Sticky Sessions & Load-Balancer Affinity
+# Stateless Services & Sticky-Session Affinity
 
-**SHOULD NOT** rely on sticky sessions to make a stateful design work; if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
+**SHOULD** keep session and application state external (datastore, token) so any replica can serve any request; **SHOULD NOT** rely on sticky sessions to make a stateful design work — if affinity is required (websockets, streaming), make it explicit, session-aware, and resilient to node loss.
 
-**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem.
+**Why:** Affinity as a patch for server-side state silently breaks horizontal scaling — a rebalanced or failed node drops every "remembered" session, and scale-out multiplies the problem; locally stored sessions break autoscaling and failover the same way, silently logging users out or losing their cart when a node is killed.
 
-**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; test node drain behavior.
+**Detect:** grep LB config for `sticky`, `affinity: cookie`, `sessionAffinity: ClientIP`; check whether session state lives in-app vs external store; `session.save_path` on local disk, `JSESSIONID` sticky sessions, writes to `/tmp` or pod-local volumes; test node drain behavior.
 
-**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, stateless-services issue
+**References:** Kubernetes service sessionAffinity docs, AWS ALB stickiness docs, The Twelve-Factor App (processes)
 
 # Synthetic External Monitoring
 
