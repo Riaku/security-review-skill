@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
 
-**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+**References:** OWASP WSTG-CONF-02, CWE-548, AWS S3 ACL best practices

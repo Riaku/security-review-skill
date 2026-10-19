@@ -82,7 +82,7 @@ MyMethod:
 
 **Detect:** Certstream/subdomain enumeration output, `external-exposure.csv`, cloud security hub findings, diff of DNS zone records vs. approved inventory.
 
-**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
+**References:** OWASP WSTG-INFO-02, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
 
 # Attack Surface Reduction (deliberate exposure minimization)
 
@@ -92,7 +92,7 @@ MyMethod:
 
 **Detect:** `admin`, `console`, `/debug`, `:8080`, `:9200`, `kibana`, `phpmyadmin` in public ingress or SecurityGroup rules; Terraform `ingress = 0.0.0.0/0`.
 
-**References:** OWASP ASVS V1.3, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
+**References:** OWASP ASVS V1.14, CWE-489, NIST SP 800-53 AC-3, CIS Benchmark 5.1
 
 # CAA Record Policy
 
@@ -157,7 +157,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
                      verify="/etc/ssl/corp-ca-bundle.pem")
 ```
 
-**References:** CWE-295, CWE-299, OWASP ASVS 14.2, OWASP Testing Guide STG-CRYPTO-03
+**References:** CWE-295, CWE-299, OWASP ASVS V9.2.1, OWASP WSTG-CRYP-01
 
 # Cloud Billing Alerts
 
@@ -313,7 +313,7 @@ metadata_options {
 
 **Detect:** Grep IAM JSON for `"Action": "*"`, `"Resource": "*"`, bare `iam:PassRole`, `AdministratorAccess`. Lint Terraform `aws_iam_policy`/`google_service_account_iam_*`, CloudFormation `AWS::IAM::Policy`, and Pulumi policy docs for wildcards and modules that accept `policy_json` verbatim; run Cloudsplaining or `tfsec`/`checkov` IAM rules in CI and flag any policy the analyzer reports as admin-equivalent.
 
-**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 5.28–5.36
+**References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 1.16
 
 # Data Exfiltration Monitoring
 
@@ -799,7 +799,7 @@ resource "aws_nat_gateway" "az_a" {
 }   # one per AZ; private route tables use their local NAT
 ```
 
-**References:** AWS NAT gateway best practices, CIS AWS Foundations 2.x, AWS Well-Architected Reliability pillar
+**References:** AWS NAT gateway best practices, CIS AWS Foundations 5.x, AWS Well-Architected Reliability pillar
 
 # NodePort / LoadBalancer Accidentally Exposing Internal Services
 
@@ -832,7 +832,7 @@ spec:
 
 **Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
 
-**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+**References:** OWASP WSTG-CONF-02, CWE-548, AWS S3 ACL best practices
 
 # Path MTU blackholes diagnosed on tunnel/VPN paths
 
@@ -872,7 +872,7 @@ ssl_ciphers ECDHE-RSA-AES256-GCM-SHA384;
 
 **Good:**
 ```
-ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
+ssl_conf_command Groups X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 ```
 
 **References:** NIST FIPS 203 (ML-KEM), NIST PQC migration white papers, Cloudflare PQC deployment reports, IETF TLS hybrid KEM RFCs
@@ -897,7 +897,7 @@ url = s3.generate_presigned_url("get_object",
         Params={"Bucket": b, "Key": k}, ExpiresIn=300)  # 5 minutes
 ```
 
-**References:** AWS S3 presigned URL best practices, CWE-539, OWASP A07:2021
+**References:** AWS S3 presigned URL best practices, CWE-598, OWASP A07:2021
 
 # Public S3 Buckets
 
@@ -1041,7 +1041,7 @@ resource "aws_subnet" "app_private" {
 }
 ```
 
-**References:** CIS AWS Foundations 1.x, AWS VPC best practices, CWE-284
+**References:** CIS AWS Foundations 5.x, AWS VPC best practices, CWE-284
 
 # TLS Certificate Expiry
 
@@ -1140,7 +1140,7 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 # peering only where required, flow logs on
 ```
 
-**References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 1.x
+**References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 5.x
 
 # Workload Identity / IRSA Audience and Claim Validation Gaps
 
@@ -1163,7 +1163,7 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
   "token.actions.githubusercontent.com:sub": "repo:acme/deploy:ref:refs/heads/main"}}
 ```
 
-**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE/SPIFFI threat model
+**References:** CWE-287, OWASP ASVS 3.5, AWS IRSA trust policy docs, SPIFFE threat model
 
 # Zero Trust Architecture
 

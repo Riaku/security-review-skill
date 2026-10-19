@@ -27,4 +27,4 @@ resource "aws_subnet" "app_private" {
 }
 ```
 
-**References:** CIS AWS Foundations 1.x, AWS VPC best practices, CWE-284
+**References:** CIS AWS Foundations 5.x, AWS VPC best practices, CWE-284

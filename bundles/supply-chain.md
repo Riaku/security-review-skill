@@ -182,7 +182,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** Image fields ending in `:latest` or bare repo names; absence of `@sha256:` digest in Deployment/Pod specs.
 
-**References:** CIS Docker 4.5, NIST SP 800-190 4.4, OWASP A08 Software Supply Chain, CWE-829
+**References:** CIS Docker 4.5, NIST SP 800-190 §4.2.2 (stale images in registries), OWASP A08 Software Supply Chain, CWE-829
 
 # Registry Outage Tolerated via Cached/Pinned Images
 
@@ -192,7 +192,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** No `imagePullPolicy: IfNotPresent`/`Never` with pre-pulled images; no local registry mirror or pull-through cache configured.
 
-**References:** K8s docs imagePullPolicy, NIST SP 800-190 4.4, Harbor/Docker registry mirror docs, OWASP A08
+**References:** K8s docs imagePullPolicy, Harbor/Docker registry mirror docs, OWASP A08
 
 # Reproducible Builds
 
@@ -222,7 +222,7 @@ Dependencies, artifacts, build provenance.
 
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
-**References:** OWASP ASVS V2.10.2, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
+**References:** OWASP ASVS V2.10.4, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
 
 # Admission Enforcement of Signed Images (Verify, Not Just Sign)
 

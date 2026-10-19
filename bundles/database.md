@@ -139,9 +139,9 @@ REFERENCES users(id) ON DELETE RESTRICT  -- force explicit, reviewed cleanup
 
 **Bad:**
 ```sql
--- release 41: rename + drop; rollback to 40 breaks every query
+-- release 41: destructive rename (and an index/query that still says `total`)
 ALTER TABLE orders RENAME COLUMN total TO amount_cents;
-ALTER TABLE orders DROP COLUMN total;
+-- rollback to 40: old code queries `total`, which no longer exists
 ```
 
 **Good:**
@@ -184,7 +184,7 @@ def handler(event, ctx):
 
 **SHOULD** document, per datastore, whether each backup is crash-consistent (volume snapshot) or logically consistent (`pg_dump`, `mysqldump`), and use the right one per recovery scenario.
 
-**Why:** A raw volume snapshot of a running database captures whatever was in page cache at capture time; the engine may need crash recovery, and some configurations produce unrestorable sets. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
+**Why:** A raw volume snapshot of a running database captures only what the host had already flushed to the volume at that instant — not the dirty pages still in page cache — so it is crash-consistent at best and the engine needs crash recovery (WAL/binlog replay) to open it. Mixing them up means discovering at restore time that the "backup" was never a valid restore point.
 
 **Detect:** The backup matrix should state each method's consistency guarantee; volume-snapshot jobs over hot databases must pair with WAL/binlog archiving.
 
@@ -510,7 +510,7 @@ CREATE INDEX articles_fts ON articles USING gin(to_tsvector('english', body));
 SELECT * FROM articles WHERE to_tsvector('english', body) @@ plainto_tsquery(:q);
 ```
 
-**References:** PostgreSQL Full Text Search + GIN indexes, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL Full Text Search + GIN indexes, CWE-400
 
 # Hot Partitions
 
@@ -543,6 +543,14 @@ CREATE TABLE events (
 CREATE TABLE events_2026_10 PARTITION OF events
     FOR VALUES FROM ('2026-10-01') TO ('2026-11-01')
     PARTITION BY HASH (user_id);
+CREATE TABLE events_2026_10_p0 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 0);
+CREATE TABLE events_2026_10_p1 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 1);
+CREATE TABLE events_2026_10_p2 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 2);
+CREATE TABLE events_2026_10_p3 PARTITION OF events_2026_10
+    FOR VALUES WITH (MODULUS 4, REMAINDER 3);
 ```
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns
@@ -753,11 +761,11 @@ WHERE id = :id AND version = :expected;
 
 # Page checksums enabled to catch silent data corruption
 
-**MUST** enable data page checksums, where the engine offers them, at cluster creation so that bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently; PostgreSQL's `--data-checksums` at `initdb` is the common case and cannot be turned on later.
+**MUST** enable data page checksums, where the engine offers them, at cluster creation so that bit-rot and storage-layer corruption raise hard errors at read time instead of being served silently; PostgreSQL's `--data-checksums` at `initdb` is the common case; on PostgreSQL 12+ an existing cluster can still be swept with `pg_checksums --enable` during a maintenance window, but the operation rewrites every relation, so schedule that window rather than assuming a rebuild is the only fix.
 
 **Why:** Disks and network storage flip bits without complaint. A corrupted index page can return wrong results or stream corruption to replicas. Checksums make the database loud at the first bad read — loud beats wrong.
 
-**Detect:** Run `pg_controldata | grep -i checksum` or check IaC templates for `data_checksums`. Absence on a new cluster is a launch blocker: the setting is fixed at creation.
+**Detect:** Run `pg_controldata | grep -i checksum` or check IaC templates for `data_checksums`. Absence on a new cluster is worth fixing deliberately: the checksums can be added later only by taking the cluster down for a full `pg_checksums --enable` sweep (PG 12+), so on a busy primary it is a maintenance-window decision, not a free toggle.
 
 **Bad:**
 ```bash
@@ -916,7 +924,7 @@ export = anonymize(df, k=20,
 
 **Why:** Silent lag growth means replicas serve increasingly stale data while everything still looks green: dashboards under-report, caches serve outdated permissions, and failover decisions get made on data that stopped being current minutes ago.
 
-**Detect:** Metrics for `pg_stat_replication.replay_lag` / Seconds_Behind_Master wired into alerting; app code that ignores lag when choosing a replica; no fallback to primary when lag > threshold; long-running replica queries and large batch writes identified as lag drivers.
+**Detect:** Metrics for `pg_stat_replication.replay_lag` / Seconds_Behind_Source wired into alerting; app code that ignores lag when choosing a replica; no fallback to primary when lag > threshold; long-running replica queries and large batch writes identified as lag drivers.
 
 **Bad:**
 ```python
@@ -931,7 +939,7 @@ if replica is None:
     return primary.query(report_sql)   # explicit, monitored fallback
 ```
 
-**References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Master, Google SRE Book: SLOs, CWE-362
+**References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Source, Google SRE Book: SLOs, CWE-362
 
 # Sharding
 
@@ -1118,7 +1126,7 @@ CREATE UNIQUE INDEX users_email_uniq ON users (email);
 -- races resolve: one wins, one gets a violation to handle
 ```
 
-**References:** SQL UNIQUE constraint, OWASP ASVS V3.2, Rails uniqueness-validation index caveat, CWE-362
+**References:** SQL UNIQUE constraint, OWASP ASVS V11.1, Rails uniqueness-validation index caveat, CWE-362
 
 # UUIDs vs Auto-Increment
 
@@ -1139,7 +1147,7 @@ GET /invoices/9f2c7a4e-1b3d-4e5f-8a6b-c0d1e2f3a4b5   # UUIDv4, unguessable
 -- still pair with authorization checks; obscurity is not access control
 ```
 
-**References:** OWASP ASVS V3.2 / V4.2.1, RFC 4122 (UUID), PostgreSQL uuid vs bigserial notes, CWE-639
+**References:** OWASP ASVS V4.2.1, RFC 4122 (UUID), PostgreSQL uuid vs bigserial notes, CWE-639
 
 # Stalled replication retention accumulating log segments until disk fills
 

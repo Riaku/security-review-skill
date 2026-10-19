@@ -11,4 +11,4 @@ domains: [infrastructure, reliability]
 
 **Detect:** No etcd metrics scrape (`etcd_server_has_leader`, `etcd_server_health_failures`); no separate control-plane alert rule or runbook.
 
-**References:** CIS K8s 2.0, etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs
+**References:** etcd monitoring docs, NIST SP 800-190 5.4, K8s HA control-plane docs

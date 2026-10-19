@@ -11,4 +11,4 @@ domains: [government-compliance, infrastructure]
 
 **Detect:** No ValidatingWebhookConfiguration for gatekeeper/kyverno; namespaces missing `pod-security.kubernetes.io/enforce` labels.
 
-**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04, NIST SP 800-190 5.4
+**References:** CIS K8s 5.2, K8s Pod Security Admission, OWASP Kubernetes Top 10 K04

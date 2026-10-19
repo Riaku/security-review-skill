@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** No `imagePullPolicy: IfNotPresent`/`Never` with pre-pulled images; no local registry mirror or pull-through cache configured.
 
-**References:** K8s docs imagePullPolicy, NIST SP 800-190 4.4, Harbor/Docker registry mirror docs, OWASP A08
+**References:** K8s docs imagePullPolicy, Harbor/Docker registry mirror docs, OWASP A08

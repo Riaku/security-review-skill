@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** grep images/repos for hardcoded hosts, ports, and credentials instead of `env`/`ConfigMap`; check for session data written to container filesystem paths.
 
-**References:** 12factor.net config/stateless factors, OWASP Docker Top 10 (D-04 secrets), CWE-798 hardcoded credentials
+**References:** 12factor.net config/stateless factors, OWASP Docker Top 10 D06 (Protect Secrets), CWE-798 hardcoded credentials

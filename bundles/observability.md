@@ -403,7 +403,7 @@ Logs, metrics, traces, profiling, alerting.
 
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
-**References:** CWE-1053, NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
+**References:** NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
 
 # Slow query log captured, reviewed, and regression-tracked
 

@@ -39,11 +39,12 @@ See `AGENTS.md` for the required workflow (branch per change, PR-only to
 `main`, pre-PR gate). The rules in brief:
 
 ```bash
-python3 scripts/gen_artifacts.py     # write every bundle from the items' frontmatter
-python3 scripts/check_generated.py   # committed bundles must match the generator
+python3 scripts/check_generated.py   # FIRST: report bundles that no longer match
+python3 scripts/gen_artifacts.py     # then write every bundle from the frontmatter
 ```
 
-Both must exit 0 before opening a PR.
+Both must exit 0 before opening a PR. The order matters: the check runs the
+generator itself, so generating first would overwrite the drift it looks for.
 
 ## Sources
 

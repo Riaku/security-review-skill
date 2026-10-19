@@ -172,5 +172,5 @@ Fault-tolerance patterns under dependency failure.
 
 **Detect:** check `context.WithTimeout` propagation, `grpc-timeout` / `X-Request-Deadline` headers, per-hop timeouts exceeding entry timeout.
 
-**References:** gRPC Deadlines, Google SRE Book deadline propagation, OWASP ASVS V5, CWE-400
+**References:** gRPC Deadlines, Google SRE Book deadline propagation, CWE-400
 

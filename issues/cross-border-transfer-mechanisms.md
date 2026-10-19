@@ -5,7 +5,7 @@ domains: [governance, government-compliance]
 
 # Cross-border data transfer mechanisms post-Schrems II
 
-**SHOULD** use Standard Contractual Clauses with transfer impact assessments for EU data leaving adequacy-decision countries.
+**SHOULD** use Standard Contractual Clauses with a documented transfer impact assessment for EU/EEA personal data transferred to a country without an adequacy decision.
 
 **Why:** Transferring EU data without valid safeguards violates GDPR Chapter V post-Schrems II, risking transfer bans and fines.
 

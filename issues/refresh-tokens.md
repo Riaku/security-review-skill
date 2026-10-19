@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep refresh endpoints for missing rotation (`old token reused`), refresh tokens kept in localStorage, no `revoked`/`rotated_at` column in token store.
 
-**References:** OWASP A02:2021, CWE-523, RFC 6749 §6, OAuth Security BCP §4.13
+**References:** OWASP A02:2021, CWE-523, RFC 6749 §6, RFC 9700 §4.14

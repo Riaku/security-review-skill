@@ -9,7 +9,7 @@ domains: [data]
 
 **Why:** Silent lag growth means replicas serve increasingly stale data while everything still looks green: dashboards under-report, caches serve outdated permissions, and failover decisions get made on data that stopped being current minutes ago.
 
-**Detect:** Metrics for `pg_stat_replication.replay_lag` / Seconds_Behind_Master wired into alerting; app code that ignores lag when choosing a replica; no fallback to primary when lag > threshold; long-running replica queries and large batch writes identified as lag drivers.
+**Detect:** Metrics for `pg_stat_replication.replay_lag` / Seconds_Behind_Source wired into alerting; app code that ignores lag when choosing a replica; no fallback to primary when lag > threshold; long-running replica queries and large batch writes identified as lag drivers.
 
 **Bad:**
 ```python
@@ -24,4 +24,4 @@ if replica is None:
     return primary.query(report_sql)   # explicit, monitored fallback
 ```
 
-**References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Master, Google SRE Book: SLOs, CWE-362
+**References:** PostgreSQL Streaming Replication / synchronous replication, MySQL Seconds_Behind_Source, Google SRE Book: SLOs, CWE-362

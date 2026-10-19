@@ -24,4 +24,4 @@ resource "aws_vpc" "staging" { cidr_block = "10.20.0.0/16" }
 # peering only where required, flow logs on
 ```
 
-**References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 1.x
+**References:** AWS VPC Peering FAQ, AWS Well-Architected Security pillar, CIS AWS Foundations 5.x

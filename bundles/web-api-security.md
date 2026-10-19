@@ -99,7 +99,7 @@ metadata_options {
 
 **Detect:** `unsafe-inline`, `unsafe-eval`, `script-src *` in CSP config; no `Content-Security-Policy` header.
 
-**References:** OWASP A05:2021, CWE-1021, Google CSP Evaluator
+**References:** OWASP A05:2021, CWE-693, Google CSP Evaluator
 
 # CORS
 
@@ -393,7 +393,7 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
 
-**References:** OWASP WSTG-CONF-01, CWE-548, AWS S3 ACL best practices
+**References:** OWASP WSTG-CONF-02, CWE-548, AWS S3 ACL best practices
 
 # Open Redirect
 
@@ -473,7 +473,7 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth.
 
-**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP Testing Guide §12.2
+**References:** OWASP A05:2021, CWE-538, CWE-200, OWASP WSTG-CONF-05
 
 # Server-Side Authorization
 

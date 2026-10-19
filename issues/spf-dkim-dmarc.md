@@ -23,4 +23,4 @@ _dmarc.example.com.  TXT  "v=DMARC1; p=none"        # monitoring only
 SPF: "v=spf1 include:amazonses.com -all"
 ```
 
-**References:** RFC 7489 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
+**References:** RFC 9989 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290

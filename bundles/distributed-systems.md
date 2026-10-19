@@ -10,9 +10,9 @@ Consistency, consensus, coordination across nodes.
 
 **Why:** A Bloom hit means "maybe present": treating it as truth over-blocks denylisted lookups and silently admits never-seen items in allowlist or dedup checks. Only a negative is definitive (`BF.EXISTS` returns 1 for "may exist", 0 for "definitely does not exist"), so positives must be confirmed against the backing store.
 
-**Detect:** grep for bloom/`guava BloomFilter`/`BitSet` gating authz or dedup without a backing store confirmation on positive, missing `expectedFpp`/`fpp` sizing config.
+**Detect:** grep for bloom/`guava BloomFilter`/`BitSet` gating authz or dedup without a backing store confirmation on positive, missing `expectedInsertions`/`fpp` (Guava) or `ERROR`/`CAPACITY` (RedisBloom) sizing.
 
-**References:** Bloom 1970 paper, CWE-364 Signal Error, RedisBloom false-positive docs
+**References:** Bloom 1970 paper, RedisBloom false-positive docs
 
 # CAP Theorem
 
@@ -52,7 +52,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep hash ring code for `vnodes`/`virtual_nodes` count near 1, plain `hash(key) % node_count` (breaks on scale), missing bounded-load or rendezvous hashing.
 
-**References:** Karger et al. "Consistent Hashing and Random Trees" (1997), Cassandra vnodes docs, Amazon Dynamo paper (bounded-load hashing)
+**References:** Karger et al. "Consistent Hashing and Random Trees" (1997), Cassandra vnodes docs, Mirrokni/Thorup/Zadimoghaddam "Consistent Hashing with Bounded Loads" (2016)
 
 # CQRS
 
@@ -126,9 +126,9 @@ Consistency, consensus, coordination across nodes.
 
 # Quorums
 
-**MUST** configure read and write sets that intersect (R + W > N) for any data where lost updates are unacceptable, and verify overlap under node loss.
+**MUST** configure intersecting read/write quorums (R + W > N) wherever a read must observe the most recent acknowledged write, and use compare-and-set / lightweight transactions (or a single writer per key) wherever concurrent read-modify-write must not lose an update — quorum intersection alone does not prevent lost updates.
 
-**Why:** Non-overlapping quorums let concurrent writes silently overwrite each other, breaking the very consistency the replica count was bought for.
+**Why:** Non-overlapping quorums return stale reads — a reader can miss the last acknowledged write entirely. But overlap is not atomicity: two concurrent read-modify-write cycles both succeed and the conflict is resolved last-write-wins (usually silently), so keys with lost-update risk need CAS/lightweight transactions or a designated writer.
 
 **Detect:** grep for `replication_factor`, `read_consistency=ONE` with `write_consistency=ONE`, R+W<=N arithmetic in client config or driver defaults.
 
@@ -150,7 +150,7 @@ Consistency, consensus, coordination across nodes.
 
 **Why:** An even voter count wastes failure budget — with 4 voters quorum is 3, so a single failure leaves no further tolerance; an odd count maximizes fault tolerance per node. Unauthenticated peers allow a rogue node to hijack the log.
 
-**Detect:** grep raft config for `peers=` count, `raft.enable-tls=false`, missing `--peer-urls=https`, single-node `bootstrap` left in production manifests.
+**Detect:** grep raft config for voter count, missing `--listen-peer-urls=https://`/`--initial-advertise-peer-urls=https://`, missing `--peer-client-cert-auth`/`--peer-cert-file`, single-node `bootstrap` left in production manifests.
 
 **References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300
 
@@ -186,9 +186,9 @@ Consistency, consensus, coordination across nodes.
 
 # Workflow Engines
 
-**MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since Temporal/Step Functions re-execute steps after failure or recovery.
+**MUST** keep durable workflow steps idempotent and side-effect-free at replay time, since engines re-run step code (Temporal workflow code on every replay; Step Functions tasks on every retry) and execute activities at least once.
 
-**Why:** Non-idempotent steps (emails, charges, HTTP POSTs) fire again on every replay, duplicating real-world effects across restarts.
+**Why:** Activities are at-least-once: a worker that dies after the external call but before the completion is recorded will run the step again, and Step Functions re-runs a failed task on retry. Non-idempotent steps (emails, charges, HTTP POSTs) therefore duplicate real-world effects, while Temporal's replay-visible failure mode is non-deterministic *workflow* code (clock reads, random, map order) that diverges from history.
 
 **Detect:** grep workflow definitions for external calls outside activity/task wrappers, missing `idempotencyKey`, non-deterministic code (random, clock reads) inside workflow code.
 
