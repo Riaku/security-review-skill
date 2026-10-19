@@ -72,9 +72,24 @@ Launch all categories concurrently where the harness allows.
 
 ### Phase 3 — Merge
 
-Collect findings (JSON arrays), dedupe by file:line + slug, rank by severity
-(critical > high > medium > low), and render
-[`templates/review-report.md`](templates/review-report.md).
+Each sub-agent returns one JSON object per line. Before you trust a return, check
+it against the slugs the category owns:
+
+```bash
+python3 scripts/category_slugs.py <category> --check <findings.jsonl>
+```
+
+The script reads the same frontmatter the generator does, so its list is the
+category's full membership. Exit 0 means every owned slug came back. Exit 1 lists
+what is missing or unknown, and exit 2 means nothing parsed.
+
+- A missing slug MUST become a `needs-human` finding reading "not reported by
+  sub-agent", never a silent gap: a partial return parses cleanly, so nothing else
+  catches it.
+- An unknown slug MUST be dropped and noted; it does not belong to the category.
+
+Then dedupe by file:line + slug, rank by severity (critical > high > medium >
+low), and render [`templates/review-report.md`](templates/review-report.md).
 Include the needs-human section verbatim — never silently drop findings.
 
 **Cross-category dedupe:** the same evidence often surfaces under different
@@ -86,6 +101,9 @@ slug, list the others as related, count ONCE in the summary.
 higher severity wins and the report flags the disagreement.
 **Provenance:** every merged finding keeps all contributing slugs so
 nothing is silently lost.
+
+The findings JSON is a transport format between agent and caller. It MUST NOT be
+written into this repository or shipped with a report; the report is Markdown.
 
 ### Phase 4 — Verdict
 

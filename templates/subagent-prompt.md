@@ -23,19 +23,20 @@ Rules:
 - If you cannot decide from the code alone (needs runtime/config access/org
   context), verdict is `needs-human` — do not guess.
 
-Return ONLY a JSON array (no prose, no fences) of objects:
-{
-  "slug": "<issue-slug>",
-  "verdict": "pass | fail | not-applicable | needs-human",
-  "severity": "critical | high | medium | low",
-  "evidence": "path/to/file.py:123 — <short quote or observation>",
-  "recommendation": "<imperative fix, echoing the issue's MUST/SHOULD wording>"
-}
+Return one JSON object per line — no array, no fences, no prose before or after:
+
+```jsonl
+{"slug": "<issue-slug>", "verdict": "pass | fail | not-applicable | needs-human", "severity": "critical | high | medium | low", "evidence": "path/to/file.py:123 — <short quote or observation>", "recommendation": "<imperative fix, echoing the issue's MUST/SHOULD wording>"}
+```
+
+One line for every item in your chunk, and no line twice. A line per item means a
+truncated reply still delivers the lines you finished; a broken array delivers
+nothing. Do not wrap the lines in `[` `]`, do not separate them with commas, and do
+not add commentary — the caller parses each line on its own.
 
 Severity MUST follow `references/severity-rubric.md` (exploitability × blast
 radius × data sensitivity; keyword-level and exposure modifiers). Do not
 invent your own severity intuition.
 
-Include one object per item in your chunk; `slug` is the item file's basename
-without `.md`, verbatim. `evidence` may be "no instances found" for a pass.
-Order by severity, worst first.
+`slug` is the item file's basename without `.md`, verbatim. `evidence` may be
+"no instances found" for a pass. Order by severity, worst first.

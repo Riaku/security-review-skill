@@ -30,6 +30,9 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 GENERATOR = ROOT / "scripts" / "gen_artifacts.py"
 SKILL_FILE = ROOT / "SKILL.md"
 
+sys.path.insert(0, str(ROOT / "scripts"))
+import category_slugs  # noqa: E402 — same directory, resolved via sys.path above
+
 FRONTMATTER_RE = re.compile(r"\A---\n(?P<body>.*?)\n---\n", re.S)
 # An unquoted plain scalar cannot contain ': ' — YAML reads it as a nested
 # mapping and the whole document fails to parse. This is the class of bug that
@@ -78,6 +81,27 @@ def tracked_bundles() -> list[str]:
     return [line for line in result.stdout.splitlines() if line.strip()]
 
 
+def membership_mismatches(bundles_dir: pathlib.Path) -> list[str]:
+    """Categories where category_slugs.py and the generator disagree on membership.
+
+    The Phase 3 coverage check trusts category_slugs.py, so its reading of the
+    frontmatter has to match the generator's. If they drift, a sub-agent's complete
+    return would be reported as missing slugs.
+    """
+    bad = []
+    for path in sorted(bundles_dir.glob("*.md")):
+        header = path.read_text(encoding="utf-8").splitlines()[0]
+        match = re.search(r"\((\d+) items\)", header)
+        if match is None:
+            bad.append(f"{path.name}: header carries no item count")
+            continue
+        owned = category_slugs.owned_slugs(path.stem)
+        if int(match.group(1)) != len(owned):
+            bad.append(f"{path.stem}: bundle holds {match.group(1)} items, "
+                       f"category_slugs.py owns {len(owned)}")
+    return bad
+
+
 def main() -> int:
     problem = skill_frontmatter_problem()
     if problem is not None:
@@ -98,6 +122,14 @@ def main() -> int:
                   f"  {GENERATOR.relative_to(ROOT)} exited {result.returncode}")
             return 1
         generated = result.stdout.strip()
+        mismatches = membership_mismatches(pathlib.Path(tmp))
+
+    if mismatches:
+        print("category membership disagrees between the generator and "
+              "category_slugs.py — the coverage check would lie:")
+        for line in mismatches:
+            print(f"  {line}")
+        return 1
 
     tracked = tracked_bundles()
     if tracked:
