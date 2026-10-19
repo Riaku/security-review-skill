@@ -1,0 +1,82 @@
+name: validate-skill
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Third-party actions are pinned to full commit SHAs, per
+      # issues/ci-action-pinning.md — a retagged tag can swap in arbitrary code
+      # that runs with this workflow's token. Comments carry the human-readable
+      # version; bump both together.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262  # v4
+        with:
+          fetch-depth: 0   # the DCO step needs the PR's commits, not a shallow tip
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065  # v5
+        with:
+          python-version: "3.12"
+
+      # DCO: every commit entering main carries a Signed-off-by trailer naming
+      # the author. Enforced here rather than by an app so the rule lives in the
+      # repo; see CONTRIBUTING.md. Commit with `git commit -s`.
+      - name: DCO sign-off on every commit
+        if: github.event_name == 'pull_request'
+        run: |
+          set -e
+          base="origin/${{ github.base_ref }}"
+          missing=0
+          for sha in $(git rev-list --no-merges "$base"..HEAD); do
+            author_email=$(git log -1 --format='%ae' "$sha")
+            trailers=$(git log -1 --format='%(trailers:key=Signed-off-by,valueonly)' "$sha")
+            if [ -z "$trailers" ]; then
+              echo "::error::$(git log -1 --pretty='%h %s' "$sha"): no Signed-off-by trailer"
+              missing=1
+              continue
+            fi
+            if ! printf '%s' "$trailers" | grep -qi "<${author_email}>"; then
+              echo "::error::$(git log -1 --pretty='%h %s' "$sha"): Signed-off-by does not match author <${author_email}>"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            echo "Every commit must be signed off by its author: git commit -s (or git commit -s --amend)."
+            exit 1
+          fi
+          echo "all PR commits carry a matching Signed-off-by"
+
+      # The gate. SKILL.md's frontmatter must parse as real YAML: an unquoted
+      # plain scalar containing ': ' once made the skill silently uninstallable
+      # while a line-count check stayed green. PyYAML is pinned so CI parses
+      # with the same library the installer's consumers use, and a commit that
+      # re-adds generated bundles fails here rather than bloating the install.
+      - name: YAML parser for the frontmatter gate
+        run: pip install --quiet pyyaml==6.0.2
+
+      - name: Item format gate and generated-artifact check
+        run: python3 scripts/check_generated.py
+
+      - name: Size budgets (SKILL.md < 500 lines, issues <= 1500 words)
+        run: |
+          set -e
+          lines=$(wc -l < SKILL.md)
+          if [ "$lines" -ge 500 ]; then
+            echo "SKILL.md is $lines lines (spec budget: <500) — move detail to references/"
+            exit 1
+          fi
+          echo "SKILL.md: $lines lines OK"
+          big=""
+          for f in issues/*.md; do
+            w=$(wc -w < "$f")
+            if [ "$w" -gt 1500 ]; then big="$big$f ($w words)"$'\n'; fi
+          done
+          if [ -n "$big" ]; then
+            echo "Oversized issue files:"; printf '%s' "$big"; exit 1
+          fi
+          echo "all issue files within budget"

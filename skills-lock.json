@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "security-review-skill": {
+      "source": "Riaku/security-review-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "d6e2bbf2f4776b8f9f06093ebb1d8723cae69a06873203a0e92e642823056ea0"
+    }
+  }
+}

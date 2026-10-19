@@ -16,8 +16,7 @@ An item declares where it belongs in its own YAML frontmatter:
 header (title, item count, the category manifest's overview line, an
 attribution line), then the body of every item whose frontmatter names that
 category, in slug order. Nothing is written into ``issues/``, ``categories/``
-or ``domains/`` — those documents are authored end to end, and the footers and
-item lists that used to be generated into them are gone.
+or ``domains/``: those documents are authored end to end.
 
 ``bundles/`` is gitignored, not committed: it is built on demand by a reviewer
 who wants whole categories in one read, and generating it must never dirty the
@@ -70,7 +69,7 @@ def _rel(path: pathlib.Path) -> str:
     return str(path.relative_to(ROOT))
 
 
-def _md_files(directory: pathlib.Path) -> list[pathlib.Path]:
+def md_files(directory: pathlib.Path) -> list[pathlib.Path]:
     """Sorted ``*.md`` files directly inside `directory`."""
     return sorted(p for p in directory.glob("*.md") if p.is_file())
 
@@ -141,11 +140,11 @@ def main(argv: list[str]) -> int:
         except IndexError:
             raise BuildError("--out needs a directory path")
 
-    manifests = {p.stem: p for p in _md_files(CATEGORIES_DIR)}
-    known_doms = {p.stem for p in _md_files(DOMAINS_DIR)}
+    manifests = {p.stem: p for p in md_files(CATEGORIES_DIR)}
+    known_doms = {p.stem for p in md_files(DOMAINS_DIR)}
 
     items: dict[str, tuple[dict[str, list[str]], str]] = {}
-    for path in _md_files(ISSUES_DIR):
+    for path in md_files(ISSUES_DIR):
         meta, body = read_item(path)
         for cat in meta["categories"]:
             if cat not in manifests:
@@ -183,7 +182,7 @@ def main(argv: list[str]) -> int:
         rendered[cat] = "\n".join(parts) + "\n"
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    orphans = sorted(p.name for p in _md_files(out_dir)
+    orphans = sorted(p.name for p in md_files(out_dir)
                      if p.stem not in manifests)
     if orphans:
         raise BuildError(

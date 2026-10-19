@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""List the slugs a category owns, and check a sub-agent's findings against them.
+"""List the slugs a category owns, and check a sub-agent's return against them.
 
-An item's frontmatter is the only membership record, so this reads the same
-declaration the generator does rather than trusting a bundle or a manifest:
+An item's frontmatter is the only membership record, and `gen_artifacts.read_item`
+is the only reader of it, so this script and the generator cannot disagree about
+who belongs where:
 
     python3 scripts/category_slugs.py web-api-security
     python3 scripts/category_slugs.py web-api-security --check findings.jsonl
@@ -24,22 +25,23 @@ import json
 import pathlib
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-ISSUES_DIR = ROOT / "issues"
-CATEGORIES_DIR = ROOT / "categories"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from gen_artifacts import (CATEGORIES_DIR, ISSUES_DIR, BuildError, md_files,
+                           read_item)
 
 
 def owned_slugs(category: str) -> list[str]:
     """Every slug whose frontmatter `categories:` list names `category`."""
     slugs = []
-    for path in sorted(ISSUES_DIR.glob("*.md")):
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if not line.startswith("categories:"):
-                continue
-            names = line.split("[", 1)[-1].rstrip("] ").split(",")
-            if category in (name.strip() for name in names):
-                slugs.append(path.stem)
-            break
+    for path in md_files(ISSUES_DIR):
+        try:
+            meta, _ = read_item(path)
+        except BuildError:
+            # A malformed item is the gate's finding, not this script's; skip it
+            # rather than fail a coverage check for an unrelated reason.
+            continue
+        if category in meta["categories"]:
+            slugs.append(path.stem)
     return slugs
 
 
