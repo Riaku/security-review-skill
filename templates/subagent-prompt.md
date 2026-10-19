@@ -5,9 +5,11 @@ Inputs:
   whose frontmatter `categories:` list names `{category}` is part of this chunk.
   Enumerate them by frontmatter (or read the pre-assembled
   `bundles/{category}.md`, which inlines exactly that set).
-- Category manifest: `{manifest_path}` — the category's title and one-line
-  overview. It no longer lists items; use it only for context on how the
-  category is scoped.
+- Category manifest: `{manifest_path}` — the category's scope: its one-line
+  overview plus sections describing what the category covers, what it does not
+  cover, and what a finding in it looks like. It no longer lists items (the
+  items' own frontmatter is the membership record), so use it for context on
+  how the category is scoped and where its boundaries are.
 - Issue directory: `{issues_dir}` — read `issues/<slug>.md` for each slug.
 - Target codebase: `{repo_path}` — review this, read-only.
 
