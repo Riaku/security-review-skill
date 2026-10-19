@@ -11,4 +11,4 @@ domains: [reliability]
 
 **Detect:** grep for `heap_dump`, `tracemalloc`, `pprof`, `jcmd`, `memory_usage` alerts with trend/slope thresholds; check for unbounded caches (`lru_cache` without maxsize, growing global dicts).
 
-**References:** CWE-401, OWASP ASVS 14.2, NIST SP 800-53 SI-7
+**References:** CWE-401, NIST SP 800-53 SI-7

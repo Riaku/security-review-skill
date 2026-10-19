@@ -1,6 +1,6 @@
 ---
 categories: [testing-strategy]
-domains: [backend]
+domains: [frontend, infrastructure]
 ---
 
 # Automated A11y Gate in CI

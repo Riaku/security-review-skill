@@ -7,7 +7,7 @@ domains: [governance, government-compliance]
 
 **MUST** classify each AI system's risk tier and meet the corresponding obligations—transparency notices, conformity assessment for high-risk, GPAI documentation—before the phased enforcement deadlines.
 
-**Why:** Systems deployed without risk classification face market withdrawal and fines up to 7% of turnover once enforcement phases begin.
+**Why:** Systems deployed without risk classification face market withdrawal and administrative fines of up to EUR 15M or 3% of worldwide turnover (Art. 99(4)); prohibited practices carry up to EUR 35M or 7% (Art. 99(3)).
 
 **Detect:** grep for "high-risk", "GPAI", "Annex III", "conformity", "Article 50 transparency"; AI features with no risk tier or labeling.
 

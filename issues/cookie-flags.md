@@ -11,4 +11,4 @@ domains: [backend, frontend]
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, draft-ietf-httpbis-rfc6265bis §4.1.2.7 (SameSite), OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275

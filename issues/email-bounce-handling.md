@@ -1,6 +1,6 @@
 ---
 categories: [email-security]
-domains: [governance]
+domains: [governance, infrastructure]
 ---
 
 # Email Bounce Handling

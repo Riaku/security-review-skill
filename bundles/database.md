@@ -1,4 +1,4 @@
-# database — full checklist (54 items)
+# database — full checklist (53 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -127,7 +127,7 @@ CREATE TABLE payments (order_id INT REFERENCES orders(id) ON DELETE CASCADE);
 REFERENCES users(id) ON DELETE RESTRICT  -- force explicit, reviewed cleanup
 ```
 
-**References:** PostgreSQL ON DELETE actions, OWASP ASVS V6.4 (data retention), CWE-459
+**References:** PostgreSQL ON DELETE actions, OWASP ASVS 4.0.3 V8.3.8 (data retention), CWE-459
 
 # Code rollback without data rollback causes schema mismatch
 
@@ -171,10 +171,14 @@ def handler(event, ctx):
 ```python
 pool = psycopg2.pool.ThreadedConnectionPool(2, 20, DSN)  # module-level
 def handler(event, ctx):
-    with pool.getconn() as conn: ...
+    conn = pool.getconn()
+    try:
+        ...
+    finally:
+        pool.putconn(conn)   # `with conn:` would only end the transaction
 ```
 
-**References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, OWASP ASVS V3.1, AWS Lambda connection management guide
+**References:** PgBouncer documentation, PostgreSQL Connection Pooling docs, psycopg2 pool docs (getconn/putconn), AWS Lambda connection management guide
 
 # Crash-consistent volume snapshots vs logical dumps distinguished
 
@@ -244,11 +248,11 @@ ORDER BY created_at, id LIMIT 50;   -- index seek, stable across inserts
 
 # Data Retention & Deletion Pipelines
 
-**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and prove deletion propagated to replicas, caches, and backups.
+**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups.
 
 **Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold.
 
-**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry. A delete endpoint touching only the primary table is a gap.
+**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap.
 
 **Bad:**
 ```python
@@ -263,7 +267,7 @@ db.users.mark_deleted(id)          # tombstone
 outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
-**References:** GDPR Art. 17 Right to Erasure, CCPA deletion, NIST SP 800-53 MP-6, ISO 27018
+**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018
 
 # Database Migrations
 
@@ -300,7 +304,7 @@ def upgrade():
 
 # Database Selection by Workload (CAP Class Fit)
 
-**SHOULD** choose each datastore deliberately for its workload's CAP class and access pattern — CP for transactions/permissions/inventory, AP for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale.
+**SHOULD** choose each datastore deliberately for its workload's read/write consistency requirement and access pattern — strong consistency for transactions/permissions/inventory, tunable consistency for feeds/logs/caches, graph only for deep relationship traversal — and record the rationale, naming the store's configured behaviour under partition (quorum/R+W>N, read preference) rather than a product-level CP/AP label.
 
 **Why:** A wrong datastore choice surfaces years later as a forced migration ("the worst pain imaginable"): an AP store backing balances, or a CP store blocking feeds during partitions.
 
@@ -405,21 +409,11 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **MUST** acknowledge writes only after they are durably persisted (sync disk and/or quorum replication) for data where loss is unacceptable — payments, orders, credential changes; latency-first acks are permitted only for reversible data (likes, views, logs).
 
-**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries. Acking before durable persistence is tolerable only when the gap is explicitly backed by a durable queue or WAL (Kafka `acks=all`, Redis AOF `everysec`), never a bare in-memory buffer.
+**Why:** Ack-before-persist means a crash between ack and write silently destroys confirmed data; the client believes the operation succeeded and never retries. Acking before durable persistence is tolerable only when the gap is explicitly backed by a durable log (Kafka `acks=all` with `min.insync.replicas > 1`, PostgreSQL `synchronous_commit = on`), never a bare in-memory buffer and never a bounded-loss flush mode such as Redis AOF `everysec`, which Redis documents as "you may lose 1 second of data if there is a disaster".
 
 **Detect:** Review write paths for ack-before-flush/async-persist on critical entities; check DB durability settings (`synchronous_commit`, replication ack level, fsync) against the data's loss tolerance; trace the ack point relative to persistence — handler returning 2xx before the enqueue is fsynced, flusher threads with no crash-recovery path or backlog alerting.
 
 **References:** DDIA durability/replication chapters, Postgres synchronous_commit docs, latency-vs-durability trade-off, Kafka semantics docs (acks, idempotent producer), Redis AOF persistence docs
-
-# Erasure Propagation to Secondary Stores
-
-**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
-
-**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
-
-**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
-
-**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 
 # EXPLAIN ANALYZE
 
@@ -440,15 +434,15 @@ CREATE INDEX users_email_lower ON users (lower(email));
 SELECT * FROM users WHERE lower(email) = lower($1);  -- index-only lookup
 ```
 
-**References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, CWE-400
 
 # Exposed Data-Service Ports
 
-**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+**MUST NOT** publish database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) outside the trusted network: no public load balancers, no `0.0.0.0/0` rules, no cloud provider public-access toggles.
 
-**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+**Why:** Internet-scanned services (Shodan/Censys) find published Redis, Elasticsearch, and MongoDB ports weekly; a datastore port reachable from the internet is reachable by anyone, ahead of any application-layer control.
 
-**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check cloud provider public-access flags on managed datastores.
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
 
@@ -495,7 +489,7 @@ CREATE INDEX idx_events_status_created ON events (status, created_at DESC);
 SELECT * FROM events WHERE status = 'open' ORDER BY created_at DESC LIMIT 50;
 ```
 
-**References:** PostgreSQL EXPLAIN docs, Use The Index Luke: Sequential Scans, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL EXPLAIN docs, Use The Index Luke: Sequential Scans, CWE-400
 
 # Full-Text Search
 
@@ -522,7 +516,7 @@ SELECT * FROM articles WHERE to_tsvector('english', body) @@ plainto_tsquery(:q)
 
 **MUST** distribute write load across partitions or shards so no single partition absorbs a disproportionate share of traffic.
 
-**Why:** A partition keyed on a monotonic value like today's date concentrates all current writes on one node, throttling throughput and amplifying the blast radius of a single-node failure while the rest of the cluster idles.
+**Why:** A partition keyed on a monotonic value like today's date sends every current write to the single newest partition — same server, same WAL, same buffer pool — saturating that partition's throughput and lock contention while the older ones idle; spreading writes across machines is a separate sharding decision that Postgres partitioning does not make for you.
 
 **Detect:** Look for shard keys built from `CURRENT_DATE`, timestamps, or auto-increment IDs used directly as the partition key; check DDL for `PARTITION BY RANGE (created_at)` with no salting and per-partition write metrics for skew.
 
@@ -539,11 +533,16 @@ CREATE TABLE events (
 **Good:**
 ```sql
 CREATE TABLE events (
-    shard smallint,
+    id bigserial,
+    user_id bigint,
     created_at timestamptz,
     payload jsonb
-) PARTITION BY HASH (shard), RANGE (created_at);
--- shard = hash(user_id) % N spreads writes
+) PARTITION BY RANGE (created_at);
+-- Postgres allows one strategy per table: range on created_at, then hash each
+-- child on user_id so a day's writes spread over N sub-partitions
+CREATE TABLE events_2026_10 PARTITION OF events
+    FOR VALUES FROM ('2026-10-01') TO ('2026-11-01')
+    PARTITION BY HASH (user_id);
 ```
 
 **References:** AWS Well-Architected hot-partition guidance, Azure Storage partition keys, Cassandra monotonic-key anti-patterns
@@ -568,11 +567,11 @@ idle_in_transaction_session_timeout = 60s
 ALTER ROLE app_report SET idle_in_transaction_session_timeout = '300s'
 ```
 
-**References:** PostgreSQL idle_in_transaction_session_timeout docs, CWE-404 Improper Resource Shutdown, pg_stat_activity guides
+**References:** PostgreSQL idle_in_transaction_session_timeout docs, CWE-404 Improper Resource Shutdown or Release, pg_stat_activity guides
 
 # Indexes
 
-**MUST** add supporting indexes for every column used in WHERE, JOIN, and ORDER BY clauses on tables expected to grow beyond a few thousand rows.
+**SHOULD** add supporting indexes for the selective predicates, joins, and sorts a hot query actually uses, verified with `EXPLAIN`, rather than indexing every column named in WHERE, JOIN, or ORDER BY.
 
 **Why:** Missing indexes turn routine lookups into sequential reads; under load this saturates the buffer pool and can cascade into denial of service from what looks like ordinary traffic.
 
@@ -590,7 +589,7 @@ CREATE TABLE orders (id SERIAL PRIMARY KEY, customer_id INT, created_at TIMESTAM
 CREATE INDEX idx_orders_customer ON orders (customer_id);
 ```
 
-**References:** OWASP ASVS V3, Use The Index Luke, MySQL indexing best practices, CWE-400
+**References:** Use The Index Luke, MySQL indexing best practices, PostgreSQL CREATE INDEX docs, CWE-400
 
 # Isolation Levels
 
@@ -612,7 +611,7 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 -- or explicit: SELECT ... FOR UPDATE on the row being modified
 ```
 
-**References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, JEP-001 (Heroku), CWE-362
+**References:** ANSI SQL-92 isolation levels, PostgreSQL Isolation docs, Jepsen analyses (jepsen.io/analyses), CWE-362
 
 # Materialized Views
 
@@ -659,7 +658,7 @@ for b in books:
     print(b.author.name)   # single JOIN
 ```
 
-**References:** OWASP ASVS V3.1, Django ORM performance docs, nplusone (N+1 detection library), CWE-400
+**References:** Django ORM performance docs, nplusone (N+1 detection library), CWE-400
 
 # Normalization
 
@@ -717,13 +716,14 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **Bad:**
 ```sql
--- 400 GB table, exclusive lock for hours
-ALTER TABLE orders ADD COLUMN promo_code varchar(32);
+-- 400 GB table: changing a column's type rebuilds the table and blocks
+-- concurrent DML (MySQL 8.0 online DDL: Instant No, Permits Concurrent DML No)
+ALTER TABLE orders MODIFY promo_code text;
 ```
 
 **Good:**
 ```bash
-gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
+gh-ost --table=orders --alter="MODIFY promo_code text" \
   --execute   # ghost-table copy, seconds-long cutover
 ```
 
@@ -770,7 +770,7 @@ initdb -D /var/lib/postgresql/data --data-checksums
 # verify: 'Data page checksum version: 1'
 ```
 
-**References:** PostgreSQL initdb --data-checksums docs, CWE-17 Unexpected Condition Handling, storage bit-rot literature
+**References:** PostgreSQL initdb --data-checksums docs, storage bit-rot literature
 
 # Partitioning
 
@@ -997,7 +997,7 @@ class UserQuery(db.Query):
         return self.filter(User.deleted_at.is_(None)).all()  # default scope
 ```
 
-**References:** OWASP ASVS V6.4, Rails default_scope docs, PostgreSQL Row Security, CWE-459
+**References:** OWASP ASVS 4.0.3 V8.3.8 (data retention), Rails default_scope docs, PostgreSQL Row Security, CWE-459
 
 # Statement and lock timeouts set explicitly per workload
 
@@ -1074,11 +1074,11 @@ with conn.transaction():
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
-**MUST NOT** expose any datastore port (Redis, Elasticsearch, MongoDB, Memcached, etcd) to a network where untrusted clients can reach it without authentication and network-level restriction.
+**MUST** require authentication on every datastore engine and bind its listener only to the interfaces that need it (Redis `requirepass`/ACLs, MongoDB `authorization: enabled`, Elasticsearch `xpack.security.enabled`), so that reaching the port is not sufficient to read or write data.
 
 **Why:** These engines shipped with auth off by default, and scanned-and-looted instances appear daily: Redis dumps of sessions, Elasticsearch clusters of leaked PII. An unauthenticated store on a reachable network is a breach with a countdown timer.
 
-**Detect:** Scan inventories for default ports (6379, 9200, 27017, 11211) bound to `0.0.0.0`; check Redis `requirepass`/ACLs, MongoDB auth, Elasticsearch `xpack.security.enabled`, and security groups opening them beyond the app tier.
+**Detect:** `bind`/`bind_ip` set to `0.0.0.0`; Redis without `requirepass` or ACL users, MongoDB started without `--auth` or `security.authorization: enabled`, Elasticsearch without `xpack.security.enabled`; daemons listening on a public interface.
 
 **Bad:**
 ```yaml
@@ -1096,7 +1096,7 @@ spec:
 # NetworkPolicy: apps namespace -> redis:6379 only
 ```
 
-**References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
+**References:** CWE-306 Missing Authentication for Critical Function, OWASP A07:2021, Redis security docs, Shodan exposed-database research
 
 # Unique Constraints
 
@@ -1143,11 +1143,11 @@ GET /invoices/9f2c7a4e-1b3d-4e5f-8a6b-c0d1e2f3a4b5   # UUIDv4, unguessable
 
 # Stalled replication retention accumulating log segments until disk fills
 
-**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots, and their `restart_lag`, are the classic case).
+**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots holding a stale `restart_lsn` are the classic case).
 
 **Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
 
-**Detect:** Check monitoring on `pg_replication_slots.restart_lag`, inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
+**Detect:** Check monitoring on slot byte lag — `pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)` on `pg_replication_slots`, plus `wal_status`/`safe_wal_size` (PG 13+) — inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
 
 **Bad:**
 ```sql
@@ -1157,7 +1157,7 @@ SELECT * FROM pg_replication_slots;  -- inactive, lag growing daily
 
 **Good:**
 ```sql
--- alert when restart_lag > 5GB or inactive > 15min
+-- alert when slot byte lag > 5GB or inactive_since > 15min
 SELECT slot_name, active,
   pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS lag
 FROM pg_replication_slots;

@@ -11,4 +11,4 @@ domains: [backend, government-compliance]
 
 **Detect:** check branch protection: `required_approving_review_count`, CODEOWNERS on deploy manifests, whether the same identity authors and approves releases or holds both write and deploy roles.
 
-**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-265 Privilege Roles Conflict, OWASP ASVS V1.4, SLSA provenance requirements
+**References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-268 Privilege Chaining, OWASP ASVS V1.4, SLSA provenance requirements

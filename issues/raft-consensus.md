@@ -11,4 +11,4 @@ domains: [data]
 
 **Detect:** grep raft config for `peers=` count, `raft.enable-tls=false`, missing `--peer-urls=https`, single-node `bootstrap` left in production manifests.
 
-**References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300 Channel Endpoint Verify
+**References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300

@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
-**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
+**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1609 Container Administration Command, NIST SP 800-190

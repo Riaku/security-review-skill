@@ -23,4 +23,4 @@ class UserQuery(db.Query):
         return self.filter(User.deleted_at.is_(None)).all()  # default scope
 ```
 
-**References:** OWASP ASVS V6.4, Rails default_scope docs, PostgreSQL Row Security, CWE-459
+**References:** OWASP ASVS 4.0.3 V8.3.8 (data retention), Rails default_scope docs, PostgreSQL Row Security, CWE-459

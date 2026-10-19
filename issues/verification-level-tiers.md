@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep `ASVS`, `verification_level`, `baseline: L1|L2|L3` in security docs, scanner configs, requirement trackers.
 
-**References:** OWASP ASVS 4.0.3, OWASP SAMM, NIST SP 800-53 control tailoring
+**References:** OWASP ASVS 5.0, OWASP SAMM, NIST SP 800-53 control tailoring

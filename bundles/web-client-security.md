@@ -32,7 +32,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** Responses lacking `Cache-Control`; `no-store` absent on login, account, admin routes; `public, max-age` on authenticated endpoints.
 
-**References:** OWASP A04:2021, CWE-525, RFC 7234, NIST SP 800-63B 2.4.1.1
+**References:** OWASP A04:2021, CWE-525, RFC 9111 §5.2.2.5 (no-store)
 
 # Clickjacking
 
@@ -62,7 +62,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
 
-**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
+**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF v2.3
 
 # Cookie Flags: Secure, HttpOnly, SameSite
 
@@ -72,7 +72,7 @@ Browser-side attack surface and defenses.
 
 **Detect:** grep `Set-Cookie`, `res.cookie(`, `document.cookie=`; inspect ingress/Envoy/nginx cookie-rewrite annotations for stripped flags.
 
-**References:** RFC 6265, OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
+**References:** RFC 6265, draft-ietf-httpbis-rfc6265bis §4.1.2.7 (SameSite), OWASP Session Management Cheat Sheet, CWE-1004, CWE-1275
 
 # CORS
 

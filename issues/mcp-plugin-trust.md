@@ -11,4 +11,4 @@ domains: [governance, infrastructure]
 
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
-**References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
+**References:** OWASP LLM03:2025, MITRE ATLAS, CWE-829

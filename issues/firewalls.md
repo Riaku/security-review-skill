@@ -23,4 +23,4 @@ allow from 10.20.0.0/16 (ops-vpn) to port 22
 deny  from any to any               # explicit default deny, logged
 ```
 
-**References:** CWE-284, CIS Benchmark network rules sections, NIST SP 500-207 Zero Trust Architecture
+**References:** CWE-284, CIS Benchmark network rules sections, NIST SP 800-207 Zero Trust Architecture

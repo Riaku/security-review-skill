@@ -12,7 +12,7 @@ Firmware, OTA, and device-identity security.
 
 **Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
 
-**References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
+**References:** OWASP IoT Top 10 I1 (Weak, Guessable, or Hardcoded Passwords), FIDO/TPM device attestation, NIST IoT device identity guidance
 
 # Firmware Signing & Secure Boot
 
@@ -32,5 +32,5 @@ Firmware, OTA, and device-identity security.
 
 **Detect:** check OTA endpoint auth + TLS pinning on device side; verify version monotonicity enforcement (min-version counters, fuse-burn) in bootloader; inspect update manifest signing.
 
-**References:** OWASP IoT Top 10 IOT UPD, NIST IR 8259A, MCUboot anti-rollback docs
+**References:** OWASP IoT Top 10 I4 (Lack of Secure Update Mechanism), NIST IR 8259A, MCUboot anti-rollback docs
 

@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
-**References:** OWASP CI/CD Top 10 CICD-SEC-10, CWE-1156, NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+**References:** NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model

@@ -82,7 +82,7 @@ MyMethod:
 
 **Detect:** Certstream/subdomain enumeration output, `external-exposure.csv`, cloud security hub findings, diff of DNS zone records vs. approved inventory.
 
-**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-119, AWS Security Hub, Cloudflare for Teams
+**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
 
 # Attack Surface Reduction (deliberate exposure minimization)
 
@@ -130,7 +130,7 @@ MyMethod:
 **Good:**
 ```yaml
 # CI job on every image build + weekly cluster scan
-- run: kube-bench --json | jq '[.NodeResults[].Tests[] | select(.failures>0)]'
+- run: kube-bench --json | jq '[.Controls[].tests[].results[] | select(.status=="FAIL")]'
 # failures fail the build unless matched to a registered exception
 ```
 
@@ -253,7 +253,7 @@ metadata_options {
 
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
-**SHOULD** Track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
+**SHOULD** track unit economics — cost per request, per user, per pipeline run — alongside raw spend, and enable native anomaly detection so a cost surprise pages someone before the invoice does.
 
 **Why:** Aggregate budgets miss slow-burn regressions like an N+1 query tripling per-request cost, and anomaly detection is often the first visible signal of credential abuse mining compute.
 
@@ -303,7 +303,7 @@ metadata_options {
 
 **Detect:** grep for `prowler`, `scoutsuite`, `cloudsploit`, `checkov --framework cloud`, scheduled posture-scan jobs with alert routing.
 
-**References:** NIST CS2 (SP 800-223), CIS Cloud Benchmarks, NIST SP 800-53 CM-6, CWE-16
+**References:** CIS Cloud Benchmarks, NIST SP 800-53 CM-6, NIST SP 800-137
 
 # Dangerous IAM Policies (admin/*, *:*, PassRole chains flagged by policy linting)
 
@@ -327,7 +327,7 @@ metadata_options {
 
 # DNS
 
-**MUST NOT** Any security decision rely on DNS names or reverse DNS without validation, and resolvers in use be explicitly configured rather than inherited from DHCP.
+**MUST NOT** base any security decision on DNS names or reverse DNS without validation; resolvers in use **MUST** be configured explicitly rather than inherited from DHCP.
 
 **Why:** DNS is spoofable at the resolver, cache, and host-file level; trusting `*.internal` names or PTR records for authentication lets an attacker with resolver access impersonate services.
 
@@ -346,7 +346,7 @@ if client_cert.subject == expected_service_identity:
     grant_admin(request)
 ```
 
-**References:** CWE-350 (Reliance on Reverse DNS), OWASP A08:2021, RFC 1034
+**References:** CWE-350 (Reliance on Reverse DNS Resolution for a Security-Critical Action), OWASP A08:2021, RFC 1034
 
 # DNS Propagation
 
@@ -473,11 +473,11 @@ for url in urls:
 
 # Exposed Data-Service Ports
 
-**MUST NOT** expose database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) beyond the trusted network without authentication and TLS.
+**MUST NOT** publish database, cache, search, and daemon ports (Redis 6379, Elasticsearch 9200, MongoDB 27017, Memcached 11211, Docker API 2375, Postgres 5432) outside the trusted network: no public load balancers, no `0.0.0.0/0` rules, no cloud provider public-access toggles.
 
-**Why:** Internet-scanned services (Shodan/Censys) find unauthenticated Redis/Elasticsearch weekly — no creds needed to read or wipe the dataset.
+**Why:** Internet-scanned services (Shodan/Censys) find published Redis, Elasticsearch, and MongoDB ports weekly; a datastore port reachable from the internet is reachable by anyone, ahead of any application-layer control.
 
-**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check `bind`/`requirepass`/`xpack.security` settings.
+**Detect:** scan own external IP range for 6379/9200/27017/11211/2375; grep security groups/firewall rules and Service type=LoadBalancer for data ports; check cloud provider public-access flags on managed datastores.
 
 **References:** MITRE ATT&CK T1190, CIS Docker 2.x, Shodan exposed-database reports
 
@@ -487,7 +487,7 @@ for url in urls:
 
 **Why:** A busy proxy hitting `ulimit -n` starts refusing connections with `EMFILE`, and a full `nf_conntrack` table silently drops new flows — both look like mysterious upstream flakiness while capacity metrics still show idle CPU.
 
-**Detect:** Compare `ulimit -n` / `fs.file-max` and container `no-new-privileges` securityContext defaults against peak connection counts; check `net.netfilter.nf_conntrack_max` versus `nf_conntrack_count` (watch for `nf_conntrack: table full, dropping packet` in dmesg). In Kubernetes, review Pod `ulimit` inheritance, kube-proxy conntrack settings, and whether monitoring exports fd/conntrack saturation.
+**Detect:** Compare `ulimit -n` / `fs.file-max` against peak connection counts; check `net.netfilter.nf_conntrack_max` versus `nf_conntrack_count` (watch for `nf_conntrack: table full, dropping packet` in dmesg). In Kubernetes, review Pod `ulimit` inheritance, kube-proxy conntrack settings, and whether monitoring exports fd/conntrack saturation.
 
 **Bad:**
 ```
@@ -525,7 +525,7 @@ allow from 10.20.0.0/16 (ops-vpn) to port 22
 deny  from any to any               # explicit default deny, logged
 ```
 
-**References:** CWE-284, CIS Benchmark network rules sections, NIST SP 500-207 Zero Trust Architecture
+**References:** CWE-284, CIS Benchmark network rules sections, NIST SP 800-207 Zero Trust Architecture
 
 # HSTS
 
@@ -735,7 +735,7 @@ mtls:
 
 **Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET — and any single missing layer in the chain (v1-tolerant instance, open egress, string-only URL filter) completes the attack.
 
-**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. On instances, verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
+**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
 
 **Bad:**
 ```python
@@ -901,7 +901,7 @@ url = s3.generate_presigned_url("get_object",
 
 # Public S3 Buckets
 
-**MUST NOT** Any bucket holding application data, backups, or user content be publicly readable or writable; Block Public Access must be on at account and bucket level.
+**MUST NOT** Any bucket holding application data, backups, or user content be publicly readable or writable; Block Public Access **MUST** be enabled at account and bucket level.
 
 **Why:** Misconfigured ACLs and `Principal: "*"` policies are the most common cause of large-scale data leaks — and write-enabled buckets allow malware hosting or ransom via object overwrite.
 
@@ -970,7 +970,7 @@ def handler(event, ctx):
     return {"sso": profile["email"]}
 ```
 
-**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 S3:2017 (Sensitive Data Exposure)
 
 # Service Mesh
 
@@ -1095,11 +1095,11 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
-**MUST NOT** expose any datastore port (Redis, Elasticsearch, MongoDB, Memcached, etcd) to a network where untrusted clients can reach it without authentication and network-level restriction.
+**MUST** require authentication on every datastore engine and bind its listener only to the interfaces that need it (Redis `requirepass`/ACLs, MongoDB `authorization: enabled`, Elasticsearch `xpack.security.enabled`), so that reaching the port is not sufficient to read or write data.
 
 **Why:** These engines shipped with auth off by default, and scanned-and-looted instances appear daily: Redis dumps of sessions, Elasticsearch clusters of leaked PII. An unauthenticated store on a reachable network is a breach with a countdown timer.
 
-**Detect:** Scan inventories for default ports (6379, 9200, 27017, 11211) bound to `0.0.0.0`; check Redis `requirepass`/ACLs, MongoDB auth, Elasticsearch `xpack.security.enabled`, and security groups opening them beyond the app tier.
+**Detect:** `bind`/`bind_ip` set to `0.0.0.0`; Redis without `requirepass` or ACL users, MongoDB started without `--auth` or `security.authorization: enabled`, Elasticsearch without `xpack.security.enabled`; daemons listening on a public interface.
 
 **Bad:**
 ```yaml
@@ -1117,7 +1117,7 @@ spec:
 # NetworkPolicy: apps namespace -> redis:6379 only
 ```
 
-**References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
+**References:** CWE-306 Missing Authentication for Critical Function, OWASP A07:2021, Redis security docs, Shodan exposed-database research
 
 # VPCs
 

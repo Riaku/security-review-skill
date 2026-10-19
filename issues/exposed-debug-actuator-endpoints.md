@@ -5,7 +5,7 @@ domains: [backend]
 
 # Exposed Debug & Actuator Endpoints
 
-**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+**MUST** disable unused framework debug and management endpoints and restrict the rest to authenticated management access (`management.endpoints.web.exposure.include`, `management.server.port`); `/env`, `/heapdump`, `/phpinfo`, and `pprof` handlers are never reachable unauthenticated.
 
 **Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
 

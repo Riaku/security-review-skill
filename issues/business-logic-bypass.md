@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
-**References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
+**References:** CWE-841, CWE-362, OWASP Business Logic Errors, ASVS 4.x

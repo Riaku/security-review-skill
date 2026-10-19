@@ -22,4 +22,4 @@ initdb -D /var/lib/postgresql/data --data-checksums
 # verify: 'Data page checksum version: 1'
 ```
 
-**References:** PostgreSQL initdb --data-checksums docs, CWE-17 Unexpected Condition Handling, storage bit-rot literature
+**References:** PostgreSQL initdb --data-checksums docs, storage bit-rot literature

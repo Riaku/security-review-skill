@@ -23,4 +23,4 @@ CREATE INDEX idx_events_status_created ON events (status, created_at DESC);
 SELECT * FROM events WHERE status = 'open' ORDER BY created_at DESC LIMIT 50;
 ```
 
-**References:** PostgreSQL EXPLAIN docs, Use The Index Luke: Sequential Scans, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL EXPLAIN docs, Use The Index Luke: Sequential Scans, CWE-400

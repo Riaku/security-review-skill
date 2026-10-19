@@ -11,4 +11,4 @@ domains: [mobile]
 
 **Detect:** grep `AppDelegate continueUserActivity`, `onNewIntent`, `intent-filter`, `universalLinksOnly`; review handlers for missing authz checks on link parameters.
 
-**References:** OWASP MASVS-PLATFORM-6, CWE-20, CWE-639, OWASP MAS Testing Guide Client-Side Attack Surface
+**References:** OWASP MASVS-PLATFORM-1, CWE-20, CWE-639, OWASP MAS Testing Guide Client-Side Attack Surface

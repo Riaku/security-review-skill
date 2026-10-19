@@ -22,4 +22,4 @@ CREATE INDEX users_email_lower ON users (lower(email));
 SELECT * FROM users WHERE lower(email) = lower($1);  -- index-only lookup
 ```
 
-**References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, OWASP ASVS V3.1, CWE-400
+**References:** PostgreSQL EXPLAIN documentation, Use The Index Luke, CWE-400

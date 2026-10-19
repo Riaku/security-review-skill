@@ -22,7 +22,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
 
-**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-1041, SRE postmortem patterns
+**References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-833, SRE postmortem patterns
 
 # Auto-Mounted Service Account Tokens in Pods That Don't Need the API
 
@@ -32,7 +32,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** Pod specs without `automountServiceAccountToken: false`; mounted path `/var/run/secrets/kubernetes.io/serviceaccount` in non-API workloads.
 
-**References:** CIS K8s 5.1.5, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
+**References:** CIS K8s 5.1.6, CWE-522, OWASP Kubernetes Top 10 K06, NIST SP 800-190 5.2
 
 # CIS Benchmarks (OS/container/k8s/cloud)
 
@@ -50,7 +50,7 @@ Container and Kubernetes runtime configuration.
 **Good:**
 ```yaml
 # CI job on every image build + weekly cluster scan
-- run: kube-bench --json | jq '[.NodeResults[].Tests[] | select(.failures>0)]'
+- run: kube-bench --json | jq '[.Controls[].tests[].results[] | select(.status=="FAIL")]'
 # failures fail the build unless matched to a registered exception
 ```
 
@@ -78,21 +78,21 @@ Container and Kubernetes runtime configuration.
 
 # Crash-Loop Restart Storms Bounded and Alarmed
 
-**SHOULD** bound restart backoff and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.
+**SHOULD** bound a crash-looping workload's blast radius (restart deadline, quota, node-level backoff tuning where available) and alarm on CrashLoopBackOff so a failing pod cannot hammer the control plane or mask a persistent fault.
 
 **Why:** Unbounded rapid restarts amplify load on kubelet and API server while the underlying error goes unnoticed until an outage.
 
-**Detect:** No alert on `kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}`; `restartPolicy` with no backoff ceiling or paging rule.
+**Detect:** No alert on `kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff"}` and no paging rule for it; no `activeDeadlineSeconds` or quota bounding an endlessly restarting workload (`restartPolicy` accepts only `Always`/`OnFailure`/`Never` and carries no backoff ceiling).
 
 **References:** K8s docs backoff, kube-state-metrics CrashLoopBackOff, CWE-770, SRE alerting practices
 
 # CRDs Without OpenAPI Validation Schemas
 
-**MUST** define an OpenAPI v3 validation schema for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.
+**MUST** define a structural OpenAPI v3 validation schema (`spec.versions[*].schema.openAPIV3Schema`) for every CustomResourceDefinition so the API server rejects malformed objects before controllers see them.
 
 **Why:** Schema-less CRDs admit arbitrary fields, letting a bad manifest crash controllers or smuggle input into privileged reconcile logic.
 
-**Detect:** `kubectl get crd -o yaml` showing empty `validation.openAPIV3Schema`; CRDs missing `x-kubernetes-*` structural markers.
+**Detect:** `kubectl get crd -o yaml` and inspect `spec.versions[*].schema.openAPIV3Schema` for `x-kubernetes-preserve-unknown-fields: true`, `additionalProperties: true`, or empty `properties` objects — for `apiextensions.k8s.io/v1` a structural schema is required, so validation is only ever absent by explicit opt-out.
 
 **References:** Kubernetes CRD validation docs, CWE-20, K8s API conventions
 
@@ -114,7 +114,7 @@ Container and Kubernetes runtime configuration.
 
 **Detect:** `spec.serviceAccountName` absent or `default` in Deployments/Pods/StatefulSets; `default` SA bound to any Role/ClusterRole beyond the baseline; IAM roles (e.g. EKS IRSA annotations) attached to workloads running as `default`. Policy engines: Kyverno `require-dedicated-service-accounts` / a equivalent admission rule.
 
-**References:** CIS Kubernetes 5.1.4 (minimize default SA admission), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
+**References:** CIS Kubernetes 5.1.5 (default service accounts not actively used), K8s service accounts docs, EKS IRSA / GKE Workload Identity guidance, aquasecurity/trivy-checks KSV010–KSV012
 
 # Docker-in-Docker / Privileged Build Steps in CI
 
@@ -162,7 +162,7 @@ Container and Kubernetes runtime configuration.
 
 **Why:** A busy proxy hitting `ulimit -n` starts refusing connections with `EMFILE`, and a full `nf_conntrack` table silently drops new flows — both look like mysterious upstream flakiness while capacity metrics still show idle CPU.
 
-**Detect:** Compare `ulimit -n` / `fs.file-max` and container `no-new-privileges` securityContext defaults against peak connection counts; check `net.netfilter.nf_conntrack_max` versus `nf_conntrack_count` (watch for `nf_conntrack: table full, dropping packet` in dmesg). In Kubernetes, review Pod `ulimit` inheritance, kube-proxy conntrack settings, and whether monitoring exports fd/conntrack saturation.
+**Detect:** Compare `ulimit -n` / `fs.file-max` against peak connection counts; check `net.netfilter.nf_conntrack_max` versus `nf_conntrack_count` (watch for `nf_conntrack: table full, dropping packet` in dmesg). In Kubernetes, review Pod `ulimit` inheritance, kube-proxy conntrack settings, and whether monitoring exports fd/conntrack saturation.
 
 **Bad:**
 ```
@@ -196,9 +196,9 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 
-**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--disable-hook-fail` flags in CI deploy steps.
+**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--atomic` flags in CI deploy steps.
 
-**References:** Helm hooks docs, CWE-664 improper control of resource lifecycle, NIST SP 800-190 change control
+**References:** Helm hooks docs, CWE-664 Improper Control of a Resource Through its Lifetime, NIST SP 800-190 change control
 
 # Host Namespace Sharing (hostPath/hostPID/hostNetwork/hostIPC)
 
@@ -228,7 +228,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Detect:** check kube-apiserver flags `--audit-policy-file`, `--audit-log-path`; grep manifests for `audit.k8s.io/v1` Policy; verify long retention on the sink.
 
-**References:** CIS Kubernetes 1.2.1–1.2.4, CWE-778, NIST SP 800-92, K8s docs audit-policy
+**References:** CIS Kubernetes Benchmark 1.2.x (API-server audit settings: --audit-policy-file, --audit-log-path, rotation and retention), CWE-778, NIST SP 800-92, K8s docs audit-policy
 
 # exec/attach/debug RBAC Verbs Are Root-in-Pod Equivalent
 
@@ -238,7 +238,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Detect:** grep ClusterRole/Role YAML for `exec`, `attach`, `debug` verbs on `pods`/`pods/exec`; check who can `kubectl exec` via `kubectl auth can-i create pods/exec --as=...`.
 
-**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1611 Escape to Host, NIST SP 800-190
+**References:** Kubernetes RBAC docs, CWE-269, MITRE ATT&CK T1609 Container Administration Command, NIST SP 800-190
 
 # K8s RBAC Escalation via impersonate/bind/escalate Verbs
 
@@ -248,7 +248,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Detect:** `kubectl auth can-i --list` and grep ClusterRole YAML for `impersonate`, `bind`, `escalate` in verbs; flag RoleBindings to ClusterRole admin.
 
-**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.001, NIST SP 800-190
+**References:** RBAC: The Bad Parts (Kubernetes blog), CWE-269, MITRE ATT&CK T1098.006, NIST SP 800-190
 
 # Kubernetes RBAC & NetworkPolicies
 
@@ -286,7 +286,7 @@ sysctl -w net.netfilter.nf_conntrack_max=524288
 
 **Why:** Reaching the metadata service from a compromised or SSRF-able workload hands the attacker the node's IAM credentials verbatim — no exploitation needed, just a GET — and any single missing layer in the chain (v1-tolerant instance, open egress, string-only URL filter) completes the attack.
 
-**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. On instances, verify `HttpTokens=required` plus `HttpPutResponseHopLimit=1` on launch templates. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
+**Detect:** In SSRF filters, confirm the blocklist covers link-local, loopback, and cloud-specific IPs and is applied after DNS resolution, not on the raw string; test filters with decimal (`2852039166`), IPv6-mapped, and DNS-rebind forms. Check Kubernetes `hostAliases`, egress NetworkPolicies denying `169.254.169.254`, iptables/ip sets on nodes, container `hostNetwork` settings that sidestep pod-level blocks, and proxy configurations that allow CONNECT to it. Search code for hardcoded `169.254.169.254` outside legitimate credential-fetching libraries.
 
 **Bad:**
 ```python
@@ -385,7 +385,7 @@ spec:
 
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
-**References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
+**References:** CWE-770, Kubernetes QoS/ResourceQuota docs
 
 # Non-Root Containers
 
@@ -395,7 +395,7 @@ spec:
 
 **Detect:** `USER root`, missing `USER` directive in Dockerfile; runtime `id -u` equals 0; `runAsNonRoot: false` in pod specs.
 
-**References:** CIS Docker 4.1, CIS K8s 5.2.6, CWE-250, OWASP K8s PSA runAsNonRoot
+**References:** CIS Docker 4.1, CIS K8s 5.2.7, CWE-250, OWASP K8s PSA runAsNonRoot
 
 # Operator Finalizer Leaks Blocking Resource Deletion
 
@@ -435,7 +435,7 @@ spec:
 
 **Detect:** `securityContext.capabilities.add` listing `SYS_ADMIN`, `NET_ADMIN`, `SYS_MODULE`; `privileged: true` without an exception record.
 
-**References:** CIS K8s 5.2.7, CAP(7), MITRE ATT&CK T1611, CWE-250
+**References:** CIS K8s 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
 
 # Registry Outage Tolerated via Cached/Pinned Images
 
@@ -475,7 +475,7 @@ spec:
 
 **Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
 
-**References:** SLSA L4, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.4
+**References:** SLSA L3, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control)
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 

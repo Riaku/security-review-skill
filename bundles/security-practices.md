@@ -12,7 +12,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** check for scheduled admin-log review (CloudTrail console history, K8s audit webhook, DBA action log) with named reviewer and findings tracked; flag "logs exist but nobody reviews them".
 
-**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 1.10/8.x log review
+**References:** NIST 800-53 AU-6 review, SOC2 CC7 monitoring, CIS 8.11 (Conduct Audit Log Reviews)
 
 # Architecture Doc & ADR Coverage
 
@@ -42,7 +42,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** Certstream/subdomain enumeration output, `external-exposure.csv`, cloud security hub findings, diff of DNS zone records vs. approved inventory.
 
-**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-119, AWS Security Hub, Cloudflare for Teams
+**References:** OWASP WSTG-INFO-02, CWE-1059, NIST SP 800-53 RA-5/CM-8, AWS Security Hub, Cloudflare One
 
 # Attack Surface Reduction (deliberate exposure minimization)
 
@@ -142,7 +142,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** model response rendered via |safe / innerHTML or concatenated into queries or subprocess args.
 
-**References:** OWASP LLM01:2025, CWE-79, CWE-89, CWE-78
+**References:** OWASP LLM05:2025, CWE-79, CWE-89, CWE-78
 
 # Log Injection & Log Forging
 
@@ -212,7 +212,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
 
-**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
+**References:** NIST SP 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 5.4 no shared administrator accounts
 
 # Proportionate QA Tiering
 
@@ -272,7 +272,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** files `docs/threat-model/`, `threat-model.md`, `stride` keywords in PR templates, `threat_model` CI gate
 
-**References:** OWASP Threat Dragon, NIST SP 800-181, OWASP ASVS V1.2
+**References:** OWASP Threat Dragon, NIST SP 800-154, OWASP ASVS V1.2
 
 # Verification-Level Tiers (ASVS L1/L2/L3: basic / standard / privileged-app requirements)
 
@@ -282,7 +282,7 @@ Process-level security practices (modeling, disclosure, patching).
 
 **Detect:** grep `ASVS`, `verification_level`, `baseline: L1|L2|L3` in security docs, scanner configs, requirement trackers.
 
-**References:** OWASP ASVS 4.0.3, OWASP SAMM, NIST SP 800-53 control tailoring
+**References:** OWASP ASVS 5.0, OWASP SAMM, NIST SP 800-53 control tailoring
 
 # Vulnerability disclosure program (SECURITY.md, coordinated disclosure, safe harbor)
 

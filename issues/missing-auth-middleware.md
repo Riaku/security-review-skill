@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep router config for missing global auth middleware, routes without `@authenticated`/`requireAuth`, `public: true` as default, admin endpoints outside auth filter chain.
 
-**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 4.5
+**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 6.7 (Centralize Access Control)

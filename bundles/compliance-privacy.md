@@ -1,4 +1,4 @@
-# compliance-privacy — full checklist (40 items)
+# compliance-privacy — full checklist (39 items)
 
 Privacy operations and data protection in code.
 
@@ -46,7 +46,7 @@ Privacy operations and data protection in code.
 
 # Children's online privacy and age assurance (COPPA, UK Online Safety Act)
 
-**MUST** verify user age and obtain verifiable parental consent before collecting personal data from children, and apply age-appropriate design to likely-child audiences.
+**MUST** obtain verifiable parental consent before collecting personal data from under-13 US users (COPPA, 16 CFR 312), and where UK users are likely to be children apply the age-appropriate design code and use age verification or age estimation that is highly effective at determining whether a user is a child (Online Safety Act 2023 s.12(6)).
 
 **Why:** Self-declared birthdays are trivially bypassed; platforms collecting child data without verification face FTC, Ofcom, and ICO fines and forced redesigns.
 
@@ -56,7 +56,7 @@ Privacy operations and data protection in code.
 
 # China PIPL (cross-border security assessment, separate consent, localization)
 
-**MUST** obtain separate consent for sensitive processing and complete CAC cross-border security assessment or localization requirements before exporting Chinese personal data.
+**MUST** use one of PIPL Art. 38's transfer mechanisms (CAC security assessment, CAC standard-contract filing, or PI-protection certification) where the Art. 40 thresholds apply, obtain separate consent for sensitive PI (Art. 29) and for the cross-border transfer (Art. 39), and localise within China where Art. 40 applies.
 
 **Why:** Transferring Chinese user data abroad without CAC approval halts operations and triggers fines up to 5% of revenue plus criminal exposure.
 
@@ -72,7 +72,7 @@ Privacy operations and data protection in code.
 
 **Detect:** grep for analytics/advertising cookie initialization before consent check; inspect `CookieConsent`, `googleAnalytics`, `fbq` calls preceding consent gate.
 
-**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF 2.0
+**References:** ePrivacy Directive Art. 5(3), GDPR Recital 30, IAB TCF v2.3
 
 # Cross-border data transfer mechanisms post-Schrems II
 
@@ -96,13 +96,13 @@ Privacy operations and data protection in code.
 
 # Data Portability Export Mechanics
 
-**SHOULD** provide a complete, machine-readable export of a user's data (JSON/CSV) covering all stores where they appear, generated within the regulatory SLA.
+**SHOULD** provide a machine-readable export (JSON/CSV) of the personal data the user provided and that is processed on consent or contract (GDPR Art. 20), plus a fuller access response covering all personal data held about them (Art. 15), both generated within the regulatory SLA.
 
-**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under a 30-day clock without pre-built tooling fails.
+**Why:** Portability requests (GDPR Art. 20) that return only the primary profile row are non-compliant; building the export under the one-month statutory clock (Art. 12(3), extendable by two months) without pre-built tooling fails.
 
-**Detect:** review export tooling coverage vs datastore inventory; check export includes activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
+**Detect:** review export tooling coverage vs datastore inventory; check the Art. 20 export covers provided data while the Art. 15 response covers activity/logs/derived records per policy; verify self-service export exists and is access-controlled (export = bulk data risk).
 
-**References:** GDPR Art. 20 data portability, Google Takeout architecture talks, DSAR platform docs
+**References:** GDPR Art. 20 (portability) and Art. 15 (access), Google Takeout architecture talks, DSAR platform docs
 
 # Data Residency
 
@@ -116,11 +116,11 @@ Privacy operations and data protection in code.
 
 # Data Retention & Deletion Pipelines
 
-**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and prove deletion propagated to replicas, caches, and backups.
+**MUST** automatically delete personal data when its retention period expires or a deletion request arrives, and propagate and verify the deletion across every secondary copy: search indexes, caches, analytics, replicas, export buckets, and backups.
 
 **Why:** Hoarding data beyond its purpose violates GDPR/CCPA erasure obligations and enlarges the breach blast radius — you cannot leak what you no longer hold.
 
-**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry. A delete endpoint touching only the primary table is a gap.
+**Detect:** Grep for retention jobs (`DELETE ... WHERE created_at < ...`), tombstone/outbox patterns feeding replicas, and whether deletion covers search indexes and backup expiry; map the erasure workflow against a datastore inventory and require every store to have a verified delete-by-user step. A delete endpoint touching only the primary table is a gap.
 
 **Bad:**
 ```python
@@ -135,27 +135,17 @@ db.users.mark_deleted(id)          # tombstone
 outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
-**References:** GDPR Art. 17 Right to Erasure, CCPA deletion, NIST SP 800-53 MP-6, ISO 27018
+**References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018
 
 # DSAR Fulfillment (GDPR access/deletion requests)
 
-**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within 30 days of request.
+**MUST** provide a verified mechanism to retrieve and erase all personal data for a data subject within one month of request (extendable by two further months for complex requests).
 
 **Why:** Inability to fulfill DSARs violates GDPR Articles 15/17 and invites regulatory enforcement and subject complaints.
 
 **Detect:** grep for missing DSAR endpoints or deletion jobs; check `dsar`, `right_to_erasure`, `data_export` handlers, SLA timers absent.
 
 **References:** GDPR Art. 15, GDPR Art. 17, GDPR Art. 12(3), ISO 27701 §9
-
-# Erasure Propagation to Secondary Stores
-
-**MUST** propagate deletion/erasure requests to every secondary copy: search indexes, caches, analytics, replicas, export buckets — and verify completion.
-
-**Why:** Deleting the user row is the easy 20%; GDPR erasure fails on the other 80% — the Elastic index, the marketing export, the warehouse snapshot that still shows their email.
-
-**Detect:** map erasure workflow against datastore inventory; check each secondary store has a delete-by-user step with verification; flag stores reachable only by "rebuild the whole index" with no SLA.
-
-**References:** GDPR Art. 17 + Art. 19 notification, Google erasure guidance, DSAR automation practice
 
 # Excessive Data Exposure in API Serialization
 
@@ -165,7 +155,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
-**References:** OWASP API3:2023, CWE-213, Twitter CVE-2010-3851
+**References:** OWASP API3:2023, CWE-213
 
 # GDPR
 
@@ -179,7 +169,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
-**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with quantum-resistant or frequently re-keyed encryption, since today's ciphertext can be stored and decrypted later.
+**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with post-quantum or hybrid key agreement, since today's ciphertext can be stored and decrypted later and re-keying does not re-protect ciphertext already archived under the old key.
 
 **Why:** Adversaries archive encrypted traffic and backups now, waiting for quantum or key-compromise advances to unlock them retroactively.
 
@@ -199,13 +189,13 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
-**MUST** obtain consent through a Consent Manager registered with the Data Protection Board of India and fulfill data fiduciary duties including breach notification and grievance redressal.
+**MUST** honour consent given, managed, reviewed, or withdrawn through a Consent Manager registered with the Data Protection Board of India, and fulfill data fiduciary duties including breach notification and grievance redressal.
 
 **Why:** Processing Indian personal data without compliant consent mechanisms exposes firms to penalties up to 250 crore INR once rules activate.
 
 **Detect:** grep for "DPDP", "consent manager", "data fiduciary", grievance officer; consent captured without registered manager, no breach notification process.
 
-**References:** DPDP Act 2023, DPDP Rules (draft), India Data Protection Board
+**References:** DPDP Act 2023, DPDP Rules 2025, India Data Protection Board
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -235,7 +225,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** review retention jobs for a hold flag respected at deletion time; check backup lifecycle, log rotation, and SaaS retention can be frozen per custodian/case; verify hold procedure is documented and tested.
 
-**References:** EDRR model (NIST SP 800-221), FRCP 37(e), legal hold vendor docs (Exterro, Relativity)
+**References:** EDRM (edrm.net), FRCP 37(e), NIST SP 800-53 SI-12/AU-11, legal hold vendor docs (Exterro, Relativity)
 
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
@@ -275,7 +265,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** S3 server access logging or CloudTrail data events (`ReadOnly`/`WriteOnly` for the bucket prefix) enabled; GCS bucket audit configuration with `DATA_READ`/`DATA_WRITE` enabled; Azure Storage diagnostic settings including Read/Write/DELETE operations. Flag buckets with lifecycle policies but no data-event logging, and flag logging enabled only at management-event scope.
 
-**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 2.x (S3 logging), aquasecurity/trivy-checks storage logging rules
+**References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 3.x (logging), aquasecurity/trivy-checks storage logging rules
 
 # PCI DSS
 
@@ -345,7 +335,7 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **Detect:** grep for shared `admin`/`root` logins in auth logs config, team password vaults for infra creds, kubectl exec under shared identities; check SSO with per-user identity to admin planes.
 
-**References:** NIST 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 1.5 no shared accounts
+**References:** NIST SP 800-53 AC-6/IA-2, SOX ITGC segregation of duties, CIS 5.4 no shared administrator accounts
 
 # Anonymization vs pseudonymization and re-identification risk in shared datasets
 
@@ -394,7 +384,7 @@ def handler(event, ctx):
     return {"sso": profile["email"]}
 ```
 
-**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 (A02)
+**References:** CWE-459, AWS Lambda execution environment reuse docs, OWASP Serverless Top 10 S3:2017 (Sensitive Data Exposure)
 
 # Shadow AI: unsanctioned AI SaaS and embedded AI features in the stack
 
@@ -404,7 +394,7 @@ def handler(event, ctx):
 
 **Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
 
-**References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+**References:** OWASP LLM03:2025, NIST AI RMF GOVERN 6, CWE-912
 
 # SOC 2 as Audit Regime (CCs, evidence collection)
 
@@ -434,7 +424,7 @@ def handler(event, ctx):
 
 **Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
 
-**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
+**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Cheat Sheet
 
 # Vendor/third-party risk management and subprocessor registers
 

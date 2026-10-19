@@ -5,7 +5,7 @@ domains: [reliability]
 
 # Jitter
 
-**MUST NOT** schedule retries, refreshes, or polling on exact fixed intervals; randomize timing so replica timers never align.
+**MUST NOT** let retries, refreshes, or polling across replicas or clients share exact fixed intervals; randomize the timing (full/decorrelated jitter on retries) so timers never align.
 
 **Why:** Identical timers synchronize into spikes that repeatedly knock over a recovering service.
 

@@ -1,4 +1,4 @@
-# correctness-pitfalls — full checklist (25 items)
+# correctness-pitfalls — full checklist (23 items)
 
 Language-agnostic code-level failure modes.
 
@@ -22,7 +22,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
-**References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
+**References:** CWE-841, CWE-362, OWASP Business Logic Errors, ASVS 4.x
 
 # Character Encoding
 
@@ -46,13 +46,13 @@ Language-agnostic code-level failure modes.
 
 # Daylight Saving Time
 
-**SHOULD NOT** compute elapsed time or cron schedules by naive clock arithmetic across DST transitions.
+**SHOULD NOT** compute elapsed time or cron schedules by naive clock arithmetic across DST transitions; **SHOULD** test scheduled jobs and time logic across the spring-forward gap and fall-back overlap in the deployment timezone.
 
-**Why:** Skipped and repeated local hours make jobs fire twice, never fire, or report impossible durations.
+**Why:** Skipped and repeated local hours make jobs fire twice, never fire, or report impossible durations — a bug that hides for months and surfaces exactly at the transition.
 
-**Detect:** Cron with fixed local hours, `timedelta(hours=1)` loops over calendar days, `TZ=America/` with `naive` datetimes, missing DST tests near March/November.
+**Detect:** Cron with fixed local hours, `timedelta(hours=1)` loops over calendar days, `TZ=America/` with `naive` datetimes, no test freezing the clock at a DST boundary (spring-forward gap, fall-back overlap) in the deployment timezone, scheduler docs silent on which timezone governs.
 
-**References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb
+**References:** CWE-1091, NIST SP 800-53 AU-8, IANA tzdb, crontab(5) NOTES on DST
 
 # Dead Code
 
@@ -62,7 +62,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off, coverage reports showing 0 hits.
 
-**References:** CWE-561, CWE-1152
+**References:** CWE-561
 
 # Debouncing
 
@@ -74,16 +74,6 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-770, CWE-400, OWASP API4:2023
 
-# DST-Transition Behavior Test
-
-**SHOULD** test scheduled jobs and time logic across DST transitions (spring-forward gap, fall-back overlap) in the deployment timezone.
-
-**Why:** Cron jobs silently skip or double-fire at DST boundaries; "runs every 2h" becomes 23 or 25 runs twice a year — a bug that hides for months and hits exactly when you're asleep.
-
-**Detect:** check for tests that freeze time at DST boundaries (e.g. 2026-03-08 02:30 US), cron schedules using UTC vs local TZ, and scheduler docs stating which timezone governs; flag local-TZ cron for critical jobs.
-
-**References:** cron DST pitfalls (crontab(5) NOTES), NTP/timezone best practices, ICU timezone docs
-
 # Edge Cases
 
 **SHOULD** test empty, single-element, maximum, zero, negative, and null inputs explicitly rather than trusting the happy path.
@@ -93,16 +83,6 @@ Language-agnostic code-level failure modes.
 **Detect:** Missing tests for `[]`, `0`, `-1`, `None`/`null`, `""`; `if len(x)` guards without else branch; untested max page size.
 
 **References:** CWE-754, CWE-1284, OWASP ASVS 5.1
-
-# Error Handling
-
-**MUST** catch errors at the boundary that can recover, and propagate everything else with context instead of letting it vanish.
-
-**Why:** Swallowed or generic error paths hide failures, leak stack traces to users, and let corrupted state persist silently.
-
-**Detect:** `except:`, `except Exception: pass`, `catch {}`, `catch (e) {}`, `.catch(() => {})`, `err != nil` ignored, `|| pass`
-
-**References:** CWE-390, CWE-209, OWASP ASVS 7.4
 
 # Blocking the Shared Concurrency Primitive
 
@@ -152,7 +132,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `<<<<<<<`, `=======`, `>>>>>>>` in tracked files, conflict resolved without re-running tests, security files merged without review.
 
-**References:** CWE-1152, OWASP ASVS 15.2, Git conflict docs
+**References:** OWASP ASVS 15.2, Git conflict docs
 
 # Off-by-One Errors
 
@@ -196,13 +176,13 @@ Language-agnostic code-level failure modes.
 
 # Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)
 
-**MUST** raise typed errors and catch them narrowly at defined boundaries; never blanket-catch and continue as if nothing failed.
+**MUST** raise typed errors and catch them narrowly at boundaries that can recover, propagating everything else with context instead of letting it vanish or continuing as if nothing failed.
 
-**Why:** Untyped, swallowed exceptions erase the failure signal, so callers proceed on corrupt state and bugs become undiagnosable.
+**Why:** Untyped, swallowed exceptions erase the failure signal, so callers proceed on corrupt state, generic handlers leak stack traces to users, and bugs become undiagnosable.
 
-**Detect:** Bare `except:`/`catch(Exception)`, error logged but flow continues, no custom error classes, missing React error boundary at UI roots.
+**Detect:** Bare `except:`/`catch(Exception)`, `except Exception: pass`, `catch {}`, `catch (e) {}`, `.catch(() => {})`, ignored `err != nil`, error logged but flow continues, no custom error classes, missing React error boundary at UI roots.
 
-**References:** CWE-390, CWE-703, OWASP ASVS 7.4
+**References:** CWE-390, CWE-209, CWE-703, OWASP ASVS 7.4
 
 # Technical Debt
 
@@ -212,7 +192,7 @@ Language-agnostic code-level failure modes.
 
 **Detect:** `TODO`/`FIXME`/`HACK` with no ticket, duplicated blocks, dead feature flags, `XXX` markers, no debt entry in the backlog.
 
-**References:** CWE-1152, ISO 25010 maintainability, NIST SP 800-160
+**References:** ISO 25010 maintainability, NIST SP 800-160
 
 # Thread Safety
 

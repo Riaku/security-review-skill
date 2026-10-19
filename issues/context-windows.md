@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** config keys max_tokens, context_length, truncation strategy; no retention/eviction logic in history builders.
 
-**References:** OWASP LLM10:2025, CWE-778, NIST SP 800-53 AT-4
+**References:** OWASP LLM10:2025, CWE-778, NIST SP 800-53 SC-4 (Information in Shared System Resources)

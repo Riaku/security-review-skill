@@ -42,7 +42,7 @@ LLM feature security and quality.
 
 **Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
 
-**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
+**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3.2, CWE-807
 
 # Agent Instruction-File Review Surface
 
@@ -102,7 +102,7 @@ LLM feature security and quality.
 
 **Detect:** PRs with AI-assist labels merged without security-review approval; CI lacks a gate matching ai-generated/copilot review policy.
 
-**References:** OWASP LLM03:2025, NIST SSDF PW.4, CWE-1157
+**References:** OWASP LLM05:2025, NIST SSDF PW.7
 
 # Coding-Agent Sandbox & Permission-Mode Review
 
@@ -122,7 +122,7 @@ LLM feature security and quality.
 
 **Detect:** config keys max_tokens, context_length, truncation strategy; no retention/eviction logic in history builders.
 
-**References:** OWASP LLM10:2025, CWE-778, NIST SP 800-53 AT-4
+**References:** OWASP LLM10:2025, CWE-778, NIST SP 800-53 SC-4 (Information in Shared System Resources)
 
 # Cross-Model Review Diversity
 
@@ -148,7 +148,7 @@ LLM feature security and quality.
 
 **MUST** classify each AI system's risk tier and meet the corresponding obligations—transparency notices, conformity assessment for high-risk, GPAI documentation—before the phased enforcement deadlines.
 
-**Why:** Systems deployed without risk classification face market withdrawal and fines up to 7% of turnover once enforcement phases begin.
+**Why:** Systems deployed without risk classification face market withdrawal and administrative fines of up to EUR 15M or 3% of worldwide turnover (Art. 99(4)); prohibited practices carry up to EUR 35M or 7% (Art. 99(3)).
 
 **Detect:** grep for "high-risk", "GPAI", "Annex III", "conformity", "Article 50 transparency"; AI features with no risk tier or labeling.
 
@@ -182,7 +182,7 @@ LLM feature security and quality.
 
 **Detect:** no garak/pyrit/jailbreakbench runs in CI; absence of stored jailbreak regression corpora or refusal-bypass tests.
 
-**References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-3
+**References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-2e2023
 
 # PII redaction and DPAs before sending data to third-party LLM APIs
 
@@ -212,7 +212,7 @@ LLM feature security and quality.
 
 **Detect:** model response rendered via |safe / innerHTML or concatenated into queries or subprocess args.
 
-**References:** OWASP LLM01:2025, CWE-79, CWE-89, CWE-78
+**References:** OWASP LLM05:2025, CWE-79, CWE-89, CWE-78
 
 # Third-party MCP/plugin trust and malicious tool-description injection
 
@@ -222,7 +222,7 @@ LLM feature security and quality.
 
 **Detect:** MCP config pulling unpinned packages; no approved-server allowlist; tool descriptions unsanitized at registration.
 
-**References:** OWASP LLM06:2025, MITRE ATLAS, CWE-829
+**References:** OWASP LLM03:2025, MITRE ATLAS, CWE-829
 
 # Model Artifact Integrity (pickle-format models)
 
@@ -242,7 +242,7 @@ LLM feature security and quality.
 
 **Detect:** grep model: "latest", model: gpt-4 without dated suffix; missing digest/revision fields in inference config.
 
-**References:** OWASP LLM05:2025, CWE-1104, NIST AI RMF MANAGE
+**References:** OWASP LLM03:2025, CWE-1104, NIST AI RMF MANAGE
 
 # Prompt Injection
 
@@ -282,7 +282,7 @@ LLM feature security and quality.
 
 **Detect:** network egress to openai.com/anthropic.com from unmanaged endpoints; no AI usage policy or CASB/SaaS inventory entries.
 
-**References:** OWASP LLM09:2025, NIST AI RMF GOVERN 6, CWE-912
+**References:** OWASP LLM03:2025, NIST AI RMF GOVERN 6, CWE-912
 
 # System prompt extraction and sensitive config embedded in prompts
 
@@ -308,9 +308,9 @@ LLM feature security and quality.
 
 **MUST** govern scheduled/event-triggered agents (cron, webhook) with: attribution to the automation creator, minimal tool surface per automation, trigger trust controls (signed webhooks, ignore non-trusted events), and preserved downstream human approval.
 
-**Why:** Unattended agents run with no human per task — GitHub documents a dedicated automations-risk section; DeepSeek's review harness gives inbound webhook auth ZERO outbound authority by design.
+**Why:** Unattended agents run with no human per task, so every capability they hold is reachable from whatever triggers them; an automation must not inherit outbound authority from an inbound webhook or schedule it does not control.
 
 **Detect:** automations with broad tool grants or opt-in to untrusted-user events; webhook endpoints accepting unsigned payloads; no owner attribution per automation; agent can merge/approve its own output.
 
-**References:** GitHub Copilot automations risks-and-mitigations, DeepSeek harness webhook model, Cursor Automations docs
+**References:** GitHub Copilot coding agent risks and mitigations, OWASP LLM06:2025 Excessive Agency, NIST SP 800-53 AC-6
 

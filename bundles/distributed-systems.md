@@ -8,7 +8,7 @@ Consistency, consensus, coordination across nodes.
 
 **MAY** use Bloom filters as a fast pre-check, but MUST NOT treat a positive match as authoritative since false positives are inherent.
 
-**Why:** Trusting a Bloom hit as truth admits items that were never present, bypassing denylists or corrupting existence-based security decisions.
+**Why:** A Bloom hit means "maybe present": treating it as truth over-blocks denylisted lookups and silently admits never-seen items in allowlist or dedup checks. Only a negative is definitive (`BF.EXISTS` returns 1 for "may exist", 0 for "definitely does not exist"), so positives must be confirmed against the backing store.
 
 **Detect:** grep for bloom/`guava BloomFilter`/`BitSet` gating authz or dedup without a backing store confirmation on positive, missing `expectedFpp`/`fpp` sizing config.
 
@@ -42,7 +42,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep for `time.time()`/`Date.now()` in lease/JWT logic, missing `ntp`/`chrony` in host config, `clock_drift` tolerance unset, no `logical clock`/HLC fallback.
 
-**References:** Google Spanner TrueTime, CWE-1009 (Depends on time), NIST SP 800-186 time sync guidance
+**References:** Google Spanner TrueTime, NIST SP 800-53 AU-8 (Time Stamps), RFC 5905 (NTP)
 
 # Consistent Hashing
 
@@ -52,7 +52,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep hash ring code for `vnodes`/`virtual_nodes` count near 1, plain `hash(key) % node_count` (breaks on scale), missing bounded-load or rendezvous hashing.
 
-**References:** Karger consistent hashing paper, Cassandra vnodes docs, NIST SP 800-190 §4.5
+**References:** Karger et al. "Consistent Hashing and Random Trees" (1997), Cassandra vnodes docs, Amazon Dynamo paper (bounded-load hashing)
 
 # CQRS
 
@@ -82,7 +82,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep for `redis.lock`/`Redlock` usage without passing a monotonic token to the write path, missing `SET NX PX` expiry, lock release without owner-ID verification.
 
-**References:** Kleppmann "How to do distributed locking", Martin Farber Redlock critique, CWE-662
+**References:** Kleppmann "How to do distributed locking" (2016), antirez "Is Redlock safe?" (2016), CWE-662
 
 # Event Sourcing
 
@@ -152,7 +152,7 @@ Consistency, consensus, coordination across nodes.
 
 **Detect:** grep raft config for `peers=` count, `raft.enable-tls=false`, missing `--peer-urls=https`, single-node `bootstrap` left in production manifests.
 
-**References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300 Channel Endpoint Verify
+**References:** Raft paper (Ongaro), HashiCorp Raft security guide, CWE-300
 
 # Split Brain
 
@@ -180,7 +180,7 @@ Consistency, consensus, coordination across nodes.
 
 **Why:** 2PC blocks participants holding locks when the coordinator dies mid-vote; without durable decisions, resources stay locked or commit inconsistently.
 
-**Detect:** grep for `XA PREPARE` without `XA RECOVER`/recovery manager, coordinator state not persisted, missing timeout/abort-on-coordinator-loss, blocking `waitForCommit` loops.
+**Detect:** grep for `XA PREPARE` without `XA RECOVER`/recovery manager, coordinator state not persisted, in-doubt transactions resolved by timeout or blind abort instead of from the logged decision, blocking `waitForCommit` loops.
 
 **References:** Gray 2PC paper, CWE-662, PostgreSQL XA recovery docs, NIST SP 800-53 CP-9
 

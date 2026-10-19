@@ -11,4 +11,4 @@ domains: [backend, governance]
 
 **Detect:** model response rendered via |safe / innerHTML or concatenated into queries or subprocess args.
 
-**References:** OWASP LLM01:2025, CWE-79, CWE-89, CWE-78
+**References:** OWASP LLM05:2025, CWE-79, CWE-89, CWE-78

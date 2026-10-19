@@ -12,7 +12,7 @@ Scaling behavior and capacity limits.
 
 **Detect:** grep HPA/KEDA configs for `maxReplicas`, `stabilizationWindowSeconds`, target metric source; flag missing ceilings or scale-up driven by unauthenticated request rate.
 
-**References:** CWE-770, OWASP ASVS 14.2, AWS Well-Architected REL08-BP05
+**References:** CWE-770, AWS Well-Architected REL08-BP05
 
 # Capacity Planning
 
@@ -102,7 +102,7 @@ Scaling behavior and capacity limits.
 
 **Detect:** grep repo for `k6`, `locust`, `gatling`, `wrk`, `chaos`, test reports with `p99` and error-rate thresholds; flag tests that only check mean latency or run below peak.
 
-**References:** OWASP ASVS 14.2, NIST SP 800-184, AWS Well-Architected REL11-BP04
+**References:** NIST SP 800-184, AWS Well-Architected REL11-BP04
 
 # Memory Leaks
 
@@ -112,7 +112,7 @@ Scaling behavior and capacity limits.
 
 **Detect:** grep for `heap_dump`, `tracemalloc`, `pprof`, `jcmd`, `memory_usage` alerts with trend/slope thresholds; check for unbounded caches (`lru_cache` without maxsize, growing global dicts).
 
-**References:** CWE-401, OWASP ASVS 14.2, NIST SP 800-53 SI-7
+**References:** CWE-401, NIST SP 800-53 SI-7
 
 # Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
 
@@ -142,7 +142,7 @@ Scaling behavior and capacity limits.
 
 **Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
 
-**References:** OWASP ASVS 14.2, CWE-770, Kubernetes QoS/ResourceQuota docs
+**References:** CWE-770, Kubernetes QoS/ResourceQuota docs
 
 # OOM Killer
 
@@ -201,11 +201,11 @@ resource "aws_ebs_volume" "pg" {
 
 # Stalled replication retention accumulating log segments until disk fills
 
-**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots, and their `restart_lag`, are the classic case).
+**MUST** monitor log retention pinned by an absent replica or consumer, alerting well below free-disk headroom, since the primary cannot recycle the log segments those retention markers hold open (PostgreSQL replication slots holding a stale `restart_lsn` are the classic case).
 
 **Why:** A dropped replica leaves its slot behind, and the primary keeps every WAL byte "just in case." Days later the disk fills and the primary — not the missing replica — stops accepting writes. A classic self-inflicted Postgres outage.
 
-**Detect:** Check monitoring on `pg_replication_slots.restart_lag`, inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
+**Detect:** Check monitoring on slot byte lag — `pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)` on `pg_replication_slots`, plus `wal_status`/`safe_wal_size` (PG 13+) — inactive-slot state, and disk alerts tied to `pg_wal` growth. Grep runbooks for `pg_drop_replication_slot` and whether replica decommissioning removes its slot.
 
 **Bad:**
 ```sql
@@ -215,7 +215,7 @@ SELECT * FROM pg_replication_slots;  -- inactive, lag growing daily
 
 **Good:**
 ```sql
--- alert when restart_lag > 5GB or inactive > 15min
+-- alert when slot byte lag > 5GB or inactive_since > 15min
 SELECT slot_name, active,
   pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS lag
 FROM pg_replication_slots;

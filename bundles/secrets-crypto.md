@@ -55,17 +55,17 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 **Detect:** grep firmware/config for shared API keys, shared client certs, hardcoded device secrets; check for per-device cert enrollment flow (ACME/EST/custom) and a revocation path.
 
-**References:** OWASP IoT Top 10 IOT DB1/credentials, FIDO/TPM device attestation, NIST IoT device identity guidance
+**References:** OWASP IoT Top 10 I1 (Weak, Guessable, or Hardcoded Passwords), FIDO/TPM device attestation, NIST IoT device identity guidance
 
 # Dockerfile Secret Leakage via COPY, Build Args, and Cache Layers
 
 **MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.
 
-**Why:** Copied files and build args persist in layer history and are recoverable from any pushed image with `docker history`.
+**Why:** Copied files and build args persist in the final image: copied file contents remain in the saved layers of any pushed image, and ARG/ENV values stay visible in `docker history` and image metadata.
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks
 
 # Embedding inversion and sensitive data in vector stores
 
@@ -139,7 +139,7 @@ resp = requests.post("https://api.internal.example/token", json=payload,
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
-**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with quantum-resistant or frequently re-keyed encryption, since today's ciphertext can be stored and decrypted later.
+**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with post-quantum or hybrid key agreement, since today's ciphertext can be stored and decrypted later and re-keying does not re-protect ciphertext already archived under the old key.
 
 **Why:** Adversaries archive encrypted traffic and backups now, waiting for quantum or key-compromise advances to unlock them retroactively.
 
@@ -318,15 +318,15 @@ ssl_conf_param groups=X25519MLKEM768:X25519:secp384r1;  # hybrid, OpenSSL 3.5+
 
 **References:** NIST SP 800-57, NIST SP 800-53 IA-5, CIS Control 6, OWASP ASVS V2.10.4
 
-# Plaintext secrets persisted in infrastructure-as-code state and outputs
+# Infrastructure-as-code state kept out of repositories and encrypted at rest
 
-**MUST** mark secret-bearing variables and outputs sensitive and store generated state and plan artifacts encrypted under access control; never expose raw state in logs, CI output or pull requests. Terraform's `sensitive = true` and `terraform output` are the common case.
+**MUST NOT** commit infrastructure-as-code state to a repository or keep it on an unencrypted disk; use a remote backend with encryption at rest and state locking, and mark secret-bearing variables and outputs `sensitive` so plan output, CI logs, and pull requests cannot echo them. Terraform's `terraform.tfstate` and `terraform output` are the common case; any IaC tool's state artifact is the same class of secret-bearing file.
 
-**Why:** State files record every resource attribute in plaintext, so a leaked backend, backup, or plan output hands over all managed credentials at once.
+**Why:** State files and plan artifacts record every resource attribute in plaintext — secrets, resource IDs, network topology — so a leaked backend, backup, or CI log hands over all managed credentials at once.
 
-**Detect:** `sensitive = false` or absent on secret attributes, `terraform.tfstate` in git, `terraform output` without `-json | jq` masking, unencrypted S3 backend.
+**Detect:** grep tracked files for `terraform.tfstate`, `*.tfstate.backup`; check the backend block for `backend "s3"` with `encrypt = true` and DynamoDB locking; scan variables and outputs for missing `sensitive = true` and CI steps that print `terraform output`/`terraform plan` unmasked.
 
-**References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
+**References:** CIS Terraform 1.2/1.3, OWASP Secrets Management, CWE-312, HashiCorp backend security docs
 
 # Weak Crypto Primitives in Application Code
 

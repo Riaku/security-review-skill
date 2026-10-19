@@ -11,4 +11,4 @@ domains: [mobile]
 
 **Detect:** grep `SafetyNet`/`Play Integrity`, `jailbreak`/`rootbeer`, `isDebuggerConnected`, `ptrace`, `frida`; verify Play Integrity / App Attest server-side validation exists.
 
-**References:** OWASP MASVS-RESILIENCE-1..4, CWE-919, MAS Testing Guide Tampering and Reverse Engineering
+**References:** OWASP MASVS-RESILIENCE-1..4, MAS Testing Guide Tampering and Reverse Engineering

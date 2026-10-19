@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** no garak/pyrit/jailbreakbench runs in CI; absence of stored jailbreak regression corpora or refusal-bypass tests.
 
-**References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-3
+**References:** OWASP LLM01:2025, MITRE ATLAS, NIST AI 100-2e2023

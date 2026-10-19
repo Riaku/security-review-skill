@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
 
-**References:** SLSA L4, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.4
+**References:** SLSA L3, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control)

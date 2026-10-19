@@ -7,8 +7,8 @@ domains: [backend, infrastructure]
 
 **MUST NOT** bake secrets into images via `COPY` of credential files or plain `ARG`/`ENV` values; use BuildKit `--mount=type=secret` instead.
 
-**Why:** Copied files and build args persist in layer history and are recoverable from any pushed image with `docker history`.
+**Why:** Copied files and build args persist in the final image: copied file contents remain in the saved layers of any pushed image, and ARG/ENV values stay visible in `docker history` and image metadata.
 
 **Detect:** Grep Dockerfiles for `COPY .npmrc`, `COPY *credentials*`, `ARG API_KEY`, `ENV SECRET`, or `RUN ... $ARG` patterns; inspect `docker history` for leaked values.
 
-**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, hadolint DL3025/DL3009
+**References:** OWASP Docker DS02, CWE-540, NIST SP 800-218 (SSDF), BuildKit secret mounting docs, Trivy secret scanning / Checkov Dockerfile checks

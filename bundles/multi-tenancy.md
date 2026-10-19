@@ -1,4 +1,4 @@
-# multi-tenancy — full checklist (4 items)
+# multi-tenancy — full checklist (7 items)
 
 Tenant isolation across API, data, cache, queues, and lifecycle.
 
@@ -12,7 +12,37 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **Detect:** grep cache set/get calls for keys lacking `tenant`/`org` components; check CDN cache keys and vary headers for tenant-scoped pages; review Redis key naming convention.
 
-**References:** OWASP Multi-Tenant Security Guidance, CWE-922 insecure storage
+**References:** OWASP Multi-Tenant Security Cheat Sheet, CWE-922 Insecure Storage of Sensitive Information
+
+# Missing ResourceQuota / LimitRange Allowing Namespace Exhaustion
+
+**SHOULD** apply ResourceQuota and LimitRange to every tenant namespace so one team cannot consume the whole cluster's compute.
+
+**Why:** Without quotas, a runaway or malicious workload exhausts shared CPU/memory, degrading every other namespace on the cluster.
+
+**Detect:** Namespaces with no `ResourceQuota` or `LimitRange` objects; tenant namespaces sharing unbounded node pools.
+
+**References:** CIS K8s 5.2.1, K8s quotas/limitranges docs, CWE-770, NIST SP 800-190 5.3
+
+# Noisy-neighbor isolation between tenants/workloads
+
+**MUST** enforce per-tenant or per-workload resource quotas (CPU, memory, I/O, connection rate) so one tenant's burst cannot degrade others sharing the host.
+
+**Why:** Without isolation, a single abusive or misbehaving tenant saturates shared CPU, disk I/O, or network, violating SLAs for everyone co-located.
+
+**Detect:** grep for `ResourceQuota`, `LimitRange`, `CPUShares`/`cpu_weight`, `blkio`/`IOClass`, per-tenant `rate_limit` in gateway config; flag shared pools with no per-tenant caps.
+
+**References:** CWE-770, Kubernetes QoS/ResourceQuota docs
+
+# Row-Level Security
+
+**MUST** enforce row-level security (RLS) or equivalent tenant scoping in the database layer for every multi-tenant table, not only in application queries.
+
+**Why:** A single missed WHERE clause in one code path leaks every tenant's rows; database-enforced policies fail closed instead.
+
+**Detect:** grep for `ENABLE ROW LEVEL SECURITY`, `CREATE POLICY`, tenant_id filters in ORM raw queries; flag tables lacking policies.
+
+**References:** OWASP A01:2021 Broken Access Control, CWE-285, PostgreSQL RLS docs, NIST SP 800-53 AC-3
 
 # Shared-Queue Tenant Isolation
 
@@ -22,7 +52,7 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **Detect:** check queue topology for tenant partitioning (Kafka partition key = tenant, per-tenant SQS), per-tenant rate limits on producers, DLQ handling segregated per tenant.
 
-**References:** OWASP Multi-Tenant Security Guidance (queue isolation patterns), bulkheads pattern
+**References:** OWASP Multi-Tenant Security Cheat Sheet (queue isolation patterns), bulkheads pattern
 
 # Tenant-ID Spoofing at API Boundary
 
@@ -32,7 +62,7 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
 
-**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
+**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security Cheat Sheet
 
 # Tenant Offboarding Data Purge
 
@@ -42,5 +72,5 @@ Tenant isolation across API, data, cache, queues, and lifecycle.
 
 **Detect:** review offboarding runbook/code for coverage list vs actual datastore inventory; check for orphaned tenant rows (`SELECT tenant_id ... GROUP BY` vs active tenants); verify purge verification step exists.
 
-**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Guidance
+**References:** GDPR Art. 17, SOC2 CC6, OWASP Multi-Tenant Security Cheat Sheet
 

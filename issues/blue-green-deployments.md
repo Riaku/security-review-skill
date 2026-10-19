@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** grep switch scripts for missing health-check gates before service/ingress selector flips; compare standby image tags against the live CVE-patched baseline.
 
-**References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 insecure default initialization
+**References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 Initialization of a Resource with an Insecure Default

@@ -38,11 +38,11 @@ Server-side API and web application attack surface.
 
 # Bot Protection
 
-**MUST** rate-limit and challenge automated clients on sensitive endpoints (login, signup, password reset, API).
+**MUST** challenge automated clients on login, signup, password-reset, and other abuse-prone flows with bot detection or a challenge (fingerprinting, proof-of-work, CAPTCHA), on top of whatever rate limiting applies.
 
-**Why:** Unprotected endpoints enable credential stuffing, account enumeration, and resource exhaustion attacks at scale.
+**Why:** Credential stuffing and signup abuse are spread across large proxy pools, so per-IP throttling alone does not stop them; a challenge is what separates a script from a user.
 
-**Detect:** grep for missing rate limiting, CAPTCHA, or bot detection middleware on auth/API routes; check `rate_limit`, `throttle`, `bot_detection` config absent.
+**Detect:** grep auth flows for a challenge step (`captcha`, `recaptcha`, `turnstile`, `hcaptcha`, `bot_detection`, `proof_of_work`) or bot-detection middleware; a login route with throttling but no challenge at all.
 
 **References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
 
@@ -54,7 +54,7 @@ Server-side API and web application attack surface.
 
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
-**References:** CWE-840, CWE-362, OWASP Business Logic Errors, ASVS 4.x
+**References:** CWE-841, CWE-362, OWASP Business Logic Errors, ASVS 4.x
 
 # Clickjacking
 
@@ -143,7 +143,7 @@ metadata_options {
 
 # Debug/Dev Mode in Production
 
-**MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
+**MUST NOT** ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
 
 **Why:** Traceback pages leak source and secrets; debug consoles allow code execution.
 
@@ -167,7 +167,7 @@ metadata_options {
 
 **Why:** Evaluating attacker-controlled text is remote code execution — full host compromise, no sandbox assumed.
 
-**Detect:** `eval(`, `exec(`, `new Function(`, `os.system(`, `subprocess` with `shell=True` on input, Jinja `|safe`/`Template(user_str)`.
+**Detect:** `eval(`, `exec(`, `new Function(`, `compile(`/`__import__` on request data, template rendering of user strings (Jinja `|safe`, `Template(user_str)`), expression evaluators over user input.
 
 **References:** CWE-94, CWE-95, OWASP Injection, OWASP ASVS 5.2
 
@@ -183,7 +183,7 @@ metadata_options {
 
 # Exposed Debug & Actuator Endpoints
 
-**MUST NOT** expose framework debug or management endpoints (Spring Actuator `/env` `/heapdump`, Django `DEBUG=True`, `/phpinfo`, Rails `/debug`, pprof, adminer) on production interfaces.
+**MUST** disable unused framework debug and management endpoints and restrict the rest to authenticated management access (`management.endpoints.web.exposure.include`, `management.server.port`); `/env`, `/heapdump`, `/phpinfo`, and `pprof` handlers are never reachable unauthenticated.
 
 **Why:** These endpoints dump env vars, heap memory, config, and internals — a single unauthenticated `/env` request can leak every secret in the service.
 
@@ -359,7 +359,7 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **Detect:** grep router config for missing global auth middleware, routes without `@authenticated`/`requireAuth`, `public: true` as default, admin endpoints outside auth filter chain.
 
-**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 4.5
+**References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 6.7 (Centralize Access Control)
 
 # NoSQL Query Injection
 
@@ -477,11 +477,11 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 # Server-Side Authorization
 
-**MUST NOT** Rely on UI hiding or client route guards; enforce permissions in server code per request.
+**MUST NOT** Trust the client for any authorization decision: hidden UI, client route guards, and client-supplied role or permission values are all forgeable, so permissions are re-derived server-side from the authenticated session on every request.
 
 **Why:** Hidden buttons and guarded routes are bypassed by calling the API directly.
 
-**Detect:** Routes without auth middleware or policy decorators; authorization only in frontend routers.
+**Detect:** handlers reading role or permission from a request body, header, or unverified token claim; permission flags echoed to the client and trusted back; destructive actions gated only in the frontend router.
 
 **References:** OWASP A01:2021, CWE-862, OWASP Authorization Cheat Sheet
 
@@ -533,7 +533,7 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
 
-**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security GS
+**References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security Cheat Sheet
 
 # Web Cache Poisoning & Cache Deception
 
@@ -557,7 +557,7 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 # Webhook Signature Verification
 
-**MUST** Verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
+**MUST** verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
 
 **Why:** Unsigned endpoints accept forged events — fake payments, refunds, account changes.
 

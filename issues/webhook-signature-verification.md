@@ -5,7 +5,7 @@ domains: [backend, data]
 
 # Webhook Signature Verification
 
-**MUST** Verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
+**MUST** verify the provider HMAC over the raw body with constant-time comparison before acting on any webhook.
 
 **Why:** Unsigned endpoints accept forged events — fake payments, refunds, account changes.
 

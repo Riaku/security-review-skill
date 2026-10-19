@@ -5,7 +5,7 @@ domains: [data]
 
 # Indexes
 
-**MUST** add supporting indexes for every column used in WHERE, JOIN, and ORDER BY clauses on tables expected to grow beyond a few thousand rows.
+**SHOULD** add supporting indexes for the selective predicates, joins, and sorts a hot query actually uses, verified with `EXPLAIN`, rather than indexing every column named in WHERE, JOIN, or ORDER BY.
 
 **Why:** Missing indexes turn routine lookups into sequential reads; under load this saturates the buffer pool and can cascade into denial of service from what looks like ordinary traffic.
 
@@ -23,4 +23,4 @@ CREATE TABLE orders (id SERIAL PRIMARY KEY, customer_id INT, created_at TIMESTAM
 CREATE INDEX idx_orders_customer ON orders (customer_id);
 ```
 
-**References:** OWASP ASVS V3, Use The Index Luke, MySQL indexing best practices, CWE-400
+**References:** Use The Index Luke, MySQL indexing best practices, PostgreSQL CREATE INDEX docs, CWE-400

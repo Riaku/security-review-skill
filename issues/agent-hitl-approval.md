@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** agent tool registry lacks confirm/approval flags on destructive verbs; auto-execute=true on write-capable tools.
 
-**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3, CWE-807
+**References:** OWASP LLM06:2025, NIST AI RMF GOVERN 3.2, CWE-807

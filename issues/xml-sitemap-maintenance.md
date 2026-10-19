@@ -5,7 +5,7 @@ domains: [frontend]
 
 # XML Sitemap Maintenance
 
-**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and ping/submit on deploy.
+**SHOULD** auto-generate sitemap.xml containing only canonical, indexable, non-noindex URLs, with accurate lastmod, and reference it from robots.txt and submit it through Search Console (Google retired the sitemaps ping endpoint in 2023).
 
 **Why:** A stale sitemap (listing removed, noindex, or redirected URLs) wastes crawl budget and delays discovery of real content.
 

@@ -11,4 +11,4 @@ domains: [reliability]
 
 **Detect:** `terminationGracePeriodSeconds`, `SIGTERM` handler absent, `preStop` hook missing, `kill -9` in stop scripts.
 
-**References:** Kubernetes termination docs, CWE-227, Google SRE Book
+**References:** Kubernetes termination docs, CWE-404, Google SRE Book

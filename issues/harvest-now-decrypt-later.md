@@ -5,7 +5,7 @@ domains: [backend, governance]
 
 # Harvest-now-decrypt-later exposure of long-lived confidential data
 
-**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with quantum-resistant or frequently re-keyed encryption, since today's ciphertext can be stored and decrypted later.
+**MUST** protect data whose confidentiality must outlast ~15 years (health records, identities, keys) with post-quantum or hybrid key agreement, since today's ciphertext can be stored and decrypted later and re-keying does not re-protect ciphertext already archived under the old key.
 
 **Why:** Adversaries archive encrypted traffic and backups now, waiting for quantum or key-compromise advances to unlock them retroactively.
 

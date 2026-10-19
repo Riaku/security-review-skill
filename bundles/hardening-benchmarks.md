@@ -40,7 +40,7 @@ CIS/STIG-style configuration baselines.
 **Good:**
 ```yaml
 # CI job on every image build + weekly cluster scan
-- run: kube-bench --json | jq '[.NodeResults[].Tests[] | select(.failures>0)]'
+- run: kube-bench --json | jq '[.Controls[].tests[].results[] | select(.status=="FAIL")]'
 # failures fail the build unless matched to a registered exception
 ```
 
@@ -95,7 +95,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** grep configs/seed files for `admin:admin`, `changeme`, `default_password`, hardcoded credentials in Docker images, demo accounts in fixtures shipped to prod.
 
-**References:** CWE-1188, OWASP A05:2021, CIS Control 5.4, NIST SP 800-118
+**References:** CWE-1188, OWASP A05:2021, CIS Control 4.7, NIST SP 800-63B
 
 # DISA STIG Hardening
 
@@ -155,7 +155,7 @@ CIS/STIG-style configuration baselines.
 
 **Detect:** `securityContext.capabilities.add` listing `SYS_ADMIN`, `NET_ADMIN`, `SYS_MODULE`; `privileged: true` without an exception record.
 
-**References:** CIS K8s 5.2.7, CAP(7), MITRE ATT&CK T1611, CWE-250
+**References:** CIS K8s 5.2.9 (added capabilities), CAP(7), MITRE ATT&CK T1611, CWE-250
 
 # Sensitive endpoint exposure (actuator, /admin, .git, .env, debug routes, dashboards)
 
@@ -200,11 +200,11 @@ ssl_protocols TLSv1.2 TLSv1.3;
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 
-**MUST NOT** expose any datastore port (Redis, Elasticsearch, MongoDB, Memcached, etcd) to a network where untrusted clients can reach it without authentication and network-level restriction.
+**MUST** require authentication on every datastore engine and bind its listener only to the interfaces that need it (Redis `requirepass`/ACLs, MongoDB `authorization: enabled`, Elasticsearch `xpack.security.enabled`), so that reaching the port is not sufficient to read or write data.
 
 **Why:** These engines shipped with auth off by default, and scanned-and-looted instances appear daily: Redis dumps of sessions, Elasticsearch clusters of leaked PII. An unauthenticated store on a reachable network is a breach with a countdown timer.
 
-**Detect:** Scan inventories for default ports (6379, 9200, 27017, 11211) bound to `0.0.0.0`; check Redis `requirepass`/ACLs, MongoDB auth, Elasticsearch `xpack.security.enabled`, and security groups opening them beyond the app tier.
+**Detect:** `bind`/`bind_ip` set to `0.0.0.0`; Redis without `requirepass` or ACL users, MongoDB started without `--auth` or `security.authorization: enabled`, Elasticsearch without `xpack.security.enabled`; daemons listening on a public interface.
 
 **Bad:**
 ```yaml
@@ -222,5 +222,5 @@ spec:
 # NetworkPolicy: apps namespace -> redis:6379 only
 ```
 
-**References:** CWE-306 Missing Authentication for Critical Function, OWASP A02, Redis security docs, Shodan exposed-database research
+**References:** CWE-306 Missing Authentication for Critical Function, OWASP A07:2021, Redis security docs, Shodan exposed-database research
 

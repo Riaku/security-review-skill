@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** Functions with zero call sites, `if False`, commented-out blocks, feature flags permanently off, coverage reports showing 0 hits.
 
-**References:** CWE-561, CWE-1152
+**References:** CWE-561

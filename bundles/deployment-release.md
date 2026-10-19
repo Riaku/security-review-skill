@@ -1,4 +1,4 @@
-# deployment-release — full checklist (30 items)
+# deployment-release — full checklist (29 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -22,7 +22,7 @@ Release engineering: strategies, environments, versioning.
 
 **Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
 
-**References:** SLSA levels 3-4, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
+**References:** SLSA Build Level 3, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
 
 # Blue-Green Deployments
 
@@ -32,7 +32,7 @@ Release engineering: strategies, environments, versioning.
 
 **Detect:** grep switch scripts for missing health-check gates before service/ingress selector flips; compare standby image tags against the live CVE-patched baseline.
 
-**References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 insecure default initialization
+**References:** NIST SP 800-190, AWS Blue/Green deployment guidance, CWE-1188 Initialization of a Resource with an Insecure Default
 
 # Strict Build / Release / Run Separation
 
@@ -79,7 +79,7 @@ ALTER TABLE orders ADD COLUMN amount_cents bigint;
 
 # Debug/Dev Mode in Production
 
-**MUST NOT** Ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
+**MUST NOT** ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
 
 **Why:** Traceback pages leak source and secrets; debug consoles allow code execution.
 
@@ -165,9 +165,9 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Why:** If a DB migration hook fails but the release proceeds, new pods start against an unmigrated schema and corrupt or reject data immediately.
 
-**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--disable-hook-fail` flags in CI deploy steps.
+**Detect:** grep chart `helm.sh/hook` annotations for missing `hook-weight` ordering, absent `hook-delete-policy`, and `--no-hooks`/`--atomic` flags in CI deploy steps.
 
-**References:** Helm hooks docs, CWE-664 improper control of resource lifecycle, NIST SP 800-190 change control
+**References:** Helm hooks docs, CWE-664 Improper Control of a Resource Through its Lifetime, NIST SP 800-190 change control
 
 # Plaintext Secrets in Helm values Files and Rendered Manifests
 
@@ -239,13 +239,14 @@ staging: dual-write 48h → backfill → checksum diff = 0
 
 **Bad:**
 ```sql
--- 400 GB table, exclusive lock for hours
-ALTER TABLE orders ADD COLUMN promo_code varchar(32);
+-- 400 GB table: changing a column's type rebuilds the table and blocks
+-- concurrent DML (MySQL 8.0 online DDL: Instant No, Permits Concurrent DML No)
+ALTER TABLE orders MODIFY promo_code text;
 ```
 
 **Good:**
 ```bash
-gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
+gh-ost --table=orders --alter="MODIFY promo_code text" \
   --execute   # ghost-table copy, seconds-long cutover
 ```
 
@@ -313,23 +314,13 @@ gh-ost --table=orders --alter="ADD COLUMN promo_code varchar(32)" \
 
 # Infrastructure-as-code state kept out of repositories and encrypted at rest
 
-**MUST NOT** commit infrastructure-as-code state to a repository or keep it on an unencrypted disk; use a remote backend with encryption at rest and state locking. Terraform's `terraform.tfstate` is the common case; any IaC tool's state artifact is the same class of secret-bearing file.
+**MUST NOT** commit infrastructure-as-code state to a repository or keep it on an unencrypted disk; use a remote backend with encryption at rest and state locking, and mark secret-bearing variables and outputs `sensitive` so plan output, CI logs, and pull requests cannot echo them. Terraform's `terraform.tfstate` and `terraform output` are the common case; any IaC tool's state artifact is the same class of secret-bearing file.
 
-**Why:** State files embed plaintext secrets, resource IDs, and network topology, handing attackers a complete map plus credentials in one file.
+**Why:** State files and plan artifacts record every resource attribute in plaintext — secrets, resource IDs, network topology — so a leaked backend, backup, or CI log hands over all managed credentials at once.
 
-**Detect:** grep tracked files for `terraform.tfstate`, `*.tfstate.backup`, check backend block for `backend "s3"` with `encrypt = true` and DynamoDB locking.
+**Detect:** grep tracked files for `terraform.tfstate`, `*.tfstate.backup`; check the backend block for `backend "s3"` with `encrypt = true` and DynamoDB locking; scan variables and outputs for missing `sensitive = true` and CI steps that print `terraform output`/`terraform plan` unmasked.
 
 **References:** CIS Terraform 1.2/1.3, OWASP Secrets Management, CWE-312, HashiCorp backend security docs
-
-# Plaintext secrets persisted in infrastructure-as-code state and outputs
-
-**MUST** mark secret-bearing variables and outputs sensitive and store generated state and plan artifacts encrypted under access control; never expose raw state in logs, CI output or pull requests. Terraform's `sensitive = true` and `terraform output` are the common case.
-
-**Why:** State files record every resource attribute in plaintext, so a leaked backend, backup, or plan output hands over all managed credentials at once.
-
-**Detect:** `sensitive = false` or absent on secret attributes, `terraform.tfstate` in git, `terraform output` without `-json | jq` masking, unencrypted S3 backend.
-
-**References:** HashiCorp sensitive data guidance, CWE-312, NIST SP 800-53 SC-28
 
 # 12-Factor Apps
 

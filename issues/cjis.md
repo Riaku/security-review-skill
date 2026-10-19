@@ -11,4 +11,4 @@ domains: [government-compliance]
 
 **Detect:** grep for "CJIS", "ORI", "CHRI" markers; missing MFA, absent audit trails, unencrypted backup media in CJIS-scoped repos.
 
-**References:** CJIS Security Policy v5.9, FBI CJIS Division, NIST SP 800-53
+**References:** CJIS Security Policy v6.1 (2026), FBI CJIS Division, NIST SP 800-53

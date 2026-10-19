@@ -11,4 +11,4 @@ domains: [backend, reliability]
 
 **Detect:** grep auth pipeline for absent `impossible_travel`, `geoip`, `ua_fingerprint` checks; no step-up MFA on new-device login; no alerting on geo-velocity anomalies.
 
-**References:** NIST SP 800-63B §7.2, OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
+**References:** OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078

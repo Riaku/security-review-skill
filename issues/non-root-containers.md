@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** `USER root`, missing `USER` directive in Dockerfile; runtime `id -u` equals 0; `runAsNonRoot: false` in pod specs.
 
-**References:** CIS Docker 4.1, CIS K8s 5.2.6, CWE-250, OWASP K8s PSA runAsNonRoot
+**References:** CIS Docker 4.1, CIS K8s 5.2.7, CWE-250, OWASP K8s PSA runAsNonRoot

@@ -5,7 +5,7 @@ domains: [infrastructure]
 
 # DNS
 
-**MUST NOT** Any security decision rely on DNS names or reverse DNS without validation, and resolvers in use be explicitly configured rather than inherited from DHCP.
+**MUST NOT** base any security decision on DNS names or reverse DNS without validation; resolvers in use **MUST** be configured explicitly rather than inherited from DHCP.
 
 **Why:** DNS is spoofable at the resolver, cache, and host-file level; trusting `*.internal` names or PTR records for authentication lets an attacker with resolver access impersonate services.
 
@@ -24,4 +24,4 @@ if client_cert.subject == expected_service_identity:
     grant_admin(request)
 ```
 
-**References:** CWE-350 (Reliance on Reverse DNS), OWASP A08:2021, RFC 1034
+**References:** CWE-350 (Reliance on Reverse DNS Resolution for a Security-Critical Action), OWASP A08:2021, RFC 1034
