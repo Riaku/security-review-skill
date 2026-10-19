@@ -11,10 +11,10 @@ Rules for AI agents (and humans) working in this repository.
   One logical change per branch/PR — do not batch unrelated work into one PR.
 - `main` takes changes by pull request only, and a PR requires all CI checks to
   pass before merge (see Pre-PR gate). Do not push to `main` directly.
-- Branch protection is **not enabled today**: this repo is private, and GitHub's
-  protection API needs Pro for private repositories. Once the repo is public,
-  add a `main` ruleset requiring the `validate` check. Until then the no-direct
-  push rule is enforced by convention, not by GitHub.
+- This is **enforced, not just documented**: the `main: PR + validate gate` ruleset
+  rejects direct pushes and force-pushes, requires a pull request, and requires the
+  `validate` check to pass on a branch that is up to date with `main`. It permits
+  squash merges only.
 
 ## Pre-PR gate: ALL checks green before opening or updating a PR
 
@@ -53,9 +53,8 @@ Both must exit 0. Notes:
 - Rebase feature branches locally; never rebase or force-push shared branches.
   When a force-push to your own PR branch is unavoidable, use
   `git push --force-with-lease` — never bare `--force`.
-- Merge method: squash-merge to `main` (one logical unit per merged commit). Repo
-  settings currently allow squash, merge-commit and rebase merges, so this is a
-  convention — squash when you merge.
+- Merge method: squash-merge to `main` (one logical unit per merged commit) — the
+  only method the ruleset permits, so merge-commit and rebase are refused.
 - PR size: small and reviewable. If a PR grows past a few hundred changed lines of
   content, split it by category or concern.
 - Never merge your own PR on a red check, and never bypass the required checks
