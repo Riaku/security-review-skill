@@ -135,8 +135,9 @@ in a category's bundle.
   checklist item. Its frontmatter (`categories:`, `domains:`) is the single
   declaration of what the item belongs to; the bundles are built from it. Best
   for targeted reviews: load only the slugs you need.
-- [`categories/<category>.md`](categories/) — the category's title and a
-  one-line overview (routing). It lists no items; the bundle carries those.
+- [`categories/<category>.md`](categories/) — the category's scope (routing):
+  its one-line overview, what it covers, what it does not cover, and what a
+  finding in it looks like. It lists no items; the bundle carries those.
 - [`domains/<domain>.md`](domains/) — detection signals and stack quick-maps
   that name the categories fitting a stack, in plain text (triage).
 - [`bundles/<category>.md`](bundles/) — **generated** bulk artifact: every item

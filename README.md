@@ -17,7 +17,8 @@ readiness, deployment concerns, compliance posture, or a security audit.
 - `issues/<slug>.md` — canonical source of truth, one file per checklist item.
   Its YAML frontmatter (`categories:`, `domains:`) is the only record of what
   the item belongs to. Best for targeted reviews: load only the slugs you need.
-- `categories/<category>.md` — the category's title and a one-line overview.
+- `categories/<category>.md` — the category's scope: its one-line overview plus
+  what it covers, what it does not cover, and what a finding in it looks like.
   It lists no items; the bundle carries those.
 - `domains/<domain>.md` — detection signals and a stack quick-map for triage.
 - `bundles/<category>.md` — generated bulk artifact: every item of a category
