@@ -64,6 +64,16 @@ CI/CD system as an attack surface.
 
 **References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
 
+# Build Provenance Attestation (SLSA-style signed provenance for artifacts)
+
+**MUST** sign released artifacts and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline, and **MUST** verify those signatures and checksums at every downstream boundary (before a deployment consumes an artifact, and at cluster admission) so unsigned or mismatched artifacts are rejected rather than merely signed.
+
+**Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream, and without provenance or an SBOM there is no record of which source and builder produced what.
+
+**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files; deploy jobs pulling images by mutable tag with no digest or checksum verification; grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, and admission verify rules.
+
+**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, OWASP CI/CD Top 10 CICD-SEC-9, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control), CWE-494, CWE-345
+
 # CI Action Pinning (SHA not tag)
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
@@ -73,16 +83,6 @@ CI/CD system as an attack surface.
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
 **References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
-
-# CI Artifact Integrity Handoff
-
-**MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.
-
-**Why:** Unsigned artifacts can be swapped or tampered with between build and deploy with no way to detect the substitution.
-
-**Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
-
-**References:** OWASP CI/CD Top 10 CICD-SEC-9, CWE-345, NIST SP 800-218 (SSDF), SLSA provenance levels, sigstore/cosign docs
 
 # CI Deploy-Credential Scoping
 
@@ -186,13 +186,13 @@ CI/CD system as an attack surface.
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 
-**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) and log every exception with owner and expiry date.
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) covering both application dependencies and the base images of shipped artifacts, rebuilding and redeploying those images on a fixed cadence (weekly minimum) so long-lived images do not accumulate known-exploitable CVEs, and log every exception with owner and expiry date.
 
 **Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
 
-**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields
+**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields; `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** NIST SP 800-40 Rev.4, CIS Control 7, PCI DSS 6.3.3
+**References:** NIST SP 800-40 Rev. 4, CIS Control 7, PCI DSS 6.3.3, CWE-1104, CISA KEV, OWASP A06:2021
 
 # Policy-as-Code Enforcement (OPA/Sentinel/CEP gates in CI and admission)
 

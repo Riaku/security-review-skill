@@ -127,15 +127,15 @@ CIS/STIG-style configuration baselines.
 
 **References:** CIS K8s 4.2.1-4.2.3, CWE-306, MITRE ATT&CK T1610, K8s kubelet auth docs
 
-# Patch cadence and remediation SLAs for known CVEs in production images
+# Patch management SLAs (MTTR targets by severity, exception tracking)
 
-**MUST** rebuild and redeploy base images on a fixed cadence (weekly minimum), remediating critical CVEs within 24 hours of disclosure.
+**MUST** define mean-time-to-remediate targets per severity (critical 24h, high 30d, medium 90d) covering both application dependencies and the base images of shipped artifacts, rebuilding and redeploying those images on a fixed cadence (weekly minimum) so long-lived images do not accumulate known-exploitable CVEs, and log every exception with owner and expiry date.
 
-**Why:** Long-lived images accumulate known-exploitable CVEs that scanners flag forever and worms exploit within days.
+**Why:** Undated exceptions silently become permanent debt; SLA clocks make drift visible and auditable.
 
-**Detect:** `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
+**Detect:** `sla` / `mttr` keys in policy docs, `waiver` / `exception` tracker files with `expires` fields; `.trivyignore` age, `imagePullPolicy: Always`, Renovate/Dependabot config, `fixVersions` in scanner reports
 
-**References:** CWE-1104, CISA KEV, NIST SP 800-40 Rev. 4, OWASP A06:2021
+**References:** NIST SP 800-40 Rev. 4, CIS Control 7, PCI DSS 6.3.3, CWE-1104, CISA KEV, OWASP A06:2021
 
 # Pod Security Standards: seccomp, readOnlyRootFilesystem, allowPrivilegeEscalation
 

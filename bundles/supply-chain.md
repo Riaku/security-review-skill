@@ -1,18 +1,8 @@
-# supply-chain — full checklist (25 items)
+# supply-chain — full checklist (22 items)
 
 Dependencies, artifacts, build provenance.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/supply-chain.md](../categories/supply-chain.md) · Index: [SKILL.md](../SKILL.md)
-
-# Artifact Signing & Verification at Deploy (cosign/sigstore verify before run)
-
-**MUST** verify cosign/sigstore signatures on images and release artifacts at deploy time, rejecting unsigned or mismatched ones.
-
-**Why:** An unsigned image pulled into production may be a tampered one; the deploy boundary is the last honest checkpoint.
-
-**Detect:** grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true` in deploy pipelines.
-
-**References:** SLSA Build Level 3, sigstore/cosign docs, NIST SP 800-218 (SSDF), CWE-347
 
 # Broken Link & Dependency Hijacking
 
@@ -26,13 +16,13 @@ Dependencies, artifacts, build provenance.
 
 # Build Provenance Attestation (SLSA-style signed provenance for artifacts)
 
-**MUST** sign released images and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline to every published artifact, so consumers can verify both origin and contents.
+**MUST** sign released artifacts and attach signed provenance (source, builder, inputs) plus an SBOM generated inside the trusted build pipeline, and **MUST** verify those signatures and checksums at every downstream boundary (before a deployment consumes an artifact, and at cluster admission) so unsigned or mismatched artifacts are rejected rather than merely signed.
 
 **Why:** Unsigned artifacts let attackers substitute trojaned builds that look identical to legitimate releases downstream, and without provenance or an SBOM there is no record of which source and builder produced what.
 
-**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files.
+**Detect:** `cosign sign --yes` / `cosign attest` in CI; `syft`/`bom` generation steps; grep `slsa`, `provenance`, `in-toto` in CI configs and release steps; registry entries lacking `.sig` bundles or SPDX/CycloneDX files; deploy jobs pulling images by mutable tag with no digest or checksum verification; grep `cosign verify`, `sigstore`, Kyverno `verifyImages`, `signature_verification: true`, and admission verify rules.
 
-**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, CWE-494
+**References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, OWASP CI/CD Top 10 CICD-SEC-9, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control), CWE-494, CWE-345
 
 # CI Action Pinning (SHA not tag)
 
@@ -43,16 +33,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
 **References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
-
-# CI Artifact Integrity Handoff
-
-**MUST** sign built artifacts and verify signatures and checksums before downstream deployment consumes them.
-
-**Why:** Unsigned artifacts can be swapped or tampered with between build and deploy with no way to detect the substitution.
-
-**Detect:** Missing `cosign sign`/`sigstore`/`gpg --sign` steps; deploy jobs pulling images by mutable tag without digest pinning; no `.sha256` or provenance attestations in artifact stores.
-
-**References:** OWASP CI/CD Top 10 CICD-SEC-9, CWE-345, NIST SP 800-218 (SSDF), SLSA provenance levels, sigstore/cosign docs
 
 # Dependency Confusion / Package-Name Squatting
 
@@ -223,16 +203,6 @@ Dependencies, artifacts, build provenance.
 **Detect:** `.gitleaks.toml`, `.pre-commit-config.yaml` with gitleaks/trufflehog hooks that reject at commit/push time, absent GitHub `secret_scanning`/push-protection settings in org config.
 
 **References:** OWASP ASVS V2.10.4, CWE-540, CWE-319, NIST SP 800-218 (SSDF), GitHub push protection docs
-
-# Admission Enforcement of Signed Images (Verify, Not Just Sign)
-
-**MUST** enforce signature verification at admission so unsigned or wrongly-signed images are rejected before they ever schedule.
-
-**Why:** Signing without enforcement is decoration: an attacker pushes an unsigned image and the cluster runs it happily because nothing checks.
-
-**Detect:** ClusterPolicy `cosigned` / `verify-images` with `match` on all registries; absence of kyverno/admission-controller verify rules; `--image-verification` disabled in k3s config.
-
-**References:** SLSA L3, Sigstore, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control)
 
 # Cyber Supply Chain Risk Management (supplier vetting and ongoing risk review, NIST SP 800-161)
 
