@@ -1,8 +1,18 @@
-# cloud-network — full checklist (56 items)
+# cloud-network — full checklist (68 items)
 
 Cloud networking, DNS, edge, cloud resource exposure.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/cloud-network.md](../categories/cloud-network.md) · Index: [SKILL.md](../SKILL.md)
+
+# Address Context Scoping
+
+**MUST NOT** key durable trust, credentials, or cached state on a bare network address; re-validate whenever the network context changes.
+
+**Why:** A private address means different devices on different networks, so address-keyed state silently authorizes a stranger after a network change.
+
+**Detect:** grep for IP-keyed trust stores and caches (`allowlist[remote_addr]`, `sessions[ip]`, `trusted_ips.append`) and for any invalidation on address or network change.
+
+**References:** WICG Private Network Access §5.5, https://wicg.github.io/private-network-access/, CWE-350
 
 # Agent Egress Allowlist & Proxy Control
 
@@ -124,6 +134,16 @@ MyMethod:
 
 **References:** Certificate Transparency project (certificate-transparency.org), Censys/Certstream monitoring, Google CT policy
 
+# Certificate Assurance Levels
+
+**SHOULD** weigh a certificate for the validation actually performed: domain validation proves control of a name, not the identity of the organization behind it.
+
+**Why:** Mapping any CA-issued certificate to organizational trust overstates what was checked and is defeated by a single domain takeover.
+
+**Detect:** openssl x509 -in cert.pem -noout -text  and read the policy OIDs and validation type before treating the issuer as identity evidence
+
+**References:** Ross Anderson, Security Engineering (3rd ed.), https://www.cl.cam.ac.uk/~rja14/book.html
+
 # CIS Benchmarks (OS/container/k8s/cloud)
 
 **MUST** Every OS image, container base, Kubernetes cluster, and cloud account be baselined against the applicable CIS Benchmark, with deviations recorded as explicit, time-boxed exceptions rather than silent drift.
@@ -145,6 +165,16 @@ MyMethod:
 ```
 
 **References:** CIS Benchmarks (cisecurity.org), CIS Kubernetes Benchmark, CIS Docker Benchmark, DISA STIGs
+
+# Client IP From Trusted Hops
+
+**MUST** derive the client address only from proxy headers written by a trusted hop, and treat even that value as weak evidence for rate limiting and logging.
+
+**Why:** A client-supplied forwarding header lets an attacker pick the identity used for throttling and audit, so one host becomes many or many become one.
+
+**Detect:** grep for `X-Forwarded-For` / `X-Real-IP` read straight from the request without a trusted-proxy list (`req.headers['x-forwarded-for']`); missing `trust proxy` / `ForwardedHeaderFilter` config.
+
+**References:** OWASP ASVS v5.0 V15.3.4, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md, RFC 7239 (Forwarded header), CWE-348
 
 # Client-Side TLS Verification Disabled
 
@@ -236,6 +266,16 @@ metadata_options {
 ```
 
 **References:** AWS Foundational Security Best Practices standard, CIS AWS Foundations Benchmark, Microsoft Defender for Cloud, GCP Security Command Center
+
+# Connectivity Documentation
+
+**MUST** document every inbound, outbound and internal connection of the system, and review that map whenever topology changes.
+
+**Why:** An undocumented connection is an unreviewed trust path; nobody can firewall, monitor or decommission a link that is not on the map.
+
+**Detect:** Diff the documented connectivity matrix against flow logs or egress NetworkPolicy rules; unlisted flows are gaps.
+
+**References:** NCSC Definitive Architecture View, https://www.ncsc.gov.uk/collection/operational-technology/definitive-architecture-view
 
 # Cost Optimization & Cost Alerting (unit-economics tracking, budget alarms, anomaly detection)
 
@@ -434,6 +474,16 @@ s3 = boto3.client("s3", region_name="us-east-1")
 ```
 
 **References:** AWS Well-Architected Cost Optimization pillar, AWS NAT gateway pricing, GCP network egress pricing
+
+# Encrypt Operational Channels
+
+**MUST** encrypt management, monitoring, database, and partner connections to the same standard as user-facing traffic.
+
+**Why:** Operational links carry credentials and full records over the same hostile network, and are the ones built before anyone wrote a TLS policy.
+
+**Detect:** grep connection strings and agent config for `sslmode=disable`, `tls=false`, `insecure: true`; nmap --script ssl-enum-ciphers on 5432, 9090, 22.
+
+**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x21-V12-Secure-Communication.md, NIST SP 800-52 Rev 2
 
 # Ephemeral port / TIME_WAIT exhaustion on busy clients
 
@@ -685,6 +735,16 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** AWS ELB health check best practices, HAProxy tuning docs, Google SRE Book (overloading & health checks)
 
+# Tunnel Residual Threats
+
+**MUST** document which threats a tunnel removes and which remain when wrapping an unauthenticated legacy protocol, including command injection from inside either endpoint network.
+
+**Why:** The tunnel protects transit only; the legacy protocol still accepts unauthenticated commands from any host on the far side, which is where the practical attack lands.
+
+**Detect:** judgment — read the design or threat model for the tunneled protocol and check it names the residual in-network command-injection path and its control.
+
+**References:** NCSC cloud suitability for OT: tunneling legacy protocols, https://www.ncsc.gov.uk/collection/operational-technology
+
 # Management-Plane Activity Alerting
 
 **MUST** route cloud control-plane audit streams (CloudTrail, Azure Activity Log, GCP Cloud Audit Logs) into real-time metric filters and alarms so privileged API activity — root/console usage, security-group and firewall changes, IAM policy modifications, key deletion — pages a human within minutes instead of waiting for a periodic log review.
@@ -791,6 +851,16 @@ resource "aws_nat_gateway" "az_a" {
 
 **References:** AWS NAT gateway best practices, CIS AWS Foundations 5.x, AWS Well-Architected Reliability pillar
 
+# No Plaintext API Endpoints
+
+**MUST** refuse plaintext HTTP on API endpoints rather than redirect it, and scope any unavoidable cleartext exception to named hosts.
+
+**Why:** A redirect still exposes the first request - headers, tokens, payload - to anyone on the path. Clients that follow redirects then resend credentials to the redirect target.
+
+**Detect:** Listeners on port 80 that only `return 301`, plain `http://` upstreams, and `usesCleartextTraffic`/`cleartextTrafficPermitted="true"` without a per-domain exception.
+
+**References:** Mozilla Web Security Guidelines, https://infosec.mozilla.org/guidelines/web_security, OWASP ASVS Communications chapter
+
 # NodePort / LoadBalancer Accidentally Exposing Internal Services
 
 **SHOULD NOT** publish admin dashboards, databases, or metrics endpoints via NodePort or an internet-facing LoadBalancer; internal services stay internal unless a reviewed ingress explicitly fronts them.
@@ -814,6 +884,16 @@ spec:
 
 **References:** CWE-284, CIS Kubernetes 5.2.2, OWASP Kubernetes Top 10, AWS LB isolation docs
 
+# Out-of-Band Management Hardening
+
+**MUST** network-isolate baseboard and out-of-band management interfaces, replace their default credentials, and patch them on the same cadence as the hosts they control.
+
+**Why:** Management processors sit below the operating system with network reachability, so one weak BMC credential is a lateral path past every host control.
+
+**Detect:** nmap -sU -p623 --script ipmi-cipher-zero,ipmi-version <management-cidr>; firewall rules exposing 623/udp beyond the admin jump host
+
+**References:** PreOS awesome-firmware-security, https://github.com/PreOS-Security/awesome-firmware-security
+
 # Open Directory Listing
 
 **SHOULD NOT** enable directory indexes on web servers or object storage where file enumeration reveals backups, configs, or internal artifacts.
@@ -823,6 +903,16 @@ spec:
 **Detect:** grep server configs for `autoindex on`, `Options +Indexes`, bucket `ListBucket` grants; probe for `Index of /` responses.
 
 **References:** OWASP WSTG-CONF-02, CWE-548, AWS S3 ACL best practices
+
+# Outbound Fetch Policy
+
+**MUST** re-apply the outbound destination policy on every redirect and retry, not only to the initial request URL.
+
+**Why:** An allowlist checked once is defeated by a 302 to an internal address or a retry that resolves a new host; only per-hop enforcement covers the whole chain.
+
+**Detect:** grep HTTP client construction for `follow_redirects=True` with no re-validation hook, and for retry policies that re-resolve the original hostname; a policy check performed once before the first request is the finding.
+
+**References:** OWASP SSRF Prevention Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html, CWE-918 Server-Side Request Forgery
 
 # Path MTU blackholes diagnosed on tunnel/VPN paths
 
@@ -913,6 +1003,26 @@ resource "aws_s3_bucket_public_access_block" "backups" {
 ```
 
 **References:** CWE-284, CIS AWS Foundations 2.1.5, OWASP A01:2021 Broken Access Control, AWS S3 security best practices
+
+# Relay Address Filtering
+
+**MUST** block relaying or proxying to loopback, link-local, private, and reserved addresses on every supported address family, not only IPv4.
+
+**Why:** A relay that will forward to an internal address is an open proxy into the private network, and IPv6 special ranges are routinely left unhandled.
+
+**Detect:** grep relay/proxy config for peer or destination filtering (`no-multicast-peers`, denied CIDR lists, `allowed_peers`); check whether IPv6 ranges `::1`, `fc00::/7`, `fe80::/10` appear alongside the IPv4 denials.
+
+**References:** OWASP ASVS v5.0 V17.1.1, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x26-V17-WebRTC.md, CWE-918
+
+# Strip Identity Headers
+
+**MUST** strip client-supplied identity headers at the edge and set them only from the authenticated session.
+
+**Why:** An upstream that trusts an inbound `X-User-ID` or forwarding header hands any client the ability to name itself administrator.
+
+**Detect:** grep ingress and proxy config for inbound `X-User-Id`, `X-Authenticated-User`, and `X-Remote-User` passed through, and for services that read them without a session check.
+
+**References:** OWASP ASVS v5.0 V4, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x13-V4-API-and-Web-Service.md, RFC 7239 (Forwarded header)
 
 # Subdomain Takeover / Dangling DNS
 
@@ -1011,6 +1121,16 @@ ssl_protocols TLSv1.2 TLSv1.3;
 ```
 
 **References:** Mozilla Server-Side TLS (Intermediate profile), RFC 8446, CWE-326 Inadequate Encryption Strength
+
+# Trusted Proxy Headers
+
+**MUST** accept client-IP, scheme, and host headers only from a known edge that overwrites them, and treat them as attacker-controlled everywhere else.
+
+**Why:** Anything upstream or direct can set those headers, so rate limits, audit trails, and HTTPS redirects keyed on them are bypassable.
+
+**Detect:** grep for `X-Forwarded-For`, `X-Real-IP`, `X-Forwarded-Proto` reads with no check that the immediate peer is a trusted proxy.
+
+**References:** RFC 9110 HTTP Semantics, https://httpwg.org/specs/rfc9110.html
 
 # Unauthenticated data stores exposed (Redis, Elasticsearch, MongoDB, Memcached)
 

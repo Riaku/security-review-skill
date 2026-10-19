@@ -1,8 +1,68 @@
-# authorization-access-control — full checklist (17 items)
+# authorization-access-control — full checklist (40 items)
 
 Who may do what: RBAC, RLS, least privilege.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/authorization-access-control.md](../categories/authorization-access-control.md) · Index: [SKILL.md](../SKILL.md)
+
+# Account Graph Blast Radius
+
+**MUST** authorize every feature that links accounts, because one compromised account inherits access through those edges.
+
+**Why:** Family graphs, shared workspaces and org directories turn a single account takeover into access to everyone adjacent to it. The edge is an authorization decision.
+
+**Detect:** Inspect linking features (invites, shared folders, org membership): each edge is authorized on both sides and revocable.
+
+**References:** arXiv:2502.04303, https://arxiv.org/abs/2502.04303
+
+# Admin Plane Separation
+
+**SHOULD** run administrative interfaces on a separate plane from user traffic, with their own authentication, network reachability, and audit stream.
+
+**Why:** Admin surfaces are the highest-value target, and sharing the user plane means one user-plane bug, session, or WAF bypass reaches them.
+
+**Detect:** grep route/host definitions and ingress rules — whether `/admin`, actuator, and management ports share the user-facing host, auth middleware, and log stream.
+
+**References:** OWASP Access Control Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html
+
+# Admin Reset Blindness
+
+**MUST** let administrators trigger a password reset without ever setting, viewing, or learning the user's password.
+
+**Why:** An admin who knows the user's password destroys non-repudiation: every later action by that account is plausibly the administrator's.
+
+**Detect:** grep admin endpoints for a `new_password` or generated-password field targeting another user id.
+
+**References:** OWASP ASVS v5.0 V6.4.6, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x15-V6-Authentication.md
+
+# Agent Tool Authorization
+
+**MUST** enforce authorization for agent tool execution outside the agent's own decision context, never from a flag the agent sets for itself.
+
+**Why:** Anything inside the model's context is attacker-influenceable through prompt injection, including an 'approved' flag. Enforcement must live in the component that actually executes the call.
+
+**Detect:** grep tool-execution code for approval checks that read agent-supplied arguments, prompt state, or model output instead of a server-side authorization decision.
+
+**References:** OWASP AI Agent Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html, OWASP Top 10 for LLM Applications (LLM06 excessive agency)
+
+# Authorization Default Deny
+
+**MUST** deny by default: an unmatched rule, missing role, or empty policy resolves to refusal, never to allow.
+
+**Why:** Default-allow turns every forgotten rule into an open door, and an unloaded or empty permission set is the most common way that happens.
+
+**Detect:** grep policy functions whose fall-through returns `True`/`allow`, `if not denied` guards, and permission lookups where `None` or `[]` is treated as unrestricted.
+
+**References:** OWASP Access Control Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html, OWASP Zero Trust Architecture Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Zero_Trust_Architecture_Cheat_Sheet.html
+
+# Authorization Service Degraded Mode
+
+**MUST** design the central authorization service for failure with replication and a documented degraded mode stating what remains allowed and for how long.
+
+**Why:** A security component on every request path without an availability story converts its own outage into a total outage, or into an undocumented allow-all.
+
+**Detect:** read the runbook section for the authorization service and check it states replica count, failure detection, and the exact behaviour (allow, deny, cache) during an outage.
+
+**References:** NIST SP 800-207 §5.2, https://doi.org/10.6028/NIST.SP.800-207, NIST SP 800-53 CP-2
 
 # Cloud IAM Privilege Escalation Paths
 
@@ -25,6 +85,26 @@ Who may do what: RBAC, RLS, least privilege.
 ```
 
 **References:** CWE-269, MITRE ATT&CK T1548.005, Cloudsplaining, AWS IAM Security Best Practices, GCP Policy Analyzer
+
+# Complete Mediation at a Chokepoint
+
+**MUST** route every access to every resource through one enforcement point that no request path can bypass.
+
+**Why:** An attacker simply takes the unchecked path, so a control enforced on most routes is equivalent to no control at all.
+
+**Detect:** grep handlers that fetch a record (`findById(`, `get_object_or_404(`, raw `SELECT`) with no `authorize(`, `can(`, or policy call in the same function.
+
+**References:** OWASP Access Control Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Access_Control_Cheat_Sheet.html, Saltzer & Schroeder, The Protection of Information in Computer Systems (1975), https://web.archive.org/web/2023/https://dl.acm.org/doi/10.1145/359545.359563
+
+# Composite Privilege from Innocuous Operations
+
+**MUST** review and audit the low-privilege operations around a protected asset in combination, because individually harmless edits compose into privilege the operator does not otherwise hold.
+
+**Why:** Address change, card issue, and address revert are each harmless alone and amount to account takeover in sequence, and audits covering only sensitive-sounding operations miss it.
+
+**Detect:** judgment: the admin operation inventory, enumerated as sequences that reach a sensitive outcome
+
+**References:** Anderson, Security Engineering 3rd ed., ch.12, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch12.pdf
 
 # Confused Deputy: Cross-Account Roles Without ExternalId or Source Conditions
 
@@ -59,6 +139,66 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** AWS IAM best practices, CWE-269, NIST SP 800-53 AC-6, Cloudsplaining, GCP Policy Intelligence, CIS AWS 1.16
 
+# Permissions From Declared Operation
+
+**MUST** derive the runtime permission of a tool invocation from the operation it declares, not from the ambient rights of the approving process.
+
+**Why:** Approving a narrow action while handing the executor broad host access creates a laundering channel where steered arguments reach files outside the declared scope.
+
+**Detect:** grep tool and plugin host config for ambient grants applied to per-call execution (`privileged: true`, `--mount`, `cap_add`, `seccomp=unconfined`) where the declared operation needs none.
+
+**References:** My Credentials, Please: tool approval scope laundering, https://arxiv.org/abs/2610.22301
+
+# Dual Approval Irreversible
+
+**MUST** require two independent approvers for high-value, irreversible actions such as large transfers, contract approvals, or safety overrides.
+
+**Why:** A single actor who can both initiate and release an irreversible action is indistinguishable from an attacker holding that account.
+
+**Detect:** trace the approval workflow and confirm no single identity can complete both the request and the release step.
+
+**References:** OWASP ASVS v5.0 V2, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x11-V2-Validation-and-Business-Logic.md, NIST SP 800-53 AC-5
+
+# Dual Control High-Impact Ops
+
+**MUST** require two independently authenticated approvals for high-impact operations so no single credential can complete them alone.
+
+**Why:** One compromised or malicious credential should never be enough to delete data, move money or ship a release. Independent conditions bound what one identity can do.
+
+**Detect:** List destructive operations (data deletion, payouts, production deploy, key rotation) and check each demands a second approver distinct from the requester.
+
+**References:** OWASP Developer Guide: Security Principles, https://github.com/OWASP/DevGuide/blob/main/docs/en/02-foundations/03-security-principles.md
+
+# Exact-Match Authorization Strings
+
+**MUST** compare roles, scopes, token claims, and paths by exact equality; never decide authorization with prefix, suffix, or substring matching.
+
+**Why:** A startsWith("admin") check accepts administrator-disabled, and case folding silently widens the accepted set beyond the intended value.
+
+**Detect:** grep startsWith(, endsWith(, includes(, HasPrefix, Contains( on role, claim, or path variables next to authorization code
+
+**References:** Trail of Bits Testing Handbook, https://github.com/trailofbits/testing-handbook
+
+# Feature-Level Authorization
+
+**MUST** check authorization against a named permission for the specific action, never a bare role string such as `role == "admin"`.
+
+**Why:** `is_admin`-style checks re-hardcode the permission map into code, so every new feature silently inherits whatever the role string allows.
+
+**Detect:** grep for role-string comparisons in handlers (`role == "admin"`, `isAdmin`, `user.role in (`) guarding feature or record-level operations.
+
+**References:** OWASP ASVS v5.0 V8.2.1, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x17-V8-Authorization.md
+
+# Field-Level Authorization
+
+**MUST** enforce read and write authorization per field, including rules that depend on the object's current state.
+
+**Why:** Object-level checks let a caller who may read a record also read or write the fields reserved for another role or for a later stage.
+
+**Detect:** grep serializers and update handlers for object-level-only checks and for a per-field policy map keyed by state.
+
+**References:** OWASP ASVS v5.0 V8, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x17-V8-Authorization.md, CWE-863
+
 # GitOps Controller Running as cluster-admin
 
 **SHOULD** scope GitOps controllers (Flux, ArgoCD) to least-privilege per-namespace roles instead of the blanket `cluster-admin` ClusterRoleBinding.
@@ -78,6 +218,16 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** Repo without CODEOWNERS on `manifests/` or `apps/`; ArgoCD/Flux repo write granted to broad teams; no admission policy blocking high-privilege kinds from Git.
 
 **References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
+
+# Independent Conditions for Irreversible Actions
+
+**MUST** require irreversible high-consequence actions to satisfy independent authorization, environment, and intent conditions drawn from different trust domains before executing.
+
+**Why:** A single compromised credential or channel then cannot trigger the action alone, however privileged that compromise is.
+
+**Detect:** judgment: the authorization flow for the destructive action — count the independent conditions and their sources
+
+**References:** Anderson, Security Engineering 3rd ed., ch.15, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch15.pdf
 
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
@@ -139,6 +289,26 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-2(3), CIS Control 5, AWS IAM Access Advisor
 
+# Minimize the Privileged Window
+
+**MUST** acquire elevated privilege as late as possible and drop it immediately after the operation that needs it completes.
+
+**Why:** Every instruction executed while privileged is attack surface for that privilege, so a long window turns a small bug into a privileged one.
+
+**Detect:** grep setuid/seteuid/setresuid sequences and privilege-drop calls, checking that privilege is released before the main loop
+
+**References:** OWASP Go Secure Coding Practices, https://github.com/OWASP/Go-SCP
+
+# No Support Bypass Paths
+
+**MUST NOT** let support, impersonation, or convenience features skip authorization, MFA, or audit logging; treat every such path as privileged.
+
+**Why:** A support backdoor is a documented attack primitive, and 'temporary' bypasses outlive the incident that justified them.
+
+**Detect:** grep `impersonat`, `login_as`, `sudo`, `skip_auth`, `as_user`, and support-role branches that sit above the policy check.
+
+**References:** Schneier, The 11 Secure Design Principles, https://www.schneier.com/blog/archives/2007/01/the_11_secure_h.html
+
 # Non-Human Identity Governance (service accounts, machine creds inventoried and scoped)
 
 **MUST** inventory every service account, API key, and machine credential with an owner, least-privilege scope, and expiry.
@@ -148,6 +318,36 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** grep `service_account`, `api_key`, `client_secret` inventories, orphaned-credential reports, workload-identity configs.
 
 **References:** NIST SP 800-63B, CIS Control 6, OWASP Non-Human Identities Top 10, CSA NHI guidance
+
+# Object Authorization Beyond Spec
+
+**MUST** treat an API specification's security schemes as evidence of authentication only, and verify object-level authorization separately in code and tests.
+
+**Why:** Schema languages describe shape and transport authentication only, so a spec that looks covered ships endpoints with no per-object ownership check at all.
+
+**Detect:** list endpoints declared in the spec, then grep their handlers for an ownership or policy check on the referenced object.
+
+**References:** Object authorization in web API specifications (arXiv 2212.06606), https://arxiv.org/abs/2212.06606
+
+# Pending Dual-Approval State
+
+**MUST** persist partially approved transactions in a store protected like the action itself, with expiry, cancellation rules, and visibility limited to the approvers.
+
+**Why:** Dual control is not atomic: between the two sign-offs the half-approved request is state an attacker can replay, cancel, or complete.
+
+**Detect:** judgment: the approval workflow's pending table and who may read, cancel, or extend its entries
+
+**References:** Anderson, Security Engineering 3rd ed., ch.12, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch12.pdf
+
+# Policy Store Change Control
+
+**MUST** restrict writes to the authorization policy store to dedicated administrators and log every policy change for review.
+
+**Why:** Whoever can edit the policy decides every access decision, so an unreviewed policy edit is a silent grant of everything the policy covers.
+
+**Detect:** kubectl auth can-i update on the policy custom resource for each subject; audit-log query for writes to policy objects.
+
+**References:** NIST SP 800-207 §5.1, https://doi.org/10.6028/NIST.SP.800-207, NIST SP 800-53 AU-9
 
 # Privileged access management: JIT access, break-glass, session recording
 
@@ -189,6 +389,16 @@ Who may do what: RBAC, RLS, least privilege.
 
 **References:** NIST SP 800-53 AC-5 Separation of Duties, CWE-268 Privilege Chaining, OWASP ASVS V1.4, SLSA provenance requirements
 
+# Separation of Privilege
+
+**MUST** require two independent conditions, such as a permission plus a second approval or factor, before any destructive or high-value operation.
+
+**Why:** A single check that is buggy, phished, or over-granted hands over the whole operation; independent conditions fail independently.
+
+**Detect:** grep destructive handlers (`delete`, `transfer`, `refund`, `role`, `key`) guarded only by one `is_admin`/`has_role` call, with no approval or step-up call nearby.
+
+**References:** Saltzer & Schroeder, The Protection of Information in Computer Systems (1975), https://web.archive.org/web/2023/https://dl.acm.org/doi/10.1145/359545.359563
+
 # Server-Side Authorization
 
 **MUST** check authorization on every admin or elevated endpoint server-side and **MUST NOT** trust the client for any authorization decision: hidden UI, client route guards, and client-supplied role or permission values are all forgeable, so permissions are re-derived from the authenticated session on every request.
@@ -198,4 +408,24 @@ Who may do what: RBAC, RLS, least privilege.
 **Detect:** handlers reading role or permission from a request body, header, or unverified token claim; permission flags echoed to the client and trusted back; destructive actions gated only in the frontend router; grep admin routes (`/admin`, `/settings`, `is_admin`, `@require_staff`) for missing auth decorators or middleware and compare UI-hidden actions to unprotected API paths.
 
 **References:** OWASP A01:2021, CWE-862, CWE-269 Improper Privilege Management, OWASP Authorization Cheat Sheet, OWASP ASVS V4.2
+
+# Spec-Derived Authorization Tests
+
+**MUST** generate object-level authorization tests from the API specification, crossing each identity with every object identifier it must not reach.
+
+**Why:** Reviewers cannot reliably remember which endpoints own objects, so unscoped lookups pass review and surface only when one customer reads another's record.
+
+**Detect:** command generate cases from the OpenAPI spec (`schemathesis`) pairing token A with object IDs owned by B, and fail on any 2xx.
+
+**References:** Spec-driven IDOR/BOLA test generation, https://arxiv.org/abs/2201.10833, CWE-639 (Authorization Bypass Through User-Controlled Key)
+
+# Subject Authority Propagation
+
+**MUST** carry the originating subject's authority through service chains, so downstream decisions use that subject's permissions rather than the intermediary's.
+
+**Why:** When a middle service calls downstream with its own machine credentials, every downstream check authorizes the service and the user's limits vanish.
+
+**Detect:** grep downstream clients for machine-credential auth (`client_credentials`, `service_account`, `AssumeRole`) on calls that act for an end user.
+
+**References:** OWASP ASVS v5.0 V8, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x17-V8-Authorization.md, CWE-441
 

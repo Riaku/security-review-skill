@@ -1,4 +1,4 @@
-# observability — full checklist (43 items)
+# observability — full checklist (57 items)
 
 Logs, metrics, traces, profiling, alerting.
 
@@ -24,6 +24,16 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** GitHub Copilot agent auditability (signed commits, session-log link), OpenAI Codex transcripts, DeepSeek harness session-log model
 
+# Verify The Alert Channel
+
+**MUST** monitor the delivery path of security alerts and keep it outside the control of the component being monitored.
+
+**Why:** A guardrail that fires into a broken or suppressible channel is indistinguishable from one that never fires, and the gap appears only during the incident.
+
+**Detect:** command schedule a synthetic alert (`amtool alert add`, Alertmanager test alert) with an expected-receipt check and an alert when receipt is missing.
+
+**References:** Agentic AI Top 10: AAI012 Checker-out-of-the-Loop, https://github.com/precize/Agentic-AI-Top10-Vulnerability
+
 # Alert Fatigue
 
 **MUST NOT** page humans for alerts that are routinely ignored or auto-resolved without action.
@@ -44,6 +54,26 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** OWASP A07:2021, CIS Control 8.3, MITRE ATT&CK T1078
 
+# Application-Level Active Defense
+
+**SHOULD** aggregate misuse signals across endpoints — repeated authorization failures, malformed structures, out-of-order steps — and respond rather than only logging each event.
+
+**Why:** Per-endpoint validation lets an attacker probe the whole application without ever tripping a control, and the owner learns nothing until the breach.
+
+**Detect:** grep for alerting or throttling keyed on aggregated 403/422 rates and workflow-order violations, not only per-route rate limits.
+
+**References:** OWASP WSTG Business Logic Testing, https://github.com/OWASP/wstg/tree/master/document/4-Web_Application_Security_Testing
+
+# Audit-First State Changes
+
+**MUST** write the audit record in the same transaction as the state change, so neither commits without the other.
+
+**Why:** A change that lands without its record leaves the audit trail asserting a world that is no longer true, and no later reconciliation can recover it.
+
+**Detect:** grep state-changing handlers and deploy scripts for an audit write outside the same transaction, or after the mutation returns.
+
+**References:** Audit-first rollback semantics (arXiv 2609.00406), https://arxiv.org/abs/2609.00406
+
 # Audit Logs
 
 **MUST** record security-relevant events (auth, access, privilege changes) with tamper-evident integrity and retention aligned to policy; **SHOULD** keep compliance-relevant audit evidence on append-only/WORM storage with integrity hashing or signing and documented custody, so insider tampering is detectable.
@@ -53,6 +83,16 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep for auth/access handlers missing audit calls; check `audit_log`, `log_event`, HMAC signing, retention config absent; check log destinations for immutability (S3 Object Lock, BigQuery time-travel, hash-chained logs), verify hash/signature chain continuity, and confirm audit-log deletion is itself alarmed.
 
 **References:** CWE-778, NIST SP 800-92, AWS S3 Object Lock WORM, SOC 2 CC7.2/CC4, PCI DSS 10.2
+
+# Action-to-Audit Divergence Checks
+
+**MUST** test each class of divergence between an executed action and its audit record before treating the log as evidence of what happened.
+
+**Why:** Aggregate logging records what the system claims happened, not whether it matched the approval; action-without-approval, approval-without-action, silent failure logged as success, and wrong-target execution each need their own structural check.
+
+**Detect:** judgment: the audit design and the checker wired to each of the four divergence classes
+
+**References:** Architectural Obsolescence of Unhardened Agentic-AI Runtimes, https://arxiv.org/abs/2605.01740
 
 # Beaconing Detection
 
@@ -148,6 +188,26 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** Google SRE Workbook, DORA deploy frequency practices, Grafana annotations docs
 
+# Detection Log-Source Liveness
+
+**MUST** verify that every deployed detection rule's declared log source is actually arriving, and alert on rules that have received no events.
+
+**Why:** A rule whose index or channel is never populated is a control that silently does not exist while counting as deployed coverage.
+
+**Detect:** query the backend for the newest event per log source (tstats latest(_time) by index, or SELECT max(ts) GROUP BY source) and compare with each rule's logsource
+
+**References:** deadair, https://github.com/alephnull-sh/deadair
+
+# Detection Rule FP Profile
+
+**SHOULD** record each detection rule's maturity status and its known false-positive profile inside the rule, and review both whenever the rule changes.
+
+**Why:** An undeclared false-positive rate is discovered by analysts at 3am, and the rule is then disabled or ignored wholesale.
+
+**Detect:** grep for falsepositives: and status: fields in every rule file, and compare declared profile against alert volume per rule
+
+**References:** Sigma rule schema, https://github.com/SigmaHQ/sigma
+
 # Disk and inode exhaustion forecasted with lead time
 
 **MUST** forecast disk and inode consumption from historical growth rates and alert early enough (days, not hours) to act before full.
@@ -187,6 +247,16 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** check profiling pipeline outputs renderable flame graphs (pprof collapsed stacks, Speedscope JSON); verify runbooks link to them.
 
 **References:** Brendan Gregg flame graphs, Google SRE Workbook, CWE-400
+
+# Gateway Payload Logging
+
+**MUST** disable full request and response payload logging unless redaction and a bounded retention window are enforced.
+
+**Why:** Trace features capture credentials and personal data into log sinks that are far more widely readable than the systems they instrument.
+
+**Detect:** grep gateway and proxy IaC for payload or trace logging enabled (`data_trace_enabled`, `xray_tracing_enabled`, `field_level_logs`, `logging_level: full`) without redaction config.
+
+**References:** Checkov IaC policy catalogue, https://github.com/bridgecrewio/checkov
 
 # Infrastructure Drift Detection (live state vs IaC and GitOps reconciliation)
 
@@ -228,6 +298,16 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** CIS Kubernetes Benchmark 1.2.x (API-server audit settings: --audit-policy-file, --audit-log-path, rotation and retention), CWE-778, NIST SP 800-92, K8s docs audit-policy
 
+# Key Use Logging
+
+**MUST** log every use of a key-management key with caller identity, operation, and target resource.
+
+**Why:** Key use without an audit trail hides both misuse and the blast radius of a stolen credential. The log is the only record separating a legitimate decrypt from an exfiltration.
+
+**Detect:** grep key-management client wrappers for audit emission on encrypt, decrypt, and sign calls; flag direct key-service calls that bypass the wrapper.
+
+**References:** OWASP Proactive Controls C9, https://github.com/OWASP/www-project-proactive-controls, NIST SP 800-57 key management
+
 # Lateral Movement Detection (post-compromise horizontal motion in cloud/host)
 
 **SHOULD** alert on post-compromise horizontal motion: unusual SSH/RDP hops, mass SMB enumeration, anomalous cross-account role assumption.
@@ -247,6 +327,16 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** grep EDR/SIEM rules for process-args telemetry on LOLBAS-listed binaries (e.g. `certutil -urlcache`, `powershell -enc`); flag hosts where these run outside admin baselines.
 
 **References:** MITRE ATT&CK T1218 System Binary Proxy Execution, LOLBAS project, CWE-427, Atomic Red Team tests
+
+# Log Destination Inventory
+
+**MUST** keep a log inventory of what each layer logs, its destination, retention, and access, and emit only to documented destinations.
+
+**Why:** An undocumented sink moves sensitive data outside the retention and access regime, and no later investigation can say where it went.
+
+**Detect:** grep logger configuration (`handlers`, `appenders`, `syslog:`, `outputs`) and compare every destination against the inventory document.
+
+**References:** OWASP ASVS v5.0 V16.2.3, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x25-V16-Security-Logging-and-Error-Handling.md
 
 # Log Injection & Log Forging
 
@@ -338,6 +428,16 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 3.x (logging), aquasecurity/trivy-checks storage logging rules
 
+# Off-Box Log Shipping
+
+**MUST** ship logs to a logically separate system in near real time so a compromised host cannot erase the record of its own activity.
+
+**Why:** Local logs are the first artifact an intruder edits, and forensic value depends on the record already existing outside the blast radius.
+
+**Detect:** grep for local-only logging (`FileHandler`, a `/var/log` volume, no forwarder sidecar) on services that emit security events.
+
+**References:** OWASP ASVS v5.0 V16.4.3, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x25-V16-Security-Logging-and-Error-Handling.md, NIST SP 800-92
+
 # OpenTelemetry
 
 **SHOULD** standardize instrumentation on OpenTelemetry SDKs and the OTLP protocol instead of one-off vendor agents.
@@ -368,6 +468,16 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
 
+# Portable Detection Rules
+
+**MUST** author detection logic in a vendor-neutral, machine-readable rule format that compiles to each backend's query dialect, keeping native queries out of the source of truth.
+
+**Why:** Detection knowledge locked in one query dialect cannot be peer-reviewed, tested elsewhere, or migrated without rewriting the entire detection program.
+
+**Detect:** grep rule files for native query syntax (index=, sourcetype=, EventID) where a neutral schema (logsource, detection, selection) is expected
+
+**References:** Sigma, https://github.com/SigmaHQ/sigma, Agent Threat Rules, https://github.com/Agent-Threat-Rule/agent-threat-rules
+
 # Profiling
 
 **MAY** run continuous CPU/heap profiling in production at low overhead to catch performance anomalies early.
@@ -388,6 +498,16 @@ Logs, metrics, traces, profiling, alerting.
 
 **References:** AWS SQS monitoring guide, RED/USE method, CWE-770, Google SRE Workbook
 
+# Rejected Input Logging
+
+**SHOULD** log server-side-only security anomalies: rejected out-of-range values, attempts to change non-modifiable fields, and access-control denials.
+
+**Why:** These events are invisible to the client and are the earliest signal of tampering, enumeration, or a broken authorization rule. Without them an attack looks like ordinary traffic.
+
+**Detect:** grep validation and authorization middleware for log calls on rejection paths; flag handlers that return an error without recording principal, route, and rejected value.
+
+**References:** OWASP Proactive Controls C9 (implement logging), https://github.com/OWASP/www-project-proactive-controls, OWASP Logging Cheat Sheet
+
 # Runtime Threat Detection (Falco/eBPF-style workload anomaly detection)
 
 **MUST** monitor running workloads at syscall level (Falco/eBPF) for anomalies: shells in containers, unexpected writes, suspicious spawns.
@@ -407,6 +527,16 @@ Logs, metrics, traces, profiling, alerting.
 **Detect:** Scanners run without `--format sarif` / `output: sarif`; no upload step to code-scanning API; each tool reporting to a separate ad-hoc log file.
 
 **References:** NIST SP 800-218 (SSDF), SARIF spec (OASIS), GitHub code scanning SARIF upload docs
+
+# Security Telemetry Access Control
+
+**MUST** restrict security telemetry, network maps, and policy exports to dedicated administrator accounts, since they describe where the valuable assets are.
+
+**Why:** The map of the defences is reconnaissance: policy stores reveal which accounts are worth compromising and monitoring data reveals what is watched.
+
+**Detect:** kubectl auth can-i --list -n monitoring --as=<subject>; compare with the admin-only group that should be the sole reader.
+
+**References:** NIST SP 800-207 §5.5, https://doi.org/10.6028/NIST.SP.800-207, NIST SP 800-53 AC-6
 
 # Slow query log captured, reviewed, and regression-tracked
 
@@ -429,6 +559,16 @@ log_min_duration_statement = 200  # tied to p95 SLO
 ```
 
 **References:** PostgreSQL pg_stat_statements docs, MySQL slow query log docs, Google SRE Book saturation monitoring
+
+# Stable Rule Identifiers
+
+**MUST** give every detection rule an immutable identifier under a versioned rule schema, keeping severity, category, and owner in separate mutable metadata fields.
+
+**Why:** Rules are cited by incident reports and dashboards, so reassigned or meaning-laden identifiers break references and turn wrong the moment classification changes.
+
+**Detect:** grep -h '^id:' rules/*.yml | sort | uniq -d  (duplicate or reassigned IDs), plus a schema-version field in each rule header
+
+**References:** Agent Threat Rules, https://github.com/Agent-Threat-Rule/agent-threat-rules
 
 # Structured Logging
 

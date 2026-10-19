@@ -1,4 +1,4 @@
-# email-security — full checklist (6 items)
+# email-security — full checklist (8 items)
 
 Mail authentication, brand protection, and email-content trust.
 
@@ -47,6 +47,16 @@ send(to=addr, ...)
 
 **References:** CWE-94 code injection in mail templates, OWASP XSS in email clients guidance
 
+# Forwarded Mail Authentication
+
+**MUST** treat SPF as void for relayed mail and require a DKIM signature that survives forwarding before trusting the sender identity.
+
+**Why:** Forwarding services re-send mail from their own infrastructure, so an SPF pass at the receiver describes the relay rather than the author, and attackers use that gap to spoof well-protected domains.
+
+**Detect:** grep mail-filter and anti-phish config for an auth decision on `spf=pass` alone, `Authentication-Results` parsed without `dkim=pass`, and forwarder rewrites (`SRS`, `.forward`).
+
+**References:** Forwarding breaks anti-spoofing assumptions, https://arxiv.org/abs/2302.07287, RFC 7208 (SPF), RFC 6376 (DKIM)
+
 # Lookalike-Domain Monitoring
 
 **SHOULD** continuously monitor for typosquat/lookalike registrations of your brand domains and take takedown action.
@@ -88,4 +98,14 @@ SPF: "v=spf1 include:amazonses.com -all"
 ```
 
 **References:** RFC 9989 (DMARC), RFC 6376 (DKIM), RFC 7208 (SPF), CWE-290
+
+# Trusted Sender Recipient Authorization
+
+**MUST** authorize the recipient, template, and content of every user-triggered notification the service sends under its own trusted identity.
+
+**Why:** When the actor choosing message parameters differs from the principal that signs and delivers, the service becomes an open relay that lends its domain reputation to whoever can drive it.
+
+**Detect:** grep notification handlers that take `to`/`recipient` from the request body and call the mail or push provider without a recipient allowlist or template allowlist.
+
+**References:** Trusted workflow relay analysis, https://arxiv.org/abs/2608.17361, CWE-441 (Confused Deputy)
 

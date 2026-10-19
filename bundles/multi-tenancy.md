@@ -1,8 +1,28 @@
-# multi-tenancy — full checklist (6 items)
+# multi-tenancy — full checklist (9 items)
 
 Tenant isolation across API, data, cache, queues, and lifecycle.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/multi-tenancy.md](../categories/multi-tenancy.md) · Index: [SKILL.md](../SKILL.md)
+
+# Agent Memory Isolation
+
+**MUST** namespace agent memory per user and session so no stored context can enter another user's prompt.
+
+**Why:** A shared store carries one user's data and instructions into another user's context: a data leak and a persistent injection channel that outlives the session that planted it.
+
+**Detect:** grep memory and vector-store reads/writes for a user or session namespace/partition key; global collection names with no tenant field, and retrieval filtered only by similarity, are the finding.
+
+**References:** OWASP AI Agent Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html, OWASP Top 10 for LLM Applications (LLM01 prompt injection)
+
+# Composed-Path Tenant Isolation
+
+**MUST** test tenant isolation end-to-end through every intermediary fronting a service, because shared gateway credentials can collapse per-tenant cache and quota isolation the backend believes it enforces.
+
+**Why:** Each component can be correctly isolated and the composed path still shared, when a gateway authenticates every tenant with one upstream identity.
+
+**Detect:** curl the same object as two tenants through the gateway and diff status and body for cache bleed
+
+**References:** CacheProbe, https://arxiv.org/abs/2605.30613
 
 # Cross-Tenant Cache Key Collision
 
@@ -36,6 +56,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 ```
 
 **References:** GDPR Art. 17 Right to Erasure (and Art. 19 notification), CCPA deletion, NIST SP 800-53 SI-12 / AU-11, ISO 27018, SOC 2 CC6, OWASP Multi-Tenant Security Cheat Sheet
+
+# Nameable Tenant Separation
+
+**MUST** document, for every shared store, cache, queue, and search index, the mechanism that enforces tenant isolation and whether it is inherited or implemented.
+
+**Why:** A boundary nobody can describe cannot be assessed, and inherited isolation is exactly where nested services quietly assume someone else's guarantee.
+
+**Detect:** For each shared store, cache, queue, and search index, read the isolation design and confirm a named mechanism per layer.
+
+**References:** NCSC Cloud Security Principles, https://www.ncsc.gov.uk/collection/cloud/the-cloud-security-principles
 
 # Noisy-neighbor isolation between tenants/workloads
 

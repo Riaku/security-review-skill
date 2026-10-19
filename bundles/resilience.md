@@ -1,4 +1,4 @@
-# resilience — full checklist (17 items)
+# resilience — full checklist (21 items)
 
 Fault-tolerance patterns under dependency failure.
 
@@ -13,6 +13,16 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** ValidatingWebhookConfiguration with `failurePolicy: Fail` and no `namespaceSelector` excluding kube-system/webhook ns; expired or self-signed `caBundle`.
 
 **References:** CIS K8s 5.2, K8s docs admission-webhook, CWE-833, SRE postmortem patterns
+
+# Authorization Service Degraded Mode
+
+**MUST** design the central authorization service for failure with replication and a documented degraded mode stating what remains allowed and for how long.
+
+**Why:** A security component on every request path without an availability story converts its own outage into a total outage, or into an undocumented allow-all.
+
+**Detect:** read the runbook section for the authorization service and check it states replica count, failure detection, and the exact behaviour (allow, deny, cache) during an outage.
+
+**References:** NIST SP 800-207 §5.2, https://doi.org/10.6028/NIST.SP.800-207, NIST SP 800-53 CP-2
 
 # Backlog Catch-Up Throttling
 
@@ -64,6 +74,16 @@ Fault-tolerance patterns under dependency failure.
 
 **References:** Fowler CircuitBreaker, resilience4j docs, AWS Well-Architected REL11-BP04, CWE-1098
 
+# Cost-Based Rate Limiting
+
+**SHOULD** limit consumption by the cost of the work requested, such as rows, bytes, tokens, or execution time, not by request count alone.
+
+**Why:** One expensive query and one cheap one count equally under a per-request limit, so an attacker spends your capacity with very few requests.
+
+**Detect:** grep rate limiter configuration for keys on request count only; check whether row, byte, or cost limits are enforced separately
+
+**References:** Site Reliability Engineering (O'Reilly, 2016), handling overload
+
 # Graceful Degradation
 
 **SHOULD** define a fallback per dependency so optional features shed instead of failing the whole request when a non-critical service is down.
@@ -113,6 +133,26 @@ Fault-tolerance patterns under dependency failure.
 **Detect:** grep `shed`, `admission_control`, `priority_queue`, feature-flag gating of non-critical endpoints.
 
 **References:** AWS Architecture Center load shedding, Google SRE Book SLO shedding, CWE-400, REL11-BP05
+
+# Per-Request Resource Budgets
+
+**MUST** set explicit per-request ceilings on CPU time, memory, file descriptors, connections, and threads so one caller cannot exhaust shared capacity.
+
+**Why:** Unbounded consumption by a single request is denial of service for every other user of the same process.
+
+**Detect:** grep server and handler config for `timeout`, `max_connections`, `memory_limit`, `ulimit`, `worker` ceilings and unbounded `while`/queue reads on request-driven paths.
+
+**References:** OWASP Denial of Service Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html
+
+# Protective Failure and Recovery
+
+**MUST** verify that failover and restore paths do not reintroduce weaker authentication or resurrect revoked credentials.
+
+**Why:** A standby with weaker auth, or a restore that revives revoked credentials, turns one outage into two incidents.
+
+**Detect:** Walk the failover and restore runbook; name the authentication posture of the standby and which revoked credentials a restore would revive.
+
+**References:** NIST SP 800-160v1r1, https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-160v1r1.pdf
 
 # Retry Storms
 

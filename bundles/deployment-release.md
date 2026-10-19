@@ -1,4 +1,4 @@
-# deployment-release — full checklist (28 items)
+# deployment-release — full checklist (31 items)
 
 Release engineering: strategies, environments, versioning.
 
@@ -252,6 +252,26 @@ gh-ost --table=orders --alter="MODIFY promo_code text" \
 
 **References:** NIST SP 800-53 CM-6, OPA/Gatekeeper docs, CIS Kubernetes Benchmark 5.2
 
+# Policy Audit-Mode Rollout
+
+**SHOULD** roll each new enforcement policy out in audit or dry-run mode first, converting every would-be denial into a reviewed exception before blocking is enabled.
+
+**Why:** Blocking policy enabled on first deploy breaks legitimate workloads and teaches teams to route around the control instead of fixing the finding.
+
+**Detect:** grep policy manifests and Helm values for enforcementMode: dryrun|audit or --dry-run flags on the admission controller
+
+**References:** Gatekeeper audit mode, https://github.com/open-policy-agent/gatekeeper
+
+# Dev Endpoints in Shipped Artifacts
+
+**MUST NOT** ship release artifacts containing debug endpoints, internal hostnames, private IP addresses, or test-only administrative screens.
+
+**Why:** Anyone who unpacks the artifact can read those strings and reach internal infrastructure the release was never meant to expose.
+
+**Detect:** strings on the release binary or package, then grep for RFC1918 addresses, .internal hostnames, and /debug paths
+
+**References:** Google android-security-lints, https://github.com/google/android-security-lints
+
 # Rollbacks
 
 **MUST** be rehearsed, one-command operations whose database migrations are backward-compatible or paired with tested down-migrations.
@@ -271,6 +291,16 @@ gh-ost --table=orders --alter="MODIFY promo_code text" \
 **Detect:** grep changelogs/tags for `MAJOR`/`MINOR` bumps against diffed public API signatures; check `package.json`/`Cargo.toml` for `^` ranges crossing breaking releases.
 
 **References:** semver.org spec items 7-9, OWASP dependency management, CWE-1265 incorrect version semantics
+
+# Ship Controls With Rollback
+
+**MUST NOT** ship a security control that has no audit trail, no alerting on denial, and no tested way to disable it.
+
+**Why:** An unobservable control cannot be shown to work or to have failed, and an unrollbackable one turns a bad launch into an outage.
+
+**Detect:** grep the release for a kill switch or flag around the new check, an emitted `denied`/`blocked` event, and a rollback step in the runbook.
+
+**References:** AWS Well-Architected Security Pillar, https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/welcome.html
 
 # Staging Environments
 

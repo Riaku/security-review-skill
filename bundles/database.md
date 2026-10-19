@@ -1,4 +1,4 @@
-# database — full checklist (51 items)
+# database — full checklist (53 items)
 
 Schema, queries, transactions, replication, backup/recovery.
 
@@ -361,6 +361,16 @@ upsert_user_stats(user_id, computed_from(order_events))  # replayable
 
 **References:** Kleppmann *DDIA* Ch. 1, materialized view maintenance patterns, DynamoDB denormalization guide, CWE-362
 
+# Destructive Operation Targeting
+
+**MUST** verify a target system's live role — primary or replica, production or non-production — before running any destructive or failover operation.
+
+**Why:** Hostnames, runbooks, and habit drift out of date, and a restore or failover aimed at the wrong node destroys the copy you were relying on. The live system is the only authority on its own role.
+
+**Detect:** command: `SELECT pg_is_in_recovery()` / `@@read_only` / cloud resource tags queried immediately before the operation, with the result recorded in the change log.
+
+**References:** GitLab database outage postmortem, https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/
+
 # Down Migrations
 
 **MUST** provide a tested `downgrade` (rollback) path for every schema migration that touches production data.
@@ -643,6 +653,16 @@ REFRESH MATERIALIZED VIEW CONCURRENTLY user_perms;
 ```
 
 **References:** PostgreSQL MATERIALIZED VIEW / REFRESH CONCURRENTLY docs, OWASP A05 Security Misconfiguration
+
+# Mediated Writes to Critical State
+
+**MUST** route every write to critical state through a constrained set of procedures that enforce a declared invariant, and verify that invariant independently of the writer.
+
+**Why:** Any path that writes the store directly — an admin console, a script, an ORM call — bypasses the checks the application layer believes are universal.
+
+**Detect:** grep for UPDATE/INSERT/db.execute calls outside the service layer, and for every credential able to write the table directly
+
+**References:** Anderson, Security Engineering 3rd ed., ch.12, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch12.pdf
 
 # N+1 Queries
 

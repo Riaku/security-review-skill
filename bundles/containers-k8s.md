@@ -1,4 +1,4 @@
-# containers-k8s — full checklist (43 items)
+# containers-k8s — full checklist (46 items)
 
 Container and Kubernetes runtime configuration.
 
@@ -85,6 +85,16 @@ Container and Kubernetes runtime configuration.
 **Detect:** `envFrom: configMapRef` where the app expects live updates; no checksum annotation or rollout trigger on ConfigMap change.
 
 **References:** K8s docs configmap env immutability, Bitnami/Flux config-reload patterns
+
+# Container Paths On The Host
+
+**MUST** canonicalize and confine every container-supplied path before a host-side operation resolves it.
+
+**Why:** Privileged host-to-container interactions resolve paths chosen inside the container, so a crafted path redirects a host operation across the isolation boundary.
+
+**Detect:** grep daemon and plugin code for host operations on container-provided paths without clean-plus-prefix confinement (`os.Open(hostPath + req.Path)`, unvalidated `mount --bind` source).
+
+**References:** Bulkhead container path resolution, https://arxiv.org/abs/2607.12723, CWE-22 (Path Traversal)
 
 # Crash-Loop Restart Storms Bounded and Alarmed
 
@@ -428,6 +438,16 @@ spec:
 
 **References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611, CIS Docker 5.3
 
+# Policy Fail-Closed on Schema Change
+
+**MUST** fail closed when a policy rule no longer matches a changed request schema, instead of silently admitting traffic that stopped matching.
+
+**Why:** Policy rules keyed to field paths break quietly on schema evolution: unmatched traffic keeps flowing while the control reports healthy.
+
+**Detect:** grep admission, WAF, and gateway rules for field paths (`spec.`, `request.object.`) and check a test pins each rule to the schema version it targets.
+
+**References:** Kubernetes Security Concepts, https://kubernetes.io/docs/concepts/security/
+
 # Privileged Containers and Excess Linux Capabilities
 
 **SHOULD NOT** grant capabilities beyond the app's proven need; drop all by default and add back only what fails without them.
@@ -467,6 +487,16 @@ spec:
 **Detect:** grep `falco`, `tracee`, `tetragon`, `ebpf` in DaemonSets/deployment YAML, custom `falco_rules.yaml` files.
 
 **References:** MITRE ATT&CK container matrix T1610, CIS Docker/K8s Benchmarks 5.x, NIST SP 800-190
+
+# Sensitivity-Aware Workload Placement
+
+**SHOULD** constrain placement so workloads of different data-sensitivity classes do not share a node by default, and treat the shared kernel as one failure domain.
+
+**Why:** Namespace isolation is not a kernel boundary, so one kernel bug exposes every co-located workload regardless of what RBAC or NetworkPolicy says.
+
+**Detect:** grep deployment manifests for nodeSelector, nodeAffinity, or tolerations keyed to a sensitivity class; their absence means default scheduling
+
+**References:** NIST SP 800-190, https://doi.org/10.6028/NIST.SP.800-190
 
 # PersistentVolume Reclaim Policy and NFS root_squash Data Exposure
 
