@@ -52,6 +52,16 @@ inbound equals outbound. Do not paste text you do not have the right to license
 this way — paraphrase the rule and cite the source instead, which is what the
 items do already.
 
+Inbound is enforced, not just stated: **every commit must be signed off**
+(`git commit -s`), which is what the Developer Certificate of Origin means — you
+are asserting you have the right to submit the change under this licence. CI
+checks each PR commit for a `Signed-off-by` trailer matching the author, and
+fails without one. Configure it once so you cannot forget:
+
+```bash
+git config --global format.signOff true
+```
+
 ## Security
 
 Do not open a public issue for a workflow, script or supply-chain vulnerability.
