@@ -1,4 +1,4 @@
-# testing-strategy — full checklist (19 items)
+# testing-strategy — full checklist (34 items)
 
 Test pyramid, practices, and quality gates.
 
@@ -24,6 +24,26 @@ Test pyramid, practices, and quality gates.
 
 **References:** catio.tech/blog/architecture-as-code, Ford/Parsons/Kua "Building Evolutionary Architectures" (fitness functions)
 
+# Test From the Attacker's View
+
+**MUST** test the deployed system end to end against attacker paths, not only per-unit happy paths inside the code.
+
+**Why:** Most exploitable flaws live in the seams between middleware, routing, and services, and unit tests mock exactly those seams away.
+
+**Detect:** run an authenticated black-box pass (`zap-baseline.py -r report.html <url>` or the OWASP WSTG checklist) against a deployed environment in CI or pre-release.
+
+**References:** OWASP Web Security Testing Guide, https://owasp.org/www-project-web-security-testing-guide/
+
+# Authorization Test Matrix
+
+**MUST** test authorization as a matrix of actors against actions and objects, including cross-user, cross-tenant, and expired-role denials.
+
+**Why:** Functional tests exercise the happy owner path; authorization bugs live in the pairs nobody wrote a test for.
+
+**Detect:** grep the test suite for each endpoint's owner case only, and for absent `403`/`forbidden` assertions against a second user or tenant.
+
+**References:** OWASP Authorization Regression Testing Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Regression_Testing_Cheat_Sheet.html
+
 # Automated A11y Gate in CI
 
 **SHOULD** run automated accessibility checks (axe-core/pa11y) in CI on UI changes, failing on new violations of the target WCAG level.
@@ -44,6 +64,16 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V1.1.7, NIST SP 800-218 (SSDF) (code review), OWASP Code Review Guide v2, CWE-1068 (Inconsistency Between Implementation and Documented Design)
 
+# Concurrency Stress Testing
+
+**SHOULD** exercise concurrent code with interleaving and stress tests that reproduce races, not only sequential unit tests.
+
+**Why:** Races do not reproduce on the happy path; they reproduce under real interleaving, usually first in production.
+
+**Detect:** a stress target that fires the same handler or critical section from many goroutines/threads with randomized scheduling and repeats, wired into CI; a bare `go test -race` run belongs to sanitizers-in-ci.
+
+**References:** Software Engineering at Google, ch. 20, https://abseil.io/resources/swe-book/html/ch20.html
+
 # Contract Testing
 
 **MUST** verify service-to-service API contracts (request/response schemas, auth headers) so a producer change cannot silently break consumer security assumptions.
@@ -54,6 +84,16 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP API Security Top 10 API10:2023 (Unsafe Consumption of APIs), CWE-20, NIST SP 800-218 (SSDF)
 
+# Control Effectiveness Testing
+
+**MUST** test that each security control actually fires — lockout, filter rule, report endpoint, alert route — not merely that it is configured.
+
+**Why:** A control deployed with a typo looks identical to a working one in a configuration review. Only a negative test that should trigger it proves the path is live.
+
+**Detect:** command: an automated control test suite (for example a `pytest tests/security/test_controls.py` job or an active scanner run against staging) that triggers each control and asserts the block or alert.
+
+**References:** OWASP Web Security Testing Guide, NIST SP 800-53 CA-8
+
 # End-to-End Tests
 
 **SHOULD** drive the full user journey through a real browser or client, including login, session expiry, and privilege escalation attempts.
@@ -63,6 +103,16 @@ Test pyramid, practices, and quality gates.
 **Detect:** Playwright/Cypress/Selenium specs under `e2e/`, scenarios asserting redirect on expired token and 403 on admin routes.
 
 **References:** OWASP ASVS V4.1.3, OWASP WSTG v4.2 (session management), NIST SP 800-115
+
+# Verify Fixes Beyond The Finding
+
+**MUST** verify a security fix by re-running the full scanner set plus a behavioral exploit test, never by the disappearance of one finding.
+
+**Why:** A change can silence the named check while leaving sibling findings, breaking behavior, or missing the security intent entirely.
+
+**Detect:** command re-run every configured scanner and the exploit test for the class, then diff the complete result set before and after the fix.
+
+**References:** TerraProbe repair verification, https://arxiv.org/abs/2606.26590
 
 # Flaky Tests
 
@@ -114,6 +164,16 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V4.1, CWE-453 (Insecure Default Variable), NIST SP 800-218 (SSDF)
 
+# Negative Test Coverage
+
+**MUST** include negative tests asserting that unauthorized, malformed, and out-of-policy operations fail, not only that valid operations succeed.
+
+**Why:** A suite that tests only the happy path passes just as loudly when an authorization check is deleted. Negative tests are what make 'merge if green' a meaningful gate.
+
+**Detect:** grep test suites for assertions on 401/403/400 paths, `pytest.raises`, and `expect(...).toThrow`; modules with only success-path cases are the finding.
+
+**References:** GitLab secure coding guidelines, https://docs.gitlab.com/development/secure_coding_guidelines/, OpenSSF Concise Guide for Developing More Secure Software, https://github.com/ossf/wg-best-practices-os-developers/blob/main/docs/Concise-Guide-for-Developing-More-Secure-Software.md
+
 # OpenAPI–Implementation Drift Check
 
 **SHOULD** verify in CI that the served API matches its OpenAPI spec (request/response validation against the contract), failing on drift.
@@ -144,6 +204,46 @@ Test pyramid, practices, and quality gates.
 
 **References:** OWASP ASVS V1.1.1, NIST SP 800-218 (SSDF) (verification after remediation)
 
+# Sanitizers in CI
+
+**MUST** build and test memory-unsafe code that parses untrusted input with address, undefined-behaviour, and thread sanitizers in CI.
+
+**Why:** Sanitizers turn latent memory and concurrency bugs into loud, reproducible CI failures instead of remote code execution in production.
+
+**Detect:** two CI jobs: `-fsanitize=address,undefined` and a separate `-fsanitize=thread` (MSan where the runtime allows), each running the parser test suite; a single combined flag set is a bug in the pipeline, not a passing gate.
+
+**References:** OWASP C-Based Toolchain Hardening Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/C-Based_Toolchain_Hardening_Cheat_Sheet.html
+
+# Negative Control for Security Scanners
+
+**MUST** validate each security scanner against a fixture with a known finding before trusting a clean result on real code.
+
+**Why:** A scanner that crashes, misconfigures, or skips its target reports no findings, which is indistinguishable from a clean codebase.
+
+**Detect:** run the scanner in CI against a seeded vulnerable fixture and assert the expected finding is reported
+
+**References:** Trail of Bits Testing Handbook, https://github.com/trailofbits/testing-handbook, AppSec Guide, https://appsec.guide/
+
+# Security Re-Check on Fixes
+
+**MUST** re-run the security review and security tests over the area any bug fix touches, including code that was not security-relevant before.
+
+**Why:** Fixes to previously safe code routinely introduce new vulnerabilities, and fix discussion rarely mentions security, so an unreviewed fix is an unreviewed change to the attack surface.
+
+**Detect:** `git show --stat` on the fix commit, then confirm the changed paths are covered by a security test; a conventional-commit 'fix:' prefix is a filter, not the evidence
+
+**References:** Mozilla security-regression study, https://arxiv.org/abs/2207.01942
+
+# Seeded-Defect Review Calibration
+
+**SHOULD** seed a known number of defects into a review round and use the detection ratio to estimate how many unknown defects remain.
+
+**Why:** A review that finds nothing is indistinguishable from a review that missed everything unless its sensitivity has been measured.
+
+**Detect:** judgment: the last calibration exercise's found-versus-seeded table and the residual estimate it implies
+
+**References:** Anderson, Security Engineering 1st ed., ch.23, https://www.cl.cam.ac.uk/~rja14/book.html
+
 # Self-Generated Expected Output
 
 **MUST NOT** derive a test's expected output from the code under test (golden files generated from current implementation, assertions copied from actual run).
@@ -163,6 +263,26 @@ Test pyramid, practices, and quality gates.
 **Detect:** `curl -k`-free health checks, smoke stage in pipeline (`smoke.yml`, `post-deploy` job) asserting HTTPS status and auth cookie issuance.
 
 **References:** OWASP ASVS V14.1 (build and deploy), NIST SP 800-218 (SSDF), WSTG v4.2 (configuration testing)
+
+# Static Gate Not Sufficient
+
+**MUST NOT** treat a clean static-analysis run as evidence that input-dependent paths are secure.
+
+**Why:** Vulnerabilities that depend on adversarial input, execution context, or chaining evade static checks while remaining exploitable.
+
+**Detect:** command run the dynamic or exploit suite for the changed surface (`schemathesis`, `zap-baseline`, PoC tests) alongside the static gate.
+
+**References:** Static-pass / dynamic-fail gap, https://arxiv.org/abs/2609.10762
+
+# Structured Fuzz Harness
+
+**SHOULD** derive typed, structured inputs from the fuzz bytes so each harness reaches the parser's real code paths instead of one shallow entry point.
+
+**Why:** Coverage is decided by harness design: a harness that never decodes its input exercises almost none of the parsing logic it claims to fuzz.
+
+**Detect:** each fuzz target body: targets that forward raw bytes without constructing the format's typed message have no structured coverage
+
+**References:** Trail of Bits Testing Handbook, https://github.com/trailofbits/testing-handbook
 
 # Test-Driven Development Discipline
 
@@ -184,6 +304,26 @@ Test pyramid, practices, and quality gates.
 
 **References:** test-isolation practice, flaky-test prevention guidance, property-based testing seed discipline
 
+# Test Fixture Data Hygiene
+
+**MUST NOT** place production personal data, live credentials, or real customer records in test fixtures, examples, or seed data.
+
+**Why:** Fixtures are copied into repositories, CI logs, and image layers with none of the controls that protect the production store. Once committed, the exposure is permanent and unrevokable.
+
+**Detect:** grep fixture, seed, and example files for real-looking addresses and account numbers plus live key prefixes (`AKIA`, `sk_live_`, `ghp_`); confirm generators or synthetic data are used instead.
+
+**References:** OWASP User Privacy Protection Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html, CWE-312 Cleartext Storage of Sensitive Information
+
+# Tooling Security Gap Measurement
+
+**MUST** re-measure each adopted code-generation tool's security pass rate on your own tasks, rather than inferring safety from functional gains or release notes.
+
+**Why:** Functional improvement and security improvement diverge per model family, so yesterday's measurement is the only evidence you have about today's tool.
+
+**Detect:** run the same security test suite per tool version and diff the pass rate across releases.
+
+**References:** Longitudinal functionality-security gap study (arXiv 2610.08240), https://arxiv.org/abs/2610.08240
+
 # Unit Tests
 
 **MUST** cover every security-relevant function (auth checks, parsers, validators) with fast isolated tests asserting both accept and reject paths.
@@ -193,4 +333,14 @@ Test pyramid, practices, and quality gates.
 **Detect:** test files named `*_test.py`, `*.test.js` adjacent to auth/parser modules; coverage reports showing <80% on security-critical files.
 
 **References:** OWASP ASVS V1.1.1, NIST SP 800-218 (SSDF)
+
+# Verification Path Coverage
+
+**MUST** measure branch coverage of code that makes authentication, authorization, or signature-verification decisions and review every branch that never executes.
+
+**Why:** A misplaced jump or duplicated cleanup branch in verification code silently accepts invalid input while line coverage stays green. Only branch-level measurement exposes the path that never runs.
+
+**Detect:** command: `coverage run --branch` with `coverage report --show-missing` (or `gcov -b` / `llvm-cov show`) scoped to auth and signature modules; any uncovered branch in a verify function is a finding.
+
+**References:** Apple 'goto fail' analysis, https://www.imperialviolet.org/2014/02/22/applebug.html, CWE-670 Always-Incorrect Control Flow Implementation
 

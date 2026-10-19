@@ -1,4 +1,4 @@
-# scaling-capacity — full checklist (19 items)
+# scaling-capacity — full checklist (20 items)
 
 Scaling behavior and capacity limits.
 
@@ -144,6 +144,16 @@ Scaling behavior and capacity limits.
 **Detect:** grep manifests for `resources.limits.memory`, `oom_score_adj`, and dmesg/journal for `Out of memory: Killed process`; flag containers with no limit or critical services at default scores.
 
 **References:** CWE-400, Kubernetes QoS docs, NIST SP 800-184, kernel OOM protection (oom_score_adj)
+
+# Per-User Storage Quotas
+
+**MUST** enforce per-user quotas on total stored bytes and object count, not only on individual request size.
+
+**Why:** Per-request limits leave the aggregate unbounded, so a patient client fills the volume and the bill with millions of individually legal uploads.
+
+**Detect:** grep upload handlers for a per-user aggregate check and for the quota record it consults; its absence means only per-request limits apply.
+
+**References:** OWASP ASVS v5.0 V5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x14-V5-File-Handling.md
 
 # Complexity on Hot Paths & Quadratic Nested Loops (O(n²) on unbounded input)
 

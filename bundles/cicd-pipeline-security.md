@@ -1,4 +1,4 @@
-# cicd-pipeline-security — full checklist (25 items)
+# cicd-pipeline-security — full checklist (30 items)
 
 CI/CD system as an attack surface.
 
@@ -74,6 +74,16 @@ CI/CD system as an attack surface.
 
 **References:** SLSA v1.0, Sigstore/cosign docs, in-toto attestation framework, NIST SP 800-218 (SSDF), NIST SP 800-161, NTIA SBOM minimum elements, OWASP CI/CD Top 10 CICD-SEC-9, NSA Kubernetes Hardening Guide, CIS K8s 5.5 (Extensible Admission Control), CWE-494, CWE-345
 
+# Checkout Credential Persistence
+
+**MUST** disable credential persistence in CI checkout steps and clear any token the runner writes into the workspace before later steps run.
+
+**Why:** A token left in the git config by checkout is readable by every subsequent step, including third-party actions and build scripts.
+
+**Detect:** grep actions/checkout steps that do not set persist-credentials: false
+
+**References:** zizmor, https://github.com/zizmorcore/zizmor
+
 # CI Action Pinning (SHA not tag)
 
 **MUST** reference third-party actions by full commit SHA rather than a mutable tag or branch name.
@@ -93,6 +103,16 @@ CI/CD system as an attack surface.
 **Detect:** Repo-level `secrets.*` used in many workflows instead of environment-scoped ones; cloud IAM policies with `*` resources attached to CI roles; missing `environment:` stanzas.
 
 **References:** OWASP CI/CD Top 10 CICD-SEC-6, CWE-250, NIST SP 800-218 (SSDF), GitHub environments and OIDC deploy docs
+
+# CI Infrastructure Change Scrutiny
+
+**MUST** subject changes to CI, build, and release infrastructure, and grants of maintainer rights over them, to the same review as production code.
+
+**Why:** Infrastructure contributions persist and are trusted afterwards, so a patient attacker delivers the payload through pipeline edits reviewed as housekeeping.
+
+**Detect:** grep CODEOWNERS for .github/workflows, release scripts, and action definitions; every path without an owner is unreviewed
+
+**References:** xz backdoor attack reconstruction, https://arxiv.org/abs/2504.17473
 
 # CI Runner Isolation
 
@@ -154,6 +174,16 @@ CI/CD system as an attack surface.
 
 **References:** OWASP GitOps Security, CWE-269, NIST SP 800-218 (SSDF), ArgoCD RBAC best practices, Flux multi-tenancy guide
 
+# Guard Condition Soundness
+
+**MUST** review the authorization guard expression itself — always-true conditions, substring matches, falsy-through-|| fallbacks — not just the intent of the step it protects.
+
+**Why:** A guard that evaluates true for every input is a missing control that still reads as a control in review.
+
+**Detect:** grep authorization guards and CI `if:` conditions for always-true shapes (`contains()` on a scalar, `x == x`, a `||` fallback defaulting to true) and read each for the outcome it admits.
+
+**References:** zizmor, https://github.com/zizmorcore/zizmor
+
 # Hermetic Builds (no undeclared network/env deps during build)
 
 **SHOULD NOT** let builds reach undeclared network or environment inputs; every dependency must be declared and cached.
@@ -174,6 +204,16 @@ CI/CD system as an attack surface.
 
 **References:** OWASP IaC Security, CWE-913, NIST SP 800-218 (SSDF), Terraform Cloud PR workflow docs, Checkov tfsec guidance
 
+# Internal Registry Proxy
+
+**MUST** fetch dependencies through an internal registry or proxy that enforces allowlisting, malware blocking, and quarantine of new versions.
+
+**Why:** Direct public-registry installs give every workstation and build job an unaudited path to arbitrary code. A proxy is the single choke point where policy applies and a bad version can be frozen.
+
+**Detect:** command: `npm config get registry`, `pip config list`, `~/.m2/settings.xml`, and `.npmrc` mirror settings, plus the proxy's allowlist and quarantine policy in the platform repository.
+
+**References:** GitHub: disrupting supply-chain attacks on npm and GitHub Actions, https://github.blog/security/supply-chain-security/disrupting-supply-chain-attacks-on-npm-and-github-actions/, NIST SP 800-161 supply chain risk management
+
 # Linting & Static Analysis Enforced in CI (linter, type checker, SAST)
 
 **MUST** fail the pipeline when linters, type checkers, or SAST scans report findings, not merely log them as warnings.
@@ -183,6 +223,16 @@ CI/CD system as an attack surface.
 **Detect:** Workflow steps without `--exit-code`/`fail-on-error`; `continue-on-error: true` on scan jobs; SAST action with `level: warning`; missing ruff/mypy/semgrep/codeql steps entirely; pre-commit hooks running the same checks earliest in the lifecycle.
 
 **References:** NIST SP 800-218 (SSDF), GitHub Code Scanning (CodeQL) docs, OWASP SAMM Security Testing, OWASP DevSecOps Maturity Model
+
+# No Silent Finding Suppression
+
+**MUST NOT** let automated repair resolve a finding by adding a suppression directive, ignore-comment, or disabled check.
+
+**Why:** Suppression makes the report clean without changing the defect, so the review gate reports success while the vulnerability stays in production.
+
+**Detect:** grep diffs from automated fixes for `# nosec`, `# noqa`, `// nolint`, `@SuppressWarnings`, `ignore_errors`, and `skip` additions unaccompanied by a code change.
+
+**References:** TerraRepair (arXiv 2607.11390), https://arxiv.org/abs/2607.11390
 
 # Patch management SLAs (MTTR targets by severity, exception tracking)
 

@@ -1,4 +1,4 @@
-# payments-fraud — full checklist (7 items)
+# payments-fraud — full checklist (11 items)
 
 Payment flows, fraud, and money-movement safety.
 
@@ -23,6 +23,26 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** grep for missing 3D Secure, AVS, velocity checks in payment flows; check `chargeback_rate`, `fraud_score`, `three_ds` config absent.
 
 **References:** Visa VDMP, Mastercard ECP
+
+# Dual Approval Irreversible
+
+**MUST** require two independent approvers for high-value, irreversible actions such as large transfers, contract approvals, or safety overrides.
+
+**Why:** A single actor who can both initiate and release an irreversible action is indistinguishable from an attacker holding that account.
+
+**Detect:** trace the approval workflow and confirm no single identity can complete both the request and the release step.
+
+**References:** OWASP ASVS v5.0 V2, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x11-V2-Validation-and-Business-Logic.md, NIST SP 800-53 AC-5
+
+# Structural Invariants Against Organized Abuse
+
+**SHOULD** detect organized abuse through structural invariants — concentrated cash-out, shared infrastructure, synchronized timing — rather than tightening per-account thresholds.
+
+**Why:** An attacker spread across many accounts keeps each below any fixed threshold; only the structure their economics force stays visible.
+
+**Detect:** judgment: the fraud ruleset — whether any rule keys on cross-account structure rather than a per-entity score
+
+**References:** Fraudster's Trilemma, https://arxiv.org/abs/2605.07383
 
 # Idempotency (idempotency keys)
 
@@ -64,6 +84,16 @@ Payment flows, fraud, and money-movement safety.
 
 **References:** PCI DSS v4.0.1, SAQ A, A-EP, B, B-IP, C, C-VT, D, PCI SSC scoping guidance
 
+# Per-Message Signing
+
+**MUST** sign individual messages in multi-hop high-value transactions so integrity survives every intermediary, not just each transport leg.
+
+**Why:** Transport encryption ends at each hop, so a compromised or curious intermediary can alter a payment instruction that every leg delivered intact.
+
+**Detect:** read the payment or approval flow and check whether the instruction carries a signature the final party verifies, or only hop-by-hop TLS.
+
+**References:** OWASP ASVS v5.0 V4, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x13-V4-API-and-Web-Service.md, NIST SP 800-53 SC-8
+
 # Reconciliation Runbook
 
 **SHOULD** maintain a tested reconciliation process between internal records and external sources (PSP settlement files, bank statements, partner reports) with discrepancy handling.
@@ -73,4 +103,14 @@ Payment flows, fraud, and money-movement safety.
 **Detect:** look for reconciliation jobs comparing internal ledger vs PSP/bank files with tolerance thresholds; check discrepancy queue with owner and SLA; verify runbook covers partial settlements and currency mismatches.
 
 **References:** Stripe reconciliation guidance, PCI DSS 4.0 Req 10 (logging and monitoring), payments-engineering practice guides
+
+# Time-Bound Price Quotes
+
+**MUST** bind prices and quotes to a short validity window and revalidate them server-side at redemption, never at display time.
+
+**Why:** Anyone who can hold a request can freeze the terms it carries, then submit it when the market or the promotion has moved in their favour.
+
+**Detect:** grep order and checkout handlers for `price`, `amount`, or `discount` read from the request body, and for quote records with no `expires_at`.
+
+**References:** OWASP WSTG Testing for Payment Functionality, https://github.com/OWASP/wstg/blob/master/document/4-Web_Application_Security_Testing/10-Business_Logic/10-Payment_Functionality.md
 

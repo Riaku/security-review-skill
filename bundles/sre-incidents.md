@@ -1,4 +1,4 @@
-# sre-incidents — full checklist (33 items)
+# sre-incidents — full checklist (37 items)
 
 Operational readiness: DR, incidents, SLOs, on-call.
 
@@ -47,6 +47,16 @@ aws s3 cp db.tar.gpg s3://vault-backups/db/ \
 **Detect:** Grep `restore_test`, `velero restore create`, `pg_restore` in scheduled jobs, AWS Backup restore-testing plans, drill runbooks; a backup job with no matching restore-test job is the finding, as are a missing `dr_plan.md`, disabled `wal_level`/PITR, and offsite sync jobs without checksums. Ask for the last successful restore date and evidence: checksums, row counts, an app booting against restored data.
 
 **References:** NIST SP 800-34, CIS Control 11, NIST CSF PR.IP-4, ISO 22301
+
+# Backup Is Not Fallback
+
+**MUST** design and rehearse backup restoration and degraded fallback operation as two separate modes with separate success criteria.
+
+**Why:** Conflating them leaves the manual degraded mode unpracticed and the restore path assumed working, so the outage exercises the capability nobody tested.
+
+**Detect:** judgment — inspect the runbook for distinct restore and fallback procedures, each with a last-tested date and its own acceptance check.
+
+**References:** Anderson, Security Engineering 3e, ch.7 (backup vs fallback), https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch07.pdf
 
 # Break-Glass Access Procedure
 
@@ -119,6 +129,16 @@ backup: pg_basebackup + wal-archive  # restore-point capable
 **Detect:** `mdadm --detail` showing `degraded`, `zpool status` DEGRADED, absence of `degraded` runbook, no rebuild-priority or scrub schedule.
 
 **References:** NIST SP 800-34, RAID recovery procedures, ZFS administration guide
+
+# Destructive Operation Targeting
+
+**MUST** verify a target system's live role — primary or replica, production or non-production — before running any destructive or failover operation.
+
+**Why:** Hostnames, runbooks, and habit drift out of date, and a restore or failover aimed at the wrong node destroys the copy you were relying on. The live system is the only authority on its own role.
+
+**Detect:** command: `SELECT pg_is_in_recovery()` / `@@read_only` / cloud resource tags queried immediately before the operation, with the result recorded in the change log.
+
+**References:** GitLab database outage postmortem, https://about.gitlab.com/blog/postmortem-of-database-outage-of-january-31/
 
 # DORA (financial sector resilience)
 
@@ -252,6 +272,16 @@ health_check: {interval: 10s, timeout: 5s,
 
 **References:** Google SRE Book (on-call), OSHA fatigue guidance, NIST SP 800-61
 
+# Post-Compromise Credential Sweep
+
+**MUST** after a credential exposure, sweep for attacker-created persistence, including new tokens, keys, users, and CI variables, not only use of the leaked credential.
+
+**Why:** Revoking the exposed secret leaves the attacker's own credentials in place, and the incident reopens from that persistence path.
+
+**Detect:** query audit logs for credential-creation events in the exposure window (CreateAccessKey, CreateToken, AddSSHKey, CI variable writes)
+
+**References:** GitLab incident response runbook, https://docs.gitlab.com/security/responding_to_security_incidents/
+
 # Post-Incident Review Practice (blameless postmortems with tracked actions)
 
 **MUST** hold a blameless post-incident review for every significant incident within days, with corrective actions assigned, tracked, and verified closed.
@@ -261,6 +291,16 @@ health_check: {interval: 10s, timeout: 5s,
 **Detect:** grep `postmortem`, `RCA`, `blameless`, review templates, action tickets linked to incident IDs.
 
 **References:** NIST SP 800-61 post-incident activity, Google SRE postmortem culture, CIS Control 17
+
+# Registry Compromise Containment
+
+**MUST** maintain a rehearsed procedure to mass-revoke registry and CI tokens and block compromised package versions within hours.
+
+**Why:** Automated worms publish across thousands of packages and consume every token they can reach in minutes. Manual, per-incident rotation cannot keep pace with registry-scale compromise.
+
+**Detect:** judgment: the incident runbook and its last exercise record — token inventory, bulk-revocation path, and a dependency freeze/blocklist mechanism with a measured time-to-contain.
+
+**References:** GitHub: disrupting supply-chain attacks on npm and GitHub Actions, https://github.blog/security/supply-chain-security/disrupting-supply-chain-attacks-on-npm-and-github-actions/
 
 # RTO & RPO
 

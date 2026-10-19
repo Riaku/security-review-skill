@@ -1,8 +1,18 @@
-# compliance-privacy — full checklist (34 items)
+# compliance-privacy — full checklist (46 items)
 
 Privacy operations and data protection in code.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/compliance-privacy.md](../categories/compliance-privacy.md) · Index: [SKILL.md](../SKILL.md)
+
+# Contestable Automated Decisions
+
+**MUST** give any person penalized by an automated decision access to the evidence used, a human review path, and preservation of records needed to overturn it.
+
+**Why:** When the system is presumed correct, its bugs become wrongful charges, firings, or fraud flags that the accused cannot disprove.
+
+**Detect:** judgment: the decision record — retained inputs, scoring rationale, and the appeal route
+
+**References:** Anderson, Security Engineering 3rd ed., ch.12, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch12.pdf, GDPR Art. 22, https://gdpr-info.eu/art-22-gdpr/
 
 # Audit Logs
 
@@ -54,6 +64,16 @@ Privacy operations and data protection in code.
 
 **References:** PIPL (2021), CAC Cross-Border Data Transfer Rules, GB/T 35273
 
+# Consent Revocation Surface
+
+**MUST** give users a self-service view of granted authorizations and active tokens, with the ability to revoke each one.
+
+**Why:** Consent without a revocation path accumulates invisible standing privilege that outlives the user's intent and the client's trustworthiness.
+
+**Detect:** locate the connected-applications and active-sessions screens and check each grant can be revoked individually.
+
+**References:** OWASP ASVS v5.0 V10.4.9, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x19-V10-OAuth-and-OIDC.md
+
 # Cookie Consent
 
 **SHOULD** block non-essential cookies until explicit user consent is obtained, with granular category controls.
@@ -83,6 +103,16 @@ Privacy operations and data protection in code.
 **Detect:** grep `data_classification`, `pii_tagging`, Macie sensitive-data jobs, dbt `pii: true` tags.
 
 **References:** NIST SP 800-122, GDPR Art. 4/32
+
+# Data In Use Protection
+
+**MUST** minimize sensitive data held in process memory and encrypt or wipe it as soon as processing completes.
+
+**Why:** Rest and transit get checked and memory does not, so plaintext secrets sit in heap dumps, crash reports, and swap long after the request ends.
+
+**Detect:** grep for long-lived plaintext secret buffers and for zeroization calls (`memset_s`, `explicit_bzero`, `zeroize`, `SecureString`) around their use.
+
+**References:** OWASP ASVS v5.0 V11.7.2, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x20-V11-Cryptography.md, CWE-316
 
 # Data Residency
 
@@ -157,6 +187,26 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** HIPAA Security Rule 45 CFR 164, HHS OCR guidance, NIST HIPAA Security Series
 
+# Identifier Correlatability Audit
+
+**SHOULD** audit every identifier a design emits for what it links, and drop or weaken identifiers that are not required.
+
+**Why:** Individual identifiers look harmless; together they join activity across time, devices and contexts into a profile nobody consented to. Traffic metadata identifies users even with no identifier in the payload.
+
+**Detect:** List every emitted identifier and metadata signal (IDs, timestamps, ordering, TLS quirks) and record what each one links.
+
+**References:** RFC 6973 Privacy Considerations, https://www.rfc-editor.org/rfc/rfc6973.txt
+
+# Identifier Expiry Design
+
+**SHOULD** give every identifier an expiry, replacement and deletion path instead of assuming it is permanent.
+
+**Why:** Permanent identifiers accumulate into tracking keys and cannot be erased when a user leaves. A schema with no expiry makes retention obligations impossible to honour.
+
+**Detect:** Identifier columns and cookies lacking `expires_at`, `ttl` or a rotate/delete path in the schema and cookie settings.
+
+**References:** RFC 6973 Privacy Considerations, https://www.rfc-editor.org/rfc/rfc6973.txt
+
 # India DPDP Act 2023 (consent managers, data fiduciary duties)
 
 **MUST** honour consent given, managed, reviewed, or withdrawn through a Consent Manager registered with the Data Protection Board of India, and fulfill data fiduciary duties including breach notification and grievance redressal.
@@ -167,6 +217,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** DPDP Act 2023, DPDP Rules 2025, India Data Protection Board
 
+# Informative Consent Prompt
+
+**MUST** show the requested scopes and the verified identity of the requesting application on every consent prompt.
+
+**Why:** A prompt that omits the scope or the client's verified identity gives the user nothing to consent to, so approval becomes a click-through.
+
+**Detect:** render the consent screen and check the scope list and verified app identity are both present.
+
+**References:** OWASP ASVS v5.0 V10.7.1, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x19-V10-OAuth-and-OIDC.md, RFC 6819 (OAuth 2.0 threat model)
+
 # Joiner-mover-leaver access revocation (offboarding and role change hygiene)
 
 **MUST** revoke all access within a defined SLA (24h) on termination, and re-evaluate entitlements on every internal transfer — movers are as risky as leavers.
@@ -176,6 +236,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** audit exports comparing HR roster to IdP groups; grep for active accounts with no recent login, local admin accounts outside SSO, orphaned SSH keys and API tokens.
 
 **References:** NIST SP 800-53 AC-2(j) account monitoring, CWE-287, OWASP A07:2021, Cloud Security Alliance JML guidance
+
+# Layered Consent
+
+**SHOULD** obtain separate just-in-time consent for each sensitive data class transmitted, instead of relying on one blanket acceptance at install or first launch.
+
+**Why:** Users cannot evaluate future data uses at install time, so a single upfront acceptance cannot authorize categories they never saw and cannot later withdraw.
+
+**Detect:** consent screens and consent records: one record per data purpose with its own timestamp, not one global accepted flag
+
+**References:** Android Secure Coding Guide, https://www.jssec.org/dl/android_securecoding_en_20250827.pdf
 
 # Brazil LGPD compliance
 
@@ -237,6 +307,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 
 **References:** AWS S3 data events / server access logging docs, GCP Cloud Storage audit logging, Azure Storage diagnostics, CIS AWS 3.x (logging), aquasecurity/trivy-checks storage logging rules
 
+# Partial Data Display
+
+**MUST** return and display only the minimum sensitive value the feature needs, masking all but the last few characters by default.
+
+**Why:** Full values in a response or a screen become full values in a screenshot, a support ticket, and a browser cache, for a user who only needed to recognize them.
+
+**Detect:** grep API serializers and templates for full card, account, or identity numbers where a masked form would serve.
+
+**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x23-V14-Data-Protection.md, CWE-200
+
 # PCI DSS
 
 **MUST NOT** store sensitive authentication data (full track, CVV, PIN block) after authorization completes.
@@ -246,6 +326,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** grep for `cvv`, `track_data`, `pin_block` persisted post-auth; check database schemas, logs, and backups for prohibited fields.
 
 **References:** PCI DSS 3.2.1 Req 3.2, PCI DSS 4.0 Req 3.3.1, CWE-312
+
+# Minimize Personal Data Collected
+
+**MUST NOT** add a personal-data field without a stated purpose, a retention period, and the code path that deletes it.
+
+**Why:** You cannot leak what you never stored, and every extra field widens breach cost and the scope of every erasure request.
+
+**Detect:** grep new PII columns in migrations (`email`, `phone`, `dob`, `address`, `ssn`, `ip`) with no matching retention or purge job and no erasure path.
+
+**References:** OWASP User Privacy Protection Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/User_Privacy_Protection_Cheat_Sheet.html, GDPR Art. 25, https://eur-lex.europa.eu/eli/reg/2016/679/oj
 
 # PII Handling
 
@@ -276,6 +366,16 @@ outbox.publish("user.deleted", id) # replicas, index, cache
 **Detect:** Grep logs and appenders for `password`, `authorization`, `id_card`, `redact`, `mask`; grep for `log.*request`, `log.*body`, `console.log(err)` without redaction and missing `redact_fields`/`mask_pii` filter config. Test by logging a known secret and checking it never appears in logs, traces, or error-reporter payloads.
 
 **References:** OWASP Logging Cheat Sheet, CWE-532, CWE-200, PCI DSS 3.2.1 Req 3, GDPR Art. 5(1)(c), NIST SP 800-92
+
+# Privacy Review Threat Classes
+
+**SHOULD** run a privacy review separate from the security review, covering surveillance, aggregation, secondary use and exclusion.
+
+**Why:** Security review asks who can read the data; privacy review asks whether collecting it causes harm even when access control holds. Conflating them approves lawful but harmful designs.
+
+**Detect:** Design docs under `docs/` with no privacy section naming surveillance, aggregation, secondary use and exclusion.
+
+**References:** RFC 6973 Privacy Considerations, https://www.rfc-editor.org/rfc/rfc6973.txt
 
 # Privileged access management: JIT access, break-glass, session recording
 
@@ -319,6 +419,16 @@ export = anonymize(df, k=20,
 ```
 
 **References:** GDPR Recital 26 (anonymised vs pseudonymised), NIST SP 800-188 De-Identifying Datasets, Narayanan & Shmatikov
+
+# Resettable Identifiers Only
+
+**MUST** link user data to a resettable, app-scoped identifier, never to a hardware identifier the user cannot reset or revoke.
+
+**Why:** A hardware identifier is a permanent cross-app tracking key that survives uninstall and cannot be cleared by the person it describes.
+
+**Detect:** grep getDeviceId, IMEI, getMacAddress, identifierForVendor, ANDROID_ID used as an analytics or storage key
+
+**References:** Android Secure Coding Guide, https://www.jssec.org/dl/android_securecoding_en_20250827.pdf
 
 # Serverless Execution Environment Reuse Leaking Data Across Invocations
 
@@ -375,6 +485,16 @@ def handler(event, ctx):
 **Detect:** grep dependency manifests for `GPL`, `AGPL`, `UNLICENSED`; check license scanner config, `allowed_licenses`, `license_policy` files absent.
 
 **References:** SPDX License List, GPL v2/v3, AGPL v3, OWASP Dependency-Check
+
+# Strip Upload Metadata
+
+**MUST** strip embedded metadata from user-submitted files before storage or publication unless the user explicitly consents to keeping it.
+
+**Why:** Location, device, and author fields travel inside ordinary photos and documents, publishing facts the user never chose to disclose.
+
+**Detect:** exiftool on stored uploads and check for GPS, device, and author tags.
+
+**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x23-V14-Data-Protection.md, CWE-200
 
 # Vendor/third-party risk management and subprocessor registers
 

@@ -1,8 +1,28 @@
-# correctness-pitfalls — full checklist (22 items)
+# correctness-pitfalls — full checklist (41 items)
 
 Language-agnostic code-level failure modes.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/correctness-pitfalls.md](../categories/correctness-pitfalls.md) · Index: [SKILL.md](../SKILL.md)
+
+# Abort on Unexpected Error
+
+**MUST** stop the current operation when an unanticipated exception reaches a generic handler, because application state is unknown.
+
+**Why:** Continuing after an unexpected fault means acting on partially applied state - the path to double-spend, skipped authorization or silent corruption.
+
+**Detect:** `catch (Exception`/`except Exception:`/`catch (Throwable` blocks that log and continue instead of rethrowing or aborting the unit of work.
+
+**References:** SAFECode Fundamental Practices v3 (2018), https://safecode.org/wp-content/uploads/2018/03/SAFECode_Fundamental_Practices_for_Secure_Software_Development_March_2018.pdf
+
+# Bidirectional Control Characters
+
+**MUST** reject bidirectional override and zero-width characters in source, templates, and configuration, failing CI when a file contains them.
+
+**Why:** Direction-override and invisible glyphs let a reviewer see one order of tokens while the compiler or browser executes another.
+
+**Detect:** eslint-plugin-security detect-bidi-characters, or grep -rP '[\x{202A}-\x{202E}\x{2066}-\x{2069}]'
+
+**References:** eslint-plugin-security, https://github.com/eslint-community/eslint-plugin-security, Trojan Source, https://trojansource.codes
 
 # Business Logic Workflow Bypass & Abuse
 
@@ -24,6 +44,16 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-172, CWE-836, OWASP XSS Cheat Sheet, RFC 3629
 
+# Check Return Values
+
+**MUST** check and act on the return value of every call that can fail, including writes, closes, and authorization lookups.
+
+**Why:** An ignored failure leaves the system in a state the next line assumes is valid, so a failed check silently becomes an allow.
+
+**Detect:** grep discarded results: `_ = `, `except.*:\s*pass`, `if err != nil { }` with an empty body, `(void)` casts, and bare `write(`/`close(`/`send(` statements.
+
+**References:** CWE Top 25 (2024), https://cwe.mitre.org/top25/archive/2024/2024_cwe_top25.html, SEI CERT C Coding Standard, https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
+
 # Config-Example Template Drift
 
 **SHOULD** keep a committed example config (`config.example.*`) listing every key the code reads, with the real config untracked — and verify in review that the example hasn't drifted from actual required keys.
@@ -33,6 +63,26 @@ Language-agnostic code-level failure modes.
 **Detect:** diff example-config keys vs keys the code actually reads (grep config-access calls); flag example files missing entirely or missing recently-added settings; CI template-vs-code key comparison where tooling exists.
 
 **References:** twelve-factor config separation, analysis-code config-template practice
+
+# Constant Format Strings
+
+**MUST NOT** pass untrusted data as a format string to printf-style, logging, or template formatting functions.
+
+**Why:** A user-controlled format string reads and writes memory through `%n`/`%s`, and the same mistake in loggers corrupts output.
+
+**Detect:** grep `printf(`, `syslog(`, `fprintf(`, `fmt.Fprintf(w, <var>` and `String.format(<var>` where the first argument is not a string literal.
+
+**References:** CWE Top 25, https://cwe.mitre.org/top25/, SEI CERT C Coding Standard (FIO30-C), https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
+
+# Cross-Boundary Ownership Rule
+
+**MUST** define, for each resource crossing a language or runtime boundary, who allocates it, who frees it, and which side owns it.
+
+**Why:** When both sides assume the other frees, memory leaks; when both free, the second free is a write primitive. Ambiguous ownership across a boundary is a memory-safety bug waiting for load.
+
+**Detect:** judgment: the FFI or native interface declarations and their doc comments — every opaque pointer, buffer, and handle has a stated owner and free path.
+
+**References:** ANSSI Secure Rust Guidelines, https://anssi-fr.github.io/rust-guide/, CWE-415 Double Free
 
 # Daylight Saving Time
 
@@ -84,6 +134,26 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-400, CWE-662, OWASP ASVS V11.1.3/V11.1.4
 
+# FFI Failure Isolation
+
+**MUST** isolate foreign or abort-capable code at the boundary and convert its failures into the host runtime's error model.
+
+**Why:** An exception or panic crossing a language boundary is undefined behaviour in most runtimes, and an abort takes the whole process with it. Catching at the boundary keeps the failure local and attributable.
+
+**Detect:** grep FFI wrappers for calls into foreign code with no `catch_unwind`/`try`/`except` around them, and for `abort`/`exit` on error paths.
+
+**References:** ANSSI Secure Rust Guidelines, https://anssi-fr.github.io/rust-guide/, CWE-248 Uncaught Exception
+
+# File Descriptor Hygiene
+
+**MUST** open every descriptor that carries secrets or privileged handles close-on-exec, so spawned child processes cannot inherit them.
+
+**Why:** An inherited descriptor is a live handle to a secret in a process that was never granted it, and it survives long after the request that opened it.
+
+**Detect:** grep `open(`, `socket(`, `os.Open`, `FileStream` for missing `O_CLOEXEC`/`FD_CLOEXEC`/close-on-exec, prioritising descriptors for key material, database sockets and log files; flag subprocess spawns that inherit the full descriptor table.
+
+**References:** SEI CERT C Coding Standard, https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
+
 # Floating Point Math
 
 **SHOULD NOT** compare binary floating-point values for exact equality or accumulate them over many operations.
@@ -93,6 +163,26 @@ Language-agnostic code-level failure modes.
 **Detect:** `== 0.1`, `assert x == y` on floats, `sum(floats)`, `float(` in money/rate code, missing `math.isclose`/`abs(a-b) < eps`.
 
 **References:** CWE-1339, CWE-682, IEEE 754
+
+# Guards Across Suspension Points
+
+**MUST NOT** hold a mutex or guard across a suspension point such as an await, yield, or callback that may take the same lock.
+
+**Why:** A guard that outlives its critical section across a suspension point deadlocks the task or panics a non-reentrant lock at runtime.
+
+**Detect:** grep for await or yield statements inside a lock scope; clippy await_holding_lock catches the Rust case
+
+**References:** rust-clippy, https://github.com/rust-lang/rust-clippy
+
+# Initialize Memory Before Use
+
+**MUST** initialize every buffer, struct, and allocation before it is read, and zero padding in structures passed across a trust boundary.
+
+**Why:** An uninitialized read returns whatever the previous owner left there, leaking data and making security decisions nondeterministic.
+
+**Detect:** MemorySanitizer build (`-fsanitize=memory`) in CI, plus grep for `malloc(` followed by field reads with no `memset`/struct initializer.
+
+**References:** SEI CERT C Coding Standard, https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
 
 # Input Validation
 
@@ -115,6 +205,16 @@ Language-agnostic code-level failure modes.
 
 **References:** CWE-190, CWE-682, CERT INT32-C
 
+# Memory-Safe by Default
+
+**SHOULD** implement parsers and other untrusted-input handling in a memory-safe language or runtime.
+
+**Why:** Memory-safety defects are the largest share of exploitable weakness classes, and they disappear entirely in a memory-safe runtime.
+
+**Detect:** `pygount` language mix for newly added parsers and protocol decoders; a new C/C++ component on an untrusted-input path is the finding (unsafe blocks inside Rust/Go code belong to unsafe-code-confinement).
+
+**References:** CWE Top 25 (2024), https://cwe.mitre.org/top25/archive/2024/2024_cwe_top25.html, The Rustonomicon, https://doc.rust-lang.org/nomicon/, CISA Secure by Design, https://www.cisa.gov/securebydesign
+
 # Memory Safety: Buffer Overflow & Use-After-Free
 
 **MUST** bound every buffer write and never dereference freed or dangling memory in unsafe languages.
@@ -134,6 +234,46 @@ Language-agnostic code-level failure modes.
 **Detect:** `<<<<<<<`, `=======`, `>>>>>>>` in tracked files, conflict resolved without re-running tests, security files merged without review.
 
 **References:** OWASP ASVS 15.2, Git conflict docs
+
+# No I/O Under Lock
+
+**MUST NOT** hold a lock, transaction, or connection across network calls, disk I/O, or any operation with unbounded latency.
+
+**Why:** One slow dependency then stalls every caller waiting on the lock, turning a latency blip into a system-wide outage.
+
+**Detect:** grep lock scopes (`synchronized`, `with lock:`, `SELECT ... FOR UPDATE`, `BEGIN`) that enclose HTTP clients, file reads, or message publishes.
+
+**References:** SEI CERT Oracle Coding Standard for Java, https://wiki.sei.cmu.edu/confluence/display/java/SEI+CERT+Oracle+Coding+Standard+for+Java
+
+# No Preallocation From Declared Length
+
+**MUST NOT** size buffers, vectors, or collections from a length the untrusted caller declares before the corresponding data arrives.
+
+**Why:** Reserving a declared length up front lets one small request allocate gigabytes, and the validation happens after the memory is already committed.
+
+**Detect:** grep with_capacity(, reserve(, new byte[, Buffer.alloc(, malloc( whose argument comes from a request field or deserialized header
+
+**References:** Trail of Bits Testing Handbook, https://github.com/trailofbits/testing-handbook
+
+# No Process Exit in Libraries
+
+**MUST NOT** call process-exit primitives from library or handler code.
+
+**Why:** An immediate exit skips every destructor, deferred call, and finally block, leaving locks held, buffers unflushed, and temp files behind.
+
+**Detect:** grep os.Exit(, process.exit(, System.exit(, std::process::exit, die( outside main or entrypoint files
+
+**References:** Trail of Bits Testing Handbook, https://github.com/trailofbits/testing-handbook
+
+# No Silent Truncation
+
+**MUST** reject values that exceed a fixed-size field or buffer instead of silently truncating security-relevant identifiers, paths, or hashes.
+
+**Why:** A truncated identifier can collide with another principal or pass validation on a prefix while the consumer acts on the full intent.
+
+**Detect:** grep fixed-size columns and slices on identifiers: `VARCHAR(16)`, `[:32]`, `substring(0,`, `strncpy(` on tokens, hashes, usernames, and paths.
+
+**References:** SEI CERT C Coding Standard, https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard
 
 # Off-by-One Errors
 
@@ -174,6 +314,16 @@ Language-agnostic code-level failure modes.
 **Detect:** `float`/`double` in amount, price, balance, total columns or fields; `REAL`/`FLOAT` in migrations; `round(x*100)` casts.
 
 **References:** CWE-1339, CWE-682, PCI DSS 6.5
+
+# Strict Type Comparison
+
+**MUST** validate that a value has the expected type and compare with strict equality at every trust boundary, never relying on implicit coercion.
+
+**Why:** Type juggling makes an auth check pass for a value the author never imagined, such as an array or object satisfying a string comparison.
+
+**Detect:** grep loose comparison in auth and validation paths: `==`/`!=` against request input, `in_array(` without the strict flag, `array_search` without strict.
+
+**References:** OWASP ASVS v5.0 V15.3.5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md, CWE-843, CWE-697
 
 # Structured Exception Handling (typed errors, no swallowed exceptions, error boundaries)
 
@@ -224,4 +374,44 @@ Language-agnostic code-level failure modes.
 **Detect:** `len(s)` as display width, `substr`/`slice` on user text, missing NFC/NFKC normalization, homoglyph or confusable comparisons absent.
 
 **References:** CWE-176, Unicode TR36, OWASP ASVS 5.2
+
+# Uninitialized Memory Reads
+
+**MUST NOT** read uninitialized memory on any path, including panic and early-exit paths between allocation and first write.
+
+**Why:** A value always overwritten on the happy path is still observable when unwinding interrupts the sequence, leaking stale heap contents.
+
+**Detect:** clippy MEM_REPLACE_WITH_UNINIT, or MSan on the C/C++ build
+
+**References:** rust-clippy, https://github.com/rust-lang/rust-clippy
+
+# Make Unsafe States Unrepresentable
+
+**SHOULD** encode security-relevant state in types or schema constraints so illegal combinations cannot be constructed by a careless caller.
+
+**Why:** Rules enforced by convention fail at the first forgotten check; rules enforced by the type system or schema fail at build time.
+
+**Detect:** grep parallel boolean flags (`is_active`, `is_deleted`, `is_pending`), nullable `user_id`/`tenant_id` pairs, and status strings compared as free text.
+
+**References:** NIST SP 800-218 SSDF, https://csrc.nist.gov/pubs/sp/800/218/final, Rust API Guidelines, https://rust-lang.github.io/api-guidelines/, Anderson, Security Engineering, https://www.cl.cam.ac.uk/~rja14/book.html
+
+# Unsafe Code Confinement
+
+**MUST** confine escape-hatch code to the smallest possible region, forbid it where unnecessary, and audit every remaining block.
+
+**Why:** Memory-safety guarantees stop at the first unchecked block, and one unchecked pointer invalidates the argument for the whole module. A short reviewed list is auditable; scattered blocks are not.
+
+**Detect:** command: `cargo geiger`, `#![forbid(unsafe_code)]` or `-D unsafe` lints, and `grep -rn unsafe` against a per-crate allowed list.
+
+**References:** ANSSI Secure Rust Guidelines, https://anssi-fr.github.io/rust-guide/, Empirical study of Rust unsafe code (arXiv 2003.03296), https://arxiv.org/abs/2003.03296
+
+# Use Standard Parsers
+
+**SHOULD** use the platform's audited libraries for path, URL, and encoding handling instead of hand-rolled string splitting.
+
+**Why:** Hand-rolled parsers rediscover the canonicalization and edge-case bugs the standard library already fixed, and disagree with the components downstream.
+
+**Detect:** grep hand-rolled parsing: `split('/')` on paths, regex-based URL parsing, manual percent-decoding, and `indexOf('?')` query extraction.
+
+**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
 

@@ -1,8 +1,18 @@
-# api-design — full checklist (23 items)
+# api-design — full checklist (37 items)
 
 Protocol and API contract design concerns.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/api-design.md](../categories/api-design.md) · Index: [SKILL.md](../SKILL.md)
+
+# API Version Retirement
+
+**MUST** assess every older API version against the security fixes shipped in newer ones, then backport the fix or retire the version by a deadline.
+
+**Why:** An old version left running keeps the vulnerability the new one fixed, and clients have no incentive to move. Without a retirement date the insecure surface is permanent.
+
+**Detect:** judgment: the version support matrix and route table — each live version mapped to a security-fix status and an announced end date.
+
+**References:** OWASP API Security Top 10 (2023) API9 (improper inventory management), https://github.com/OWASP/API-Security
 
 # API Versioning
 
@@ -45,6 +55,16 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** Arjay McCandless System Design Cheat Sheet (batching), psycopg execute_values docs, Kafka batch.size/linger.ms docs
 
+# Bounding Protocol Element Lengths
+
+**MUST** cap the length of every parsed protocol element — method, header name and value, status phrase, numeric field, chunk size — not only the body.
+
+**Why:** Unbounded element parsing is the substrate for arithmetic and buffer overflows, and the spec's own limits are minima rather than safe defaults.
+
+**Detect:** grep edge and server config for header limits (`large_client_header_buffers`, `max-http-header-size`, `LimitRequestFields`) and flag services that limit bodies but not headers.
+
+**References:** RFC 9110 HTTP Semantics, https://httpwg.org/specs/rfc9110.html
+
 # Breaking-Change Linting in CI
 
 **SHOULD** lint API changes against the previous published version for breaking changes (removed fields, changed types, new required params) before merge.
@@ -55,6 +75,16 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** oasdiff, buf breaking-change detection, Google AIP-180 backwards compatibility
 
+# Capability Wrapper Types
+
+**MUST** confine dangerous capabilities inside validated wrapper types so an untrusted value cannot reach the sink unparsed.
+
+**Why:** A rule enforced by the type system cannot be forgotten at a new call site. Raw strings everywhere make every sink a fresh review question.
+
+**Detect:** Inspect sink signatures: the safe API takes a wrapper (parsed URL, trusted markup, bound query) rather than a raw string.
+
+**References:** Trusted Types, https://w3c.github.io/trusted-types/dist/spec/
+
 # Compression
 
 **SHOULD NOT** compress responses that contain attacker-controllable input alongside secrets in the same stream (CRIME/BREACH class).
@@ -64,6 +94,26 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** gzip/brotli on auth pages with CSRF tokens or API keys in body; `compression: true` with no secret-response exclusion.
 
 **References:** CWE-203, CRIME (CVE-2012-4929), BREACH (CVE-2013-3587)
+
+# Conformance Test Vectors
+
+**SHOULD** publish test vectors and measurable conformance criteria with any protocol or interface that others must implement.
+
+**Why:** Without shared vectors, every implementation interprets the specification differently and interoperability pressure spreads the weakest reading.
+
+**Detect:** Check the spec or interface package for a vectors/testdata corpus and a statement of what passing means.
+
+**References:** NCSC Protocol Design Principles, https://www.ncsc.gov.uk/sites/default/files/2026-06/Protocol-Design-Principles.pdf
+
+# Content-Type Enforcement
+
+**MUST** reject request bodies whose declared Content-Type is not the one the endpoint expects, before parsing.
+
+**Why:** Parsers disagree about ambiguous bodies, so a form-encoded or text payload can be read as JSON or the reverse. That disagreement turns cross-site protections and validation rules into no-ops.
+
+**Detect:** grep route handlers and framework config for explicit content-type rejection (`415`, `UnsupportedMediaType`, `request.is_json`); flag endpoints that parse whatever arrives.
+
+**References:** OWASP REST Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html, CWE-436 Interpretation Conflict
 
 # CRDs Without OpenAPI Validation Schemas
 
@@ -94,6 +144,16 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** `jsonify(user)` / `resp.json(model)` patterns; serializers without field allowlists; `password`/`ssn` keys in response bodies.
 
 **References:** OWASP API3:2023, CWE-213
+
+# Extension Threat Review
+
+**MUST** re-check every new use case or extension against the threat model the design was reviewed under before shipping it.
+
+**Why:** An extension inherits the old guarantees without inheriting the assumptions that produced them, converting a reviewed design into an unreviewed one.
+
+**Detect:** List the shipped extensions and confirm each has a threat-model entry dated after the extension.
+
+**References:** NCSC Protocol Design Principles, https://www.ncsc.gov.uk/sites/default/files/2026-06/Protocol-Design-Principles.pdf
 
 # gRPC
 
@@ -145,6 +205,16 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** RFC 9000, CWE-693, Cloudflare HTTP/3 deployment guidance
 
+# Out-of-Band Control Signals
+
+**MUST** carry authentication and routing control signals out-of-band, or authenticate them independently, when payload data shares the same channel.
+
+**Why:** Anyone able to inject into the shared channel can forge control semantics, and the receiver cannot distinguish a forgery from a legitimate signal.
+
+**Detect:** judgment: the protocol framing — whether control fields sit in the same stream as user data and how they are authenticated
+
+**References:** Anderson, Security Engineering 3rd ed., ch.22, https://www.cl.cam.ac.uk/~rja14/Papers/SEv3-ch22.pdf
+
 # Keep-Alive
 
 **SHOULD** cap keep-alive idle timeouts and max requests per connection to bound resource hold per client.
@@ -164,6 +234,46 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** polling handlers with no `setTimeout`/deadline, absent per-IP connection limits on `/poll` endpoints.
 
 **References:** CWE-400, OWASP ASVS V5.2, MDN long polling guidance
+
+# Mandatory Extension Enforcement
+
+**MUST** fail the connection when a peer does not acknowledge a security-critical protocol extension, even where the feature it protects is unused locally.
+
+**Why:** An extension that is negotiated but not required lets a downgrade happen quietly, which is how renegotiation and triple handshake attacks survived patches.
+
+**Detect:** testssl.sh --severity HIGH against the endpoint; it reports Secure Renegotiation and Extended Master Secret support.
+
+**References:** RFC 9325 §3.5, https://www.rfc-editor.org/rfc/rfc9325.html, RFC 7627 (extended master secret), CVE-2009-3555
+
+# Minimize Configuration Modes
+
+**SHOULD** delete configuration modes and options the actual use case does not need, rather than shipping every mode the design can express.
+
+**Why:** Each mode multiplies the testable surface and adds a deployable-insecure state that no test covers.
+
+**Detect:** grep for mode/algorithm/profile switches reading from config or environment, and count the combinations the test suite actually exercises.
+
+**References:** NCSC Protocol Design Principles, https://www.ncsc.gov.uk/sites/default/files/2026-06/Protocol-Design-Principles.pdf
+
+# Misuse-Resistant Security APIs
+
+**SHOULD** make the safe path the default in security APIs, with every opt-out explicit, named and greppable.
+
+**Why:** Developers use the default, so an unsafe default ships vulnerabilities at scale; an opt-out buried in configuration cannot be inventoried or restricted.
+
+**Detect:** Security wrappers whose defaults disable checks: `verify=False`, `dangerouslyAllow*`, `Insecure*`, or `allow_all` as a parameter default.
+
+**References:** Tink misuse-resistant crypto APIs, https://github.com/tink-crypto/tink
+
+# No Caller-Supplied Security Config
+
+**MUST** let a caller pass in the sanitizer, validator or policy that governs its own operation.
+
+**Why:** A pass-through parameter turns the safety check into an argument the attacker controls, and each call site can opt out without touching the library.
+
+**Detect:** Security-helper signatures taking `sanitizer=`, `validator=`, `policy=` or `trusted=` and forwarding them to the sink.
+
+**References:** Trusted Types, https://w3c.github.io/trusted-types/dist/spec/
 
 # OpenAPI–Implementation Drift Check
 
@@ -225,6 +335,26 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 
 **References:** CWE-525, OWASP ASVS V9.1, MDN EventSource security notes
 
+# Shared Field Semantics
+
+**MUST** document, for every field crossing a component boundary, who may write it and what each consumer interprets it to mean.
+
+**Why:** Differential parsing turns a shared struct into a bypass: the front end validates one interpretation while the back end acts on another. Ambiguous fields are where those disagreements live.
+
+**Detect:** Inspect the shared schema or IDL for per-field comments naming the writer and each reader's interpretation.
+
+**References:** Orange Tsai: confusion attacks, https://blog.orange.tw/posts/2024-08-confusion-attacks-en/
+
+# Third-Party Response Validation
+
+**MUST** validate and sanitize data returned by third-party APIs before using it in queries, rendering, or authorization decisions.
+
+**Why:** An integration is another input channel: a compromised or misconfigured provider can return markup, a query fragment, or an unexpected type. Trusting it moves an injection sink inside your trust boundary.
+
+**Detect:** grep integration response handling for provider fields interpolated directly into SQL, HTML, shell, or policy checks without schema validation.
+
+**References:** OWASP API Security Top 10 (2023) API10 (unsafe consumption of APIs), https://github.com/OWASP/API-Security, CWE-20 Improper Input Validation
+
 # Timeout Budgets / Deadline Propagation
 
 **MUST** propagate an end-to-end deadline through every downstream hop, each consuming from the remaining budget.
@@ -244,4 +374,14 @@ execute_values(insert_stmt, rows, page_size=1000)  # one trip per page
 **Detect:** grep logout handler for missing token blacklist/`jti` denylist, no `/revoke` endpoint, Redis denylist absent, logout only clears client cookie.
 
 **References:** RFC 7009 §2.1 (revocation request), OWASP A02:2021, NIST SP 800-53 SC-23
+
+# Unsafe Boundary Obligations
+
+**MUST** document the caller preconditions of every unsafe or privilege-crossing API at the function itself.
+
+**Why:** An unsafe boundary is safe only if callers uphold specific invariants. Undocumented obligations get violated by the next developer and surface as memory corruption or privilege escalation.
+
+**Detect:** `unsafe fn` blocks with no `# Safety` section; FFI/syscall wrappers and `raw`/`trusted` parameters with no documented precondition.
+
+**References:** arXiv:2308.04785, https://arxiv.org/abs/2308.04785
 

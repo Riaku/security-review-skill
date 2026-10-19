@@ -1,4 +1,4 @@
-# documentation-quality — full checklist (10 items)
+# documentation-quality — full checklist (13 items)
 
 Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READMEs.
 
@@ -33,6 +33,16 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** grep docs for lowercase must/should/may in requirement contexts; check specs include the RFC 2119/8174 keyword-definition boilerplate; flag "must" used as emphasis rather than obligation.
 
 **References:** RFC 2119, RFC 8174 §2, IETF BCP 14
+
+# Capability Envelope Documentation
+
+**MUST** document each model-backed feature's knowledge limits, tested validity range, and intended human oversight, and surface them where decisions are made.
+
+**Why:** Undocumented capability boundaries invite over-trust, and over-trust is the exploit: users act on output outside the range where it was ever validated.
+
+**Detect:** read the feature's model card or docs for stated limits, tested scope, and oversight expectations, then check whether the UI repeats them.
+
+**References:** NIST AI 600-1 MAP 2.2, https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
 
 # Comments Explain Why, Not What
 
@@ -74,6 +84,16 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 
 **References:** Google style guide (inclusive language), ASD-STE100 Simplified Technical English, Write the Docs accessibility guidance
 
+# Mechanism Assumptions and Non-Goals
+
+**MUST** state, in the mechanism's own documentation, the assumptions it depends on and the attacks it does not stop.
+
+**Why:** A mechanism trusted outside its assumptions is worse than none, because it displaces the control that would have covered the gap. Non-goals are what prevent that substitution.
+
+**Detect:** Security module README or docstrings lacking a non-goals or 'does not protect against' section.
+
+**References:** RFC 3552, https://www.rfc-editor.org/rfc/rfc3552.txt
+
 # Runnable README
 
 **MUST** provide a README that takes a newcomer from zero to running the project: prerequisites, install, run, test commands — each verified to actually work.
@@ -83,6 +103,16 @@ Docs and comments quality: BCP 14 keywords, style, sync with code, runnable READ
 **Detect:** run README commands verbatim in a clean environment (CI doc-testing where possible); flag missing install/run/test sections, version-pinned prerequisites that no longer exist, or "TODO" placeholders.
 
 **References:** Google style guide (readme content), docs-as-code tested-README practice, twelve-factor dev-environment onboarding
+
+# Secure API Examples
+
+**MUST** ship a complete, secure, copy-ready example for every security-sensitive API, and review that example as production code.
+
+**Why:** Developers copy the example rather than the prose; when it is missing or unsafe they improvise the crypto, and the vulnerability ships with the library's blessing.
+
+**Detect:** judgment — for each auth, crypto, and signing API in the docs, confirm an end-to-end example with key generation, error handling, and no placeholder secrets.
+
+**References:** CryptoExamples controlled experiment, https://arxiv.org/abs/1807.01095
 
 # Simplified Technical English for Procedures
 

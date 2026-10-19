@@ -1,8 +1,18 @@
-# web-api-security — full checklist (47 items)
+# web-api-security — full checklist (91 items)
 
 Server-side API and web application attack surface.
 
 > Generated artifact — edit the issue files, not this one. Manifest: [categories/web-api-security.md](../categories/web-api-security.md) · Index: [SKILL.md](../SKILL.md)
+
+# Abstraction Escape Hatches
+
+**MUST** review the raw and escape-hatch APIs of every ORM, query builder, and template engine for untrusted input, since the abstraction does not sanitize them.
+
+**Why:** Injection reappears wherever input reaches concatenated raw SQL, literal fragments, or template escape-hatch calls, and the layer itself ships its own vulnerabilities.
+
+**Detect:** grep for `raw(`, `Raw(`, `.literal(`, `createQuery(`, `execute(`, `|safe`, `Markup(` receiving request data.
+
+**References:** OWASP WSTG: ORM injection, https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Injection_Testing/, CWE-89 (SQL Injection)
 
 # Account recovery and password-reset flow security (tokens, helpdesk takeover)
 
@@ -36,6 +46,16 @@ Server-side API and web application attack surface.
 
 **References:** CWE-74, AWS API Gateway mapping template docs, OWASP Injection cheatsheet
 
+# Archive Symlink Rejection
+
+**MUST** reject archive entries that are symbolic or hard links unless explicitly required, and then only to allowlisted targets.
+
+**Why:** A link entry that survives extraction points outside the destination, so the next read or write lands on a file the archive chose.
+
+**Detect:** grep extraction code for link handling (`is_symlink`, `link_target`, `member.issym`, `tarfile` filter) and for a destination containment check.
+
+**References:** OWASP ASVS v5.0 V5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x14-V5-File-Handling.md, CWE-59
+
 # Bot Protection
 
 **MUST** challenge automated clients on login, signup, password-reset, and other abuse-prone flows with bot detection or a challenge (fingerprinting, proof-of-work, CAPTCHA), on top of whatever rate limiting applies.
@@ -55,6 +75,16 @@ Server-side API and web application attack surface.
 **Detect:** State transitions driven by client fields, no server-side state machine, idempotency key absent on money actions, missing per-user rate/limit checks.
 
 **References:** CWE-841, CWE-362, OWASP Business Logic Errors, ASVS 4.x
+
+# Canonicalize Before Validate
+
+**MUST** decode and canonicalize input to one normal form before validating or comparing it, and reject input that still changes when re-decoded.
+
+**Why:** A validator that sees a different string from the component that later decodes it approves an attack; nested encodings survive single-pass checks.
+
+**Detect:** grep decode/unescape calls placed after the validation or comparison (`urldecode`, `normalize`, `unquote`) and validators that run on the raw parameter.
+
+**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html, One Byte to Rule Them All (Facebook canonicalization bypass), https://david942j.blogspot.com/2018/10/one-byte-to-rule-them-all-fun-with-fb.html
 
 # Clickjacking
 
@@ -101,6 +131,16 @@ metadata_options {
 
 **References:** OWASP A05:2021, CWE-693, Google CSP Evaluator
 
+# Content-Type Enforcement
+
+**MUST** reject request bodies whose declared Content-Type is not the one the endpoint expects, before parsing.
+
+**Why:** Parsers disagree about ambiguous bodies, so a form-encoded or text payload can be read as JSON or the reverse. That disagreement turns cross-site protections and validation rules into no-ops.
+
+**Detect:** grep route handlers and framework config for explicit content-type rejection (`415`, `UnsupportedMediaType`, `request.is_json`); flag endpoints that parse whatever arrives.
+
+**References:** OWASP REST Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html, CWE-436 Interpretation Conflict
+
 # CORS
 
 **MUST NOT** Pair wildcard or reflected `Access-Control-Allow-Origin` with `Allow-Credentials: true`; whitelist trusted origins.
@@ -120,6 +160,26 @@ metadata_options {
 **Detect:** `set_header(..., user_value)`, `Location:`/`Set-Cookie` built from params without CRLF filtering.
 
 **References:** CWE-113, CWE-93, PortSwigger HTTP Response Splitting
+
+# Cross-Field Validation
+
+**MUST** validate semantic relationships between fields — date orderings, totals, and business bounds — not only each field's type and length.
+
+**Why:** A start date after its end date, or a negative quantity, passes per-field checks and then corrupts scheduling, billing, or inventory. Fields are only meaningful in relation to each other.
+
+**Detect:** grep request validators and schemas for cross-field rules (`start < end`, amount bounds, mutually exclusive flags); schemas with type and length checks only are the finding.
+
+**References:** OWASP Proactive Controls C5 (validate all inputs), https://github.com/OWASP/www-project-proactive-controls, CWE-20 Improper Input Validation
+
+# Cross-Layer Path Normalization
+
+**MUST** verify that every component deciding on a URL path — proxy, router, cache, WAF, application — normalizes it identically before enforcing path-based rules.
+
+**Why:** Syntactically valid but inconsistently normalized paths let one layer allow what another denies, bypassing path-matched controls without any traversal sequence.
+
+**Detect:** grep path-matching rules in each layer (`location ~`, `pathPrefix`, route patterns) and compare their trailing-slash, case, and percent-encoding handling.
+
+**References:** OWASP WSTG Path Confusion, https://github.com/OWASP/wstg/blob/master/document/4-Web_Application_Security_Testing/02-Configuration_and_Deployment_Management/13-Path_Confusion.md
 
 # WebSockets: Upgrade Authentication & Origin Validation (CSWSH)
 
@@ -141,6 +201,16 @@ metadata_options {
 
 **References:** OWASP A01:2021, CWE-352, OWASP CSRF Prevention Cheat Sheet
 
+# CSV Formula Injection
+
+**MUST** prefix-escape any exported field whose first character is `=`, `+`, `-`, `@`, tab, or CR, following RFC 4180 quoting.
+
+**Why:** A username beginning with `=` executes as a formula when the export is opened in a spreadsheet, giving code execution on the reviewer's machine.
+
+**Detect:** grep export code (`to_csv`, `csv.writer`, `CsvWriter`) for a field-prefix check (`'=`, `"="`, `startswith` guard) and for raw `join(',')` serialization.
+
+**References:** OWASP ASVS v5.0 V1 Encoding and Sanitization, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md, RFC 4180 (CSV format)
+
 # Debug/Dev Mode in Production
 
 **MUST NOT** ship production with debug mode, verbose traces, interactive debuggers, or profiling endpoints.
@@ -150,6 +220,26 @@ metadata_options {
 **Detect:** `DEBUG = True`, `FLASK_DEBUG=1`, `app.run(debug`, exposed `/debug`, Werkzeug console.
 
 **References:** OWASP A05:2021, CWE-489, CWE-215
+
+# Decode Before Validate
+
+**MUST** decode input fully, then canonicalize, then validate, so no later step can reinterpret data an earlier check already approved.
+
+**Why:** Validating before decoding lets an encoded payload pass the check and then decode into a dangerous form downstream. Sanitizing instead of rejecting leaves the same gap.
+
+**Detect:** Trace one tainted parameter from ingress to sink: record where decoding, canonicalization and validation happen and confirm that order.
+
+**References:** SAFECode Fundamental Practices v3 (2018), https://safecode.org/wp-content/uploads/2018/03/SAFECode_Fundamental_Practices_for_Secure_Software_Development_March_2018.pdf, CWE-180
+
+# Decode Once Before Validation
+
+**MUST** decode and normalize input exactly once, before validation, and never after a check has approved it.
+
+**Why:** Decoding after the check re-injects the characters the check removed, so the sanitized value and the used value differ.
+
+**Detect:** grep for decode or normalize calls after validation (`urldecode`, `decodeURIComponent`, `unquote`, `html.unescape`) on the same value.
+
+**References:** OWASP ASVS v5.0 V1, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md, CWE-174
 
 # Decompression Bombs & XML Entity Expansion
 
@@ -161,6 +251,36 @@ metadata_options {
 
 **References:** CWE-409, CWE-776, CWE-789
 
+# Disable Setup Endpoints
+
+**MUST** remove or disable installer, setup, and bootstrap endpoints once provisioning completes, and verify they are unreachable afterwards.
+
+**Why:** Setup paths trust whoever reaches them first, so a forgotten one lets a stranger create an administrator account months after install.
+
+**Detect:** grep routes for `setup`, `install`, `bootstrap`, `first-run`, and `wizard`; then curl each on a provisioned instance and expect 404 or 403.
+
+**References:** NVD CVE-2023-22515, https://nvd.nist.gov/vuln/detail/CVE-2023-22515
+
+# Document Processor Escape Hatches
+
+**MUST** disable file-include, shell-escape, and external-fetch features in document and graphics processors, and allow-list the operations users may invoke.
+
+**Why:** Any renderer that shells out or follows includes turns template injection into command execution; the escape hatch exists for convenience, not for untrusted input.
+
+**Detect:** grep for `--shell-escape`, `--enable-write18`, `\write18`, missing `-dSAFER`, and unfiltered `\input{` passthrough in LaTeX/ImageMagick/LibreOffice invocations.
+
+**References:** OWASP ASVS v5.0 V1 Encoding and Sanitization, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md
+
+# Duplicate Parameter Policy
+
+**MUST** define one duplicate-parameter policy — reject, first-wins, or last-wins — and apply it identically in the validator, the filter, and the handler.
+
+**Why:** Standards leave repeated-field semantics undefined, so a filter and the application can read different values from the same request, and the filter approves what the handler never sees.
+
+**Detect:** grep parameter accessors that silently collapse duplicates (`req.query.x`, `request.args.get`, `getParameter`) and confirm the framework rejects repeated keys.
+
+**References:** OWASP WSTG: HTTP parameter pollution, https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Injection_Testing/, CWE-235 (Parameter Pollution)
+
 # Dynamic Code Evaluation of User Input (eval/exec)
 
 **MUST NOT** pass any externally influenced string to `eval`, `exec`, `Function`, or template code execution.
@@ -170,6 +290,16 @@ metadata_options {
 **Detect:** `eval(`, `exec(`, `new Function(`, `compile(`/`__import__` on request data, template rendering of user strings (Jinja `|safe`, `Template(user_str)`), expression evaluators over user input.
 
 **References:** CWE-94, CWE-95, OWASP Injection, OWASP ASVS 5.2
+
+# Dynamic Dispatch Allowlist
+
+**MUST** allowlist the dispatchable targets of any method-by-name, handler-by-string, or plugin-by-name path that touches request data.
+
+**Why:** Dynamic dispatch promotes any attacker-chosen name into an entry point, including internals never meant to be reachable from the edge.
+
+**Detect:** grep for dispatch on request data: `send(params`, `public_send(`, `getattr(obj, request`, `Class.forName(`, `method_call(user_input)`.
+
+**References:** Brakeman: dangerous send, https://brakemanscanner.org/docs/warning_types/, CWE-470 (Unsafe Reflection)
 
 # Email-Template Injection
 
@@ -191,6 +321,16 @@ metadata_options {
 
 **References:** OWASP ASVS 4.1 access control, CWE-862 missing authorization, Unleash/LaunchDarkly security guidance
 
+# Fetch Metadata Request Policy
+
+**SHOULD** reject state-changing requests whose Fetch Metadata headers declare a cross-site initiator, unless the route is explicitly public.
+
+**Why:** Session cookies travel on cross-site requests, so admission must consult what the browser says about the initiator rather than the token alone.
+
+**Detect:** grep Sec-Fetch-Site in request middleware; no reference means no request-admission policy is enforced
+
+**References:** web.dev Fetch Metadata, https://web.dev/articles/fetch-metadata
+
 # File Upload Validation
 
 **MUST** Check uploads by magic bytes, enforce extension/size limits, store outside the web root with randomized names.
@@ -200,6 +340,16 @@ metadata_options {
 **Detect:** `save(request.files[...])` without type/size checks; uploads under static paths; trusting client `Content-Type`.
 
 **References:** OWASP A03:2021, CWE-434, OWASP File Upload Prevention Cheat Sheet
+
+# Filename Header Encoding
+
+**MUST** generate the download filename server-side and encode it per RFC 6266 rather than echoing the uploaded name.
+
+**Why:** A user-chosen filename reaches a response header, where a newline or quote breaks out of the header or the disposition entirely.
+
+**Detect:** grep for `Content-Disposition` values built from a request filename parameter.
+
+**References:** OWASP ASVS v5.0 V5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x14-V5-File-Handling.md, RFC 6266 (Content-Disposition), CWE-113
 
 # Forced Browsing & Unprotected Admin Panels
 
@@ -211,6 +361,26 @@ metadata_options {
 
 **References:** OWASP WSTG-ATHZ-02, MITRE ATT&CK T1595.001, Nuclei admin-panel templates
 
+# Format String Injection
+
+**MUST** never let untrusted data become the format string itself; pass it only as an argument to a fixed format.
+
+**Why:** Attacker-controlled format strings read or write memory in native code and silently swallow argument mismatches everywhere else.
+
+**Detect:** grep `printf(user`, `fmt.Sprintf(user`, `.format(request`, `% (request`, and `String.format(` calls whose first argument is a variable.
+
+**References:** OWASP ASVS v5.0 V1 Encoding and Sanitization, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md
+
+# Generic Error Responses
+
+**MUST** return a generic, user-safe error body to clients and keep stack traces, paths, and query fragments in server-side logs only.
+
+**Why:** Stack traces, internal hostnames, and SQL fragments in a response hand an attacker the map of the system for free.
+
+**Detect:** grep response builders for `str(e)`, `traceback.format_exc`, `err.Error()`, `e.getMessage()` serialized into the body, and default framework debug pages reachable in production.
+
+**References:** OWASP Error Handling Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html
+
 # GraphQL Query Depth & Complexity Limits
 
 **MUST** Cap query depth, node count, and alias size, rejecting over-budget queries before execution.
@@ -220,6 +390,26 @@ metadata_options {
 **Detect:** Server config without `max_depth`/`max_complexity` validation rules; persisted-query-only mode absent; `graphiql` in prod.
 
 **References:** OWASP A04:2021, CWE-770, OWASP GraphQL Cheat Sheet
+
+# Host Header Injection
+
+**MUST** build URLs, cache keys, and routing decisions from the Host header only after validating it against an allow-list.
+
+**Why:** Password-reset links, canonical URLs, and cache entries inherit whatever host the attacker sent, redirecting victims or poisoning shared caches.
+
+**Detect:** grep for `request.host`, `get_host()`, `X-Forwarded-Host`, and URL builders outside the configured base-URL constant.
+
+**References:** OWASP WSTG checklist, https://github.com/OWASP/wstg/blob/master/checklists/checklist.md
+
+# Host Header Trust
+
+**MUST NOT** derive redirect targets, absolute URLs, cache keys, or access decisions from the client-supplied Host header.
+
+**Why:** The Host header is attacker-controlled, so a trusted-host bug turns password-reset and OAuth flows into token exfiltration and poisons caches with the wrong origin. Configure the canonical host instead.
+
+**Detect:** grep `request.host`, `X-Forwarded-Host`, `SERVER_NAME`, and `Host` reads inside URL builders; each must come from configuration, not the request.
+
+**References:** Semgrep rule: request host used, https://github.com/semgrep/semgrep-rules/blob/develop/generic/nginx/security/request-host-used.yaml, CWE-346 Origin Validation Error
 
 # HSTS
 
@@ -283,6 +473,16 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** OWASP A01:2021, CWE-639, OWASP Testing Guide IDOR
 
+# Image Dimension Bounds
+
+**MUST** bound decoded pixel dimensions and total pixel count before decoding an image, not just the file's byte size.
+
+**Why:** A small compressed file can decode to gigapixels, so a size limit on the wire passes an image that exhausts memory in the decoder.
+
+**Detect:** grep image decode paths (`Image.open`, `image.Decode`, `sharp(`) for a pixel or dimension limit and for `MAX_IMAGE_PIXELS`-style guards.
+
+**References:** OWASP ASVS v5.0 V5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x14-V5-File-Handling.md, CWE-400
+
 # Ingress Host-Header / vHost Routing Collisions and TLS Passthrough Misrouting
 
 **MUST** define explicit host matching on every Ingress rule and a catch-all default backend that returns 404/421, so an unexpected `Host` header cannot route traffic to the wrong service.
@@ -310,6 +510,16 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 ```
 
 **References:** CWE-441, RFC 9110 §7.2 (Host), Kubernetes Ingress docs, OWASP A01:2021
+
+# Input Entry Point Inventory
+
+**MUST** enumerate every data-entry point — network, IPC, files, deep links, clipboard, background sync — and validate each as an untrusted boundary.
+
+**Why:** Teams validate the HTTP API and forget the deep link, the shared file, or the IPC message, each of which reaches the same privileged code. An unlisted entry point never gets reviewed.
+
+**Detect:** judgment: the data-flow diagram or threat model — every entry point listed with its parser, validation, and trust level, cross-checked against platform entry declarations in the app manifest.
+
+**References:** OWASP MASVS-CODE-4 (input validation), https://github.com/OWASP/masvs/blob/master/controls/MASVS-CODE-4.md, OWASP Threat Modeling
 
 # Input Validation
 
@@ -342,6 +552,26 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 
 **References:** CWE-90, OWASP A03:2021, OWASP LDAP Injection Prevention Cheat Sheet
 
+# Learned Allowlists Poison Easily
+
+**MUST** validate a traffic-learned allowlist against a clean baseline before enforcing it, because small contamination poisons the learned profile.
+
+**Why:** A learned profile degrades at fractions of a percent of poisoned requests and then admits the attacker's payload shape as legitimate.
+
+**Detect:** grep WAF and proxy config for learning or auto-tuning modes enabled against production traffic without a filtered training source.
+
+**References:** WAF allowlist poisoning study, https://arxiv.org/abs/2609.06840
+
+# Malware Scan Untrusted Files
+
+**MUST** scan files received from untrusted sources for malware before storing, serving, or processing them further.
+
+**Why:** The application becomes a distribution channel: it stores the payload, serves it from its own origin, and hands it to internal processors.
+
+**Detect:** clamscan on the upload quarantine path; check the upload pipeline for a scan step before the file is promoted.
+
+**References:** OWASP ASVS v5.0 V5, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x14-V5-File-Handling.md, CWE-509
+
 # Mass Assignment
 
 **MUST** Whitelist assignable fields when binding request bodies to models.
@@ -361,6 +591,36 @@ proxy_set_header Transfer-Encoding "";   # normalize, never pass through raw
 **Detect:** grep router config for missing global auth middleware, routes without `@authenticated`/`requireAuth`, `public: true` as default, admin endpoints outside auth filter chain.
 
 **References:** OWASP A01:2021, CWE-306, NIST SP 800-53 AC-3, CIS Control 6.7 (Centralize Access Control)
+
+# No Plaintext API Endpoints
+
+**MUST** refuse plaintext HTTP on API endpoints rather than redirect it, and scope any unavoidable cleartext exception to named hosts.
+
+**Why:** A redirect still exposes the first request - headers, tokens, payload - to anyone on the path. Clients that follow redirects then resend credentials to the redirect target.
+
+**Detect:** Listeners on port 80 that only `return 301`, plain `http://` upstreams, and `usesCleartextTraffic`/`cleartextTrafficPermitted="true"` without a per-domain exception.
+
+**References:** Mozilla Web Security Guidelines, https://infosec.mozilla.org/guidelines/web_security, OWASP ASVS Communications chapter
+
+# No Silent TLS Upgrade
+
+**MUST** reject cleartext requests on programmatic endpoints rather than redirecting them, so a misconfigured client fails loudly.
+
+**Why:** A redirect turns a broken client into a working one that still believes it is speaking plaintext, hiding the defect until something else relies on it.
+
+**Detect:** grep for 301/308 redirects on `/api`, `/v1`, or RPC routes, and for TLS enforcement implemented only as a redirect rule.
+
+**References:** OWASP ASVS v5.0 V4, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x13-V4-API-and-Web-Service.md, CWE-319
+
+# Non-SQL Protocol Injection
+
+**MUST** escape or reject untrusted values before they reach cache keys and mail command parsers.
+
+**Why:** Every protocol has its own metacharacters; a value that is safe in SQL still injects LDAP filters, cache-key namespaces, or SMTP commands.
+
+**Detect:** grep sinks: `memcache.get/set` and Redis key builders using concatenated request values, `sendmail(`, and `SMTP.send_message` built from request data.
+
+**References:** OWASP ASVS v5.0 V1 Encoding and Sanitization, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md
 
 # NoSQL Query Injection
 
@@ -416,6 +676,46 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-78, OWASP A03:2021, OWASP Command Injection guidance
 
+# Outbound Fetch Policy
+
+**MUST** re-apply the outbound destination policy on every redirect and retry, not only to the initial request URL.
+
+**Why:** An allowlist checked once is defeated by a 302 to an internal address or a retry that resolves a new host; only per-hop enforcement covers the whole chain.
+
+**Detect:** grep HTTP client construction for `follow_redirects=True` with no re-validation hook, and for retry policies that re-resolve the original hostname; a policy check performed once before the first request is the finding.
+
+**References:** OWASP SSRF Prevention Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html, CWE-918 Server-Side Request Forgery
+
+# Parameter Source Separation
+
+**MUST** distinguish query, body, cookie, and header parameters, and reject duplicate names where the framework merges them into one value.
+
+**Why:** When validation reads one copy of a duplicated parameter and business logic reads another, every check can be satisfied while the action runs on different input.
+
+**Detect:** grep for merged parameter maps (`request.values`, `request.params`, `getParameterMap`, `ctx.request.body` merged with query) and missing duplicate-parameter rejection.
+
+**References:** OWASP ASVS v5.0 V15.3.7, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md, OWASP WSTG: Testing for HTTP Parameter Pollution, CWE-235
+
+# Parser Resource Limits
+
+**MUST** cap structural parser limits - nesting depth, node or element counts, header counts - inside the parser itself, not only the request body size.
+
+**Why:** A small body can still carry a deeply nested or million-element document, and a parser that allocates first has already lost.
+
+**Detect:** grep parser configuration for `max_depth`, `max_nodes`, `max_header`, `max_element_depth`, `XMLConstants.FEATURE_SECURE_PROCESSING`; a parser relying solely on an edge body-size limit is the finding.
+
+**References:** OWASP Denial of Service Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html, OWASP XXE Prevention Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+
+# Partial Data Display
+
+**MUST** return and display only the minimum sensitive value the feature needs, masking all but the last few characters by default.
+
+**Why:** Full values in a response or a screen become full values in a screenshot, a support ticket, and a browser cache, for a user who only needed to recognize them.
+
+**Detect:** grep API serializers and templates for full card, account, or identity numbers where a masked form would serve.
+
+**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x23-V14-Data-Protection.md, CWE-200
+
 # Path Traversal
 
 **MUST NOT** Use user input directly in file paths; resolve and confirm the result stays inside the base directory.
@@ -446,6 +746,56 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-1333, CWE-400, OWASP ReDoS, RE2 docs
 
+# Regex Engine Parity
+
+**MUST** verify each validation pattern's behavior on the engine that runs it in production, not on the dialect it was copied from.
+
+**Why:** Engines differ on anchoring, Unicode classes, backreferences and backtracking limits, so a copied validator can accept inputs its author tested as rejected.
+
+**Detect:** Run the pattern corpus under the production engine (RE2, V8, JVM) and diff the results against the dialect the pattern was written for.
+
+**References:** OpenSSF: Correctly Using Regular Expressions, https://best.openssf.org/Correctly-Using-Regular-Expressions, CWE-625
+
+# Regex Full-Match Validation
+
+**MUST** anchor validator patterns to the whole input, so a substring match cannot pass an allowed-format check.
+
+**Why:** Unanchored patterns accept `valid-prefix<script>` because they match somewhere in the string. Bare alternation makes anchors apply to only one branch.
+
+**Detect:** `re.match(`/`re.search(`/`preg_match(`/`Matcher.find()` used for validation without `^...$` or `fullmatch`; alternation lacking a wrapping group.
+
+**References:** OpenSSF: Correctly Using Regular Expressions, https://best.openssf.org/Correctly-Using-Regular-Expressions, CWE-625
+
+# Regex Metacharacter Escaping
+
+**MUST** escape or reject regex metacharacters in user input that becomes part of a pattern.
+
+**Why:** Unescaped input lets the caller inject alternation and quantifiers, turning a search filter into a match-everything bypass or an exfiltration primitive.
+
+**Detect:** grep `new RegExp(`, `re.compile(` and `Pattern.compile(` calls whose argument interpolates a request value rather than a literal.
+
+**References:** OWASP ASVS v5.0 V1 Encoding and Sanitization, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x10-V1-Encoding-and-Sanitization.md
+
+# Reject, Don't Repair
+
+**SHOULD** reject malformed input outright instead of sanitizing or correcting it toward validity and passing the repaired value on.
+
+**Why:** A sanitizer encodes one component's idea of clean, and attackers live in the gap between what it strips and what the next consumer interprets.
+
+**Detect:** grep `sanitize`, `strip_tags`, `escape`, `clean(`, `replace('<'` applied to request data before validation, and handlers that continue after a repair.
+
+**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+
+# Relay Address Filtering
+
+**MUST** block relaying or proxying to loopback, link-local, private, and reserved addresses on every supported address family, not only IPv4.
+
+**Why:** A relay that will forward to an internal address is an open proxy into the private network, and IPv6 special ranges are routinely left unhandled.
+
+**Detect:** grep relay/proxy config for peer or destination filtering (`no-multicast-peers`, denied CIDR lists, `allowed_peers`); check whether IPv6 ranges `::1`, `fc00::/7`, `fe80::/10` appear alongside the IPv4 denials.
+
+**References:** OWASP ASVS v5.0 V17.1.1, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x26-V17-WebRTC.md, CWE-918
+
 # Security Headers
 
 **MUST** Set HSTS, `X-Content-Type-Options: nosniff`, CSP, `Referrer-Policy`, and frame protection on every response.
@@ -465,6 +815,16 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** Reachable `/actuator`, `/admin`, `/.git/HEAD`, `/.env`, `/server-status`, `/metrics` without auth; grep routes and config for `actuator`, `DEBUG`, `phpinfo`, `pprof`, `django-debug`, and DAST-scan production for `/env`, `/heapdump`, `/debug`.
 
 **References:** OWASP A05:2021, CWE-538, CWE-200, CWE-489, OWASP WSTG-CONF-04, OWASP WSTG-CONF-05
+
+# Served Extension Allowlist
+
+**MUST** configure the web tier to serve only an allowlist of file extensions, so carelessly placed source or configuration files cannot be downloaded.
+
+**Why:** Uploads, editor backups, and deployment artifacts land in the document root, and a permissive handler serves them as text.
+
+**Detect:** grep web-server config for extension allowlisting (`location ~* \.(css|js|png)$`, `FilesMatch`) and for a catch-all static handler.
+
+**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x22-V13-Configuration.md, CWE-552
 
 # Server-Side Authorization
 
@@ -486,6 +846,16 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** CWE-1336, OWASP A03:2021, PortSwigger SSTI research
 
+# Signup Abuse Limits
+
+**SHOULD** bound the resources a self-service account can consume — compute, storage, outbound sends, and spend — before payment or verification.
+
+**Why:** Free tiers are farmed for cryptomining, file hosting, and outbound mail, and the operator pays. Per-account ceilings make bulk abuse unprofitable without blocking legitimate signups.
+
+**Detect:** grep signup and quota code for per-account limits on jobs, storage, egress, and email sends; flag flows where verification happens only after resources are consumed.
+
+**References:** OWASP Abuse Case Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Abuse_Case_Cheat_Sheet.html
+
 # SQL Injection
 
 **MUST** Use parameterized queries or bound variables; never concatenate user input into SQL.
@@ -506,6 +876,26 @@ db.users.findOne({ user: u, pass: await verify(p) });
 
 **References:** OWASP A10:2021, CWE-918, SSRF-Defense list
 
+# Strict Parser Rejection
+
+**MUST** reject malformed, ambiguous, or non-canonical input at security-critical parsers instead of tolerating it for interoperability.
+
+**Why:** Tolerant receivers keep non-conformant implementations alive and turn undefined behaviour into a permanent compatibility constraint that cannot be patched.
+
+**Detect:** grep parsers for lenient switches (`strict=False`, `allow_unknown`, duplicate-header tolerance, trailing-garbage acceptance) and for fallback branches that repair bad input.
+
+**References:** NCSC Protocol Design Principles, https://www.ncsc.gov.uk/sites/default/files/2026-06/Protocol-Design-Principles.pdf
+
+# Strict Parsing, No Coercion
+
+**MUST** parse untrusted structured data with a strict schema that rejects unknown fields, duplicate keys, and type coercion.
+
+**Why:** Lenient parsers silently coerce, and the coerced value differs from what the sender meant and from what the validator checked.
+
+**Detect:** grep `additionalProperties: true`, `ignore_unknown_fields`, `strict=False`, `coerce`, `Extra`-allowing serializers, and schema-less `json.loads` on request bodies.
+
+**References:** OWASP Input Validation Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
+
 # Tenant-ID Spoofing at API Boundary
 
 **MUST** derive the tenant from the authenticated session/token on every request — never from a client-supplied tenant_id parameter or header.
@@ -515,6 +905,46 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** grep handlers for `tenant_id`/`org_id` read from query params, headers, or request bodies rather than from auth context; check middleware sets tenant once and handlers cannot override.
 
 **References:** OWASP API1:2023 broken object level authorization, OWASP Multi-Tenant Security Cheat Sheet
+
+# Untrusted Forwarded Headers
+
+**MUST NOT** make security decisions from `X-Forwarded-For`, `Referer`, `User-Agent`, or client timestamps without validating the trusted proxy chain.
+
+**Why:** Every one of those headers is client-writable, so an IP allowlist, CSRF check, or rate limit keyed on them is keyed on attacker input.
+
+**Detect:** grep `X-Forwarded-For`, `X-Real-IP`, `Referer`, and `User-Agent` reads that feed allowlists, rate-limit keys, or audit fields; check the proxy config for trusted-proxy depth.
+
+**References:** OWASP HTTP Headers Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
+
+# Untrusted Lookup Targets
+
+**MUST NOT** let untrusted input choose a name-resolution, class-loading, or remote-fetch target inside an interpreter or template.
+
+**Why:** Lookup mechanisms turn a data field into code or network reach: a logged string becomes an outbound directory request, a filename becomes a loaded class. The attacker chooses what executes or where the request goes.
+
+**Detect:** grep `InitialContext.lookup`, `Class.forName(`, `importlib.import_module`, dynamic `require(`/`import(` with request-derived arguments, and template calls that accept a variable template name.
+
+**References:** Cloudflare Log4j response, https://blog.cloudflare.com/how-cloudflare-security-responded-to-log4j2-vulnerability/, OWASP Injection Prevention Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html, CWE-470 Use of Externally-Controlled Input to Select Classes or Code
+
+# Uploaded Content Serving
+
+**MUST** serve user-uploaded content from a separate origin or object store, never execute or render it inline from the application's own origin.
+
+**Why:** An uploaded HTML or SVG file served from your origin runs with your cookies and origin privileges, turning a file upload into stored script execution. Content inspection alone does not survive every parser differential.
+
+**Detect:** grep upload handlers and static routes for upload directories inside the document root, inline `Content-Disposition`, and missing `X-Content-Type-Options: nosniff`; confirm uploads resolve to a distinct hostname or bucket.
+
+**References:** OWASP File Upload Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html, CWE-434 Unrestricted Upload of File with Dangerous Type
+
+# WASM Host Boundary
+
+**MUST** restrict the host functions a sandboxed module may import to validated, capability-scoped calls, and assume module memory bugs reach them.
+
+**Why:** The sandbox contains crashes, not bad code: an over-permissive host import turns a contained memory bug into host compromise or cross-tenant state leakage.
+
+**Detect:** Read the module's import table and glue code; every host function needs typed, bounded arguments and no ambient filesystem or network authority.
+
+**References:** OWASP WSTG WebAssembly Testing, https://github.com/OWASP/wstg/blob/master/document/4-Web_Application_Security_Testing/13-WebAssembly_Testing/00-WebAssembly_Testing_Overview.md
 
 # Web Cache Poisoning & Cache Deception
 
@@ -565,4 +995,14 @@ db.users.findOne({ user: u, pass: await verify(p) });
 **Detect:** `lxml.etree.parse`, `DocumentBuilderFactory`, `XmlReader` without hardening flags; `DOCTYPE` accepted in inbound XML/SOAP/SVG.
 
 **References:** CWE-611, OWASP A03:2021, OWASP XXE Prevention Cheat Sheet
+
+# 0-RTT Replay Protection
+
+**MUST NOT** accept state-changing requests carried in TLS 1.3 0-RTT early data.
+
+**Why:** An observer replays the early-data request verbatim, and the server performs the purchase, transfer, or deletion a second time.
+
+**Detect:** grep for `ssl_early_data`, `early_data on`, and `Early-Data` handling, then confirm mutating methods are refused until the handshake completes.
+
+**References:** NGINX Admin Handbook, https://github.com/trimstray/nginx-admins-handbook
 

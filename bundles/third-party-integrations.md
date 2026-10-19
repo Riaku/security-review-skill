@@ -1,4 +1,4 @@
-# third-party-integrations — full checklist (5 items)
+# third-party-integrations — full checklist (8 items)
 
 SaaS integration surface: scopes, tags, webhooks, credentials.
 
@@ -23,6 +23,36 @@ SaaS integration surface: scopes, tags, webhooks, credentials.
 **Detect:** review OAuth app registrations for scopes beyond current feature needs; grep client code for scope strings vs actual API calls used; check admin consent logs for over-granted apps.
 
 **References:** OAuth 2.0 BCP scope guidance, OWASP API Security (insufficient scope), Microsoft/Google admin consent audit docs
+
+# Supplier Contract Requirements
+
+**SHOULD** write security obligations such as breach notification, patch timelines, SBOM delivery, and audit rights into supplier agreements rather than requesting them later.
+
+**Why:** An obligation that lives only in a security questionnaire has no remedy behind it when the supplier breaches it.
+
+**Detect:** the agreement's security schedule: each obligation present with a notification deadline and a remedy clause
+
+**References:** NIST CSF 2.0 (GV.SC-05), https://doi.org/10.6028/NIST.CSWP.29
+
+# Third-Party Response Validation
+
+**MUST** validate and sanitize data returned by third-party APIs before using it in queries, rendering, or authorization decisions.
+
+**Why:** An integration is another input channel: a compromised or misconfigured provider can return markup, a query fragment, or an unexpected type. Trusting it moves an injection sink inside your trust boundary.
+
+**Detect:** grep integration response handling for provider fields interpolated directly into SQL, HTML, shell, or policy checks without schema validation.
+
+**References:** OWASP API Security Top 10 (2023) API10 (unsafe consumption of APIs), https://github.com/OWASP/API-Security, CWE-20 Improper Input Validation
+
+# Third-Party Spend Caps
+
+**MUST** configure a hard spend cap on every metered third-party API the application calls, with alerting thresholds below the cap.
+
+**Why:** Retry loops, scraping, or a leaked key turn a metered API into an unbounded bill within hours; an alert tells you after the money is gone, a cap stops it.
+
+**Detect:** grep integration client config and provider billing settings for quota, budget, and usage-limit settings; a metered endpoint with no limit is the finding.
+
+**References:** OWASP API Security Top 10 (2023) API4 (unrestricted resource consumption), https://github.com/OWASP/API-Security
 
 # Third-Party Tag & Script Governance
 

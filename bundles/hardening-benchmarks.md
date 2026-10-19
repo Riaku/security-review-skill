@@ -1,4 +1,4 @@
-# hardening-benchmarks — full checklist (17 items)
+# hardening-benchmarks — full checklist (23 items)
 
 CIS/STIG-style configuration baselines.
 
@@ -87,6 +87,26 @@ CIS/STIG-style configuration baselines.
 
 **References:** AWS Foundational Security Best Practices standard, CIS AWS Foundations Benchmark, Microsoft Defender for Cloud, GCP Security Command Center
 
+# Compiler Hardening Flags
+
+**MUST** compile native release artifacts with stack protection, PIE/ASLR, full RELRO, FORTIFY, and non-executable memory enabled.
+
+**Why:** Exploit mitigations raise the cost of every memory bug that review and testing failed to catch.
+
+**Detect:** `checksec --file=<binary>` on the built artifact — expect canary, NX, PIE, Full RELRO, and FORTIFY reported as enabled.
+
+**References:** OWASP C-Based Toolchain Hardening Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/C-Based_Toolchain_Hardening_Cheat_Sheet.html
+
+# Compliance Rule Single Source
+
+**MUST** author each hardening rule once in machine-readable form and map it to every regime it satisfies, instead of duplicating rules per framework.
+
+**Why:** Per-regime copies drift, so the document an auditor reads and the check that actually runs stop describing the same control.
+
+**Detect:** Grep the benchmark or policy repository for the same control implemented twice under different framework names; each rule should carry one canonical ID plus per-framework mapping tags.
+
+**References:** ComplianceAsCode content, https://complianceascode.github.io/content-pages/guides/index.html, NIST SP 800-53 (control mapping)
+
 # Default & Weak Credentials in Shipped Software
 
 **MUST NOT** ship software with default usernames/passwords or demo accounts enabled in production; force credential change on first login.
@@ -106,6 +126,36 @@ CIS/STIG-style configuration baselines.
 **Detect:** Look for STIG checklist files, `stig`/`STIG` annotations in Ansible or Puppet roles, and `openscap-scanner` profiles referencing `disa_stig`.
 
 **References:** DISA STIG, NIST SP 800-70, CIS Controls v8 IG2, SCAP/OSCAL
+
+# DMA From External Interfaces
+
+**MUST** confine external high-bandwidth interfaces — Thunderbolt, PCIe, USB4 — behind an IOMMU so a rogue peripheral cannot read or write host memory directly.
+
+**Why:** A device plugged into a DMA-capable port operates below the OS, where no driver or endpoint agent can see it.
+
+**Detect:** dmesg | grep -i iommu to confirm an active IOMMU domain, plus the firmware DMA-protection setting
+
+**References:** awesome-firmware-security, https://github.com/PreOS-Security/awesome-firmware-security
+
+# Hardened Build Defaults
+
+**MUST NOT** disable compiler or runtime hardening defaults for performance or compatibility without a recorded, approved exception.
+
+**Why:** Stack protection, ASLR and RELRO are cheap only until removed; one build-flag tweak turns a memory bug into reliable code execution.
+
+**Detect:** `-fno-stack-protector`, `-z execstack`, `-no-pie`, `-Wl,-z,norelro` or `mprotect(PROT_EXEC)` in build files and Dockerfiles.
+
+**References:** SAFECode Fundamental Practices v3 (2018), https://safecode.org/wp-content/uploads/2018/03/SAFECode_Fundamental_Practices_for_Secure_Software_Development_March_2018.pdf, CWE-693
+
+# Hardening Verified on Live System
+
+**MUST** verify each hardening control against the running system's enforced behavior after reload and reboot, not against the configuration file that was supposed to apply it.
+
+**Why:** Configuration text and enforced state diverge silently, so a baseline that passes file inspection can be absent at runtime.
+
+**Detect:** kube-bench or lynis against the live host, then a post-reboot re-scan of the same controls
+
+**References:** HardEval, https://arxiv.org/abs/2610.23685, CIS Benchmarks, https://www.cisecurity.org/cis-benchmarks
 
 # Kernel/Sysctl Hardening
 
@@ -146,6 +196,16 @@ CIS/STIG-style configuration baselines.
 **Detect:** Pod YAML missing `securityContext.seccompProfile`, `readOnlyRootFilesystem`, or showing `allowPrivilegeEscalation: true`; grep manifests for `unconfined`, `unmasked`, `CAP_SYS_*`; run container escape test suites (e.g. cdve).
 
 **References:** CIS K8s 5.2.1-5.2.8, K8s Pod Security Standards restricted, CWE-250, MITRE ATT&CK T1611, CIS Docker 5.3
+
+# Privilege Drop After Startup
+
+**MUST** drop elevated privileges immediately after the startup work that required them, before serving any request.
+
+**Why:** A daemon that keeps root after binding its port turns any code-execution bug into host compromise. The window should be milliseconds, not process lifetime.
+
+**Detect:** A process starting as root with no `setuid(`/`setgid(`/`capset`/`PR_CAPBSET_DROP`, or a unit file with no `User=`.
+
+**References:** NCSC ICT security guidelines for web applications, https://www.ncsc.nl/webapplicaties/ict-beveiligingsrichtlijnen-webapplicaties
 
 # Privileged Containers and Excess Linux Capabilities
 
