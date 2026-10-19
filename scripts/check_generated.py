@@ -64,18 +64,24 @@ def skill_frontmatter_problem() -> str | None:
     return None
 
 
-def tracked_bundles() -> list[str]:
-    """Bundles that are tracked by git — should always be none."""
+def tracked(prefix: str) -> list[str]:
+    """Paths tracked by git under `prefix` — should always be none for these."""
     try:
-        result = subprocess.run(["git", "ls-files", "--", "bundles"],
+        result = subprocess.run(["git", "ls-files", "--", prefix],
                                 cwd=ROOT, capture_output=True, text=True)
     except FileNotFoundError:
-        print("note: git not available, skipped the tracked-bundle check")
+        print("note: git not available, skipped the tracked-artifact check")
         return []
     if result.returncode != 0:
-        print("note: not a git checkout, skipped the tracked-bundle check")
+        print("note: not a git checkout, skipped the tracked-artifact check")
         return []
     return [line for line in result.stdout.splitlines() if line.strip()]
+
+
+# Neither a build product nor an installed copy belongs in the repository. An
+# installer run inside the working tree leaves .agents/ and skills-lock.json
+# behind, and `git add -A` will happily commit a second copy of the whole corpus.
+UNTRACKED_PREFIXES = ("bundles", ".agents", "skills-lock.json")
 
 
 def main() -> int:
@@ -99,16 +105,26 @@ def main() -> int:
             return 1
         generated = result.stdout.strip()
 
-    tracked = tracked_bundles()
-    if tracked:
-        print("generated artifacts are tracked by git — bundles are built on "
-              "demand and must not be committed:")
-        for name in tracked:
+    for prefix in UNTRACKED_PREFIXES:
+        stray = tracked(prefix)
+        if not stray:
+            continue
+        if prefix == "bundles":
+            print("generated artifacts are tracked by git — bundles are built on "
+                  "demand and must not be committed:")
+            print("  fix: git rm -r --cached bundles")
+        else:
+            print(f"an installed copy is tracked by git — {prefix!r} comes from "
+                  f"running an installer inside this working tree, not from "
+                  f"authoring, and it duplicates the corpus:")
+            print("  fix: git rm -r --cached .agents skills-lock.json")
+        for name in stray[:5]:
             print(f"  {name}")
-        print("  fix: git rm -r --cached bundles")
+        if len(stray) > 5:
+            print(f"  … {len(stray) - 5} more")
         return 1
 
-    print(f"items-valid: {generated}; no generated artifacts tracked")
+    print(f"items-valid: {generated}; no generated or installed artifacts tracked")
     return 0
 
 

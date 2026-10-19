@@ -31,7 +31,7 @@ short version:
 python3 scripts/check_generated.py   # the whole gate — must exit 0
 ```
 
-Its last line reads `items-valid: … ; no generated artifacts tracked`. The check
+Its last line reads `items-valid: … ; no generated or installed artifacts tracked`. The check
 runs the generator into a throw-away directory, so it validates every item's
 frontmatter without writing into the tree, and it fails if anything under
 `bundles/` has been committed.

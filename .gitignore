@@ -1,2 +1,6 @@
 /bundles/
 __pycache__/
+
+# Installer output: `npx skills add` run inside the working tree.
+/.agents/
+/skills-lock.json
