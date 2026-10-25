@@ -5,8 +5,7 @@ domains: [backend]
 
 # Input Validation
 
-**MUST** Validate all external input against type, length, range, and format allowlists at the trust boundary.
-**MUST** validate every inbound payload against an explicit schema (types, required fields, bounds) before any business logic runs.
+**MUST** validate every value entering the system at the trust boundary against an explicit schema — types, required fields, lengths, ranges, and format allowlists — before any business logic runs.
 
 **Why:** Downstream code assumes validated data; one unchecked field becomes the injection vector, and unvalidated fields let attackers inject unexpected shapes, extra keys, or oversized values that downstream code mishandles.
 
