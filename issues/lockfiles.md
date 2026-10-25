@@ -9,6 +9,6 @@ domains: [infrastructure]
 
 **Why:** Unpinned resolution lets a transitive dependency change silently between builds, opening the door to typosquat and version-rollback attacks.
 
-**Detect:** Missing `package-lock.json`, `poetry.lock`, `go.sum`; CI flags like `--no-lock`, `npm install` without `ci`; `.gitignore` excluding lockfiles.
+**Detect:** Missing `package-lock.json`, `poetry.lock`, `go.sum`; CI flags like `--no-lock`, `npm install` without `ci`; `.gitignore` excluding lockfiles; a second lockfile for one package-manager scope (`package-lock.json` beside `pnpm-lock.yaml`), which means CI and developers resolve different trees.
 
 **References:** OWASP A06:2021, CWE-829, OSV.dev, SLSA framework

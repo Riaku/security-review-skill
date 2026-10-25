@@ -25,3 +25,4 @@ This category covers the quality of the prose a project ships alongside its code
 - the same config example copy-pasted into three docs, two of which now list an old port.
 - an agent instruction file grown past 500 lines of task-specific one-offs, so reviewers no longer treat it as policy.
 - a comment reading `// set timeout to 30` directly above a line that sets it to 30.
+- a README still carrying generator boilerplate and a build badge for a pipeline that has never run.

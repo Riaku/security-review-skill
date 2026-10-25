@@ -29,7 +29,7 @@ pointed at `SKILL.md`.
 **Installing from an archive.** The installer also accepts a direct download URL
 to a `.zip`, `.tar`, `.tar.gz`, `.tgz` or a bare `SKILL.md` — the path for a
 release asset, a mirror, or an offline machine. Its extractor refuses archives
-with more than 1,000 files by default, and this skill is 1,047 (983 items plus
+with more than 1,000 files by default, and this skill is 1,061 (996 items plus
 the manifests, references and scripts), so that path needs the limit raised:
 
 ```bash
@@ -90,8 +90,8 @@ python3 scripts/check_generated.py   # the whole gate — must exit 0
 ```
 
 It validates every item's frontmatter and fails if a generated bundle has been
-committed. The success line reads `items-valid: … ; no generated artifacts
-tracked`.
+committed. The success line reads `items-valid: … ; no generated or installed
+artifacts tracked`.
 
 ## Sources
 
