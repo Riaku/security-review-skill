@@ -4,10 +4,11 @@ Secrets handling and cryptographic primitives.
 
 ## What this category covers
 
-This category covers anything secret or cryptographic: where credentials are stored and how they reach a running process, and whether the primitives protecting them are sound. The items span secret management and rotation, secret scanning and git-history remediation, and the many leakage paths — CI logs, Dockerfile layers and build args, Helm values, instance launch payloads, mobile binaries, IaC state, and committed .env files. They also cover encryption at rest and key custody; applied crypto such as password hashing and salting, weak primitives and modes, secure randomness for tokens, and client-side TLS verification; and the standards-driven cases: FIPS-validated modules and approved signatures, post-quantum migration and crypto-agility, and long-lived data exposed to later decryption. Expect findings that describe a secret exposed where it should not be, or crypto applied with a broken primitive, a missing check, or a key nobody rotates.
+This category covers anything secret or cryptographic: where credentials are stored and how they reach a running process, and whether the primitives protecting them are sound. The items span secret management and rotation, secret scanning and git-history remediation, and the many leakage paths — CI logs, Dockerfile layers and build args, Helm values, instance launch payloads, mobile binaries, IaC state, committed .env files, and values inlined into a client bundle. They also cover encryption at rest and key custody; applied crypto such as password hashing and salting, weak primitives and modes, secure randomness for tokens, and client-side TLS verification; and the standards-driven cases: FIPS-validated modules and approved signatures, post-quantum migration and crypto-agility, and long-lived data exposed to later decryption. Expect findings that describe a secret exposed where it should not be, or crypto applied with a broken primitive, a missing check, or a key nobody rotates.
 
 - Secret storage and sourcing: secret managers, rotation automation, and centralization of integration and pipeline credentials.
-- Leakage paths: CI logs, Dockerfile layers and build args, Helm values, launch payloads, mobile binaries, IaC state, and committed .env files.
+- Leakage paths: CI logs, Dockerfile layers and build args, Helm values, launch payloads, mobile binaries, IaC state, committed .env files, and values inlined into a client bundle.
+- Report hygiene: keeping a discovered credential out of findings, pull-request comments, and agent transcripts, so the review does not widen the exposure.
 - Detection and remediation: secret scanning, git-history rewriting, and verification that a leaked credential was actually revoked.
 - Password and credential hashing: per-password salting, bcrypt or Argon2 parameters, and hashing rather than reversible encryption.
 - Cryptographic primitives: weak ciphers and modes, encryption at rest, secure token randomness, and client-side TLS verification.
@@ -27,3 +28,5 @@ This category covers anything secret or cryptographic: where credentials are sto
 - Secrets copied into an image layer with COPY or ARG, recoverable from the image's layer history.
 - A password store using reversible encryption or a bare fast hash instead of a salted one-way hash.
 - An outbound TLS client with certificate or hostname verification disabled in production.
+- A `NEXT_PUBLIC_`- or `VITE_`-style variable holding a privileged key, inlined into the shipped bundle.
+- A finding or pull-request comment quoting the leaked credential verbatim instead of citing its location.

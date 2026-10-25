@@ -5,11 +5,11 @@ domains: [data]
 
 # Database Migrations
 
-**MUST** manage schema changes through versioned, reviewable migration files applied by tooling — never by ad-hoc SQL run against production.
+**MUST** apply schema changes through versioned, reviewable migration files run as an explicit, observable deploy step — never ad-hoc SQL against production, never at application startup.
 
-**Why:** Hand-applied DDL drifts from the repo, so the next deploy assumes a schema that isn't there; unreproducible schema state makes rollback guesswork and turns a routine release into an outage with no audit trail.
+**Why:** Hand-applied DDL drifts from the repo, so the next deploy assumes a schema that isn't there; unreproducible schema state makes rollback guesswork and turns a routine release into an outage with no audit trail, while migrating at startup hands the app's role DDL rights and lets replicas race on the same change.
 
-**Detect:** Check for framework migrations (Alembic, Flyway, Rails `db/migrate`); flag raw `ALTER TABLE` in ops scripts; diff live schema (`pg_dump --schema-only`) against the repo's migration head.
+**Detect:** Check for framework migrations (Alembic, Flyway, Rails `db/migrate`); flag raw `ALTER TABLE` in ops scripts and a migration runner invoked at process start (`AUTO_MIGRATE`, `db.migrate()` in an entrypoint); diff live schema (`pg_dump --schema-only`) against the repo's migration head.
 
 **Bad:**
 ```bash

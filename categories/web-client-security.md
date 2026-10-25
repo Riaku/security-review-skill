@@ -10,6 +10,7 @@ This category covers the part of the attack surface that runs in the browser and
 - Response headers: CSP, HSTS, nosniff, Referrer-Policy, frame protection, Cache-Control.
 - Cross-origin defenses: CSRF, CORS, WebSocket origin checks, postMessage validation.
 - Session and cookie state: Secure/HttpOnly/SameSite flags, fixation, sensitive data in browser storage.
+- Client-side secrets: values inlined into the bundle or exposed through public build-time environment variables.
 - Client-side cache and runtime integrity: cache poisoning/deception, prototype pollution, DNS rebinding.
 
 ## What it does not cover
@@ -26,3 +27,4 @@ This category covers the part of the attack surface that runs in the browser and
 - `Access-Control-Allow-Origin` reflected back alongside `Allow-Credentials: true`.
 - a session cookie missing `HttpOnly`, so any XSS can read it.
 - `postMessage` handlers acting on `event.data` without checking `event.origin`.
+- a `VITE_`/`NEXT_PUBLIC_` variable holding a service-role key, shipped to every visitor in the bundle.
