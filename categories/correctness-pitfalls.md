@@ -11,7 +11,7 @@ This category covers the classes of bug that have nothing to do with an attacker
 - Text and encoding: character encoding, code-point versus byte length, and truncation assumptions.
 - Time and scheduling: time-zone handling and daylight-saving transitions.
 - Concurrency and async: shared mutable state, blocking a shared event loop, unhandled async errors, and check-then-use races when publishing temporary files.
-- Complexity and control flow: cost on unbounded input, repeated computation on invariant inputs, bounded directory traversal, edge cases, schema validation, structured exceptions, dead code, and merge hygiene.
+- Complexity and control flow: cost on unbounded input, repeated computation on invariant inputs, keyed lookup instead of repeated scans, bounded directory traversal, bounded result materialization, edge cases, schema validation, structured exceptions, dead code, and merge hygiene.
 
 ## What it does not cover
 
