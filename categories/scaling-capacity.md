@@ -24,5 +24,5 @@ This category covers how a system behaves as load grows and where its hard limit
 - Capacity is planned against average load, with no headroom for a known peak.
 - An autoscaler scales on a signal that is cheap to inflate and has no maximum replica ceiling.
 - A long-running service has no heap-trend monitoring, so a slow leak ends in an OOM kill at peak.
-- A request path nests loops over two externally sized collections, so one payload saturates CPU.
+- A request path — or a nightly job over an application-owned table — nests loops over two collections whose size nothing bounds, so CPU scales with data volume, not traffic.
 - A storage volume is sized without benchmarking its IOPS ceiling, and saturates on launch day.
