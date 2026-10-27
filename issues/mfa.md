@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep admin/SSH/RDP login paths for missing `mfa`/`totp`/`webauthn` checks, MFA toggle client-side only, `mfa_enabled` field absent in user model.
 
-**References:** NIST SP 800-63B §5.1, OWASP A07:2021, CWE-308, CIS Control 6.3
+**References:** OWASP API2:2023 Broken Authentication, NIST SP 800-63B §5.1, OWASP A07:2021, CWE-308, CIS Control 6.3

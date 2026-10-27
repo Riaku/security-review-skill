@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** `requests.get(user_url)`, `urlopen`, `fetch(` on request-derived URLs without IP-blocklist checks.
 
-**References:** OWASP A10:2021, CWE-918, SSRF-Defense list
+**References:** OWASP API7:2023 Server Side Request Forgery, OWASP A10:2021, CWE-918, SSRF-Defense list

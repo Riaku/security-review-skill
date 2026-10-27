@@ -11,4 +11,4 @@ domains: [backend, infrastructure]
 
 **Detect:** `DEBUG = True`, `FLASK_DEBUG=1`, `app.run(debug`, exposed `/debug`, Werkzeug console.
 
-**References:** OWASP A05:2021, CWE-489, CWE-215
+**References:** OWASP API8:2023 Security Misconfiguration, OWASP A05:2021, CWE-489, CWE-215

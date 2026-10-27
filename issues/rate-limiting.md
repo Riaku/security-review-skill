@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** Login/reset routes with no `ratelimit`, `throttle`, `limit=` decorator or gateway policy.
 
-**References:** OWASP A04:2021, CWE-770, OWASP Rate Limiting Cheat Sheet, NIST SP 800-63B
+**References:** OWASP API4:2023 Unrestricted Resource Consumption, OWASP A04:2021, CWE-770, OWASP Rate Limiting Cheat Sheet, NIST SP 800-63B

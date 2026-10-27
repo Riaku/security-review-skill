@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** design docs citing `least privilege` / `defense in depth`, ADRs with security sections, default-deny network policies
 
-**References:** NIST SP 800-160, Saltzer & Schroeder principles, OWASP ASVS V1, CISA Secure by Design Pledges
+**References:** OWASP A04:2021 Insecure Design, NIST SP 800-160, Saltzer & Schroeder principles, OWASP ASVS V1, CISA Secure by Design Pledges

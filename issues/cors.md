@@ -11,4 +11,4 @@ domains: [backend, frontend]
 
 **Detect:** `Allow-Origin: *`, `allow_origins=['*']`, `@CrossOrigin` with credentials, origin reflection.
 
-**References:** OWASP A05:2021, CWE-942, MDN CORS credentials
+**References:** OWASP API8:2023 Security Misconfiguration, OWASP A05:2021, CWE-942, MDN CORS credentials

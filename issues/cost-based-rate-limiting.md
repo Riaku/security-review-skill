@@ -11,4 +11,4 @@ domains: [reliability]
 
 **Detect:** grep rate limiter configuration for keys on request count only; check whether row, byte, or cost limits are enforced separately
 
-**References:** Site Reliability Engineering (O'Reilly, 2016), handling overload
+**References:** OWASP API4:2023 Unrestricted Resource Consumption, Site Reliability Engineering (O'Reilly, 2016), handling overload

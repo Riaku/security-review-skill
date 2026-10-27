@@ -11,4 +11,4 @@ domains: [backend, data]
 
 **Detect:** Inspect each deployed model's training-data manifest against its exposure tier, and flag models trained on identifiable records that untrusted callers can query.
 
-**References:** SoK on data reconstruction (arXiv 2506.07888), https://arxiv.org/abs/2506.07888
+**References:** OWASP LLM02:2025 Sensitive Information Disclosure, SoK on data reconstruction (arXiv 2506.07888), https://arxiv.org/abs/2506.07888

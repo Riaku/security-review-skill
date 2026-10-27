@@ -11,4 +11,4 @@ domains: [backend, data]
 
 **Detect:** grep webhook receivers for missing `timestamp` validation, absent `nonce`/`event_id` dedup store, signature checks with no freshness window.
 
-**References:** OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs
+**References:** OWASP API10:2023 Unsafe Consumption of APIs, OWASP Webhook Security Best Practices, CWE-294, Stripe/GitHub webhook verification docs

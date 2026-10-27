@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** ingest pipelines without source allowlists or content scanning; vector index accepting unauthenticated uploads.
 
-**References:** OWASP LLM04:2025, CWE-506, MITRE ATLAS
+**References:** OWASP LLM08:2025 Vector and Embedding Weaknesses, OWASP LLM04:2025, CWE-506, MITRE ATLAS

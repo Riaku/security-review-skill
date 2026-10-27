@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** spec files present but no `openapi-validator`/`schemathesis` middleware; handlers ignoring `request.body` schema checks.
 
-**References:** OWASP API3:2023, CWE-915, Schemathesis docs
+**References:** OWASP API9:2023 Improper Inventory Management, OWASP API3:2023, CWE-915, Schemathesis docs

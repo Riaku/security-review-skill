@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** grep feature specs and PRDs for `abuse` or `misuse`; a feature directory with no abuse case is the finding.
 
-**References:** OWASP Abuse Case Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Abuse_Case_Cheat_Sheet.html
+**References:** OWASP A04:2021 Insecure Design, OWASP Abuse Case Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Abuse_Case_Cheat_Sheet.html

@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep plugin, script, and config loaders that read a file with no digest or signature check
 
-**References:** OWASP Go Secure Coding Practices, https://github.com/OWASP/Go-SCP
+**References:** OWASP A08:2021 Software and Data Integrity Failures, OWASP Go Secure Coding Practices, https://github.com/OWASP/Go-SCP

@@ -11,4 +11,4 @@ domains: [backend, data]
 
 **Detect:** Handlers with no signature check; `hmac.compare_digest` absent; verification skipped in dev branches; no origin check; no idempotency-key dedupe; provider SDK helpers (`constructEvent`) unused; handlers that trust payload identity fields blindly.
 
-**References:** CWE-347, CWE-345, CWE-208, OWASP Webhook Security practices, Stripe/GitHub webhook signing/verification docs
+**References:** OWASP API10:2023 Unsafe Consumption of APIs, CWE-347, CWE-345, CWE-208, OWASP Webhook Security practices, Stripe/GitHub webhook signing/verification docs

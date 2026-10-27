@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep server and handler config for `timeout`, `max_connections`, `memory_limit`, `ulimit`, `worker` ceilings and unbounded `while`/queue reads on request-driven paths.
 
-**References:** OWASP Denial of Service Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html
+**References:** OWASP API4:2023 Unrestricted Resource Consumption, OWASP Denial of Service Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html

@@ -29,6 +29,9 @@ here. Credit for the seed list and the taxonomy's shape comes first.
 | Source | Contributed |
 |---|---|
 | OWASP ASVS | verification-level tiers; app-sec item wording |
+| OWASP Top 10 (2021) — https://owasp.org/Top10/ | web control anchors; per-control carriers in `references/owasp-top10-map.md` (96 items cite a control) |
+| OWASP API Security Top 10 (2023) — https://owasp.org/API-Security/editions/2023/en/0x11-t10/ | API-specific control anchors (30 items) |
+| OWASP Top 10 for LLM Applications (2025) — https://genai.owasp.org/llm-top-10/ | LLM, RAG and agent control anchors (26 items) |
 | OWASP WSTG | detect-methodology; conf/athz items |
 | OWASP Cheat Sheet Series | prescriptive wording across items |
 | MITRE CWE — https://cwe.mitre.org/ | weakness taxonomy; per-item CWE references (cited by 381 items) |

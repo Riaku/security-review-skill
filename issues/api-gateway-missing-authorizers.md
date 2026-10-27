@@ -29,4 +29,4 @@ MyMethod:
     AuthorizerId: !Ref UserPoolAuthorizer
 ```
 
-**References:** OWASP A01:2021, OWASP ASVS 4.1, AWS API Gateway authorization docs, CWE-306
+**References:** OWASP API5:2023 Broken Function Level Authorization, OWASP A01:2021, OWASP ASVS 4.1, AWS API Gateway authorization docs, CWE-306

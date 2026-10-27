@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** command schedule a synthetic alert (`amtool alert add`, Alertmanager test alert) with an expected-receipt check and an alert when receipt is missing.
 
-**References:** Agentic AI Top 10: AAI012 Checker-out-of-the-Loop, https://github.com/precize/Agentic-AI-Top10-Vulnerability
+**References:** OWASP A09:2021 Logging and Monitoring Failures, Agentic AI Top 10: AAI012 Checker-out-of-the-Loop, https://github.com/precize/Agentic-AI-Top10-Vulnerability

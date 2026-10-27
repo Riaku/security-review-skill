@@ -154,9 +154,11 @@ written into this repository or shipped with a report; the report is Markdown.
 
 Other references: [`references/tooling.md`](references/tooling.md) (scanner
 catalog), [`references/mitre-attack.md`](references/mitre-attack.md) (ATT&CK
-tactic→slug mapping) and
-[`references/platform-hosting.md`](references/platform-hosting.md) (per-platform
-review surfaces; read the matching section when triage detects the platform).
+tactic→slug mapping), [`references/platform-hosting.md`](references/platform-hosting.md)
+(per-platform review surfaces; read the matching section when triage detects the
+platform) and [`references/owasp-top10-map.md`](references/owasp-top10-map.md)
+(which items carry each OWASP web, API, and LLM Top 10 control, and where the
+gaps are).
 
 ## Pitfalls
 

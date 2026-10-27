@@ -11,4 +11,4 @@ domains: [backend, frontend]
 
 **Detect:** Config lacking `Strict-Transport-Security`, `X-Content-Type-Options`, `Referrer-Policy`; nginx/ingress snippets absent.
 
-**References:** OWASP A05:2021, CWE-693, securityheaders.com checklist
+**References:** OWASP API8:2023 Security Misconfiguration, OWASP A05:2021, CWE-693, securityheaders.com checklist

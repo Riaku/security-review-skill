@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** list endpoints declared in the spec, then grep their handlers for an ownership or policy check on the referenced object.
 
-**References:** Object authorization in web API specifications (arXiv 2212.06606), https://arxiv.org/abs/2212.06606
+**References:** OWASP API1:2023 Broken Object Level Authorization, Object authorization in web API specifications (arXiv 2212.06606), https://arxiv.org/abs/2212.06606
