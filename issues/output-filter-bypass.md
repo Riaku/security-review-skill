@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** locate where the guardrail sits relative to the tool call, query, or response sink, and whether anything else blocks the harmful action.
 
-**References:** NIST AI 600-1 §2.3, https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+**References:** OWASP LLM05:2025 Improper Output Handling, NIST AI 600-1 §2.3, https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf

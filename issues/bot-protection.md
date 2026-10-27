@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep auth flows for a challenge step (`captcha`, `recaptcha`, `turnstile`, `hcaptcha`, `bot_detection`, `proof_of_work`) or bot-detection middleware; a login route with throttling but no challenge at all.
 
-**References:** OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet
+**References:** OWASP API6:2023 Unrestricted Access to Sensitive Business Flows, OWASP A04:2021, CWE-770, OWASP Credential Stuffing Prevention Cheat Sheet

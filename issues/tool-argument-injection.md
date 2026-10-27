@@ -11,4 +11,4 @@ domains: [governance]
 
 **Detect:** tool dispatch calling exec/query with model output unchecked; missing JSON-schema validation on function-call payloads.
 
-**References:** OWASP LLM06:2025, CWE-74, OWASP Top 10 A03
+**References:** OWASP LLM05:2025 Improper Output Handling, OWASP LLM06:2025, CWE-74, OWASP Top 10 A03

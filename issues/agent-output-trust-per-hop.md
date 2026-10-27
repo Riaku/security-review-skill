@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep inter-agent handoffs for output forwarded to another agent or a sink without re-validation at the consumer (`messages.append(tool_result)`, `publish(agent_output)`).
 
-**References:** Agentic runtime threat analysis, https://arxiv.org/abs/2602.19555, OWASP Top 10 for LLM Applications: LLM01 Prompt Injection
+**References:** OWASP LLM05:2025 Improper Output Handling, Agentic runtime threat analysis, https://arxiv.org/abs/2602.19555, OWASP Top 10 for LLM Applications: LLM01 Prompt Injection

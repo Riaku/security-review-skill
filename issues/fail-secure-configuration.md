@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep for `except: pass` / default-allow branches around authz and TLS verify calls; check `failOpen: false` on admission webhooks, `ssl_verify` defaults, circuit-breaker fallback behavior on security checks.
 
-**References:** OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance
+**References:** OWASP A04:2021 Insecure Design, OWASP Secure Product Design Cheat Sheet (fail securely), NIST SP 800-162 fail-closed guidance

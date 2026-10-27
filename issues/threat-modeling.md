@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** files `docs/threat-model/`, `threat-model.md`, `stride` keywords in PR templates, `threat_model` CI gate
 
-**References:** OWASP Threat Dragon, NIST SP 800-154, OWASP ASVS V1.2
+**References:** OWASP A04:2021 Insecure Design, OWASP Threat Dragon, NIST SP 800-154, OWASP ASVS V1.2

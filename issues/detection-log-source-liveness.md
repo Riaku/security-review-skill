@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** query the backend for the newest event per log source (tstats latest(_time) by index, or SELECT max(ts) GROUP BY source) and compare with each rule's logsource
 
-**References:** deadair, https://github.com/alephnull-sh/deadair
+**References:** OWASP A09:2021 Logging and Monitoring Failures, deadair, https://github.com/alephnull-sh/deadair

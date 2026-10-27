@@ -11,4 +11,4 @@ domains: [data]
 
 **Detect:** grep the training and tuning pipeline for dataset reads without a pinned digest or source provenance (`read_csv("http`, `load_dataset(`, `s3://` paths without version IDs).
 
-**References:** OWASP ML Top 10: ML02 Data Poisoning, https://github.com/OWASP/www-project-machine-learning-security-top-10/tree/master/docs
+**References:** OWASP LLM04:2025 Data and Model Poisoning, OWASP ML Top 10: ML02 Data Poisoning, https://github.com/OWASP/www-project-machine-learning-security-top-10/tree/master/docs

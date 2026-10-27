@@ -11,4 +11,4 @@ domains: [data, governance]
 
 **Detect:** check for `webhook_secret`, `stripe-signature`, `HMAC verify`, idempotency keys in webhook handler config and DB schema.
 
-**References:** CWE-347, Stripe webhook signing guide
+**References:** OWASP API10:2023 Unsafe Consumption of APIs, CWE-347, Stripe webhook signing guide

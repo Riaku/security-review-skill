@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** `Model(**request.json)`, `save(params)`, `bindAll`; no allowed/forbidden lists in serializers.
 
-**References:** OWASP A08:2021, CWE-915, Rails mass-assignment guide
+**References:** OWASP API3:2023 Broken Object Property Level Authorization, OWASP A08:2021, CWE-915, Rails mass-assignment guide

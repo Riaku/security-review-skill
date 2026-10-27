@@ -11,4 +11,4 @@ domains: [frontend]
 
 **Detect:** grep `<script src="http` and `<link href="http` for missing `integrity=` attributes.
 
-**References:** OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x12-V3-Web-Frontend-Security.md, W3C Subresource Integrity
+**References:** OWASP A08:2021 Software and Data Integrity Failures, OWASP ASVS v5.0, https://github.com/OWASP/ASVS/blob/master/5.0/en/0x12-V3-Web-Frontend-Security.md, W3C Subresource Integrity

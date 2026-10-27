@@ -11,4 +11,4 @@ domains: [backend]
 
 **Detect:** grep memory and vector-store reads/writes for a user or session namespace/partition key; global collection names with no tenant field, and retrieval filtered only by similarity, are the finding.
 
-**References:** OWASP AI Agent Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html, OWASP Top 10 for LLM Applications (LLM01 prompt injection)
+**References:** OWASP LLM08:2025 Vector and Embedding Weaknesses, OWASP AI Agent Security Cheat Sheet, https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html, OWASP Top 10 for LLM Applications (LLM01 prompt injection)

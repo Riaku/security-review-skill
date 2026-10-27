@@ -11,4 +11,4 @@ domains: [backend, data]
 
 **Detect:** grep for unpinned model and dataset loads (`from_pretrained(`, `hf_hub_download`, dataset URLs, plugin registries) and check each appears in the component inventory with a digest.
 
-**References:** NIST AI 600-1 GOVERN 6.1, https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf
+**References:** OWASP LLM03:2025 Supply Chain, NIST AI 600-1 GOVERN 6.1, https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf

@@ -11,4 +11,4 @@ domains: [infrastructure]
 
 **Detect:** Grep `.github/workflows/*.yml` for `uses:` lines matching `@v[0-9]` or `@main` instead of 40-hex SHAs; check for unpinned `curl | bash` installers in Dockerfiles or CI scripts; verify renovate/dependabot pin settings; actionlint `pin-versions` rule.
 
-**References:** CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
+**References:** OWASP A08:2021 Software and Data Integrity Failures, CWE-829, NIST SP 800-218 (SSDF), GitHub Actions security hardening guide, OWASP Top 10 CI/CD Security Risks CICD-SEC-3 (Dependency Chain Abuse), NIST SP 800-161
