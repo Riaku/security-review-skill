@@ -5,7 +5,7 @@ domains: [infrastructure]
 
 # Dependency Version Cooldown
 
-**SHOULD** delay adopting newly published dependency versions until a short cooldown period passes without incident.
+**SHOULD** delay adopting newly published dependency versions, automated upgrades included, until a short cooldown passes without incident.
 
 **Why:** Malicious or broken releases are usually reported and yanked within days, while automated update bots consume them within hours. A cooldown converts someone else's incident into a version you never installed.
 
