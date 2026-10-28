@@ -11,6 +11,7 @@ This category covers how a running system behaves when a dependency is slow, fai
 - Overload behavior: backpressure, load shedding, and queue high-water marks.
 - Synchronization hazards: jitter, thundering herd, and retry storms across the call graph.
 - Recovery: backlog catch-up throttling, bounded self-healing, and kill-switch verification.
+- Autonomous-loop bounds: iteration and wall-clock budgets on agent loops with a declared degraded exit.
 
 ## What it does not cover
 

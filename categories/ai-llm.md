@@ -15,6 +15,7 @@ This category covers the security, privacy, and governance problems that appear 
 - Serving-side abuse — token and spend budgets, context-window bounds, and detection of systematic query harvesting that would let a caller clone the model through the API.
 - Data handling for model features — embedding inversion, secrets in system prompts, context-window bounds, and redaction before third-party LLM APIs.
 - Evaluation and review discipline — security evaluation suites, jailbreak red-teaming, cross-model review diversity, AI-generated-code review gates, and review bots that fail on unresolved findings.
+- Agent runtime bounds and delegation — hard iteration and wall-clock caps on autonomous loops with a declared degraded exit, and scoped-down credentials for delegated sub-agents instead of the parent's full authority.
 
 ## What it does not cover
 
@@ -33,3 +34,5 @@ This category covers the security, privacy, and governance problems that appear 
 - A coding agent running with a bypass permission mode (`--yolo`, `dangerously-*`, `approval=never`) or a wildcard egress rule.
 - A model checkpoint loaded via `torch.load()` or `pickle.load()` from an unverified source.
 - No per-user or per-tenant token budget or spend alert on an LLM gateway, so a runaway loop burns metered spend.
+- An agent loop with no iteration counter or deadline, retrying the same failing tool call indefinitely.
+- A sub-agent launched with the orchestrator's full API keys and MCP config instead of a scoped-down credential.
