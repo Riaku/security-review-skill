@@ -12,6 +12,7 @@ This category covers the policy layer that decides what an already-identified pr
 - Kubernetes and manifest-repo authorization: role escalation verbs, exec and attach, controller scope, and repo-to-cluster privilege mapping.
 - Human access lifecycle: revocation on termination or transfer, just-in-time and break-glass access, and segregation of duties.
 - Data-layer enforcement: row-level security and tenant scoping in the database rather than only in application queries.
+- Delegated-agent scoping: credentials and tool allowlists narrowed to the sub-task when one agent delegates to another.
 
 ## What it does not cover
 
