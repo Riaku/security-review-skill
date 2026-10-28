@@ -1,6 +1,6 @@
 ---
 categories: [caching, web-client-security]
-domains: [reliability]
+domains: [frontend, reliability]
 ---
 
 # CDNs

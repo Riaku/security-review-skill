@@ -1,6 +1,6 @@
 ---
 categories: [iot-embedded]
-domains: [infrastructure]
+domains: [infrastructure, iot-embedded]
 ---
 
 # Attestation Scope Declaration

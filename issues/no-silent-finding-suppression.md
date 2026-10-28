@@ -1,6 +1,6 @@
 ---
 categories: [cicd-pipeline-security]
-domains: [backend]
+domains: [backend, infrastructure]
 ---
 
 # No Silent Finding Suppression

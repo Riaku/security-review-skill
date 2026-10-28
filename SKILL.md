@@ -43,8 +43,10 @@ code). For each domain in [`domains/`](domains/), check its `Detection
 signals` section and select the domains that apply. Use each domain's `Stack
 quick-map` to resolve the concrete category list. Quick-maps are pointers, not
 whitelists: an item may declare a category its domain's quick-map does not name, so
-also honour each selected domain's detection signals for adjacent domains. State the
-selected domains/categories to the user and accept overrides before dispatch.
+also honour each selected domain's detection signals for adjacent domains. A line
+reading `+ backend categories` means every category routed by the backend
+domain's quick-map. State the selected domains/categories to the user and accept
+overrides before dispatch.
 
 ### Phase 2 — Dispatch
 
@@ -116,43 +118,46 @@ written into this repository or shipped with a report; the report is Markdown.
 
 ## Category Index
 
-| Category | Domain |
+Each category is loaded by every domain listed — a review
+selecting that domain picks the category up through its stack quick-map.
+
+| Category | Routed by |
 |---|---|
-| [web-api-security](categories/web-api-security.md) | [backend](domains/backend.md) |
-| [authentication](categories/authentication.md) | [backend](domains/backend.md) |
-| [authorization-access-control](categories/authorization-access-control.md) | [backend](domains/backend.md) |
-| [secrets-crypto](categories/secrets-crypto.md) | [backend](domains/backend.md) |
+| [ai-llm](categories/ai-llm.md) | [backend](domains/backend.md), [data](domains/data.md), [governance](domains/governance.md) |
 | [api-design](categories/api-design.md) | [backend](domains/backend.md) |
+| [authentication](categories/authentication.md) | [backend](domains/backend.md), [governance](domains/governance.md), [iot-embedded](domains/iot-embedded.md), [mobile](domains/mobile.md) |
+| [authorization-access-control](categories/authorization-access-control.md) | [backend](domains/backend.md), [governance](domains/governance.md), [infrastructure](domains/infrastructure.md) |
+| [cloud-network](categories/cloud-network.md) | [backend](domains/backend.md), [infrastructure](domains/infrastructure.md) |
+| [compliance-privacy](categories/compliance-privacy.md) | [backend](domains/backend.md), [data](domains/data.md), [frontend](domains/frontend.md), [governance](domains/governance.md), [government-compliance](domains/government-compliance.md), [mobile](domains/mobile.md) |
 | [correctness-pitfalls](categories/correctness-pitfalls.md) | [backend](domains/backend.md) |
-| [testing-strategy](categories/testing-strategy.md) | [backend](domains/backend.md) |
-| [security-practices](categories/security-practices.md) | [backend](domains/backend.md) |
-| [web-client-security](categories/web-client-security.md) | [frontend](domains/frontend.md) |
-| [seo-web-quality](categories/seo-web-quality.md) | [frontend](domains/frontend.md) |
-| [multi-tenancy](categories/multi-tenancy.md) | [backend](domains/backend.md) |
-| [third-party-integrations](categories/third-party-integrations.md) | [backend](domains/backend.md) |
 | [documentation-quality](categories/documentation-quality.md) | [backend](domains/backend.md) |
+| [email-security](categories/email-security.md) | [backend](domains/backend.md), [governance](domains/governance.md) |
+| [multi-tenancy](categories/multi-tenancy.md) | [backend](domains/backend.md), [infrastructure](domains/infrastructure.md) |
+| [observability](categories/observability.md) | [backend](domains/backend.md), [infrastructure](domains/infrastructure.md), [reliability](domains/reliability.md) |
+| [payments-fraud](categories/payments-fraud.md) | [backend](domains/backend.md), [governance](domains/governance.md) |
+| [resilience](categories/resilience.md) | [backend](domains/backend.md), [reliability](domains/reliability.md) |
+| [scaling-capacity](categories/scaling-capacity.md) | [backend](domains/backend.md), [reliability](domains/reliability.md) |
+| [secrets-crypto](categories/secrets-crypto.md) | [backend](domains/backend.md), [frontend](domains/frontend.md), [governance](domains/governance.md), [infrastructure](domains/infrastructure.md), [iot-embedded](domains/iot-embedded.md), [mobile](domains/mobile.md) |
+| [security-practices](categories/security-practices.md) | [backend](domains/backend.md), [governance](domains/governance.md) |
+| [supply-chain](categories/supply-chain.md) | [backend](domains/backend.md), [governance](domains/governance.md), [infrastructure](domains/infrastructure.md), [iot-embedded](domains/iot-embedded.md) |
+| [testing-strategy](categories/testing-strategy.md) | [backend](domains/backend.md), [data](domains/data.md), [governance](domains/governance.md), [infrastructure](domains/infrastructure.md) |
+| [third-party-integrations](categories/third-party-integrations.md) | [backend](domains/backend.md), [governance](domains/governance.md) |
+| [web-api-security](categories/web-api-security.md) | [backend](domains/backend.md), [frontend](domains/frontend.md), [infrastructure](domains/infrastructure.md) |
+| [web-client-security](categories/web-client-security.md) | [backend](domains/backend.md), [frontend](domains/frontend.md) |
+| [data-pipelines](categories/data-pipelines.md) | [data](domains/data.md) |
 | [database](categories/database.md) | [data](domains/data.md) |
 | [distributed-systems](categories/distributed-systems.md) | [data](domains/data.md) |
 | [messaging-async](categories/messaging-async.md) | [data](domains/data.md) |
-| [data-pipelines](categories/data-pipelines.md) | [data](domains/data.md) |
-| [supply-chain](categories/supply-chain.md) | [infrastructure](domains/infrastructure.md) |
-| [cloud-network](categories/cloud-network.md) | [infrastructure](domains/infrastructure.md) |
-| [deployment-release](categories/deployment-release.md) | [infrastructure](domains/infrastructure.md) |
-| [containers-k8s](categories/containers-k8s.md) | [infrastructure](domains/infrastructure.md) |
+| [seo-web-quality](categories/seo-web-quality.md) | [frontend](domains/frontend.md) |
+| [regulatory-frameworks](categories/regulatory-frameworks.md) | [governance](domains/governance.md), [government-compliance](domains/government-compliance.md) |
+| [hardening-benchmarks](categories/hardening-benchmarks.md) | [government-compliance](domains/government-compliance.md), [infrastructure](domains/infrastructure.md) |
 | [cicd-pipeline-security](categories/cicd-pipeline-security.md) | [infrastructure](domains/infrastructure.md) |
-| [resilience](categories/resilience.md) | [reliability](domains/reliability.md) |
-| [caching](categories/caching.md) | [reliability](domains/reliability.md) |
-| [observability](categories/observability.md) | [reliability](domains/reliability.md) |
-| [sre-incidents](categories/sre-incidents.md) | [reliability](domains/reliability.md) |
-| [scaling-capacity](categories/scaling-capacity.md) | [reliability](domains/reliability.md) |
-| [compliance-privacy](categories/compliance-privacy.md) | [governance](domains/governance.md) |
-| [ai-llm](categories/ai-llm.md) | [governance](domains/governance.md) |
-| [payments-fraud](categories/payments-fraud.md) | [governance](domains/governance.md) |
-| [mobile](categories/mobile.md) | [mobile](domains/mobile.md) |
-| [email-security](categories/email-security.md) | [governance](domains/governance.md) |
-| [hardening-benchmarks](categories/hardening-benchmarks.md) | [government-compliance](domains/government-compliance.md) |
-| [regulatory-frameworks](categories/regulatory-frameworks.md) | [government-compliance](domains/government-compliance.md) |
+| [containers-k8s](categories/containers-k8s.md) | [infrastructure](domains/infrastructure.md), [reliability](domains/reliability.md) |
+| [deployment-release](categories/deployment-release.md) | [infrastructure](domains/infrastructure.md), [reliability](domains/reliability.md) |
+| [sre-incidents](categories/sre-incidents.md) | [infrastructure](domains/infrastructure.md), [reliability](domains/reliability.md) |
 | [iot-embedded](categories/iot-embedded.md) | [iot-embedded](domains/iot-embedded.md) |
+| [mobile](categories/mobile.md) | [mobile](domains/mobile.md) |
+| [caching](categories/caching.md) | [reliability](domains/reliability.md) |
 
 Other references: [`references/tooling.md`](references/tooling.md) (scanner
 catalog), [`references/mitre-attack.md`](references/mitre-attack.md) (ATT&CK
