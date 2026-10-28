@@ -12,6 +12,7 @@ This category covers whether the systems a reviewer sees map to the audit, certi
 - Government, cloud, and defense authorization — FedRAMP boundaries, CMMC levels, NIST SP 800-171 CUI handling, Australian ISM and IRAP, and Common Criteria evaluation.
 - Cryptographic and product standards — FIPS 140-3 validated modules, FIPS 186 signature algorithms, post-quantum migration plans, and the EU Cyber Resilience Act's SBOM and vulnerability-handling duties.
 - Adjacent statutory obligations — EU AI Act risk tiering, ITAR and EAR export controls, accessibility conformance (WCAG, EAA, ADA), segregation of duties, and UK GDPR with Cyber Essentials.
+- Consumer commerce and marketing statutes — CAN-SPAM email content duties, negative-option renewal disclosure (ROSCA and state auto-renew laws), and DMCA designated-agent registration for services hosting user uploads.
 
 ## What it does not cover
 
@@ -27,3 +28,4 @@ This category covers whether the systems a reviewer sees map to the audit, certi
 - An AI feature in production with no assigned risk tier, transparency notice, or GPAI documentation.
 - A control warranted to a cyber insurer (MFA everywhere, EDR deployed, offline backups tested) that is absent from live configuration.
 - Export-controlled technical data reachable by foreign-national personnel or deployed to a non-US region without a license or exemption.
+- A user-upload feature launched with no registered DMCA agent and no notice-and-takedown workflow.

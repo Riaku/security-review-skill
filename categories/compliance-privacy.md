@@ -12,6 +12,7 @@ The class of problems here is privacy and data-protection obligations as they mu
 - Redaction and leakage control — logs, notebook outputs, API serialization, serverless container reuse, and payloads sent to third-party LLM APIs.
 - Audit evidence and access governance — audit trails, object-level access logging, privileged-action attribution, JIT and break-glass access, and offboarding and role-change revocation.
 - Audit regimes and third-party accountability — SOC 2 evidence collection, PCI DSS card-data prohibitions, NYDFS cyber requirements, vendor and subprocessor registers, and third-party license tracking.
+- Consent-scoped client capture and disclosure — session replay and input recording gated on consent with capture-time field masking, and visitor IP or user-agent disclosure to third-party font and CDN hosts.
 
 ## What it does not cover
 
@@ -27,3 +28,5 @@ The class of problems here is privacy and data-protection obligations as they mu
 - A "Do Not Sell" or consent control with no backend enforcement, so opt-outs never reach the data stores.
 - Non-essential cookies or tracking pixels initialized before the consent check runs.
 - A serverless handler that caches request-derived customer data in module-level state a later invocation can read.
+- A web font or library hot-linked from a third-party CDN, disclosing every visitor's IP address to that host.
+- A session-replay SDK initializing before the consent check, or capturing password and payment fields unmasked.

@@ -11,6 +11,7 @@ This category covers the correctness and integrity of money movement and the fra
 - Ledger integrity — double-entry invariants, non-negative balances, and a counter-entry for every money movement.
 - Webhook and settlement reconciliation — verifying webhook signatures and matching events to ledger entries, plus scheduled reconciliation against PSP settlement files and bank statements.
 - Card-data scope — PCI DSS SAQ and CDE scoping for the card-data flow that actually exists.
+- Auto-renewal disclosure — material renewal terms (price, interval, cancellation path) presented adjacent to the purchase control.
 
 ## What it does not cover
 
@@ -26,3 +27,4 @@ This category covers the correctness and integrity of money movement and the fra
 - A ledger write path with no assertion that debits equal credits or that each movement has a counter-entry.
 - 3DS or SCA skipped on a high-risk transaction, or the issuer's authentication result ignored before capture.
 - Reconciliation comparing internal records to PSP settlement files with no owner or SLA on unresolved discrepancies.
+- A checkout CTA whose renewal price and billing interval live only behind a terms link.
