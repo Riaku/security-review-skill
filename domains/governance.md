@@ -14,3 +14,5 @@ Privacy, compliance-adjacent code, AI features, payments.
 - Payment flows → payments-fraud, compliance-privacy
 - LLM/vector features → ai-llm, supply-chain
 - Outbound email (transactional or bulk) → email-security
+- Any codebase under review → security-practices (design review is governance work)
+- Regulated product (payments, health, children, EU users) → regulatory-frameworks

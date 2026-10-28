@@ -10,3 +10,4 @@ Native and cross-platform mobile clients.
 ## Stack quick-map
 
 - iOS/Android/RN/Flutter app → mobile (+ backend categories for its API)
+- App stores credentials, tokens or personal data → authentication, secrets-crypto, compliance-privacy

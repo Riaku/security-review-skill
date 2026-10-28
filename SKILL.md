@@ -41,8 +41,10 @@ human).
 Inspect the target repo (manifests, frameworks, IaC, migrations, queue/LLM/payment
 code). For each domain in [`domains/`](domains/), check its `Detection
 signals` section and select the domains that apply. Use each domain's `Stack
-quick-map` to resolve the concrete category list. State the selected
-domains/categories to the user and accept overrides before dispatch.
+quick-map` to resolve the concrete category list. Quick-maps are pointers, not
+whitelists: an item may declare a category its domain's quick-map does not name, so
+also honour each selected domain's detection signals for adjacent domains. State the
+selected domains/categories to the user and accept overrides before dispatch.
 
 ### Phase 2 — Dispatch
 

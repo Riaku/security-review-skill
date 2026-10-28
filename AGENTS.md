@@ -135,9 +135,10 @@ Run the gate before you open or update a pull request. It MUST exit 0.
 python3 scripts/check_generated.py
 ```
 
-The success line reads `items-valid: … ; no generated or installed artifacts tracked`.
+The success line reads `items-valid: … ; no generated or installed artifacts
+tracked; routing: 0 orphans, 0 dead routes, N/36 stranded-pair budget`.
 
-The gate checks three things:
+The gate checks four things:
 
 1. `SKILL.md` frontmatter parses as YAML and has non-empty `name` and
    `description`.
@@ -145,6 +146,11 @@ The gate checks three things:
    manifests; every body opens with an H1; every category has an overview line.
 3. No build product or installed copy is tracked by git: nothing under
    `bundles/` or `.agents/`, and no `skills-lock.json`.
+4. Routing coverage: no orphan category (routed by no quick-map), no dead
+   quick-map route (no item declares that domain+category), and the stranded
+   pair count (item declares a category none of its declared domains routes)
+   stays at or below `STRANDED_MAX` in the gate script. Lower the cap as debt
+   is paid; never raise it to pass.
 
 CI installs PyYAML 6.0.2 for check 1. When PyYAML is absent, the gate falls back
 to a pattern check that flags an unquoted scalar containing `: `.

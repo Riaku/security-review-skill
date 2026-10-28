@@ -1,6 +1,6 @@
 # ai-llm
 
-LLM feature security and quality.
+LLM and agent risks: prompt injection, retrieval and authorization over vector data, guardrail testing, model and data leakage, agent tool and install surfaces.
 
 ## What this category covers
 

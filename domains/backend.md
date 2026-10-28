@@ -15,3 +15,8 @@ Server-side application code: APIs, auth, business logic.
 - Multi-tenant product (per-tenant data, cache or quota) → multi-tenancy
 - Vendor SDKs, webhooks or third-party SaaS in the code → third-party-integrations
 - ADRs, READMEs or API docs in scope → documentation-quality
+- Service calls an LLM, embeds documents or runs agent tooling → ai-llm
+- Cloud SDKs, VPC/security-group code or service mesh → cloud-network
+- Server-rendered HTML or a browser surface in the same repo → web-client-security
+- Pinned dependencies, base images or vendored code → supply-chain
+- Personal-data models, cookies or export/delete endpoints → compliance-privacy

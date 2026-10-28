@@ -1,6 +1,6 @@
 # hardening-benchmarks
 
-CIS/STIG-style configuration baselines.
+Host, container and Kubernetes hardening baselines (CIS, STIG, kube-bench) — applies to any deployable, whether or not a compliance regime names it.
 
 ## What this category covers
 

@@ -1,6 +1,6 @@
 # regulatory-frameworks
 
-Audit and regulatory regimes.
+Control mapping and audit evidence for named regimes (SOC 2, ISO 27001, HIPAA, FedRAMP, GDPR, PCI-DSS): which controls exist, where the evidence lives, what an auditor would flag.
 
 ## What this category covers
 

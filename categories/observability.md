@@ -1,6 +1,6 @@
 # observability
 
-Logs, metrics, traces, profiling, alerting.
+Detectability of failures: what operators are blind to when logs, metrics, traces or alerts are missing, misconfigured or unrouted.
 
 ## What this category covers
 

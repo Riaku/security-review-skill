@@ -11,3 +11,4 @@ Browser/client-side code: SPAs, SSR apps, browser-exposed surface.
 
 - React/Vue/Angular SPA or SSR → web-client-security (+ backend categories if a server is in the same repo)
 - Marketing or SEO surface (sitemaps, meta tags, canonical URLs, Core Web Vitals) → seo-web-quality
+- SPA/SSR calls its own API → web-api-security
