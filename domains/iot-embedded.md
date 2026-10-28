@@ -12,3 +12,4 @@ Firmware, embedded devices, and device-paired services.
 
 - Any firmware/OTA/device-provisioning code → iot-embedded, supply-chain
 - Device + cloud backend → also backend categories for the paired API
+- Device credentials, pairing or provisioning present → authentication, secrets-crypto

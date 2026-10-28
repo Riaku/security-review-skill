@@ -1,6 +1,6 @@
 # mobile
 
-Mobile client security.
+Native and cross-platform app risks: secure local storage, deep links and URL schemes, webview/JS bridges, certificate pinning, store release hygiene.
 
 ## What this category covers
 

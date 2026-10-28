@@ -15,3 +15,6 @@ How it is built and where it runs: containers, cloud, CI/CD.
 - K8s manifests/Helm → containers-k8s, cloud-network, sre-incidents
 - IaC present → deployment-release, cloud-network
 - CI config present → cicd-pipeline-security, supply-chain
+- K8s manifests, Helm or host provisioning present → hardening-benchmarks
+- Any deployable → observability
+- Secrets referenced in manifests or IaC → secrets-crypto
