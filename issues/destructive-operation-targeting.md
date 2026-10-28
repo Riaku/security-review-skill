@@ -1,6 +1,6 @@
 ---
 categories: [database, sre-incidents]
-domains: [data]
+domains: [data, reliability]
 ---
 
 # Destructive Operation Targeting

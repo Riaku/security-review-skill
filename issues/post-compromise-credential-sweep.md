@@ -1,6 +1,6 @@
 ---
 categories: [sre-incidents]
-domains: [governance]
+domains: [governance, reliability]
 ---
 
 # Post-Compromise Credential Sweep

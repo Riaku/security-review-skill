@@ -1,6 +1,6 @@
 ---
 categories: [cicd-pipeline-security]
-domains: [governance]
+domains: [governance, infrastructure]
 ---
 
 # CI Infrastructure Change Scrutiny

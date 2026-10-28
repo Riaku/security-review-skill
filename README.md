@@ -29,7 +29,7 @@ pointed at `SKILL.md`.
 **Installing from an archive.** The installer also accepts a direct download URL
 to a `.zip`, `.tar`, `.tar.gz`, `.tgz` or a bare `SKILL.md` — the path for a
 release asset, a mirror, or an offline machine. Its extractor refuses archives
-with more than 1,000 files by default, and this skill is 1,064 (998 items plus
+with more than 1,000 files by default, and this skill is 1,071 (1,005 items plus
 the manifests, references and scripts), so that path needs the limit raised:
 
 ```bash

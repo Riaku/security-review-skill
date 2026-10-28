@@ -1,6 +1,6 @@
 ---
 categories: [secrets-crypto]
-domains: [governance]
+domains: [governance, infrastructure]
 ---
 
 # Non-Exportable Signing Keys

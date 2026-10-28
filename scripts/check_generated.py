@@ -95,10 +95,10 @@ UNTRACKED_PREFIXES = ("bundles", ".agents", "skills-lock.json")
 #   stranded pair    an item declares (category, domain) but none of its
 #                    declared domains' quick-maps route that category
 #
-# Orphans and dead routes are hard failures. Stranded pairs are known debt —
-# 36 at introduction, all 1-4 item long-tail — so the ratchet only stops the
-# pile growing; lower STRANDED_MAX as pairs are fixed, never raise it to pass.
-STRANDED_MAX = 36
+# Orphans and dead routes are hard failures. The stranded debt introduced with
+# this check (36 pairs) was fully paid in the follow-up audit, so the cap is
+# zero: any new stranded pair fails the gate outright. Never raise it to pass.
+STRANDED_MAX = 0
 
 
 def routing_coverage() -> tuple[list[str], int]:

@@ -1,6 +1,6 @@
 ---
 categories: [security-practices]
-domains: [infrastructure]
+domains: [governance, infrastructure]
 ---
 
 # Compensating Controls for Unpatchable Systems

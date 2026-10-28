@@ -136,7 +136,7 @@ python3 scripts/check_generated.py
 ```
 
 The success line reads `items-valid: … ; no generated or installed artifacts
-tracked; routing: 0 orphans, 0 dead routes, N/36 stranded-pair budget`.
+tracked; routing: 0 orphans, 0 dead routes, N/0 stranded-pair budget`.
 
 The gate checks four things:
 

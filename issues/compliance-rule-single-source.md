@@ -1,6 +1,6 @@
 ---
 categories: [hardening-benchmarks, regulatory-frameworks]
-domains: [governance]
+domains: [governance, government-compliance]
 ---
 
 # Compliance Rule Single Source

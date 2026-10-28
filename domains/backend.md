@@ -20,3 +20,8 @@ Server-side application code: APIs, auth, business logic.
 - Server-rendered HTML or a browser surface in the same repo → web-client-security
 - Pinned dependencies, base images or vendored code → supply-chain
 - Personal-data models, cookies or export/delete endpoints → compliance-privacy
+- Metrics, logs or alert wiring present → observability
+- Payment, pricing or billing flows → payments-fraud
+- Rate limits, quotas or load-sensitive endpoints → scaling-capacity
+- Outbound calls or background jobs → resilience
+- Service sends email (transactional or bulk) → email-security

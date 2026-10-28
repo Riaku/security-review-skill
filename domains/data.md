@@ -17,3 +17,5 @@ Databases, replication, distributed data, queues, async pipelines, and data/ETL 
 - Multiple datastores or replication/sharding configured → distributed-systems
 - ETL/ELT jobs, dbt models or a warehouse load → data-pipelines
 - Warehouse or lake holds personal data → compliance-privacy
+- Test fixtures or seed data present → testing-strategy
+- Models trained or evaluated on repo data → ai-llm
