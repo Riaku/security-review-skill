@@ -12,6 +12,7 @@ This category covers the part of the attack surface that runs in the browser and
 - Session and cookie state: Secure/HttpOnly/SameSite flags, fixation, sensitive data in browser storage.
 - Client-side secrets: values inlined into the bundle or exposed through public build-time environment variables.
 - Client-side cache and runtime integrity: cache poisoning/deception, prototype pollution, DNS rebinding.
+- Third-party client embeds: hot-linked CDN subresources and session-replay SDKs that disclose visitor data or capture input without consent.
 
 ## What it does not cover
 
@@ -28,3 +29,5 @@ This category covers the part of the attack surface that runs in the browser and
 - a session cookie missing `HttpOnly`, so any XSS can read it.
 - `postMessage` handlers acting on `event.data` without checking `event.origin`.
 - a `VITE_`/`NEXT_PUBLIC_` variable holding a service-role key, shipped to every visitor in the bundle.
+- a replay SDK (`rrweb`, FullStory, Hotjar) initializing without a consent gate or block/mask selectors.
+- a stylesheet pulling `fonts.googleapis.com` instead of a self-hosted or same-origin proxy copy.

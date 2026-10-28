@@ -11,6 +11,7 @@ This category covers whether mail sent from your domain is authenticated and whe
 - Transport security for inbound mail — MTA-STS or DANE policy with TLS reporting to surface downgrade attempts.
 - List hygiene and sender reputation — hard bounces and complaints consumed into a suppression list before the next send.
 - Email-content trust — escaping and sanitizing user-controlled data interpolated into transactional templates.
+- Commercial email content obligations — the unsubscribe mechanism and valid postal address every bulk send must carry, and the suppression of unsubscribed addresses.
 
 ## What it does not cover
 
@@ -25,3 +26,4 @@ This category covers whether mail sent from your domain is authenticated and whe
 - A bounce or complaint notification configured with no live subscriber, so invalid addresses are mailed again.
 - A transactional template interpolating a username or URL field into HTML without escaping, turning signed mail into a phishing vector.
 - No monitoring for typo or homoglyph variants of a brand domain before a campaign runs.
+- A bulk campaign template with no unsubscribe link or postal address, exposing every send to CAN-SPAM penalties.
