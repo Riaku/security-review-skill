@@ -9,6 +9,6 @@ domains: [backend, frontend]
 
 **Why:** Injected scripts run in victims' sessions, stealing cookies and acting as them; unescaped state serialized into `__NEXT_DATA__` or inline scripts executes on every page load before hydration, bypassing CSP unsafe-inline allowances.
 
-**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data; `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, and unescaped `{{ }}` templates in server-rendered HTML.
+**Detect:** `innerHTML`, `dangerouslySetInnerHTML`, `|safe`, `Markup(` fed by request data; `JSON.stringify` inside `<script>`, `window.__INITIAL_STATE__`, and unescaped `{{ }}` templates in server-rendered HTML; writer calls (`print`/`println`/`printf`/`format`) that emit request data, including `%s` with an `Object[]` of request values.
 
 **References:** OWASP A03:2021, CWE-79, OWASP XSS Prevention Cheat Sheet
