@@ -9,6 +9,7 @@ The class of problems here is privacy and data-protection obligations as they mu
 - Data-subject rights and regional privacy statutes — access, deletion, portability, consent, and age assurance across jurisdictions (GDPR, CCPA/CPRA, China PIPL, India DPDP, Brazil LGPD, HIPAA, COPPA and the UK Online Safety Act).
 - Retention, erasure, and offboarding — deletion pipelines that propagate to replicas, caches, search indexes, analytics, and backups, plus tenant purge with attestation.
 - Classification, lineage, and residency — tagging PII at creation, tracking its flow through warehouse layers, and keeping it inside mandated geographic boundaries.
+- Disclosure and inventory — the privacy notice the app itself serves, kept matched to the fields and recipients the code actually has, and the field-to-store map that erasure, access requests, and breach notification all read.
 - Redaction and leakage control — logs, notebook outputs, API serialization, serverless container reuse, and payloads sent to third-party LLM APIs.
 - Audit evidence and access governance — audit trails, object-level access logging, privileged-action attribution, JIT and break-glass access, and offboarding and role-change revocation.
 - Audit regimes and third-party accountability — SOC 2 evidence collection, PCI DSS card-data prohibitions, NYDFS cyber requirements, vendor and subprocessor registers, and third-party license tracking.
@@ -26,6 +27,7 @@ The class of problems here is privacy and data-protection obligations as they mu
 - A delete-user endpoint that clears the primary table but leaves the row in a search index, analytics replica, or export bucket.
 - Request logging that writes full bodies, tokens, or personal-data fields to disk or an aggregator with no redaction.
 - A "Do Not Sell" or consent control with no backend enforcement, so opt-outs never reach the data stores.
+- A privacy notice that never names the phone number or analytics vendor the signup flow collects, or a personal-data inventory with no row for the export bucket that still holds deleted accounts.
 - Non-essential cookies or tracking pixels initialized before the consent check runs.
 - A serverless handler that caches request-derived customer data in module-level state a later invocation can read.
 - A web font or library hot-linked from a third-party CDN, disclosing every visitor's IP address to that host.

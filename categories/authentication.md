@@ -26,3 +26,4 @@ This category covers proving who a caller is and keeping that proof valid over t
 - A session identifier reused after successful login, so a pre-set cookie becomes an authenticated session.
 - Existing sessions that remain valid after a password or second-factor change because nothing invalidates them.
 - A reset or invitation token that still works after first use or past a short expiry window.
+- An auth suite that exercises login, reset, and verification only on the success path, so a lockout counter that never increments or a reset that mints a token for an unknown address still ships green.
