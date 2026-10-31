@@ -27,3 +27,4 @@ This category exists for attacks that arrive over the network at a server-side H
 - A route reachable without authentication because it was never added to the default-deny allowlist.
 - A user-supplied URL fetched server-side without blocking internal ranges after name resolution.
 - A signed webhook accepted repeatedly because no timestamp window or nonce check rejects replays.
+- A sink cleared because the value reached it through a helper or wrapper class rather than a request accessor.

@@ -9,6 +9,6 @@ domains: [backend]
 
 **Why:** Concatenated input lets attackers rewrite query logic to dump or destroy data.
 
-**Detect:** `execute(` with f-strings, `%` formatting, or `+`/`||` concatenation of request values.
+**Detect:** `execute(`, `executeQuery(`, `executeUpdate(`, or `prepareCall(` reached with a string built by f-string, `%` formatting, or `+`/`||` concatenation of request values.
 
 **References:** OWASP A03:2021, CWE-89, OWASP SQL Injection Prevention Cheat Sheet

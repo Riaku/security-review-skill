@@ -9,6 +9,6 @@ domains: [backend]
 
 **Why:** `../` sequences escape the sandbox to read configs, keys, and source off the host.
 
-**Detect:** `open(` / `send_file` with request params; `os.path.join(base, user_input)` without post-resolve prefix check.
+**Detect:** `open(` / `send_file` with request params; `os.path.join(base, user_input)` or `Paths.get(base, user_input)` without a post-resolve prefix check, including `FileInputStream`/`Files.newInputStream` on the joined path.
 
 **References:** OWASP A03:2021, CWE-22, OWASP Path Traversal guide
