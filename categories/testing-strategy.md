@@ -7,6 +7,7 @@ Test pyramid, practices, and quality gates.
 This category covers how a codebase proves its behavior before and after merge: the layers of test, the properties each layer must actually assert, and the gates that block a bad change. The items span the test pyramid (unit, integration, end-to-end, smoke) and its sharp edges: flaky tests, determinism and isolation, stubbing only external dependencies, and expected outputs that are not derived from the implementation. They also cover techniques that guard security behavior — test-first discipline for fixes, a regression test per fixed bug, property-based and fuzz testing, contract testing, accessibility gates — and the CI checks that enforce them, including linting and static analysis, architecture fitness functions, and spec-to-implementation drift. Expect findings about a control that nothing actually verifies: a test that mocks the very check it claims to test, a suite that can pass against a broken implementation, or a gate that only warns.
 
 - Test layers and coverage: unit tests for security-relevant functions, integration tests at real boundaries, end-to-end journeys, and smoke checks.
+- Failure-path coverage: the rejection, replay, and lockout branches of stateful flows — auth, invitations, payments — not only the path where everything succeeds.
 - Test quality: flaky-test discipline, determinism and isolation, stubbing only external dependencies, and assertions not derived from the implementation.
 - Coverage honesty: what a target measures, which modules are excluded, and whether the exclusions are the security-critical ones.
 - Behavior-guarding techniques: test-first fixes, regression tests per bug, property-based testing, fuzz testing, and contract testing.
@@ -23,6 +24,7 @@ This category covers how a codebase proves its behavior before and after merge: 
 ## What a finding here looks like
 
 - An auth middleware test that mocks the middleware itself, so a broken guard still passes.
+- A signup, login, or reset suite that only asserts success, so a lockout that never fires or a verification link that works twice stays green.
 - A security test retried or skipped to silence an intermittent failure, leaving a race condition unverified.
 - A golden expectation regenerated from the code under test, so the test can never catch that code being wrong.
 - A linter or SAST finding logged as a warning rather than failing the pipeline.
